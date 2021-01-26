@@ -1,0 +1,4690 @@
+{
+  "node": [
+    {
+      "name": "Placeholder",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "shape": {
+            "dim": [
+              {
+                "size": "-1"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "3"
+              }
+            ]
+          }
+        }
+      },
+      "op": "DataInput"
+    },
+    {
+      "name": "resnet_v1_18/Pad",
+      "input": [
+        "Placeholder"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "3",
+              "3",
+              "0",
+              "0",
+              "3",
+              "3",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "230"
+                  },
+                  {
+                    "size": "230"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Pad"
+    },
+    {
+      "name": "resnet_v1_18/conv1/Conv2D",
+      "input": [
+        "resnet_v1_18/Pad"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "7",
+              "7",
+              "3",
+              "64"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "230",
+              "230",
+              "3"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/conv1/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/conv1/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/conv1/Relu",
+      "input": [
+        "resnet_v1_18/conv1/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "112",
+              "112",
+              "64"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/pool1/MaxPool",
+      "input": [
+        "resnet_v1_18/conv1/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "3",
+              "3",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Pool"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_1/bottleneck_v2/shortcut/Conv2D",
+      "input": [
+        "resnet_v1_18/pool1/MaxPool"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "256"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/Conv2D",
+      "input": [
+        "resnet_v1_18/pool1/MaxPool"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/shortcut/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/Relu",
+      "input": [
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_1/bottleneck_v2/conv2/Conv2D",
+      "input": [
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "256"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/conv2/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_1/bottleneck_v2/add",
+      "input": [
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Add"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_1/bottleneck_v2/Relu",
+      "input": [
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "256"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/Conv2D",
+      "input": [
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "64"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "256"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/Relu",
+      "input": [
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_2/bottleneck_v2/conv2/Conv2D",
+      "input": [
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "256"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/conv2/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_2/bottleneck_v2/add",
+      "input": [
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/Relu",
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Add"
+    },
+    {
+      "name": "resnet_v1_18/block1/unit_2/bottleneck_v2/Relu",
+      "input": [
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "256"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_1/bottleneck_v2/shortcut/Conv2D",
+      "input": [
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "256"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/Conv2D",
+      "input": [
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "256"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/shortcut/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/Relu",
+      "input": [
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "128"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_1/bottleneck_v2/conv2/Conv2D",
+      "input": [
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "128"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "512"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/conv2/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_1/bottleneck_v2/add",
+      "input": [
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Add"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_1/bottleneck_v2/Relu",
+      "input": [
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "512"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_2/bottleneck_v2/shortcut/MaxPool",
+      "input": [
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Pool"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_2/bottleneck_v2/Pad",
+      "input": [
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "58"
+                  },
+                  {
+                    "size": "58"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Pad"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/Conv2D",
+      "input": [
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/Pad"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "58",
+              "58",
+              "512"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/Relu",
+      "input": [
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_2/bottleneck_v2/conv2/Conv2D",
+      "input": [
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/conv2/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_2/bottleneck_v2/add",
+      "input": [
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/shortcut/MaxPool",
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Add"
+    },
+    {
+      "name": "resnet_v1_18/block2/unit_2/bottleneck_v2/Relu",
+      "input": [
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "512"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_1/bottleneck_v2/shortcut/Conv2D",
+      "input": [
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "1024"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "512"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/Conv2D",
+      "input": [
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "256"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "512"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/shortcut/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/Relu",
+      "input": [
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "256"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_1/bottleneck_v2/conv2/Conv2D",
+      "input": [
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/Relu"
+      ],
+      "attr": {
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "256"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "1024"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/conv2/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_1/bottleneck_v2/add",
+      "input": [
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Add"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_1/bottleneck_v2/Relu",
+      "input": [
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "1024"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_2/bottleneck_v2/shortcut/MaxPool",
+      "input": [
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Pool"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_2/bottleneck_v2/Pad",
+      "input": [
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "30"
+                  },
+                  {
+                    "size": "30"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Pad"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/Conv2D",
+      "input": [
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/Pad"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "1024",
+              "256"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "30",
+              "30",
+              "1024"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/Relu",
+      "input": [
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "256"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_2/bottleneck_v2/conv2/Conv2D",
+      "input": [
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "256"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "1024"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/conv2/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_2/bottleneck_v2/add",
+      "input": [
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/shortcut/MaxPool",
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Add"
+    },
+    {
+      "name": "resnet_v1_18/block3/unit_2/bottleneck_v2/Relu",
+      "input": [
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "1024"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_1/bottleneck_v2/shortcut/Conv2D",
+      "input": [
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "1024"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1024",
+              "2048"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/Conv2D",
+      "input": [
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "1024"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "1024",
+              "512"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/shortcut/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/Relu",
+      "input": [
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "512"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_1/bottleneck_v2/conv2/Conv2D",
+      "input": [
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "2048"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "512"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/conv2/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_1/bottleneck_v2/add",
+      "input": [
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Add"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_1/bottleneck_v2/Relu",
+      "input": [
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "2048"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_2/bottleneck_v2/shortcut/MaxPool",
+      "input": [
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Pool"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_2/bottleneck_v2/Pad",
+      "input": [
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Pad"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/Conv2D",
+      "input": [
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/Pad"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "2048",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "2048"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/Relu",
+      "input": [
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_2/bottleneck_v2/conv2/Conv2D",
+      "input": [
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "2048"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm",
+      "input": [
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/conv2/Conv2D"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.0009999641624745e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "op": "BatchNorm"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_2/bottleneck_v2/add",
+      "input": [
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/shortcut/MaxPool",
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Add"
+    },
+    {
+      "name": "resnet_v1_18/block4/unit_2/bottleneck_v2/Relu",
+      "input": [
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "2048"
+            ]
+          }
+        }
+      },
+      "op": "Relu"
+    },
+    {
+      "name": "resnet_v1_18/pool5",
+      "input": [
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "axes": {
+          "list": {
+            "i": [
+              "1",
+              "2"
+            ]
+          }
+        },
+        "keepdims": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "ReduceMean"
+    },
+    {
+      "name": "resnet_v1_18/logits/Conv2D",
+      "input": [
+        "resnet_v1_18/pool5"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "2048",
+              "1001"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1001"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "1",
+              "1",
+              "2048"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      },
+      "op": "Conv"
+    },
+    {
+      "name": "resnet_v1_18/SpatialSqueeze",
+      "input": [
+        "resnet_v1_18/logits/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1001"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "op": "Squeeze"
+    },
+    {
+      "name": "resnet_v1_18/predictions/Reshape",
+      "input": [
+        "resnet_v1_18/SpatialSqueeze"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1001"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "1001"
+            ]
+          }
+        }
+      },
+      "op": "Reshape"
+    },
+    {
+      "name": "resnet_v1_18/predictions/Shape",
+      "input": [
+        "resnet_v1_18/SpatialSqueeze"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "2"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "1001"
+            ]
+          }
+        }
+      },
+      "op": "Shape"
+    },
+    {
+      "name": "resnet_v1_18/predictions/Softmax",
+      "input": [
+        "resnet_v1_18/predictions/Reshape"
+      ],
+      "attr": {
+        "dim": {
+          "i": "1"
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1001"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "1001"
+            ]
+          }
+        }
+      },
+      "op": "Softmax"
+    },
+    {
+      "name": "resnet_v1_18/predictions/Reshape_1",
+      "input": [
+        "resnet_v1_18/predictions/Softmax"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1001"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "1001"
+            ]
+          }
+        }
+      },
+      "op": "Reshape"
+    }
+  ]
+}

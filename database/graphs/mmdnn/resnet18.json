@@ -1,0 +1,3477 @@
+{
+  "node": [
+    {
+      "name": "node123",
+      "op": "Conv",
+      "input": [
+        "input"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": false
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "3",
+              "3",
+              "0",
+              "0",
+              "3",
+              "3",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "7",
+              "7",
+              "3",
+              "64"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node124",
+      "op": "BatchNorm",
+      "input": [
+        "node123"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "epsilon": {
+          "f": 1e-05
+        }
+      }
+    },
+    {
+      "name": "node125",
+      "op": "Relu",
+      "input": [
+        "node124"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node126",
+      "op": "Pool",
+      "input": [
+        "node125"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "3",
+              "3",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node127",
+      "op": "Conv",
+      "input": [
+        "node126"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": false
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node128",
+      "op": "BatchNorm",
+      "input": [
+        "node127"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1e-05
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node129",
+      "op": "Relu",
+      "input": [
+        "node128"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node130",
+      "op": "Conv",
+      "input": [
+        "node129"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node131",
+      "op": "BatchNorm",
+      "input": [
+        "node130"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "epsilon": {
+          "f": 1e-05
+        },
+        "bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node132",
+      "op": "Add",
+      "input": [
+        "node131",
+        "node126"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node133",
+      "op": "Relu",
+      "input": [
+        "node132"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node134",
+      "op": "Conv",
+      "input": [
+        "node133"
+      ],
+      "attr": {
+        "group": {
+          "i": "1"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        }
+      }
+    },
+    {
+      "name": "node135",
+      "op": "BatchNorm",
+      "input": [
+        "node134"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node136",
+      "op": "Relu",
+      "input": [
+        "node135"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node137",
+      "op": "Conv",
+      "input": [
+        "node136"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node138",
+      "op": "BatchNorm",
+      "input": [
+        "node137"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1e-05
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node139",
+      "op": "Add",
+      "input": [
+        "node138",
+        "node133"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node140",
+      "op": "Relu",
+      "input": [
+        "node139"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node141",
+      "op": "Conv",
+      "input": [
+        "node140"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "128"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node146",
+      "op": "Conv",
+      "input": [
+        "node140"
+      ],
+      "attr": {
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "128"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        }
+      }
+    },
+    {
+      "name": "node142",
+      "op": "BatchNorm",
+      "input": [
+        "node141"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1e-05
+        },
+        "scale": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node147",
+      "op": "BatchNorm",
+      "input": [
+        "node146"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node143",
+      "op": "Relu",
+      "input": [
+        "node142"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node144",
+      "op": "Conv",
+      "input": [
+        "node143"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "128"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "use_bias": {
+          "b": false
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node145",
+      "op": "BatchNorm",
+      "input": [
+        "node144"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1e-05
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node148",
+      "op": "Add",
+      "input": [
+        "node145",
+        "node147"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node149",
+      "op": "Relu",
+      "input": [
+        "node148"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node150",
+      "op": "Conv",
+      "input": [
+        "node149"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "128"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node151",
+      "op": "BatchNorm",
+      "input": [
+        "node150"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node152",
+      "op": "Relu",
+      "input": [
+        "node151"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node153",
+      "op": "Conv",
+      "input": [
+        "node152"
+      ],
+      "attr": {
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "128"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node154",
+      "op": "BatchNorm",
+      "input": [
+        "node153"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node155",
+      "op": "Add",
+      "input": [
+        "node154",
+        "node149"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node156",
+      "op": "Relu",
+      "input": [
+        "node155"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node157",
+      "op": "Conv",
+      "input": [
+        "node156"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "256"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "group": {
+          "i": "1"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node162",
+      "op": "Conv",
+      "input": [
+        "node156"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "128",
+              "256"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node158",
+      "op": "BatchNorm",
+      "input": [
+        "node157"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1e-05
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node163",
+      "op": "BatchNorm",
+      "input": [
+        "node162"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1e-05
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node159",
+      "op": "Relu",
+      "input": [
+        "node158"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node160",
+      "op": "Conv",
+      "input": [
+        "node159"
+      ],
+      "attr": {
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "use_bias": {
+          "b": false
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "256"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node161",
+      "op": "BatchNorm",
+      "input": [
+        "node160"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1e-05
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node164",
+      "op": "Add",
+      "input": [
+        "node161",
+        "node163"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node165",
+      "op": "Relu",
+      "input": [
+        "node164"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node166",
+      "op": "Conv",
+      "input": [
+        "node165"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "256"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node167",
+      "op": "BatchNorm",
+      "input": [
+        "node166"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1e-05
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node168",
+      "op": "Relu",
+      "input": [
+        "node167"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node169",
+      "op": "Conv",
+      "input": [
+        "node168"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "256"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node170",
+      "op": "BatchNorm",
+      "input": [
+        "node169"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1e-05
+        }
+      }
+    },
+    {
+      "name": "node171",
+      "op": "Add",
+      "input": [
+        "node170",
+        "node165"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node172",
+      "op": "Relu",
+      "input": [
+        "node171"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node173",
+      "op": "Conv",
+      "input": [
+        "node172"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "use_bias": {
+          "b": false
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "512"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node178",
+      "op": "Conv",
+      "input": [
+        "node172"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "512"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node174",
+      "op": "BatchNorm",
+      "input": [
+        "node173"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "epsilon": {
+          "f": 1e-05
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node179",
+      "op": "BatchNorm",
+      "input": [
+        "node178"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1e-05
+        }
+      }
+    },
+    {
+      "name": "node175",
+      "op": "Relu",
+      "input": [
+        "node174"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node176",
+      "op": "Conv",
+      "input": [
+        "node175"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": false
+        },
+        "group": {
+          "i": "1"
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "512"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node177",
+      "op": "BatchNorm",
+      "input": [
+        "node176"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node180",
+      "op": "Add",
+      "input": [
+        "node177",
+        "node179"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node181",
+      "op": "Relu",
+      "input": [
+        "node180"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node182",
+      "op": "Conv",
+      "input": [
+        "node181"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "512"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node183",
+      "op": "BatchNorm",
+      "input": [
+        "node182"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1e-05
+        }
+      }
+    },
+    {
+      "name": "node184",
+      "op": "Relu",
+      "input": [
+        "node183"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node185",
+      "op": "Conv",
+      "input": [
+        "node184"
+      ],
+      "attr": {
+        "group": {
+          "i": "1"
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "512"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": false
+        }
+      }
+    },
+    {
+      "name": "node186",
+      "op": "BatchNorm",
+      "input": [
+        "node185"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "epsilon": {
+          "f": 1e-05
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node187",
+      "op": "Add",
+      "input": [
+        "node186",
+        "node181"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node188",
+      "op": "Relu",
+      "input": [
+        "node187"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node189",
+      "op": "Pool",
+      "input": [
+        "node188"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pooling_type": {
+          "s": "QVZH"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "7",
+              "7",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node190",
+      "op": "Flatten",
+      "input": [
+        "node189"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node191",
+      "op": "FullyConnected",
+      "input": [
+        "node190"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "units": {
+          "i": "1000"
+        }
+      }
+    },
+    {
+      "name": "input",
+      "op": "DataInput",
+      "attr": {
+        "shape": {
+          "shape": {
+            "dim": [
+              {
+                "size": "-1"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "3"
+              }
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,5910 @@
+{
+    "name": "cf_openpose",
+    "layers": {
+        "data": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "conv1_1"
+            ],
+            "output_shape": [
+                -1,
+                368,
+                368,
+                3
+            ]
+        },
+        "conv1_1": {
+            "type": "Conv",
+            "parents": [
+                "data"
+            ],
+            "children": [
+                "relu1_1"
+            ],
+            "output_shape": [
+                -1,
+                368,
+                368,
+                58
+            ],
+            "input_shape": [
+                -1,
+                368,
+                368,
+                3
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                58
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu1_1": {
+            "type": "Relu",
+            "parents": [
+                "conv1_1"
+            ],
+            "children": [
+                "conv1_2"
+            ],
+            "output_shape": [
+                -1,
+                368,
+                368,
+                58
+            ],
+            "input_shape": [
+                -1,
+                368,
+                368,
+                58
+            ]
+        },
+        "conv1_2": {
+            "type": "Conv",
+            "parents": [
+                "relu1_1"
+            ],
+            "children": [
+                "relu1_2"
+            ],
+            "output_shape": [
+                -1,
+                368,
+                368,
+                52
+            ],
+            "input_shape": [
+                -1,
+                368,
+                368,
+                58
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                58,
+                52
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu1_2": {
+            "type": "Relu",
+            "parents": [
+                "conv1_2"
+            ],
+            "children": [
+                "pool1_stage1"
+            ],
+            "output_shape": [
+                -1,
+                368,
+                368,
+                52
+            ],
+            "input_shape": [
+                -1,
+                368,
+                368,
+                52
+            ]
+        },
+        "pool1_stage1": {
+            "type": "Pool",
+            "parents": [
+                "relu1_2"
+            ],
+            "children": [
+                "conv2_1"
+            ],
+            "output_shape": [
+                -1,
+                184,
+                184,
+                52
+            ],
+            "input_shape": [
+                -1,
+                368,
+                368,
+                52
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "conv2_1": {
+            "type": "Conv",
+            "parents": [
+                "pool1_stage1"
+            ],
+            "children": [
+                "relu2_1"
+            ],
+            "output_shape": [
+                -1,
+                184,
+                184,
+                90
+            ],
+            "input_shape": [
+                -1,
+                184,
+                184,
+                52
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                52,
+                90
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu2_1": {
+            "type": "Relu",
+            "parents": [
+                "conv2_1"
+            ],
+            "children": [
+                "conv2_2"
+            ],
+            "output_shape": [
+                -1,
+                184,
+                184,
+                90
+            ],
+            "input_shape": [
+                -1,
+                184,
+                184,
+                90
+            ]
+        },
+        "conv2_2": {
+            "type": "Conv",
+            "parents": [
+                "relu2_1"
+            ],
+            "children": [
+                "relu2_2"
+            ],
+            "output_shape": [
+                -1,
+                184,
+                184,
+                78
+            ],
+            "input_shape": [
+                -1,
+                184,
+                184,
+                90
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                90,
+                78
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu2_2": {
+            "type": "Relu",
+            "parents": [
+                "conv2_2"
+            ],
+            "children": [
+                "pool2_stage1"
+            ],
+            "output_shape": [
+                -1,
+                184,
+                184,
+                78
+            ],
+            "input_shape": [
+                -1,
+                184,
+                184,
+                78
+            ]
+        },
+        "pool2_stage1": {
+            "type": "Pool",
+            "parents": [
+                "relu2_2"
+            ],
+            "children": [
+                "conv3_1"
+            ],
+            "output_shape": [
+                -1,
+                92,
+                92,
+                78
+            ],
+            "input_shape": [
+                -1,
+                184,
+                184,
+                78
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "conv3_1": {
+            "type": "Conv",
+            "parents": [
+                "pool2_stage1"
+            ],
+            "children": [
+                "relu3_1"
+            ],
+            "output_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "input_shape": [
+                -1,
+                92,
+                92,
+                78
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                78,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu3_1": {
+            "type": "Relu",
+            "parents": [
+                "conv3_1"
+            ],
+            "children": [
+                "conv3_2"
+            ],
+            "output_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "input_shape": [
+                -1,
+                92,
+                92,
+                256
+            ]
+        },
+        "conv3_2": {
+            "type": "Conv",
+            "parents": [
+                "relu3_1"
+            ],
+            "children": [
+                "relu3_2"
+            ],
+            "output_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "input_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu3_2": {
+            "type": "Relu",
+            "parents": [
+                "conv3_2"
+            ],
+            "children": [
+                "conv3_3"
+            ],
+            "output_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "input_shape": [
+                -1,
+                92,
+                92,
+                256
+            ]
+        },
+        "conv3_3": {
+            "type": "Conv",
+            "parents": [
+                "relu3_2"
+            ],
+            "children": [
+                "relu3_3"
+            ],
+            "output_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "input_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu3_3": {
+            "type": "Relu",
+            "parents": [
+                "conv3_3"
+            ],
+            "children": [
+                "conv3_4"
+            ],
+            "output_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "input_shape": [
+                -1,
+                92,
+                92,
+                256
+            ]
+        },
+        "conv3_4": {
+            "type": "Conv",
+            "parents": [
+                "relu3_3"
+            ],
+            "children": [
+                "relu3_4"
+            ],
+            "output_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "input_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu3_4": {
+            "type": "Relu",
+            "parents": [
+                "conv3_4"
+            ],
+            "children": [
+                "pool3_stage1"
+            ],
+            "output_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "input_shape": [
+                -1,
+                92,
+                92,
+                256
+            ]
+        },
+        "pool3_stage1": {
+            "type": "Pool",
+            "parents": [
+                "relu3_4"
+            ],
+            "children": [
+                "conv4_1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                256
+            ],
+            "input_shape": [
+                -1,
+                92,
+                92,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "conv4_1": {
+            "type": "Conv",
+            "parents": [
+                "pool3_stage1"
+            ],
+            "children": [
+                "relu4_1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                512
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu4_1": {
+            "type": "Relu",
+            "parents": [
+                "conv4_1"
+            ],
+            "children": [
+                "conv4_2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                512
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                512
+            ]
+        },
+        "conv4_2": {
+            "type": "Conv",
+            "parents": [
+                "relu4_1"
+            ],
+            "children": [
+                "relu4_2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                512
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu4_2": {
+            "type": "Relu",
+            "parents": [
+                "conv4_2"
+            ],
+            "children": [
+                "conv4_3_CPM"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                512
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                512
+            ]
+        },
+        "conv4_3_CPM": {
+            "type": "Conv",
+            "parents": [
+                "relu4_2"
+            ],
+            "children": [
+                "relu4_3_CPM"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                232
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                232
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu4_3_CPM": {
+            "type": "Relu",
+            "parents": [
+                "conv4_3_CPM"
+            ],
+            "children": [
+                "conv4_4_CPM"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                232
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                232
+            ]
+        },
+        "conv4_4_CPM": {
+            "type": "Conv",
+            "parents": [
+                "relu4_3_CPM"
+            ],
+            "children": [
+                "relu4_4_CPM"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                232
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                232,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu4_4_CPM": {
+            "type": "Relu",
+            "parents": [
+                "conv4_4_CPM"
+            ],
+            "children": [
+                "concat_stage3",
+                "conv5_1_CPM_L1",
+                "concat_stage5",
+                "concat_stage2",
+                "concat_stage6",
+                "concat_stage4",
+                "conv5_1_CPM_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "conv5_1_CPM_L1": {
+            "type": "Conv",
+            "parents": [
+                "relu4_4_CPM"
+            ],
+            "children": [
+                "relu5_1_CPM_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                52
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv5_1_CPM_L2": {
+            "type": "Conv",
+            "parents": [
+                "relu4_4_CPM"
+            ],
+            "children": [
+                "relu5_1_CPM_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                26
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu5_1_CPM_L1": {
+            "type": "Relu",
+            "parents": [
+                "conv5_1_CPM_L1"
+            ],
+            "children": [
+                "conv5_2_CPM_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                52
+            ]
+        },
+        "relu5_1_CPM_L2": {
+            "type": "Relu",
+            "parents": [
+                "conv5_1_CPM_L2"
+            ],
+            "children": [
+                "conv5_2_CPM_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                26
+            ]
+        },
+        "conv5_2_CPM_L1": {
+            "type": "Conv",
+            "parents": [
+                "relu5_1_CPM_L1"
+            ],
+            "children": [
+                "relu5_2_CPM_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                40
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                52,
+                40
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv5_2_CPM_L2": {
+            "type": "Conv",
+            "parents": [
+                "relu5_1_CPM_L2"
+            ],
+            "children": [
+                "relu5_2_CPM_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                26,
+                78
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu5_2_CPM_L1": {
+            "type": "Relu",
+            "parents": [
+                "conv5_2_CPM_L1"
+            ],
+            "children": [
+                "conv5_3_CPM_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                40
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                40
+            ]
+        },
+        "relu5_2_CPM_L2": {
+            "type": "Relu",
+            "parents": [
+                "conv5_2_CPM_L2"
+            ],
+            "children": [
+                "conv5_3_CPM_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ]
+        },
+        "conv5_3_CPM_L1": {
+            "type": "Conv",
+            "parents": [
+                "relu5_2_CPM_L1"
+            ],
+            "children": [
+                "relu5_3_CPM_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                40
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                40,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv5_3_CPM_L2": {
+            "type": "Conv",
+            "parents": [
+                "relu5_2_CPM_L2"
+            ],
+            "children": [
+                "relu5_3_CPM_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                40
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                78,
+                40
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu5_3_CPM_L1": {
+            "type": "Relu",
+            "parents": [
+                "conv5_3_CPM_L1"
+            ],
+            "children": [
+                "conv5_4_CPM_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                64
+            ]
+        },
+        "relu5_3_CPM_L2": {
+            "type": "Relu",
+            "parents": [
+                "conv5_3_CPM_L2"
+            ],
+            "children": [
+                "conv5_4_CPM_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                40
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                40
+            ]
+        },
+        "conv5_4_CPM_L1": {
+            "type": "Conv",
+            "parents": [
+                "relu5_3_CPM_L1"
+            ],
+            "children": [
+                "relu5_4_CPM_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                256
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "conv5_4_CPM_L2": {
+            "type": "Conv",
+            "parents": [
+                "relu5_3_CPM_L2"
+            ],
+            "children": [
+                "relu5_4_CPM_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                40
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                40,
+                104
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "relu5_4_CPM_L1": {
+            "type": "Relu",
+            "parents": [
+                "conv5_4_CPM_L1"
+            ],
+            "children": [
+                "conv5_5_CPM_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                256
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                256
+            ]
+        },
+        "relu5_4_CPM_L2": {
+            "type": "Relu",
+            "parents": [
+                "conv5_4_CPM_L2"
+            ],
+            "children": [
+                "conv5_5_CPM_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ]
+        },
+        "conv5_5_CPM_L1": {
+            "type": "Conv",
+            "parents": [
+                "relu5_4_CPM_L1"
+            ],
+            "children": [
+                "concat_stage2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                26
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "conv5_5_CPM_L2": {
+            "type": "Conv",
+            "parents": [
+                "relu5_4_CPM_L2"
+            ],
+            "children": [
+                "concat_stage2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                15
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                104,
+                15
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "concat_stage2": {
+            "type": "Concat",
+            "parents": [
+                "conv5_5_CPM_L1",
+                "conv5_5_CPM_L2",
+                "relu4_4_CPM"
+            ],
+            "children": [
+                "Mconv1_stage2_L2",
+                "Mconv1_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                26
+            ]
+        },
+        "Mconv1_stage2_L2": {
+            "type": "Conv",
+            "parents": [
+                "concat_stage2"
+            ],
+            "children": [
+                "Mrelu1_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                169,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv1_stage2_L1": {
+            "type": "Conv",
+            "parents": [
+                "concat_stage2"
+            ],
+            "children": [
+                "Mrelu1_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                169,
+                104
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu1_stage2_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv1_stage2_L2"
+            ],
+            "children": [
+                "Mconv2_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mrelu1_stage2_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv1_stage2_L1"
+            ],
+            "children": [
+                "Mconv2_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ]
+        },
+        "Mconv2_stage2_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu1_stage2_L2"
+            ],
+            "children": [
+                "Mrelu2_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                116,
+                90
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv2_stage2_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu1_stage2_L1"
+            ],
+            "children": [
+                "Mrelu2_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                104,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu2_stage2_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv2_stage2_L2"
+            ],
+            "children": [
+                "Mconv3_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ]
+        },
+        "Mrelu2_stage2_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv2_stage2_L1"
+            ],
+            "children": [
+                "Mconv3_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                64
+            ]
+        },
+        "Mconv3_stage2_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu2_stage2_L2"
+            ],
+            "children": [
+                "Mrelu3_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                90,
+                52
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv3_stage2_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu2_stage2_L1"
+            ],
+            "children": [
+                "Mrelu3_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                64,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu3_stage2_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv3_stage2_L2"
+            ],
+            "children": [
+                "Mconv4_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                52
+            ]
+        },
+        "Mrelu3_stage2_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv3_stage2_L1"
+            ],
+            "children": [
+                "Mconv4_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mconv4_stage2_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu3_stage2_L2"
+            ],
+            "children": [
+                "Mrelu4_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                52,
+                78
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv4_stage2_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu3_stage2_L1"
+            ],
+            "children": [
+                "Mrelu4_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                116,
+                52
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu4_stage2_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv4_stage2_L2"
+            ],
+            "children": [
+                "Mconv5_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ]
+        },
+        "Mrelu4_stage2_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv4_stage2_L1"
+            ],
+            "children": [
+                "Mconv5_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                52
+            ]
+        },
+        "Mconv5_stage2_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu4_stage2_L2"
+            ],
+            "children": [
+                "Mrelu5_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                78,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv5_stage2_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu4_stage2_L1"
+            ],
+            "children": [
+                "Mrelu5_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                52,
+                90
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu5_stage2_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv5_stage2_L2"
+            ],
+            "children": [
+                "Mconv6_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mrelu5_stage2_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv5_stage2_L1"
+            ],
+            "children": [
+                "Mconv6_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ]
+        },
+        "Mconv6_stage2_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu5_stage2_L2"
+            ],
+            "children": [
+                "Mrelu6_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                116,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mconv6_stage2_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu5_stage2_L1"
+            ],
+            "children": [
+                "Mrelu6_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                90,
+                78
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mrelu6_stage2_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv6_stage2_L2"
+            ],
+            "children": [
+                "Mconv7_stage2_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mrelu6_stage2_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv6_stage2_L1"
+            ],
+            "children": [
+                "Mconv7_stage2_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ]
+        },
+        "Mconv7_stage2_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu6_stage2_L2"
+            ],
+            "children": [
+                "concat_stage3"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                15
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                116,
+                15
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mconv7_stage2_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu6_stage2_L1"
+            ],
+            "children": [
+                "concat_stage3"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                78,
+                26
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "concat_stage3": {
+            "type": "Concat",
+            "parents": [
+                "Mconv7_stage2_L1",
+                "Mconv7_stage2_L2",
+                "relu4_4_CPM"
+            ],
+            "children": [
+                "Mconv1_stage3_L1",
+                "Mconv1_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                26
+            ]
+        },
+        "Mconv1_stage3_L1": {
+            "type": "Conv",
+            "parents": [
+                "concat_stage3"
+            ],
+            "children": [
+                "Mrelu1_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                169,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv1_stage3_L2": {
+            "type": "Conv",
+            "parents": [
+                "concat_stage3"
+            ],
+            "children": [
+                "Mrelu1_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                169,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu1_stage3_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv1_stage3_L1"
+            ],
+            "children": [
+                "Mconv2_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mrelu1_stage3_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv1_stage3_L2"
+            ],
+            "children": [
+                "Mconv2_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mconv2_stage3_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu1_stage3_L1"
+            ],
+            "children": [
+                "Mrelu2_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                40
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                116,
+                40
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv2_stage3_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu1_stage3_L2"
+            ],
+            "children": [
+                "Mrelu2_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                128,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu2_stage3_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv2_stage3_L1"
+            ],
+            "children": [
+                "Mconv3_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                40
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                40
+            ]
+        },
+        "Mrelu2_stage3_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv2_stage3_L2"
+            ],
+            "children": [
+                "Mconv3_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                64
+            ]
+        },
+        "Mconv3_stage3_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu2_stage3_L1"
+            ],
+            "children": [
+                "Mrelu3_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                40
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                40,
+                78
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv3_stage3_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu2_stage3_L2"
+            ],
+            "children": [
+                "Mrelu3_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                64,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu3_stage3_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv3_stage3_L1"
+            ],
+            "children": [
+                "Mconv4_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ]
+        },
+        "Mrelu3_stage3_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv3_stage3_L2"
+            ],
+            "children": [
+                "Mconv4_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mconv4_stage3_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu3_stage3_L1"
+            ],
+            "children": [
+                "Mrelu4_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                78,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv4_stage3_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu3_stage3_L2"
+            ],
+            "children": [
+                "Mrelu4_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                116,
+                52
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu4_stage3_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv4_stage3_L1"
+            ],
+            "children": [
+                "Mconv5_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                64
+            ]
+        },
+        "Mrelu4_stage3_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv4_stage3_L2"
+            ],
+            "children": [
+                "Mconv5_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                52
+            ]
+        },
+        "Mconv5_stage3_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu4_stage3_L1"
+            ],
+            "children": [
+                "Mrelu5_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                64,
+                90
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv5_stage3_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu4_stage3_L2"
+            ],
+            "children": [
+                "Mrelu5_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                52
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                52,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu5_stage3_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv5_stage3_L1"
+            ],
+            "children": [
+                "Mconv6_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ]
+        },
+        "Mrelu5_stage3_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv5_stage3_L2"
+            ],
+            "children": [
+                "Mconv6_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mconv6_stage3_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu5_stage3_L1"
+            ],
+            "children": [
+                "Mrelu6_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                90,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mconv6_stage3_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu5_stage3_L2"
+            ],
+            "children": [
+                "Mrelu6_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                104
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mrelu6_stage3_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv6_stage3_L1"
+            ],
+            "children": [
+                "Mconv7_stage3_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mrelu6_stage3_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv6_stage3_L2"
+            ],
+            "children": [
+                "Mconv7_stage3_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ]
+        },
+        "Mconv7_stage3_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu6_stage3_L1"
+            ],
+            "children": [
+                "concat_stage4"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                26
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mconv7_stage3_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu6_stage3_L2"
+            ],
+            "children": [
+                "concat_stage4"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                15
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                104,
+                15
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "concat_stage4": {
+            "type": "Concat",
+            "parents": [
+                "Mconv7_stage3_L1",
+                "Mconv7_stage3_L2",
+                "relu4_4_CPM"
+            ],
+            "children": [
+                "Mconv1_stage4_L1",
+                "Mconv1_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                26
+            ]
+        },
+        "Mconv1_stage4_L1": {
+            "type": "Conv",
+            "parents": [
+                "concat_stage4"
+            ],
+            "children": [
+                "Mrelu1_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                169,
+                104
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv1_stage4_L2": {
+            "type": "Conv",
+            "parents": [
+                "concat_stage4"
+            ],
+            "children": [
+                "Mrelu1_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                169,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu1_stage4_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv1_stage4_L1"
+            ],
+            "children": [
+                "Mconv2_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ]
+        },
+        "Mrelu1_stage4_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv1_stage4_L2"
+            ],
+            "children": [
+                "Mconv2_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mconv2_stage4_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu1_stage4_L1"
+            ],
+            "children": [
+                "Mrelu2_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                104,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv2_stage4_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu1_stage4_L2"
+            ],
+            "children": [
+                "Mrelu2_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                116,
+                104
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu2_stage4_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv2_stage4_L1"
+            ],
+            "children": [
+                "Mconv3_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mrelu2_stage4_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv2_stage4_L2"
+            ],
+            "children": [
+                "Mconv3_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ]
+        },
+        "Mconv3_stage4_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu2_stage4_L1"
+            ],
+            "children": [
+                "Mrelu3_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                128,
+                104
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv3_stage4_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu2_stage4_L2"
+            ],
+            "children": [
+                "Mrelu3_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                104,
+                90
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu3_stage4_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv3_stage4_L1"
+            ],
+            "children": [
+                "Mconv4_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ]
+        },
+        "Mrelu3_stage4_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv3_stage4_L2"
+            ],
+            "children": [
+                "Mconv4_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ]
+        },
+        "Mconv4_stage4_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu3_stage4_L1"
+            ],
+            "children": [
+                "Mrelu4_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                104,
+                90
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv4_stage4_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu3_stage4_L2"
+            ],
+            "children": [
+                "Mrelu4_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                90,
+                104
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu4_stage4_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv4_stage4_L1"
+            ],
+            "children": [
+                "Mconv5_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ]
+        },
+        "Mrelu4_stage4_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv4_stage4_L2"
+            ],
+            "children": [
+                "Mconv5_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ]
+        },
+        "Mconv5_stage4_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu4_stage4_L1"
+            ],
+            "children": [
+                "Mrelu5_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                90,
+                90
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv5_stage4_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu4_stage4_L2"
+            ],
+            "children": [
+                "Mrelu5_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                104,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu5_stage4_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv5_stage4_L1"
+            ],
+            "children": [
+                "Mconv6_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ]
+        },
+        "Mrelu5_stage4_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv5_stage4_L2"
+            ],
+            "children": [
+                "Mconv6_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mconv6_stage4_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu5_stage4_L1"
+            ],
+            "children": [
+                "Mrelu6_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                90,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mconv6_stage4_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu5_stage4_L2"
+            ],
+            "children": [
+                "Mrelu6_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                116,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mrelu6_stage4_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv6_stage4_L1"
+            ],
+            "children": [
+                "Mconv7_stage4_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mrelu6_stage4_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv6_stage4_L2"
+            ],
+            "children": [
+                "Mconv7_stage4_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mconv7_stage4_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu6_stage4_L1"
+            ],
+            "children": [
+                "concat_stage5"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                26
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mconv7_stage4_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu6_stage4_L2"
+            ],
+            "children": [
+                "concat_stage5"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                15
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                116,
+                15
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "concat_stage5": {
+            "type": "Concat",
+            "parents": [
+                "Mconv7_stage4_L1",
+                "Mconv7_stage4_L2",
+                "relu4_4_CPM"
+            ],
+            "children": [
+                "Mconv1_stage5_L2",
+                "Mconv1_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                26
+            ]
+        },
+        "Mconv1_stage5_L2": {
+            "type": "Conv",
+            "parents": [
+                "concat_stage5"
+            ],
+            "children": [
+                "Mrelu1_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                169,
+                78
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv1_stage5_L1": {
+            "type": "Conv",
+            "parents": [
+                "concat_stage5"
+            ],
+            "children": [
+                "Mrelu1_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                169,
+                90
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu1_stage5_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv1_stage5_L2"
+            ],
+            "children": [
+                "Mconv2_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ]
+        },
+        "Mrelu1_stage5_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv1_stage5_L1"
+            ],
+            "children": [
+                "Mconv2_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ]
+        },
+        "Mconv2_stage5_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu1_stage5_L2"
+            ],
+            "children": [
+                "Mrelu2_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                78,
+                90
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv2_stage5_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu1_stage5_L1"
+            ],
+            "children": [
+                "Mrelu2_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                90,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu2_stage5_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv2_stage5_L2"
+            ],
+            "children": [
+                "Mconv3_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ]
+        },
+        "Mrelu2_stage5_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv2_stage5_L1"
+            ],
+            "children": [
+                "Mconv3_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mconv3_stage5_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu2_stage5_L2"
+            ],
+            "children": [
+                "Mrelu3_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                90,
+                104
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv3_stage5_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu2_stage5_L1"
+            ],
+            "children": [
+                "Mrelu3_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                116,
+                90
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu3_stage5_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv3_stage5_L2"
+            ],
+            "children": [
+                "Mconv4_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ]
+        },
+        "Mrelu3_stage5_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv3_stage5_L1"
+            ],
+            "children": [
+                "Mconv4_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ]
+        },
+        "Mconv4_stage5_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu3_stage5_L2"
+            ],
+            "children": [
+                "Mrelu4_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                104,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv4_stage5_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu3_stage5_L1"
+            ],
+            "children": [
+                "Mrelu4_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                90
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                90,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu4_stage5_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv4_stage5_L2"
+            ],
+            "children": [
+                "Mconv5_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mrelu4_stage5_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv4_stage5_L1"
+            ],
+            "children": [
+                "Mconv5_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mconv5_stage5_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu4_stage5_L2"
+            ],
+            "children": [
+                "Mrelu5_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv5_stage5_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu4_stage5_L1"
+            ],
+            "children": [
+                "Mrelu5_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu5_stage5_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv5_stage5_L2"
+            ],
+            "children": [
+                "Mconv6_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mrelu5_stage5_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv5_stage5_L1"
+            ],
+            "children": [
+                "Mconv6_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mconv6_stage5_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu5_stage5_L2"
+            ],
+            "children": [
+                "Mrelu6_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                26
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mconv6_stage5_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu5_stage5_L1"
+            ],
+            "children": [
+                "Mrelu6_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mrelu6_stage5_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv6_stage5_L2"
+            ],
+            "children": [
+                "Mconv7_stage5_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                26
+            ]
+        },
+        "Mrelu6_stage5_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv6_stage5_L1"
+            ],
+            "children": [
+                "Mconv7_stage5_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                64
+            ]
+        },
+        "Mconv7_stage5_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu6_stage5_L2"
+            ],
+            "children": [
+                "concat_stage6"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                15
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                26,
+                15
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mconv7_stage5_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu6_stage5_L1"
+            ],
+            "children": [
+                "concat_stage6"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                26
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "concat_stage6": {
+            "type": "Concat",
+            "parents": [
+                "Mconv7_stage5_L1",
+                "Mconv7_stage5_L2",
+                "relu4_4_CPM"
+            ],
+            "children": [
+                "Mconv1_stage6_L2",
+                "Mconv1_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                26
+            ]
+        },
+        "Mconv1_stage6_L2": {
+            "type": "Conv",
+            "parents": [
+                "concat_stage6"
+            ],
+            "children": [
+                "Mrelu1_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                169,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv1_stage6_L1": {
+            "type": "Conv",
+            "parents": [
+                "concat_stage6"
+            ],
+            "children": [
+                "Mrelu1_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                169
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                169,
+                78
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu1_stage6_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv1_stage6_L2"
+            ],
+            "children": [
+                "Mconv2_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mrelu1_stage6_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv1_stage6_L1"
+            ],
+            "children": [
+                "Mconv2_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ]
+        },
+        "Mconv2_stage6_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu1_stage6_L2"
+            ],
+            "children": [
+                "Mrelu2_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv2_stage6_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu1_stage6_L1"
+            ],
+            "children": [
+                "Mrelu2_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                78
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                78,
+                104
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu2_stage6_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv2_stage6_L2"
+            ],
+            "children": [
+                "Mconv3_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mrelu2_stage6_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv2_stage6_L1"
+            ],
+            "children": [
+                "Mconv3_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ]
+        },
+        "Mconv3_stage6_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu2_stage6_L2"
+            ],
+            "children": [
+                "Mrelu3_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv3_stage6_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu2_stage6_L1"
+            ],
+            "children": [
+                "Mrelu3_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                104,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu3_stage6_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv3_stage6_L2"
+            ],
+            "children": [
+                "Mconv4_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mrelu3_stage6_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv3_stage6_L1"
+            ],
+            "children": [
+                "Mconv4_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mconv4_stage6_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu3_stage6_L2"
+            ],
+            "children": [
+                "Mrelu4_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv4_stage6_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu3_stage6_L1"
+            ],
+            "children": [
+                "Mrelu4_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                116,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu4_stage6_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv4_stage6_L2"
+            ],
+            "children": [
+                "Mconv5_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mrelu4_stage6_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv4_stage6_L1"
+            ],
+            "children": [
+                "Mconv5_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mconv5_stage6_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu4_stage6_L2"
+            ],
+            "children": [
+                "Mrelu5_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mconv5_stage6_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu4_stage6_L1"
+            ],
+            "children": [
+                "Mrelu5_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Mrelu5_stage6_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv5_stage6_L2"
+            ],
+            "children": [
+                "Mconv6_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mrelu5_stage6_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv5_stage6_L1"
+            ],
+            "children": [
+                "Mconv6_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ]
+        },
+        "Mconv6_stage6_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu5_stage6_L2"
+            ],
+            "children": [
+                "Mrelu6_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                104
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mconv6_stage6_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu5_stage6_L1"
+            ],
+            "children": [
+                "Mrelu6_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                116
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mrelu6_stage6_L2": {
+            "type": "Relu",
+            "parents": [
+                "Mconv6_stage6_L2"
+            ],
+            "children": [
+                "Mconv7_stage6_L2"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ]
+        },
+        "Mrelu6_stage6_L1": {
+            "type": "Relu",
+            "parents": [
+                "Mconv6_stage6_L1"
+            ],
+            "children": [
+                "Mconv7_stage6_L1"
+            ],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ]
+        },
+        "Mconv7_stage6_L2": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu6_stage6_L2"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                15
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                104
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                104,
+                15
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Mconv7_stage6_L1": {
+            "type": "Conv",
+            "parents": [
+                "Mrelu6_stage6_L1"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                46,
+                46,
+                26
+            ],
+            "input_shape": [
+                -1,
+                46,
+                46,
+                116
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                116,
+                26
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

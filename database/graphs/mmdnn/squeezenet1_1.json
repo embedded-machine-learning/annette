@@ -1,0 +1,3585 @@
+{
+  "node": [
+    {
+      "name": "node53",
+      "op": "Conv",
+      "input": [
+        "input"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "3",
+              "64"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "111"
+                  },
+                  {
+                    "size": "111"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node54",
+      "op": "Relu",
+      "input": [
+        "node53"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "111"
+                  },
+                  {
+                    "size": "111"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node55",
+      "op": "Pool",
+      "input": [
+        "node54"
+      ],
+      "attr": {
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "3",
+              "3",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node56",
+      "op": "Conv",
+      "input": [
+        "node55"
+      ],
+      "attr": {
+        "group": {
+          "i": "1"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "16"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node57",
+      "op": "Relu",
+      "input": [
+        "node56"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node58",
+      "op": "Conv",
+      "input": [
+        "node57"
+      ],
+      "attr": {
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "16",
+              "64"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node60",
+      "op": "Conv",
+      "input": [
+        "node57"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "16",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node59",
+      "op": "Relu",
+      "input": [
+        "node58"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node61",
+      "op": "Relu",
+      "input": [
+        "node60"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node62",
+      "op": "Concat",
+      "input": [
+        "node59",
+        "node61"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "axis": {
+          "i": "3"
+        }
+      }
+    },
+    {
+      "name": "node63",
+      "op": "Conv",
+      "input": [
+        "node62"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "128",
+              "16"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node64",
+      "op": "Relu",
+      "input": [
+        "node63"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node65",
+      "op": "Conv",
+      "input": [
+        "node64"
+      ],
+      "attr": {
+        "group": {
+          "i": "1"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "16",
+              "64"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node67",
+      "op": "Conv",
+      "input": [
+        "node64"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "16",
+              "64"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        }
+      }
+    },
+    {
+      "name": "node66",
+      "op": "Relu",
+      "input": [
+        "node65"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node68",
+      "op": "Relu",
+      "input": [
+        "node67"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node69",
+      "op": "Concat",
+      "input": [
+        "node66",
+        "node68"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "55"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "axis": {
+          "i": "3"
+        }
+      }
+    },
+    {
+      "name": "node70",
+      "op": "Pool",
+      "input": [
+        "node69"
+      ],
+      "attr": {
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "3",
+              "3",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node71",
+      "op": "Conv",
+      "input": [
+        "node70"
+      ],
+      "attr": {
+        "group": {
+          "i": "1"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "128",
+              "32"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node72",
+      "op": "Relu",
+      "input": [
+        "node71"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node73",
+      "op": "Conv",
+      "input": [
+        "node72"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "32",
+              "128"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        }
+      }
+    },
+    {
+      "name": "node75",
+      "op": "Conv",
+      "input": [
+        "node72"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "32",
+              "128"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node74",
+      "op": "Relu",
+      "input": [
+        "node73"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node76",
+      "op": "Relu",
+      "input": [
+        "node75"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node77",
+      "op": "Concat",
+      "input": [
+        "node74",
+        "node76"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "axis": {
+          "i": "3"
+        }
+      }
+    },
+    {
+      "name": "node78",
+      "op": "Conv",
+      "input": [
+        "node77"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "32"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node79",
+      "op": "Relu",
+      "input": [
+        "node78"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node80",
+      "op": "Conv",
+      "input": [
+        "node79"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "32",
+              "128"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node82",
+      "op": "Conv",
+      "input": [
+        "node79"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "32",
+              "128"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        }
+      }
+    },
+    {
+      "name": "node81",
+      "op": "Relu",
+      "input": [
+        "node80"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node83",
+      "op": "Relu",
+      "input": [
+        "node82"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node84",
+      "op": "Concat",
+      "input": [
+        "node81",
+        "node83"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "27"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "axis": {
+          "i": "3"
+        }
+      }
+    },
+    {
+      "name": "node85",
+      "op": "Pool",
+      "input": [
+        "node84"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "3",
+              "3",
+              "1"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node86",
+      "op": "Conv",
+      "input": [
+        "node85"
+      ],
+      "attr": {
+        "group": {
+          "i": "1"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "48"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node87",
+      "op": "Relu",
+      "input": [
+        "node86"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node88",
+      "op": "Conv",
+      "input": [
+        "node87"
+      ],
+      "attr": {
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "48",
+              "192"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node90",
+      "op": "Conv",
+      "input": [
+        "node87"
+      ],
+      "attr": {
+        "group": {
+          "i": "1"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "48",
+              "192"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node89",
+      "op": "Relu",
+      "input": [
+        "node88"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node91",
+      "op": "Relu",
+      "input": [
+        "node90"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node92",
+      "op": "Concat",
+      "input": [
+        "node89",
+        "node91"
+      ],
+      "attr": {
+        "axis": {
+          "i": "3"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "384"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node93",
+      "op": "Conv",
+      "input": [
+        "node92"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "384",
+              "48"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        }
+      }
+    },
+    {
+      "name": "node94",
+      "op": "Relu",
+      "input": [
+        "node93"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node95",
+      "op": "Conv",
+      "input": [
+        "node94"
+      ],
+      "attr": {
+        "group": {
+          "i": "1"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "48",
+              "192"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node97",
+      "op": "Conv",
+      "input": [
+        "node94"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "48",
+              "192"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node96",
+      "op": "Relu",
+      "input": [
+        "node95"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node98",
+      "op": "Relu",
+      "input": [
+        "node97"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node99",
+      "op": "Concat",
+      "input": [
+        "node96",
+        "node98"
+      ],
+      "attr": {
+        "axis": {
+          "i": "3"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "384"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node100",
+      "op": "Conv",
+      "input": [
+        "node99"
+      ],
+      "attr": {
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "384",
+              "64"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node101",
+      "op": "Relu",
+      "input": [
+        "node100"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node102",
+      "op": "Conv",
+      "input": [
+        "node101"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "256"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node104",
+      "op": "Conv",
+      "input": [
+        "node101"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "256"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "node103",
+      "op": "Relu",
+      "input": [
+        "node102"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node105",
+      "op": "Relu",
+      "input": [
+        "node104"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node106",
+      "op": "Concat",
+      "input": [
+        "node103",
+        "node105"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "axis": {
+          "i": "3"
+        }
+      }
+    },
+    {
+      "name": "node107",
+      "op": "Conv",
+      "input": [
+        "node106"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "64"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node108",
+      "op": "Relu",
+      "input": [
+        "node107"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node109",
+      "op": "Conv",
+      "input": [
+        "node108"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "256"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node111",
+      "op": "Conv",
+      "input": [
+        "node108"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "group": {
+          "i": "1"
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "256"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node110",
+      "op": "Relu",
+      "input": [
+        "node109"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node112",
+      "op": "Relu",
+      "input": [
+        "node111"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node113",
+      "op": "Concat",
+      "input": [
+        "node110",
+        "node112"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "axis": {
+          "i": "3"
+        }
+      }
+    },
+    {
+      "name": "node114",
+      "op": "Conv",
+      "input": [
+        "node113"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "1000"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "group": {
+          "i": "1"
+        }
+      }
+    },
+    {
+      "name": "node115",
+      "op": "Relu",
+      "input": [
+        "node114"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "13"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node116",
+      "op": "Pool",
+      "input": [
+        "node115"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "13",
+              "13",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pooling_type": {
+          "s": "QVZH"
+        },
+        "dilations": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "node117",
+      "op": "Flatten",
+      "input": [
+        "node116"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "input",
+      "op": "DataInput",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "shape": {
+            "dim": [
+              {
+                "size": "-1"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "3"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

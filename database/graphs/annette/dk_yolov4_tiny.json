@@ -1,0 +1,2196 @@
+{
+    "name": "darknet_yolov4_tiny_416_416_coco",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "detector/truediv"
+            ],
+            "output_shape": [
+                -1,
+                512,
+                512,
+                3
+            ]
+        },
+        "detector/truediv": {
+            "type": "RealDiv",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Pad"
+            ],
+            "output_shape": [
+                -1,
+                512,
+                512,
+                3
+            ],
+            "input_shape": [
+                -1,
+                512,
+                512,
+                3
+            ]
+        },
+        "detector/yolo-v4-tiny/Pad": {
+            "type": "Pad",
+            "parents": [
+                "detector/truediv"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                514,
+                514,
+                3
+            ],
+            "input_shape": [
+                -1,
+                512,
+                512,
+                3
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Pad"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                256,
+                256,
+                32
+            ],
+            "input_shape": [
+                -1,
+                514,
+                514,
+                3
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                32
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                256,
+                256,
+                32
+            ],
+            "input_shape": [
+                -1,
+                256,
+                256,
+                32
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Pad_1"
+            ],
+            "output_shape": [
+                -1,
+                256,
+                256,
+                32
+            ],
+            "input_shape": [
+                -1,
+                256,
+                256,
+                32
+            ]
+        },
+        "detector/yolo-v4-tiny/Pad_1": {
+            "type": "Pad",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                258,
+                258,
+                32
+            ],
+            "input_shape": [
+                -1,
+                256,
+                256,
+                32
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Pad_1"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_1/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "input_shape": [
+                -1,
+                258,
+                258,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_1/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_1/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_1/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_1/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_1/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_2/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_2/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_1/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_2/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_2/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_2/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_2/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_2/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_2/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/strided_slice",
+                "detector/yolo-v4-tiny/concat_1"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/strided_slice": {
+            "type": "Slice",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_2/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                32
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/strided_slice"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_3/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                32
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_3/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_3/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_3/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                32
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                32
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_3/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_3/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_4/Conv2D",
+                "detector/yolo-v4-tiny/concat"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                32
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                32
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_4/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_3/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_4/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                32
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_4/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_4/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_4/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                32
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                32
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_4/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_4/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/concat"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                32
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                32
+            ]
+        },
+        "detector/yolo-v4-tiny/concat": {
+            "type": "Concat",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_4/LeakyRelu",
+                "detector/yolo-v4-tiny/Conv_3/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_5/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                32
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_5/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/concat"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_5/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_5/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_5/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_5/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_5/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_5/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/concat_1"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                64
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/concat_1": {
+            "type": "Concat",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_2/LeakyRelu",
+                "detector/yolo-v4-tiny/Conv_5/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/pool2/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                128,
+                128
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/pool2/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "detector/yolo-v4-tiny/concat_1"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_6/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "input_shape": [
+                -1,
+                128,
+                128,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "detector/yolo-v4-tiny/Conv_6/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/pool2/MaxPool"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_6/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_6/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_6/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_6/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_6/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_6/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/strided_slice_1",
+                "detector/yolo-v4-tiny/concat_3"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/strided_slice_1": {
+            "type": "Slice",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_6/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_7/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                64
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_7/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/strided_slice_1"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_7/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                64
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_7/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_7/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_7/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                64
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_7/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_7/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_8/Conv2D",
+                "detector/yolo-v4-tiny/concat_2"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                64
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_8/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_7/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_8/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                64
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_8/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_8/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_8/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                64
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_8/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_8/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/concat_2"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                64
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/concat_2": {
+            "type": "Concat",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_8/LeakyRelu",
+                "detector/yolo-v4-tiny/Conv_7/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_9/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                64
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_9/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/concat_2"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_9/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_9/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_9/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_9/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_9/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_9/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/concat_3"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                128
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/concat_3": {
+            "type": "Concat",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_6/LeakyRelu",
+                "detector/yolo-v4-tiny/Conv_9/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/pool2_1/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                64,
+                64,
+                256
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/pool2_1/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "detector/yolo-v4-tiny/concat_3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_10/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                64,
+                64,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "detector/yolo-v4-tiny/Conv_10/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/pool2_1/MaxPool"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_10/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_10/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_10/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_10/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_10/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_10/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/strided_slice_2",
+                "detector/yolo-v4-tiny/concat_5"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ]
+        },
+        "detector/yolo-v4-tiny/strided_slice_2": {
+            "type": "Slice",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_10/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_11/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                128
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_11/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/strided_slice_2"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_11/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                128
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_11/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_11/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_11/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                128
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_11/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_11/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_12/Conv2D",
+                "detector/yolo-v4-tiny/concat_4"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                128
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_12/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_11/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_12/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                128
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_12/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_12/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_12/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                128
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_12/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_12/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/concat_4"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                128
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/concat_4": {
+            "type": "Concat",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_12/LeakyRelu",
+                "detector/yolo-v4-tiny/Conv_11/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_13/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_13/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/concat_4"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_13/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_13/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_13/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_13/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_13/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_13/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/concat_5",
+                "detector/yolo-v4-tiny/concat_9"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ]
+        },
+        "detector/yolo-v4-tiny/concat_5": {
+            "type": "Concat",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_10/LeakyRelu",
+                "detector/yolo-v4-tiny/Conv_13/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/pool2_2/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                512
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ]
+        },
+        "detector/yolo-v4-tiny/pool2_2/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "detector/yolo-v4-tiny/concat_5"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_14/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                512
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "detector/yolo-v4-tiny/Conv_14/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/pool2_2/MaxPool"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_14/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                512
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_14/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_14/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_14/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                512
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                512
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_14/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_14/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_15/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                512
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                512
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_15/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_14/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_15/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                256
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_15/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_15/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_15/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                256
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                256
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_15/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_15/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_16/Conv2D",
+                "detector/yolo-v4-tiny/Conv_18/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                256
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                256
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_16/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_15/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_16/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                512
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_18/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_15/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_18/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                128
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_16/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_16/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_16/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                512
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                512
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_18/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_18/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_18/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                128
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_16/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_16/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_17/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                512
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                512
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_18/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_18/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/ResizeNearestNeighbor"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                128
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_17/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_16/LeakyRelu"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                255
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                255
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/ResizeNearestNeighbor": {
+            "type": "ResizeNearestNeighbor",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_18/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/concat_9"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                128
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/concat_9": {
+            "type": "Concat",
+            "parents": [
+                "detector/yolo-v4-tiny/ResizeNearestNeighbor",
+                "detector/yolo-v4-tiny/Conv_13/LeakyRelu"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_19/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                384
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                128
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_19/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/concat_9"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_19/BatchNorm/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                384
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                384,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_19/BatchNorm/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_19/Conv2D"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_19/LeakyRelu"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_19/LeakyRelu": {
+            "type": "LeakyRelu",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_19/BatchNorm/FusedBatchNormV3"
+            ],
+            "children": [
+                "detector/yolo-v4-tiny/Conv_20/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ]
+        },
+        "detector/yolo-v4-tiny/Conv_20/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "detector/yolo-v4-tiny/Conv_19/LeakyRelu"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                255
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                255
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

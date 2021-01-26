@@ -1,0 +1,1586 @@
+{
+    "name": "cf_resnet18",
+    "layers": {
+        "data": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "conv1"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ]
+        },
+        "conv1": {
+            "type": "Conv",
+            "parents": [
+                "data"
+            ],
+            "children": [
+                "conv1_relu"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                3,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "conv1_relu": {
+            "type": "Relu",
+            "parents": [
+                "conv1"
+            ],
+            "children": [
+                "pool1"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "pool1": {
+            "type": "Pool",
+            "parents": [
+                "conv1_relu"
+            ],
+            "children": [
+                "res2a_branch2a",
+                "res2a_branch1"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "res2a_branch2a": {
+            "type": "Conv",
+            "parents": [
+                "pool1"
+            ],
+            "children": [
+                "res2a_branch2a_relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res2a_branch1": {
+            "type": "Conv",
+            "parents": [
+                "pool1"
+            ],
+            "children": [
+                "res2a"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "res2a_branch2a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res2a_branch2a"
+            ],
+            "children": [
+                "res2a_branch2b"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "res2a_branch2b": {
+            "type": "Conv",
+            "parents": [
+                "res2a_branch2a_relu"
+            ],
+            "children": [
+                "res2a"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res2a": {
+            "type": "Add",
+            "parents": [
+                "res2a_branch1",
+                "res2a_branch2b"
+            ],
+            "children": [
+                "res2a_relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "res2a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res2a"
+            ],
+            "children": [
+                "res2b_branch2a",
+                "res2b"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "res2b_branch2a": {
+            "type": "Conv",
+            "parents": [
+                "res2a_relu"
+            ],
+            "children": [
+                "res2b_branch2a_relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res2b_branch2a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res2b_branch2a"
+            ],
+            "children": [
+                "res2b_branch2b"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "res2b_branch2b": {
+            "type": "Conv",
+            "parents": [
+                "res2b_branch2a_relu"
+            ],
+            "children": [
+                "res2b"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res2b": {
+            "type": "Add",
+            "parents": [
+                "res2a_relu",
+                "res2b_branch2b"
+            ],
+            "children": [
+                "res2b_relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "res2b_relu": {
+            "type": "Relu",
+            "parents": [
+                "res2b"
+            ],
+            "children": [
+                "res3a_branch2a",
+                "res3a_branch1"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "res3a_branch2a": {
+            "type": "Conv",
+            "parents": [
+                "res2b_relu"
+            ],
+            "children": [
+                "res3a_branch2a_relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res3a_branch1": {
+            "type": "Conv",
+            "parents": [
+                "res2b_relu"
+            ],
+            "children": [
+                "res3a"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "res3a_branch2a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res3a_branch2a"
+            ],
+            "children": [
+                "res3a_branch2b"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "res3a_branch2b": {
+            "type": "Conv",
+            "parents": [
+                "res3a_branch2a_relu"
+            ],
+            "children": [
+                "res3a"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res3a": {
+            "type": "Add",
+            "parents": [
+                "res3a_branch1",
+                "res3a_branch2b"
+            ],
+            "children": [
+                "res3a_relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "res3a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res3a"
+            ],
+            "children": [
+                "res3b_branch2a",
+                "res3b"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "res3b_branch2a": {
+            "type": "Conv",
+            "parents": [
+                "res3a_relu"
+            ],
+            "children": [
+                "res3b_branch2a_relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res3b_branch2a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res3b_branch2a"
+            ],
+            "children": [
+                "res3b_branch2b"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "res3b_branch2b": {
+            "type": "Conv",
+            "parents": [
+                "res3b_branch2a_relu"
+            ],
+            "children": [
+                "res3b"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res3b": {
+            "type": "Add",
+            "parents": [
+                "res3a_relu",
+                "res3b_branch2b"
+            ],
+            "children": [
+                "res3b_relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "res3b_relu": {
+            "type": "Relu",
+            "parents": [
+                "res3b"
+            ],
+            "children": [
+                "res4a_branch1",
+                "res4a_branch2a"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "res4a_branch1": {
+            "type": "Conv",
+            "parents": [
+                "res3b_relu"
+            ],
+            "children": [
+                "res4a"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "res4a_branch2a": {
+            "type": "Conv",
+            "parents": [
+                "res3b_relu"
+            ],
+            "children": [
+                "res4a_branch2a_relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res4a_branch2a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res4a_branch2a"
+            ],
+            "children": [
+                "res4a_branch2b"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "res4a_branch2b": {
+            "type": "Conv",
+            "parents": [
+                "res4a_branch2a_relu"
+            ],
+            "children": [
+                "res4a"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res4a": {
+            "type": "Add",
+            "parents": [
+                "res4a_branch1",
+                "res4a_branch2b"
+            ],
+            "children": [
+                "res4a_relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "res4a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res4a"
+            ],
+            "children": [
+                "res4b_branch2a",
+                "res4b"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "res4b_branch2a": {
+            "type": "Conv",
+            "parents": [
+                "res4a_relu"
+            ],
+            "children": [
+                "res4b_branch2a_relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res4b_branch2a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res4b_branch2a"
+            ],
+            "children": [
+                "res4b_branch2b"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "res4b_branch2b": {
+            "type": "Conv",
+            "parents": [
+                "res4b_branch2a_relu"
+            ],
+            "children": [
+                "res4b"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res4b": {
+            "type": "Add",
+            "parents": [
+                "res4a_relu",
+                "res4b_branch2b"
+            ],
+            "children": [
+                "res4b_relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "res4b_relu": {
+            "type": "Relu",
+            "parents": [
+                "res4b"
+            ],
+            "children": [
+                "res5a_branch2a",
+                "res5a_branch1"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "res5a_branch2a": {
+            "type": "Conv",
+            "parents": [
+                "res4b_relu"
+            ],
+            "children": [
+                "res5a_branch2a_relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res5a_branch1": {
+            "type": "Conv",
+            "parents": [
+                "res4b_relu"
+            ],
+            "children": [
+                "res5a"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "res5a_branch2a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res5a_branch2a"
+            ],
+            "children": [
+                "res5a_branch2b"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "res5a_branch2b": {
+            "type": "Conv",
+            "parents": [
+                "res5a_branch2a_relu"
+            ],
+            "children": [
+                "res5a"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res5a": {
+            "type": "Add",
+            "parents": [
+                "res5a_branch1",
+                "res5a_branch2b"
+            ],
+            "children": [
+                "res5a_relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "res5a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res5a"
+            ],
+            "children": [
+                "res5b",
+                "res5b_branch2a"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "res5b_branch2a": {
+            "type": "Conv",
+            "parents": [
+                "res5a_relu"
+            ],
+            "children": [
+                "res5b_branch2a_relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res5b_branch2a_relu": {
+            "type": "Relu",
+            "parents": [
+                "res5b_branch2a"
+            ],
+            "children": [
+                "res5b_branch2b"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "res5b_branch2b": {
+            "type": "Conv",
+            "parents": [
+                "res5b_branch2a_relu"
+            ],
+            "children": [
+                "res5b"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "res5b": {
+            "type": "Add",
+            "parents": [
+                "res5a_relu",
+                "res5b_branch2b"
+            ],
+            "children": [
+                "res5b_relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "res5b_relu": {
+            "type": "Relu",
+            "parents": [
+                "res5b"
+            ],
+            "children": [
+                "pool5"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "pool5": {
+            "type": "Pool",
+            "parents": [
+                "res5b_relu"
+            ],
+            "children": [
+                "fc1000_0"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                7,
+                7,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "fc1000_0": {
+            "type": "Flatten",
+            "parents": [
+                "pool5"
+            ],
+            "children": [
+                "fc1000_1"
+            ],
+            "output_shape": [
+                -1,
+                512
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                512
+            ]
+        },
+        "fc1000_1": {
+            "type": "FullyConnected",
+            "parents": [
+                "fc1000_0"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                1000
+            ],
+            "input_shape": [
+                -1,
+                512
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

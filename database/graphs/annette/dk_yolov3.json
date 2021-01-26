@@ -1,0 +1,5358 @@
+{
+    "name": "dk_yolov3",
+    "layers": {
+        "data": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "layer0-conv"
+            ],
+            "output_shape": [
+                -1,
+                416,
+                416,
+                3
+            ]
+        },
+        "layer0-conv": {
+            "type": "Conv",
+            "parents": [
+                "data"
+            ],
+            "children": [
+                "layer0-act"
+            ],
+            "output_shape": [
+                -1,
+                416,
+                416,
+                32
+            ],
+            "input_shape": [
+                -1,
+                416,
+                416,
+                3
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer0-act": {
+            "type": "Relu",
+            "parents": [
+                "layer0-conv"
+            ],
+            "children": [
+                "layer1-conv"
+            ],
+            "output_shape": [
+                -1,
+                416,
+                416,
+                32
+            ],
+            "input_shape": [
+                -1,
+                416,
+                416,
+                32
+            ]
+        },
+        "layer1-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer0-act"
+            ],
+            "children": [
+                "layer1-act"
+            ],
+            "output_shape": [
+                -1,
+                208,
+                208,
+                64
+            ],
+            "input_shape": [
+                -1,
+                416,
+                416,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer1-act": {
+            "type": "Relu",
+            "parents": [
+                "layer1-conv"
+            ],
+            "children": [
+                "layer4-shortcut",
+                "layer2-conv"
+            ],
+            "output_shape": [
+                -1,
+                208,
+                208,
+                64
+            ],
+            "input_shape": [
+                -1,
+                208,
+                208,
+                64
+            ]
+        },
+        "layer2-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer1-act"
+            ],
+            "children": [
+                "layer2-act"
+            ],
+            "output_shape": [
+                -1,
+                208,
+                208,
+                32
+            ],
+            "input_shape": [
+                -1,
+                208,
+                208,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer2-act": {
+            "type": "Relu",
+            "parents": [
+                "layer2-conv"
+            ],
+            "children": [
+                "layer3-conv"
+            ],
+            "output_shape": [
+                -1,
+                208,
+                208,
+                32
+            ],
+            "input_shape": [
+                -1,
+                208,
+                208,
+                32
+            ]
+        },
+        "layer3-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer2-act"
+            ],
+            "children": [
+                "layer3-act"
+            ],
+            "output_shape": [
+                -1,
+                208,
+                208,
+                64
+            ],
+            "input_shape": [
+                -1,
+                208,
+                208,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer3-act": {
+            "type": "Relu",
+            "parents": [
+                "layer3-conv"
+            ],
+            "children": [
+                "layer4-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                208,
+                208,
+                64
+            ],
+            "input_shape": [
+                -1,
+                208,
+                208,
+                64
+            ]
+        },
+        "layer4-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer1-act",
+                "layer3-act"
+            ],
+            "children": [
+                "layer5-conv"
+            ],
+            "output_shape": [
+                -1,
+                208,
+                208,
+                64
+            ],
+            "input_shape": [
+                -1,
+                208,
+                208,
+                64
+            ]
+        },
+        "layer5-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer4-shortcut"
+            ],
+            "children": [
+                "layer5-act"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "input_shape": [
+                -1,
+                208,
+                208,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer5-act": {
+            "type": "Relu",
+            "parents": [
+                "layer5-conv"
+            ],
+            "children": [
+                "layer6-conv",
+                "layer8-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                128
+            ]
+        },
+        "layer6-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer5-act"
+            ],
+            "children": [
+                "layer6-act"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                64
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer6-act": {
+            "type": "Relu",
+            "parents": [
+                "layer6-conv"
+            ],
+            "children": [
+                "layer7-conv"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                64
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                64
+            ]
+        },
+        "layer7-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer6-act"
+            ],
+            "children": [
+                "layer7-act"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer7-act": {
+            "type": "Relu",
+            "parents": [
+                "layer7-conv"
+            ],
+            "children": [
+                "layer8-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                128
+            ]
+        },
+        "layer8-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer5-act",
+                "layer7-act"
+            ],
+            "children": [
+                "layer11-shortcut",
+                "layer9-conv"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                128
+            ]
+        },
+        "layer9-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer8-shortcut"
+            ],
+            "children": [
+                "layer9-act"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                64
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer9-act": {
+            "type": "Relu",
+            "parents": [
+                "layer9-conv"
+            ],
+            "children": [
+                "layer10-conv"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                64
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                64
+            ]
+        },
+        "layer10-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer9-act"
+            ],
+            "children": [
+                "layer10-act"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer10-act": {
+            "type": "Relu",
+            "parents": [
+                "layer10-conv"
+            ],
+            "children": [
+                "layer11-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                128
+            ]
+        },
+        "layer11-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer8-shortcut",
+                "layer10-act"
+            ],
+            "children": [
+                "layer12-conv"
+            ],
+            "output_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                128
+            ]
+        },
+        "layer12-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer11-shortcut"
+            ],
+            "children": [
+                "layer12-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                104,
+                104,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer12-act": {
+            "type": "Relu",
+            "parents": [
+                "layer12-conv"
+            ],
+            "children": [
+                "layer13-conv",
+                "layer15-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer13-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer12-act"
+            ],
+            "children": [
+                "layer13-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer13-act": {
+            "type": "Relu",
+            "parents": [
+                "layer13-conv"
+            ],
+            "children": [
+                "layer14-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer14-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer13-act"
+            ],
+            "children": [
+                "layer14-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer14-act": {
+            "type": "Relu",
+            "parents": [
+                "layer14-conv"
+            ],
+            "children": [
+                "layer15-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer15-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer12-act",
+                "layer14-act"
+            ],
+            "children": [
+                "layer18-shortcut",
+                "layer16-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer16-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer15-shortcut"
+            ],
+            "children": [
+                "layer16-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer16-act": {
+            "type": "Relu",
+            "parents": [
+                "layer16-conv"
+            ],
+            "children": [
+                "layer17-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer17-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer16-act"
+            ],
+            "children": [
+                "layer17-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer17-act": {
+            "type": "Relu",
+            "parents": [
+                "layer17-conv"
+            ],
+            "children": [
+                "layer18-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer18-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer15-shortcut",
+                "layer17-act"
+            ],
+            "children": [
+                "layer21-shortcut",
+                "layer19-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer19-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer18-shortcut"
+            ],
+            "children": [
+                "layer19-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer19-act": {
+            "type": "Relu",
+            "parents": [
+                "layer19-conv"
+            ],
+            "children": [
+                "layer20-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer20-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer19-act"
+            ],
+            "children": [
+                "layer20-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer20-act": {
+            "type": "Relu",
+            "parents": [
+                "layer20-conv"
+            ],
+            "children": [
+                "layer21-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer21-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer18-shortcut",
+                "layer20-act"
+            ],
+            "children": [
+                "layer24-shortcut",
+                "layer22-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer22-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer21-shortcut"
+            ],
+            "children": [
+                "layer22-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer22-act": {
+            "type": "Relu",
+            "parents": [
+                "layer22-conv"
+            ],
+            "children": [
+                "layer23-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer23-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer22-act"
+            ],
+            "children": [
+                "layer23-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer23-act": {
+            "type": "Relu",
+            "parents": [
+                "layer23-conv"
+            ],
+            "children": [
+                "layer24-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer24-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer21-shortcut",
+                "layer23-act"
+            ],
+            "children": [
+                "layer25-conv",
+                "layer27-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer25-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer24-shortcut"
+            ],
+            "children": [
+                "layer25-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer25-act": {
+            "type": "Relu",
+            "parents": [
+                "layer25-conv"
+            ],
+            "children": [
+                "layer26-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer26-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer25-act"
+            ],
+            "children": [
+                "layer26-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer26-act": {
+            "type": "Relu",
+            "parents": [
+                "layer26-conv"
+            ],
+            "children": [
+                "layer27-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer27-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer24-shortcut",
+                "layer26-act"
+            ],
+            "children": [
+                "layer30-shortcut",
+                "layer28-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer28-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer27-shortcut"
+            ],
+            "children": [
+                "layer28-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer28-act": {
+            "type": "Relu",
+            "parents": [
+                "layer28-conv"
+            ],
+            "children": [
+                "layer29-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer29-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer28-act"
+            ],
+            "children": [
+                "layer29-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer29-act": {
+            "type": "Relu",
+            "parents": [
+                "layer29-conv"
+            ],
+            "children": [
+                "layer30-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer30-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer27-shortcut",
+                "layer29-act"
+            ],
+            "children": [
+                "layer31-conv",
+                "layer33-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer31-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer30-shortcut"
+            ],
+            "children": [
+                "layer31-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer31-act": {
+            "type": "Relu",
+            "parents": [
+                "layer31-conv"
+            ],
+            "children": [
+                "layer32-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer32-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer31-act"
+            ],
+            "children": [
+                "layer32-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer32-act": {
+            "type": "Relu",
+            "parents": [
+                "layer32-conv"
+            ],
+            "children": [
+                "layer33-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer33-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer30-shortcut",
+                "layer32-act"
+            ],
+            "children": [
+                "layer34-conv",
+                "layer36-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer34-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer33-shortcut"
+            ],
+            "children": [
+                "layer34-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer34-act": {
+            "type": "Relu",
+            "parents": [
+                "layer34-conv"
+            ],
+            "children": [
+                "layer35-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer35-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer34-act"
+            ],
+            "children": [
+                "layer35-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer35-act": {
+            "type": "Relu",
+            "parents": [
+                "layer35-conv"
+            ],
+            "children": [
+                "layer36-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer36-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer33-shortcut",
+                "layer35-act"
+            ],
+            "children": [
+                "layer37-conv",
+                "layer98-concat"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer37-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer36-shortcut"
+            ],
+            "children": [
+                "layer37-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer37-act": {
+            "type": "Relu",
+            "parents": [
+                "layer37-conv"
+            ],
+            "children": [
+                "layer40-shortcut",
+                "layer38-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer38-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer37-act"
+            ],
+            "children": [
+                "layer38-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer38-act": {
+            "type": "Relu",
+            "parents": [
+                "layer38-conv"
+            ],
+            "children": [
+                "layer39-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer39-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer38-act"
+            ],
+            "children": [
+                "layer39-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer39-act": {
+            "type": "Relu",
+            "parents": [
+                "layer39-conv"
+            ],
+            "children": [
+                "layer40-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer40-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer37-act",
+                "layer39-act"
+            ],
+            "children": [
+                "layer41-conv",
+                "layer43-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer41-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer40-shortcut"
+            ],
+            "children": [
+                "layer41-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer41-act": {
+            "type": "Relu",
+            "parents": [
+                "layer41-conv"
+            ],
+            "children": [
+                "layer42-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer42-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer41-act"
+            ],
+            "children": [
+                "layer42-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer42-act": {
+            "type": "Relu",
+            "parents": [
+                "layer42-conv"
+            ],
+            "children": [
+                "layer43-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer43-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer40-shortcut",
+                "layer42-act"
+            ],
+            "children": [
+                "layer46-shortcut",
+                "layer44-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer44-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer43-shortcut"
+            ],
+            "children": [
+                "layer44-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer44-act": {
+            "type": "Relu",
+            "parents": [
+                "layer44-conv"
+            ],
+            "children": [
+                "layer45-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer45-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer44-act"
+            ],
+            "children": [
+                "layer45-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer45-act": {
+            "type": "Relu",
+            "parents": [
+                "layer45-conv"
+            ],
+            "children": [
+                "layer46-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer46-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer43-shortcut",
+                "layer45-act"
+            ],
+            "children": [
+                "layer47-conv",
+                "layer49-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer47-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer46-shortcut"
+            ],
+            "children": [
+                "layer47-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer47-act": {
+            "type": "Relu",
+            "parents": [
+                "layer47-conv"
+            ],
+            "children": [
+                "layer48-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer48-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer47-act"
+            ],
+            "children": [
+                "layer48-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer48-act": {
+            "type": "Relu",
+            "parents": [
+                "layer48-conv"
+            ],
+            "children": [
+                "layer49-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer49-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer46-shortcut",
+                "layer48-act"
+            ],
+            "children": [
+                "layer50-conv",
+                "layer52-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer50-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer49-shortcut"
+            ],
+            "children": [
+                "layer50-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer50-act": {
+            "type": "Relu",
+            "parents": [
+                "layer50-conv"
+            ],
+            "children": [
+                "layer51-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer51-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer50-act"
+            ],
+            "children": [
+                "layer51-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer51-act": {
+            "type": "Relu",
+            "parents": [
+                "layer51-conv"
+            ],
+            "children": [
+                "layer52-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer52-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer49-shortcut",
+                "layer51-act"
+            ],
+            "children": [
+                "layer53-conv",
+                "layer55-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer53-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer52-shortcut"
+            ],
+            "children": [
+                "layer53-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer53-act": {
+            "type": "Relu",
+            "parents": [
+                "layer53-conv"
+            ],
+            "children": [
+                "layer54-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer54-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer53-act"
+            ],
+            "children": [
+                "layer54-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer54-act": {
+            "type": "Relu",
+            "parents": [
+                "layer54-conv"
+            ],
+            "children": [
+                "layer55-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer55-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer52-shortcut",
+                "layer54-act"
+            ],
+            "children": [
+                "layer56-conv",
+                "layer58-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer56-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer55-shortcut"
+            ],
+            "children": [
+                "layer56-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer56-act": {
+            "type": "Relu",
+            "parents": [
+                "layer56-conv"
+            ],
+            "children": [
+                "layer57-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer57-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer56-act"
+            ],
+            "children": [
+                "layer57-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer57-act": {
+            "type": "Relu",
+            "parents": [
+                "layer57-conv"
+            ],
+            "children": [
+                "layer58-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer58-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer55-shortcut",
+                "layer57-act"
+            ],
+            "children": [
+                "layer59-conv",
+                "layer61-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer59-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer58-shortcut"
+            ],
+            "children": [
+                "layer59-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer59-act": {
+            "type": "Relu",
+            "parents": [
+                "layer59-conv"
+            ],
+            "children": [
+                "layer60-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer60-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer59-act"
+            ],
+            "children": [
+                "layer60-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer60-act": {
+            "type": "Relu",
+            "parents": [
+                "layer60-conv"
+            ],
+            "children": [
+                "layer61-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer61-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer58-shortcut",
+                "layer60-act"
+            ],
+            "children": [
+                "layer62-conv",
+                "layer86-concat"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer62-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer61-shortcut"
+            ],
+            "children": [
+                "layer62-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer62-act": {
+            "type": "Relu",
+            "parents": [
+                "layer62-conv"
+            ],
+            "children": [
+                "layer65-shortcut",
+                "layer63-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer63-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer62-act"
+            ],
+            "children": [
+                "layer63-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer63-act": {
+            "type": "Relu",
+            "parents": [
+                "layer63-conv"
+            ],
+            "children": [
+                "layer64-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ]
+        },
+        "layer64-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer63-act"
+            ],
+            "children": [
+                "layer64-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer64-act": {
+            "type": "Relu",
+            "parents": [
+                "layer64-conv"
+            ],
+            "children": [
+                "layer65-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer65-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer62-act",
+                "layer64-act"
+            ],
+            "children": [
+                "layer66-conv",
+                "layer68-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer66-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer65-shortcut"
+            ],
+            "children": [
+                "layer66-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer66-act": {
+            "type": "Relu",
+            "parents": [
+                "layer66-conv"
+            ],
+            "children": [
+                "layer67-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ]
+        },
+        "layer67-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer66-act"
+            ],
+            "children": [
+                "layer67-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer67-act": {
+            "type": "Relu",
+            "parents": [
+                "layer67-conv"
+            ],
+            "children": [
+                "layer68-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer68-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer65-shortcut",
+                "layer67-act"
+            ],
+            "children": [
+                "layer71-shortcut",
+                "layer69-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer69-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer68-shortcut"
+            ],
+            "children": [
+                "layer69-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer69-act": {
+            "type": "Relu",
+            "parents": [
+                "layer69-conv"
+            ],
+            "children": [
+                "layer70-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ]
+        },
+        "layer70-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer69-act"
+            ],
+            "children": [
+                "layer70-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer70-act": {
+            "type": "Relu",
+            "parents": [
+                "layer70-conv"
+            ],
+            "children": [
+                "layer71-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer71-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer68-shortcut",
+                "layer70-act"
+            ],
+            "children": [
+                "layer72-conv",
+                "layer74-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer72-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer71-shortcut"
+            ],
+            "children": [
+                "layer72-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer72-act": {
+            "type": "Relu",
+            "parents": [
+                "layer72-conv"
+            ],
+            "children": [
+                "layer73-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ]
+        },
+        "layer73-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer72-act"
+            ],
+            "children": [
+                "layer73-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer73-act": {
+            "type": "Relu",
+            "parents": [
+                "layer73-conv"
+            ],
+            "children": [
+                "layer74-shortcut"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer74-shortcut": {
+            "type": "Add",
+            "parents": [
+                "layer71-shortcut",
+                "layer73-act"
+            ],
+            "children": [
+                "layer75-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer75-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer74-shortcut"
+            ],
+            "children": [
+                "layer75-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer75-act": {
+            "type": "Relu",
+            "parents": [
+                "layer75-conv"
+            ],
+            "children": [
+                "layer76-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ]
+        },
+        "layer76-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer75-act"
+            ],
+            "children": [
+                "layer76-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer76-act": {
+            "type": "Relu",
+            "parents": [
+                "layer76-conv"
+            ],
+            "children": [
+                "layer77-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer77-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer76-act"
+            ],
+            "children": [
+                "layer77-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer77-act": {
+            "type": "Relu",
+            "parents": [
+                "layer77-conv"
+            ],
+            "children": [
+                "layer78-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ]
+        },
+        "layer78-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer77-act"
+            ],
+            "children": [
+                "layer78-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer78-act": {
+            "type": "Relu",
+            "parents": [
+                "layer78-conv"
+            ],
+            "children": [
+                "layer79-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer79-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer78-act"
+            ],
+            "children": [
+                "layer79-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer79-act": {
+            "type": "Relu",
+            "parents": [
+                "layer79-conv"
+            ],
+            "children": [
+                "layer80-conv",
+                "layer84-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ]
+        },
+        "layer80-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer79-act"
+            ],
+            "children": [
+                "layer80-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer84-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer79-act"
+            ],
+            "children": [
+                "layer84-act"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                256
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer80-act": {
+            "type": "Relu",
+            "parents": [
+                "layer80-conv"
+            ],
+            "children": [
+                "layer81-conv"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ]
+        },
+        "layer84-act": {
+            "type": "Relu",
+            "parents": [
+                "layer84-conv"
+            ],
+            "children": [
+                "layer85-upsample"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                256
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                256
+            ]
+        },
+        "layer81-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer80-act"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                75
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                75
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer85-upsample": {
+            "type": "DataInput",
+            "parents": [
+                "layer84-act"
+            ],
+            "children": [
+                "layer86-concat"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer86-concat": {
+            "type": "Concat",
+            "parents": [
+                "layer85-upsample",
+                "layer61-shortcut"
+            ],
+            "children": [
+                "layer87-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                768
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer87-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer86-concat"
+            ],
+            "children": [
+                "layer87-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                768
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                768,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer87-act": {
+            "type": "Relu",
+            "parents": [
+                "layer87-conv"
+            ],
+            "children": [
+                "layer88-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer88-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer87-act"
+            ],
+            "children": [
+                "layer88-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer88-act": {
+            "type": "Relu",
+            "parents": [
+                "layer88-conv"
+            ],
+            "children": [
+                "layer89-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer89-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer88-act"
+            ],
+            "children": [
+                "layer89-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer89-act": {
+            "type": "Relu",
+            "parents": [
+                "layer89-conv"
+            ],
+            "children": [
+                "layer90-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer90-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer89-act"
+            ],
+            "children": [
+                "layer90-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer90-act": {
+            "type": "Relu",
+            "parents": [
+                "layer90-conv"
+            ],
+            "children": [
+                "layer91-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer91-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer90-act"
+            ],
+            "children": [
+                "layer91-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer91-act": {
+            "type": "Relu",
+            "parents": [
+                "layer91-conv"
+            ],
+            "children": [
+                "layer92-conv",
+                "layer96-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ]
+        },
+        "layer92-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer91-act"
+            ],
+            "children": [
+                "layer92-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer96-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer91-act"
+            ],
+            "children": [
+                "layer96-act"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                128
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer92-act": {
+            "type": "Relu",
+            "parents": [
+                "layer92-conv"
+            ],
+            "children": [
+                "layer93-conv"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ]
+        },
+        "layer96-act": {
+            "type": "Relu",
+            "parents": [
+                "layer96-conv"
+            ],
+            "children": [
+                "layer97-upsample"
+            ],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                128
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                128
+            ]
+        },
+        "layer93-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer92-act"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                26,
+                26,
+                75
+            ],
+            "input_shape": [
+                -1,
+                26,
+                26,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                75
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer97-upsample": {
+            "type": "DataInput",
+            "parents": [
+                "layer96-act"
+            ],
+            "children": [
+                "layer98-concat"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer98-concat": {
+            "type": "Concat",
+            "parents": [
+                "layer97-upsample",
+                "layer36-shortcut"
+            ],
+            "children": [
+                "layer99-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                384
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer99-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer98-concat"
+            ],
+            "children": [
+                "layer99-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                384
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer99-act": {
+            "type": "Relu",
+            "parents": [
+                "layer99-conv"
+            ],
+            "children": [
+                "layer100-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer100-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer99-act"
+            ],
+            "children": [
+                "layer100-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer100-act": {
+            "type": "Relu",
+            "parents": [
+                "layer100-conv"
+            ],
+            "children": [
+                "layer101-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer101-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer100-act"
+            ],
+            "children": [
+                "layer101-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer101-act": {
+            "type": "Relu",
+            "parents": [
+                "layer101-conv"
+            ],
+            "children": [
+                "layer102-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer102-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer101-act"
+            ],
+            "children": [
+                "layer102-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer102-act": {
+            "type": "Relu",
+            "parents": [
+                "layer102-conv"
+            ],
+            "children": [
+                "layer103-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer103-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer102-act"
+            ],
+            "children": [
+                "layer103-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer103-act": {
+            "type": "Relu",
+            "parents": [
+                "layer103-conv"
+            ],
+            "children": [
+                "layer104-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ]
+        },
+        "layer104-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer103-act"
+            ],
+            "children": [
+                "layer104-act"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer104-act": {
+            "type": "Relu",
+            "parents": [
+                "layer104-conv"
+            ],
+            "children": [
+                "layer105-conv"
+            ],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ]
+        },
+        "layer105-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer104-act"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                52,
+                52,
+                75
+            ],
+            "input_shape": [
+                -1,
+                52,
+                52,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                75
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

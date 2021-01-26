@@ -1,0 +1,221 @@
+from __future__ import print_function
+
+from pprint import pprint
+from functools import reduce
+import pickle
+import numpy as np
+import pandas as pd
+import logging
+
+from annette.estimation.layers.base import BaseLayer
+
+class ConvLayer(BaseLayer):
+    """ConvLayer estimation"""
+
+    def __init__(self, name, layer_type = "Conv", est_type = "roofline", op_s = 1*1e9, bandwidth = 1*1e9, architecture = None):
+        self.name = name
+        self.layer_type = layer_type
+        self.estimation = est_type
+
+        # Model parameters
+        self.op_s = op_s 
+        self.bandwidth = bandwidth 
+        if architecture:
+            self.architecture = architecture 
+        else:
+            self.architecture = {}
+        if not "bit_act" in self.architecture:
+            self.architecture["bit_act"] = 8
+        if not "bit_weights" in self.architecture:
+            self.architecture["bit_weights"] = 8
+        self.y_val = 'ops/s'
+
+        # Layer stuff
+        self.num_weights = None
+        self.num_inputs = None
+        self.num_outputs = None
+        self.num_ops= None
+        self.parents = None
+
+        # Layer description dictionary, add information for rebuilding here
+        self.desc = self.gen_dict()
+
+    @staticmethod
+    def compute_nums(layer):
+        """Compute Num Parameters for Convolution Layer prediction"""
+        layer['num_weights'] = reduce(lambda x, y: x*y, layer['kernel_shape'])
+        layer['num_outputs'] = reduce(lambda x, y: x*y, layer['output_shape'][1:])
+        layer['num_inputs'] = reduce(lambda x, y: x*y, layer['output_shape'][1:3])*layer['kernel_shape'][2]*reduce(lambda x, y: x*y, layer['strides'][1:])
+        logging.debug(reduce(lambda x, y: x*y, layer['output_shape'][1:3]))
+        logging.debug(layer['kernel_shape'][2])
+        logging.debug(reduce(lambda x, y: x*y, layer['strides'][1:]))
+        logging.debug(layer['input_shape'])
+
+        layer['num_ops'] = (
+            layer['num_weights'] * layer['output_shape'][1] * layer['output_shape'][2]
+            )*2
+        
+        return layer
+
+    def compute_parameters(self, layer = None):
+        """Compute Parameters for Convolution Layer prediction"""
+        self.layer = self.compute_nums(self.layer)
+
+        if self.architecture:
+            if 'h_par' in self.architecture:
+                if self.architecture['h_par'] < 1:
+                    self.layer['h_mod'] = 1
+                    self.layer['h_div'] = self.layer['output_shape'][1] - 1
+                    self.layer['h_eff'] = 1
+                else:
+                    self.layer['h_mod'] = (self.layer['output_shape'][1]-1)%self.architecture['h_par']+1
+                    self.layer['h_div'] = (self.layer['output_shape'][1]-self.layer['h_mod'])/self.architecture['h_par']
+                    if self.layer['output_shape'][1] < self.architecture['h_par']:
+                        self.layer['h_eff'] = 1
+                    else:
+                        self.layer['h_eff'] = self.layer['output_shape'][1]/(np.ceil(self.layer['output_shape'][1]/self.architecture['h_par'])*self.architecture['h_par'])
+            
+                logging.debug("h_eff %s" % self.layer['h_eff'])
+                if 'h_alpha' in self.architecture:
+                    self.layer['h_eff'] = 1/(1-self.architecture['h_alpha'] + 1/self.layer['h_eff'] * (self.architecture['h_alpha']))
+                logging.debug("h_eff with alpha %s" % self.layer['h_eff'])
+
+            if 'w_par' in self.architecture:
+                if self.architecture['w_par'] < 1:
+                    self.layer['w_mod'] = 1
+                    self.layer['w_div'] = self.layer['output_shape'][2] - 1
+                    self.layer['w_eff'] = 1
+                else:
+                    self.layer['w_mod'] = (self.layer['output_shape'][2]-1)%self.architecture['w_par']+1
+                    self.layer['w_div'] = (self.layer['output_shape'][2]-self.layer['w_mod'])/self.architecture['w_par']
+                    if self.layer['output_shape'][1] < self.architecture['w_par']:
+                        self.layer['w_eff'] = 1
+                    else:
+                        self.layer['w_eff'] = self.layer['output_shape'][2]/(np.ceil(self.layer['output_shape'][2]/self.architecture['w_par'])*self.architecture['w_par'])
+            
+                logging.debug("w_eff %s" % self.layer['w_eff'])
+                if 'w_alpha' in self.architecture:
+                    self.layer['w_eff'] = 1/(1-self.architecture['w_alpha'] + 1/self.layer['w_eff'] * (self.architecture['w_alpha']))
+                logging.debug("w_eff with alpha %s" % self.layer['w_eff'])
+
+            if 'c_par' in self.architecture:
+                if self.architecture['c_par'] < 1:
+                    self.layer['c_mod'] = 0
+                    self.layer['c_div'] = self.layer['kernel_shape'][2]
+                    self.layer['c_eff'] = 1
+                else:
+                    self.layer['c_mod'] = (self.layer['kernel_shape'][2]-1)%self.architecture['c_par']+1
+                    self.layer['c_div'] = (self.layer['kernel_shape'][2]-self.layer['c_mod'])/self.architecture['c_par']
+                    if self.layer['kernel_shape'][2] < self.architecture['c_par']:
+                        self.layer['c_eff'] = 1
+                    else:
+                        self.layer['c_eff'] = self.layer['kernel_shape'][2]/(np.ceil(self.layer['kernel_shape'][2]/self.architecture['c_par'])*self.architecture['c_par'])
+                logging.debug("c_eff %s" % self.layer['c_eff'])
+                if 'c_alpha' in self.architecture:
+                    self.layer['c_eff'] = 1/(1-self.architecture['c_alpha'] + 1/self.layer['c_eff'] * (self.architecture['c_alpha']))
+                logging.debug("c_eff with alpha %s" % self.layer['c_eff'])
+
+            if 'f_par' in self.architecture:
+                if self.architecture['f_par'] < 1:
+                    self.layer['f_mod'] = 1
+                    self.layer['f_div'] = self.layer['kernel_shape'][3] - 1 
+                    self.layer['f_eff'] = 1
+                else:
+                    self.layer['f_mod'] = (self.layer['kernel_shape'][3]-1)%self.architecture['f_par']+1
+                    self.layer['f_div'] = (self.layer['kernel_shape'][3]-self.layer['f_mod'])/self.architecture['f_par']
+                    if self.layer['kernel_shape'][3] < self.architecture['f_par']:
+                        self.layer['f_eff'] = 1
+                    else:
+                        self.layer['f_eff'] = self.layer['kernel_shape'][3]/(np.ceil(self.layer['kernel_shape'][3]/self.architecture['f_par'])*self.architecture['f_par'])
+                logging.debug("f_eff %s" % self.layer['f_eff'])
+                if 'f_alpha' in self.architecture:
+                    self.layer['f_eff'] = 1/(1-self.architecture['f_alpha'] + 1/self.layer['f_eff'] * (self.architecture['f_alpha']))
+                logging.debug("f_eff with alpha %s" % self.layer['f_eff'])
+        else:
+            print("noarch")
+
+        return self.layer
+
+    def estimate_roofline(self):
+        """returns roofline estimated ConvLayer execution time (ms)"""
+        print("roofline estimation")
+        self.layer = self.compute_parameters(self.layer)
+        op_roof = self.layer['num_ops'] / self.op_s
+        print(self.op_s)
+        data_bytes = (
+            (self.layer['num_inputs'] + self.layer['num_outputs'] )* self.architecture['bit_act']
+            + self.layer['num_weights'] * self.architecture['bit_weights']) / 8
+        print("Architecture: ", self.architecture)
+        data_roof = data_bytes / self.bandwidth
+        time_ms = np.max([op_roof, data_roof])*1000 # to milliseconds
+        if op_roof > data_roof:
+            print("OP Roof")
+        else:
+            print("Data Roof")
+        print(op_roof)
+        print(data_roof)
+        print(time_ms)
+        return time_ms
+
+    def estimate_refined_roofline(self):
+        """returns roofline estimated ConvLayer execution time (ms)"""
+        print("refined roofline estimation")
+        self.layer = self.compute_parameters(self.layer)
+        op_roof = self.layer['num_ops'] / self.op_s
+        data_bytes = (
+            (self.layer['num_inputs'] + self.layer['num_outputs'] )* self.architecture['bit_act']
+            + self.layer['num_weights'] * self.architecture['bit_weights']) / 8
+        print("Architecture: ", self.architecture)
+        data_roof = data_bytes / self.bandwidth
+        time_ms = np.max([op_roof, data_roof])*1000 # to milliseconds
+        if op_roof > data_roof:
+            print("OP Roof")
+            time_ms = time_ms / (self.layer['h_eff']*self.layer['c_eff']*self.layer['f_eff'])
+        else:
+            print("Data Roof")
+        print(op_roof)
+        print(data_roof)
+        print(time_ms)
+        return time_ms
+
+    def estimate_statistical(self):
+        print("statistical estimation")
+        self.layer = self.compute_parameters(self.layer)
+        vector = self.build_vector(self.est_dict)
+        result = self.est_model.predict(vector)
+        print(result)
+        time_ms = self.layer['num_ops']/result[0]*1e3
+
+        op_roof = self.layer['num_ops'] / self.op_s
+        data_roof = (self.layer['num_inputs'] + self.layer['num_outputs']) / self.bandwidth
+        #time_ms = np.max([op_roof, data_roof])*1000 # to milliseconds
+        if op_roof > data_roof:
+            print("OP Roof")
+            #time_ms = time_ms / (self.layer['h_eff']*self.layer['c_eff']*self.layer['f_eff'])
+        else:
+            print("Data Roof")
+
+        print(time_ms)
+        return time_ms
+
+    def estimate_mixed(self):
+        print("mixed estimation")
+        self.layer = self.compute_parameters(self.layer)
+        vector = self.build_vector(self.est_dict)
+        result = self.est_model.predict(vector)
+
+        print('Operations:',self.layer['num_ops'])
+        op_roof = self.layer['num_ops'] / self.op_s
+        data_roof = (self.layer['num_inputs'] + self.layer['num_outputs']) / self.bandwidth
+        time_ms = np.max([op_roof, data_roof])*1000 # to milliseconds
+        if self.y_val == 'time(ms)':
+            time_ms = result[0]
+        else:
+            time_ms = self.layer['num_ops']/result[0]*1e3
+        if op_roof > data_roof:
+            print("OP Roof")
+            time_ms = time_ms / (self.layer['h_eff']*self.layer['c_eff']*self.layer['f_eff'])
+        else:
+            print("Data Roof")
+
+        return time_ms

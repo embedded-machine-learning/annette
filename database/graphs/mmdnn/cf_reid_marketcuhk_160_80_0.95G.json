@@ -1,0 +1,2414 @@
+{
+    "node": [
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_16"
+            ],
+            "name": "Threshold_14",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "3",
+                            "3",
+                            "1"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "pooling_type": {
+                    "s": "TUFY"
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "Threshold_1"
+            ],
+            "name": "MaxPool2d_1",
+            "op": "Pool"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "Add_1"
+            ],
+            "name": "Threshold_3",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "Add_8"
+            ],
+            "name": "Threshold_17",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_4"
+            ],
+            "name": "ConvNd_5",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_10"
+            ],
+            "name": "ConvNd_12",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "1"
+                                    },
+                                    {
+                                        "size": "1"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "5",
+                            "3",
+                            "1"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "pooling_type": {
+                    "s": "QVZH"
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "5",
+                            "3",
+                            "1"
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "Threshold_17"
+            ],
+            "name": "AvgPool2d_1",
+            "op": "Pool"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_17",
+                "ConvNd_18"
+            ],
+            "name": "Add_7",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "Add_6"
+            ],
+            "name": "Threshold_13",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "160"
+                                    },
+                                    {
+                                        "size": "80"
+                                    },
+                                    {
+                                        "size": "3"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "shape": {
+                    "shape": {
+                        "dim": [
+                            {
+                                "size": "-1"
+                            },
+                            {
+                                "size": "160"
+                            },
+                            {
+                                "size": "80"
+                            },
+                            {
+                                "size": "3"
+                            }
+                        ]
+                    }
+                }
+            },
+            "name": "data",
+            "op": "DataInput"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_2"
+            ],
+            "name": "ConvNd_3",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_4"
+            ],
+            "name": "Threshold_4",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "80"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "7",
+                            "7",
+                            "3",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "3",
+                            "3",
+                            "0",
+                            "0",
+                            "3",
+                            "3",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "data"
+            ],
+            "name": "ConvNd_1",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_12",
+                "ConvNd_13"
+            ],
+            "name": "Add_5",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_19"
+            ],
+            "name": "Threshold_16",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_11"
+            ],
+            "name": "ConvNd_14",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_11"
+            ],
+            "name": "Threshold_10",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "128",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_9"
+            ],
+            "name": "ConvNd_11",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "64",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_5"
+            ],
+            "name": "ConvNd_8",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "2",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_13"
+            ],
+            "name": "ConvNd_16",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_3",
+                "MaxPool2d_1"
+            ],
+            "name": "Add_1",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_12"
+            ],
+            "name": "ConvNd_15",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_3"
+            ],
+            "name": "ConvNd_4",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_15",
+                "Threshold_11"
+            ],
+            "name": "Add_6",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_6"
+            ],
+            "name": "Threshold_6",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "AvgPool2d_1"
+            ],
+            "name": "View_1",
+            "op": "Flatten"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_9"
+            ],
+            "name": "Threshold_8",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_5",
+                "Threshold_3"
+            ],
+            "name": "Add_2",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "Add_4"
+            ],
+            "name": "Threshold_9",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "80"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_1"
+            ],
+            "name": "Threshold_1",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "MaxPool2d_1"
+            ],
+            "name": "ConvNd_2",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "512",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_15"
+            ],
+            "name": "ConvNd_19",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_7",
+                "ConvNd_8"
+            ],
+            "name": "Add_3",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_10",
+                "Threshold_7"
+            ],
+            "name": "Add_4",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_5"
+            ],
+            "name": "ConvNd_6",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "128",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_8"
+            ],
+            "name": "ConvNd_10",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_20",
+                "Threshold_15"
+            ],
+            "name": "Add_8",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_2"
+            ],
+            "name": "Threshold_2",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "256",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_13"
+            ],
+            "name": "ConvNd_18",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "40"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "Add_2"
+            ],
+            "name": "Threshold_5",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "Add_5"
+            ],
+            "name": "Threshold_11",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "512",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_14"
+            ],
+            "name": "ConvNd_17",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "512",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_16"
+            ],
+            "name": "ConvNd_20",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "128",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_6"
+            ],
+            "name": "ConvNd_7",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "ConvNd_14"
+            ],
+            "name": "Threshold_12",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "3"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "Add_7"
+            ],
+            "name": "Threshold_15",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "Add_3"
+            ],
+            "name": "Threshold_7",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "5"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "128",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_9"
+            ],
+            "name": "ConvNd_13",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "20"
+                                    },
+                                    {
+                                        "size": "10"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "128",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "Threshold_7"
+            ],
+            "name": "ConvNd_9",
+            "op": "Conv"
+        }
+    ]
+}
