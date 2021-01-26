@@ -1,9 +1,19 @@
 # ANNETTE - Accurate Neural Network Execution Time Estimation
 
+Implementation of the ANNETTE Estimation Module <a href="https://ieeexplore.ieee.org/abstract/document/9306831/<" target="_blank">Link to Paper</a>
+
+Cite: 
+`M. Wess, M. Ivanov, C. Unger, A. Nookala, A. Wendt and A. Jantsch, "ANNETTE: Accurate Neural Network Execution Time Estimation With Stacked Models," in IEEE Access, vol. 9, pp. 3545-3556, 2021, doi: 10.1109/ACCESS.2020.3047259.`
+
 # Install
 * I recommended install in a virtualenv
 * Tested with python 3.6-3.7
-`pip3 install -e .`
+
+recommended install:
+`git clone https://code.siemens.com/eld_at/annette.git`
+`pip install -r requirements.txt`
+`pip install -e .`
+
 
 # Usage
 * mmtoir to export to MMDNN format (here you might need to install tensorflow or pytorch)
@@ -17,6 +27,17 @@
 `python3 src/annette/estimate.py [network-name] [mapping-model] [layer-model]`
 
 ## Examples
+
+* Some example graphs are already stored in `database\graphs\annette`
+* Some model optimizer examples `ov` and `dnndk`
+* Some layer model exmaples `ncs2-roofline` and `dnndk-roofline`
+
+### Pytorch Densenet121
+```
+python3 src/annette/m2a.py densenet121 
+python3 src/annette/estimate.py densenet121 ov ncs2-roofline
+```
+
 
 ### Pytorch Mnasnet0.5
 ```

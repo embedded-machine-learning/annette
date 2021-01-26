@@ -8,9 +8,13 @@ from collections.abc import Mapping
 
 def write_result(network, res_dict, model, hardware, folder = 'test_data/estimation/'):
     try:
+        os.mkdir(Path(folder))
+    except:
+        pass
+    try:
         os.mkdir(Path(folder, hardware))
     except:
-        print("Folder exists")
+        pass
     with open(Path(folder , hardware, network+'_'+model+'.json'), 'w+') as json_file:
         temp = {}
         temp["layers"] = res_dict[1]
