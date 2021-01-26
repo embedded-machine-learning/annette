@@ -1,0 +1,265 @@
+{
+    "name": "ncs2-statistical",
+    "op_s": 319543476297.0,
+    "bandwidth": 5679437699.0,
+    "architecture": {
+        "f_par": 32,
+        "c_par": 4,
+        "h_par": 8,
+        "f_alpha": 0,
+        "c_alpha": 0,
+        "h_alpha": 0
+    },
+    "Base": {
+        "name": "Mixed",
+        "layer_type": "Base",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+	"Exp": {
+        "name": "Mixed",
+        "layer_type": "Exp",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 2679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+	"Log": {
+        "name": "Mixed",
+        "layer_type": "Log",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 2679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+    "Add": {
+        "name": "Mixed",
+        "layer_type": "Add",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+    "Pool": {
+        "name": "Mixed",
+        "layer_type": "Pool",
+        "est_type": "roofline",
+        "op_s": 5954347629.0,
+        "bandwidth": 579437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+	"FullyConnected": {
+		"est_dict": {
+			"0": "num_ops",
+			"1": "num_inputs",
+			"2": "num_outputs",
+			"3": {
+				"name": "input_shape",
+				"i": 1
+			},
+			"4": {
+				"name": "output_shape",
+				"i": 1
+			},
+			"5": "num_weights"
+		},
+		"poly": null,
+		"y_val": "ops/s",
+		"name": "FullyConnected",
+		"layer_type": "FullyConnected",
+		"op_s": 9556555808.656036,
+		"bandwidth": 9565886104.783598,
+		"architecture": {
+			"bit_act": 16,
+			"bit_weights": 16,
+			"f_par": 1,
+			"c_par": 1,
+			"h_par": 1,
+			"f_alpha": 0,
+			"c_alpha": 0,
+			"h_alpha": 0
+		},
+		"est_type": "mixed",
+		"est_model": "./database/models/layer/ncs2-stat/ncs2-stat/fully_connected.sav"
+	},
+    "Conv": {
+        "name": "Mixed",
+        "layer_type": "Conv",
+        "est_type": "mixed",
+        "op_s": 319543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+            "f_par": 1,
+            "c_par": 1,
+            "h_par": 1,
+            "f_alpha": 0,
+            "c_alpha": 0,
+            "h_alpha": 0,
+			"bit_act": 16,
+			"bit_weights": 16
+        },
+        "est_model": "./database/models/layer/ncs2-stat/ncs2-stat/conv2d_stride.sav"
+        "est_dict": {
+            "0": "num_ops",
+            "1": "num_inputs",
+            "2": "num_outputs",
+            "3": {
+                "name": "input_shape",
+                "i": 1
+            },
+            "4": {
+                "name": "input_shape",
+                "i": 2
+            },
+            "5": {
+                "name": "input_shape",
+                "i": 3
+            },
+            "6": {
+                "name": "output_shape",
+                "i": 3
+            },
+            "7": {
+                "name": "kernel_shape",
+                "i": 0
+            },
+            "8": {
+                "name": "kernel_shape",
+                "i": 1
+            },
+            "9": "num_weights",
+            "10": {
+                "name": "strides",
+                "i": 1
+            }
+        }
+    },
+		"DepthwiseConv": {
+		"est_dict": {
+			"0": "num_ops",
+			"1": "num_inputs",
+			"2": "num_outputs",
+			"3": {
+				"name": "input_shape",
+				"i": 1
+			},
+			"4": {
+				"name": "input_shape",
+				"i": 2
+			},
+			"5": {
+				"name": "input_shape",
+				"i": 3
+			},
+			"6": {
+				"name": "kernel_shape",
+				"i": 0
+			},
+			"7": {
+				"name": "kernel_shape",
+				"i": 1
+			},
+			"8": "num_weights"
+		},
+		"poly": null,
+		"y_val": "ops/s",
+		"name": "DepthwiseConv",
+		"layer_type": "DepthwiseConv",
+		"op_s": 12194673417.72152,
+		"bandwidth": 1079437699.829457,
+		"architecture": {
+			"bit_act": 16,
+			"bit_weights": 16,
+			"f_par": 1,
+			"c_par": 1,
+			"h_par": 1,
+			"f_alpha": 0,
+			"c_alpha": 0,
+			"h_alpha": 0
+		},
+		"est_type": "mixed",
+		"est_model": "./database/models/layer/ncs2-stat/ncs2-stat/depthwiseconv.sav"
+	},
+    "ConvPool": {
+        "name": "Mixed",
+        "layer_type": "ConvPool",
+        "est_type": "mixed",
+        "op_s": 319543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+            "f_par": 1,
+            "c_par": 1,
+            "h_par": 1,
+            "f_alpha": 0,
+            "c_alpha": 0,
+            "h_alpha": 0,
+			"bit_act": 16,
+			"bit_weights": 16
+        },
+        "est_model": "./database/models/layer/ncs2-stat/ncs2-stat/conv2d_pool2.sav",
+        "est_dict": {
+            "0": "num_ops",
+            "1": "num_inputs",
+            "2": "num_outputs",
+            "3": {
+                "name": "input_shape",
+                "i": 1
+            },
+            "4": "h_div",
+            "5": "h_mod",
+            "6": {
+                "name": "input_shape",
+                "i": 2
+            },
+            "7": {
+                "name": "input_shape",
+                "i": 3
+            },
+            "8": "c_div",
+            "9": "c_mod",
+            "10": {
+                "name": "output_shape",
+                "i": 3
+            },
+            "11": "f_div",
+            "12": "f_mod",
+            "13": {
+                "name": "kernel_shape",
+                "i": 0
+            },
+            "14": {
+                "name": "kernel_shape",
+                "i": 1
+            },
+            "15": "num_weights"
+        }
+    },
+    "ConvTranspose": {
+        "name": "Mixed",
+        "layer_type": "ConvTranspose",
+        "est_type": "roofline",
+        "op_s": 100543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    }
+}

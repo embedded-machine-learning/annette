@@ -1,0 +1,162 @@
+{
+    "name": "dnndk-statistical",
+	"Input": {
+        "name": "Input",
+        "layer_type": "Input",
+        "est_type": "roofline",
+        "op_s": 0,
+        "bandwidth": 0,
+        "architecture": {
+			"bit_act": 8,
+			"bit_weights": 8
+		}
+    },
+    "Conv": {
+		"est_dict": {
+			"0": "num_ops",
+			"1": "num_inputs",
+			"2": "num_outputs",
+			"3": {
+				"name": "input_shape",
+				"i": 1
+			},
+			"4": {
+				"name": "input_shape",
+				"i": 2
+			},
+			"5": {
+				"name": "input_shape",
+				"i": 3
+			},
+			"6": {
+				"name": "output_shape",
+				"i": 3
+			},
+			"7": {
+				"name": "kernel_shape",
+				"i": 0
+			},
+			"8": {
+				"name": "kernel_shape",
+				"i": 1
+			},
+			"9": "num_weights",
+            "10": {
+                "name": "strides",
+                "i": 1
+            }
+		},
+		"poly": null,
+		"y_val": "ops/s",
+		"name": "conv2d",
+		"layer_type": "Conv",
+		"op_s": 1173488332240.4373,
+		"bandwidth": 15109525179.856113,
+		"architecture": {
+			"bit_act": 8,
+			"bit_weights": 8,
+			"f_par": 16.0,
+			"c_par": 16.0,
+			"h_par": 8.0,
+			"f_alpha": 0.881308,
+			"c_alpha": 1.0,
+			"h_alpha": 0.485896
+		},
+        "est_type": "statistical",
+		"est_model": "./test_data/generated/dnndk/conv2d_all.sav"
+	},
+    "ConvTranspose": {
+		"name": "ConvTranspose",
+		"layer_type": "ConvTranspose",
+		"op_s": 2173488332240.4373,
+		"bandwidth": 4109525179.712227,
+		"architecture": {
+			"bit_act": 8,
+			"bit_weights": 8
+		},
+		"est_type": "roofline",
+		"poly": null
+	},
+	"ConvPool": {
+		"est_dict": {
+			"0": "num_ops",
+			"1": "num_inputs",
+			"2": "num_outputs",
+			"3": {
+				"name": "input_shape",
+				"i": 1
+			},
+			"4": {
+				"name": "input_shape",
+				"i": 2
+			},
+			"5": {
+				"name": "input_shape",
+				"i": 3
+			},
+			"6": {
+				"name": "output_shape",
+				"i": 3
+			},
+			"7": {
+				"name": "kernel_shape",
+				"i": 0
+			},
+			"8": {
+				"name": "kernel_shape",
+				"i": 1
+			},
+			"9": "num_weights",
+            "10": {
+                "name": "strides",
+                "i": 1
+            }
+		},
+		"poly": null,
+		"y_val": "ops/s",
+		"name": "conv2d",
+		"layer_type": "ConvPool",
+		"op_s": 1173488332240.4373,
+		"bandwidth": 15109525179.856113,
+		"architecture": {
+			"bit_act": 8,
+			"bit_weights": 8,
+			"f_par": 16.0,
+			"c_par": 16.0,
+			"h_par": 8.0,
+			"f_alpha": 0.881308,
+			"c_alpha": 1.0,
+			"h_alpha": 0.485896
+		},
+        "est_type": "statistical",
+		"est_model": "./test_data/generated/dnndk/conv2d_all.sav"
+	},
+    "bandwidth": 15109525179.51176,
+    "op_s": 1173488332240.4373,
+    "architecture": null,
+    "Base": {
+        "name": "Base",
+        "layer_type": "Base",
+        "est_type": "roofline",
+		"bandwidth": 15109525179.51176,
+		"op_s": 1173488332240.4373
+    },
+    "Pool": {
+		"architecture": {
+			"bit_act": 8,
+			"bit_weights": 8
+		},
+        "name": "Pool",
+        "layer_type": "Pool",
+        "est_type": "roofline",
+		"bandwidth": 15109525179.51176,
+		"op_s": 27348833224.4373
+    },
+    "FullyConnected": {
+        "name": "FullyConnected",
+        "layer_type": "FullyConnected",
+        "est_type": "roofline",
+		"bandwidth": 5109525179.51176,
+		"op_s": 1173488332240.4373
+    }
+}
