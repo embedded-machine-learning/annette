@@ -1,9 +1,13 @@
 from __future__ import print_function
-from pprint import pprint
-from functools import reduce
-import pickle
-import numpy as np
+
 import logging
+import pickle
+from functools import reduce
+from pprint import pprint
+
+import numpy as np
+from annette import get_database
+
 
 class BaseLayer(object):
     """BaseLayer estimation"""
@@ -22,8 +26,11 @@ class BaseLayer(object):
             self.architecture = architecture
 
         # Layer parameters
-        self.num_inputs = None
-        self.num_outputs = None
+        self.layer = {}
+        self.layer['num_inputs'] = None
+        self.layer['num_outputs'] = None
+        self.layer['num_ops'] = None
+        self.layer['parents'] = None
         
         # Layer description dictionary, add information for rebuilding here
         self.desc = self.gen_dict()
@@ -42,6 +49,39 @@ class BaseLayer(object):
         layer['num_ops'] = 0
         return layer
 
+    def compute_efficiency(self, unrolled, eff, div, mod, par = None, alpha = None, replication = True):
+        """Compute layer efficiency for one unrolled parameter.
+
+        Args:
+            unrolled (int): unrolled parameter e.g. self.layer['output_shape'][1] for height
+            eff (str): key of efficiency to write to e.g. 'h_eff'
+            div (str): name of divider result. Defaults to None.
+            mod (str): name of mod result. Defaults to None.
+            par (str, optional): name of efficiency parameter in architecture description. Defaults to None.
+            alpha (str, optional): name of the alpha parameter in the architecture description. Defaults to None.
+            replication (bool, optional): replication for unrolled < par enabled. Defaults to True.
+        """
+
+        self.layer[eff] = 1
+        self.layer[mod] = 1
+        self.layer[div] = unrolled - 1
+        if self.architecture:
+            if par in self.architecture:
+                if self.architecture[par] < 1:
+                    self.layer[eff] = 1
+                else:
+                    self.layer[mod] = (self.layer[div])%self.architecture[par] + 1
+                    self.layer[div] = (unrolled - self.layer[mod])/self.architecture[par]
+                    if unrolled < self.architecture[par] and replication == True:
+                        self.layer[eff] = 1
+                    else:
+                        self.layer[eff] = unrolled/(np.ceil(unrolled/self.architecture[par])*self.architecture[par])
+            
+                logging.debug("%s %s" % (eff, self.layer[eff]))
+                if alpha in self.architecture:
+                    self.layer[eff] = 1/(1-self.architecture[alpha] + 1/self.layer[eff] * (self.architecture[alpha]))
+                logging.debug("%s with alpha %s" % (eff, self.layer[eff]))
+
     def compute_parameters(self, layer = None):
         """Compute Parameters for Base Layer prediction"""
         self.layer = self.compute_nums(self.layer)
@@ -53,6 +93,7 @@ class BaseLayer(object):
         
         if hasattr(self, "estimate_" + self.estimation):
             self.layer = layer
+            self.compute_parameters()
             func = getattr(self, "estimate_" + self.estimation)
             r = func()
             return r
@@ -63,49 +104,47 @@ class BaseLayer(object):
     def estimate_roofline(self):
         """returns roofline estimated BaseLayer execution time (ms)"""
         logging.info("Roofline Estimation Base Layer")
-        self.compute_parameters()
-        data_bytes = ((self.layer['num_outputs'] + self.layer['num_inputs']) * self.architecture['bit_act']) / 8
-        data_roof = data_bytes / self.bandwidth
-        op_roof = self.layer['num_ops'] / self.op_s
-        time_ms = np.max([op_roof, data_roof])*1000 # to milliseconds
-        if op_roof > data_roof:
+        self.layer['data_bytes'] = ((self.layer['num_outputs'] + self.layer['num_inputs']) * self.architecture['bit_act']) / 8
+        self.layer['data_roof'] = self.layer['data_bytes'] / self.bandwidth
+        self.layer['op_roof'] = self.layer['num_ops'] / self.op_s
+        self.layer['time_ms'] = np.max([self.layer['op_roof'], self.layer['data_roof']])*1000 # to milliseconds
+        if self.layer['op_roof'] > self.layer['data_roof']:
             logging.debug("OP Roof")
         else:
             logging.debug("Data Roof")
-        logging.debug(op_roof)
-        logging.debug(data_roof)
-        logging.debug(time_ms)
-        return time_ms
+        logging.debug(self.layer['op_roof'])
+        logging.debug(self.layer['data_roof'])
+        logging.debug(self.layer['time_ms'])
+        return self.layer['time_ms']
 
     def estimate_statistical(self):
-        self.compute_parameters(self.layer)
         vector = self.build_vector(self.est_dict)
         result = self.est_model.predict(vector)
-        time_ms = self.layer['num_outputs']/result[0]*1e3
+        self.layer['time_ms'] = self.layer['num_outputs']/result[0]*1e3
 
-        op_roof = self.layer['num_ops'] / self.op_s
-        data_roof = (self.layer['num_inputs'] + self.layer['num_outputs']) / self.bandwidth
-        if op_roof > data_roof:
+        self.layer['op_roof'] = self.layer['num_ops'] / self.op_s
+        self.layer['data_roof'] = (self.layer['num_inputs'] + self.layer['num_outputs']) / self.bandwidth
+        if self.layer['op_roof'] > self.layer['data_roof']:
             logging.debug("OP Roof")
         else:
             logging.debug("Data Roof")
 
-        logging.debug(time_ms)
-        return time_ms
+        logging.debug(self.layer['time_ms'])
+        return self.layer['time_ms']
 
     def estimate_mixed(self):
         return self.estimate_statistical()
 
     def load_estimator(self, est_model=None, est_dict=None):
         if est_model != None:
-            self.est_model = pickle.load(open(est_model, 'rb'))
+            self.est_model = pickle.load(open(get_database(est_model), 'rb'))
             self.desc['est_model'] = est_model
         else:
-            self.est_model = pickle.load(open('database/conv2d_all.sav', 'rb'))
+            return False
 
         self.est_dict = est_dict
         self.desc['est_dict'] = est_dict
-        print(self.est_dict)
+        return True
 
     def build_vector(self, in_vector, degree=None):
         """Build Estimation Vector"""

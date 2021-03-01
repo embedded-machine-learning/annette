@@ -97,7 +97,7 @@
 			"h_alpha": 0
 		},
 		"est_type": "mixed",
-		"est_model": "./database/models/layer/ncs2-stat/ncs2-stat/fully_connected.sav"
+		"est_model": "models/layer/ncs2-stat/fully_connected.sav"
 	},
     "Conv": {
         "name": "Mixed",
@@ -115,7 +115,7 @@
 			"bit_act": 16,
 			"bit_weights": 16
         },
-        "est_model": "./database/models/layer/ncs2-stat/ncs2-stat/conv2d_stride.sav"
+        "est_model": "models/layer/ncs2-stat/conv2d_stride.sav",
         "est_dict": {
             "0": "num_ops",
             "1": "num_inputs",
@@ -195,7 +195,7 @@
 			"h_alpha": 0
 		},
 		"est_type": "mixed",
-		"est_model": "./database/models/layer/ncs2-stat/ncs2-stat/depthwiseconv.sav"
+		"est_model": "models/layer/ncs2-stat/depthwiseconv.sav"
 	},
     "ConvPool": {
         "name": "Mixed",
@@ -213,7 +213,7 @@
 			"bit_act": 16,
 			"bit_weights": 16
         },
-        "est_model": "./database/models/layer/ncs2-stat/ncs2-stat/conv2d_pool2.sav",
+        "est_model": "models/layer/ncs2-stat/conv2d_pool2.sav",
         "est_dict": {
             "0": "num_ops",
             "1": "num_inputs",

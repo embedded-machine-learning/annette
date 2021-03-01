@@ -2,4 +2,4 @@
 Contributors
 ============
 
-* mwessley <matthias.wess@gmail.com>
+* Matthias Wess <matthias.wess@gmail.com>

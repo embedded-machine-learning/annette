@@ -1,140 +1,161 @@
 from __future__ import print_function
-from pprint import pprint
-from functools import reduce
-import numpy as np
-from annette.estimation import layers
+
 import json
-import pandas as pd
 import logging
+from functools import reduce
+from pprint import pprint
+
+import numpy as np
+import pandas as pd
+from annette.estimation import layers
+from annette import get_database 
+
+__author__ = "Matthias Wess"
+__copyright__ = "Christian Doppler Laboratory for Embedded Machine Learning"
+__license__ = "Apache 2.0"
+
 
 class Layer_model():
-    def __init__(self, name, op_s, bandwidth, architecture = None):
+    """Generates a Layer model that is used by the Estimation Tool.
+    """
+
+    def __init__(self, name, op_s, bandwidth, architecture=None):
+        """Initialize the layer.
+
+        Args:
+            name ([type]): [description]
+            op_s ([type]): [description]
+            bandwidth ([type]): [description]
+            architecture ([type], optional): [description]. Defaults to None.
+        """
         self.name = name
-        self.op_s = op_s 
+        self.op_s = op_s
         self.bandwidth = bandwidth
         if architecture:
-            self.architecture = architecture 
+            self.architecture = architecture
 
-        #Introduced Layer classes #TODO make this editable (not clean yet)
-        self.layer_classes = {
-            'Pool': layers.PoolLayer,
-            'Conv': layers.ConvLayer,
-            'ConvTranspose': layers.ConvTransposeLayer,
-            'Add' : layers.AdditionLayer,
-            'Base': layers.BaseLayer,
-            'Input': layers.InputLayer,
-            'FullyConnected': layers.FullyConnectedLayer,
-            'ConvPool': layers.ConvPoolLayer,
-            'DepthwiseConv': layers.DepthwiseConvLayer,
-            }
-        
+        self.layer_classes = layers.__layer_classes__
+
         self.layer_dict = {}
         print(self.layer_dict)
-    
-    def add_layer(self, name, layer_type, est_type, op_s, bandwidth, architecture = None, est_model = None, conv_dict = None, y_val = 'ops/s'):
-        #check if architecture available
-        if est_type in ["mixed","refined_roofline"]:
+
+    def add_layer(self, name, layer_type, est_type, op_s, bandwidth, architecture=None, est_model=None, conv_dict=None, y_val='ops/s'):
+        """add a layer to the model
+
+        Args:
+            name ([type]): [description]
+            layer_type ([type]): [description]
+            est_type ([type]): [description]
+            op_s ([type]): [description]
+            bandwidth ([type]): [description]
+            architecture ([type], optional): [description]. Defaults to None.
+            est_model ([type], optional): [description]. Defaults to None.
+            conv_dict ([type], optional): [description]. Defaults to None.
+            y_val (str, optional): [description]. Defaults to 'ops/s'.
+        """
+        # check if architecture available
+        if est_type in ["mixed", "refined_roofline"]:
             if architecture is None:
-                logging.error("could not build layer because no architecture defined")
+                logging.error(
+                    "could not build layer because no architecture defined")
                 pass
         if est_type in ["mixed", "statistical"]:
-            #check if conv_dict available
+            # check if conv_dict available
             if (conv_dict is None) or (est_model is None):
-                logging.error("could not build layer because no conversion dictionary available")
-        
-        #check which type of layer
+                logging.error(
+                    "could not build layer because no conversion dictionary available")
+
+        # check which type of layer
         if layer_type in self.layer_classes:
-            #generate layer
+            # generate layer
             print("generate {}-layer".format(layer_type))
-            #add to layer_dict
-            self.layer_dict[layer_type] = self.layer_classes[layer_type](name,layer_type,est_type,op_s,bandwidth,architecture)
+            # add to layer_dict
+            self.layer_dict[layer_type] = self.layer_classes[layer_type](
+                name, layer_type, est_type, op_s, bandwidth, architecture)
 
-            #check which type of estimation
+            # check which type of estimation
             if est_type in ["mixed", "statistical"]:
                 print("load statistical estimator: {}...".format(est_model))
                 print("dictionary: {}...".format(conv_dict))
-                self.layer_dict[layer_type].load_estimator(est_model, conv_dict)
-            
-            self.layer_dict[layer_type].y_val = y_val 
+                self.layer_dict[layer_type].load_estimator(
+                    est_model, conv_dict)
+
+            self.layer_dict[layer_type].y_val = y_val
         else:
-            #generate layer
+            # generate layer
             print("generate {}-layer".format(layer_type))
-            #add to layer_dict
-            self.layer_dict[layer_type] = self.layer_classes['Base'](name,layer_type,est_type,op_s,bandwidth,architecture)
+            # add to layer_dict
+            self.layer_dict[layer_type] = self.layer_classes['Base'](
+                name, layer_type, est_type, op_s, bandwidth, architecture)
 
-            #check which type of estimation
+            # check which type of estimation
             if est_type in ["mixed", "statistical"]:
                 print("load statistical estimator: {}...".format(est_model))
                 print("dictionary: {}...".format(conv_dict))
-                self.layer_dict[layer_type].load_estimator(est_model, conv_dict)
-            
-            self.layer_dict[layer_type].y_val = y_val 
+                self.layer_dict[layer_type].load_estimator(
+                    est_model, conv_dict)
+
+            self.layer_dict[layer_type].y_val = y_val
 
         pass
 
-
     def estimate_model(self, model):
+        """estimate the model
+
+        Args:
+            model (:obj:`annette.graph.AnnetteGraph`): annette network description
+
+        Returns:
+            (list) : [sum of time in ms, layer wise results [dict], layer-wise results [pandas.dataframe]] 
+        """
+        logging.debug(self.layer_dict)
+        #sys.exit()
         result = {}
         sum_result = 0
-        #print(model.model_spec['layers'])
-        result_pd = pd.DataFrame({"name":[],"type":[],"time(ms)":[]})
+        # print(model.model_spec['layers'])
+        result_pd = pd.DataFrame({"name": [], "type": [], "time(ms)": []})
         result_pd['num_ops'] = np.nan
         result_pd['num_inputs'] = np.nan
         result_pd['num_outputs'] = np.nan
         result_pd['num_weights'] = np.nan
-        #Add info to layer stuff
+        # Add info to layer stuff
         """Loop through Layers"""
-        #for layer_name, layer_info in model.model_spec['layers'].items(): 
-        for layer_name in model.topological_sort: 
+        # for layer_name, layer_info in model.model_spec['layers'].items():
+        for layer_name in model.topological_sort:
             layer_info = model.model_spec['layers'][layer_name]
-            layer_time = 0
+            layer_info['time_ms'] = 0
 
-            #TODO Again not clean yet
-            if layer_info['type'] == 'Conv' and 'Conv' in self.layer_dict:
-                layer_time = self.layer_dict['Conv'].estimate(layer_info)
-            elif layer_info['type'] == 'DepthwiseConv' and 'DepthwiseConv' in self.layer_dict:
-                layer_time = self.layer_dict['DepthwiseConv'].estimate(layer_info)
-            elif layer_info['type'] == 'ConvTranspose' and 'ConvTranspose' in self.layer_dict:
-                layer_time = self.layer_dict['ConvTranspose'].estimate(layer_info)
-            elif layer_info['type'] == 'Pool' and 'Pool' in self.layer_dict:
-                layer_time = self.layer_dict['Pool'].estimate(layer_info)
-            elif layer_info['type'] == 'Add' and 'Add' in self.layer_dict:
-                layer_time = self.layer_dict['Add'].estimate(layer_info)
-            elif layer_info['type'] == 'FullyConnected' and 'FullyConnected' in self.layer_dict:
-                layer_time = self.layer_dict['FullyConnected'].estimate(layer_info)
-            elif layer_info['type'] == 'ConvPool' and 'ConvPool' in self.layer_dict:
-                layer_time = self.layer_dict['ConvPool'].estimate(layer_info)
-            elif layer_info['type'] == 'DataInput' and 'Input' in self.layer_dict:
-                layer_time = self.layer_dict['Input'].estimate(layer_info)
-            elif layer_info['type'] in self.layer_dict:
-                layer_time = self.layer_dict[layer_info['type']].estimate(layer_info)
+            if layer_info['type'] in self.layer_dict:
+                layer_info['time_ms'] = \
+                    self.layer_dict[layer_info['type']].estimate(layer_info)
             else:
-                layer_time = self.layer_dict['Base'].estimate(layer_info)
-            result[layer_name] = layer_time
-            if layer_time:
-                sum_result = sum_result + layer_time
-            try:
-                gop = layer_info['num_ops'] 
-            except:
-                gop = 0
-            try:
-                n_i = layer_info['num_inputs'] 
-            except:
-                n_i = 0
-            try:
-                n_o = layer_info['num_outputs'] 
-            except:
-                n_o = 0
-            try:
-                n_w = layer_info['num_weights'] 
-            except:
-                n_w = 0
-            result_pd.loc[len(result_pd)] = {"name":layer_name,"type":layer_info['type'],"time(ms)":layer_time,"num_ops":gop,"num_inputs":n_i,"num_outputs":n_o,"num_weights":n_w}
+                layer_info['time_ms']= self.layer_dict['Base'].estimate(layer_info)
+
+            def try_read(argument):
+                try:
+                    result = layer_info[argument]
+                except:
+                    result = 0
+                return result 
+
+            result[layer_name] = layer_info['time_ms'] 
+            sum_result = sum_result + layer_info['time_ms'] 
+
+            gop = try_read('num_ops')
+            n_i = try_read('num_inputs')
+            n_o = try_read('num_outputs')
+            n_w = try_read('num_weights')
+            result_pd.loc[len(result_pd)] = {"name": layer_name, "type": layer_info['type'],
+                                             "time(ms)": layer_info['time_ms'], "num_ops": gop, "num_inputs": n_i, "num_outputs": n_o, "num_weights": n_w}
 
         return [sum_result, result, result_pd]
 
-    def to_json(self,filename=None):
-        """Store Hardware Estimator to json file"""
+    def to_json(self, filename=None):
+        """Store Hardware Estimator to json file
+
+        Args:
+            filename ([type], optional): [description]. Defaults to None.
+        """
         layer_desc = {}
         layer_desc['name'] = self.name
         layer_desc['op_s'] = self.op_s
@@ -144,25 +165,30 @@ class Layer_model():
             layer_desc[l[0]] = l[1].desc
             print(l)
             print(l[1].desc
-            )
+                  )
         if filename:
             with open(filename, 'w') as f:
                 f.write(json.dumps(layer_desc, indent=4))
 
-    @classmethod
-    def from_json(cls,filename):
-        """Reconstruct Estimator from json file"""
+    @ classmethod
+    def from_json(cls, filename):
+        """Reconstruct Estimator from json file
+        """
 
         with open(filename, 'r') as f:
             layer_desc = json.load(f)
-        
-        output_model = cls(layer_desc['name'], layer_desc['op_s'], layer_desc['bandwidth'], layer_desc['architecture'])
 
-        print("Initial % d entries..." % len(layer_desc))
-        del layer_desc['name']; del layer_desc['op_s']; del layer_desc['bandwidth']; del layer_desc['architecture']
+        output_model = cls(layer_desc['name'], layer_desc['op_s'],
+                           layer_desc['bandwidth'], layer_desc['architecture'])
+
+        print("Initial {} entries...".format(len(layer_desc)))
+        del layer_desc['name']
+        del layer_desc['op_s']
+        del layer_desc['bandwidth']
+        del layer_desc['architecture']
         logging.debug(len(layer_desc))
         for l in layer_desc.items():
-            #if l[0] in output_model.layer_classes:
+            # if l[0] in output_model.layer_classes:
             logging.debug(l[0])
             logging.debug(l[1])
             layer = l[1]
@@ -177,23 +203,25 @@ class Layer_model():
 
             if layer['est_type'] == 'mixed':
                 output_model.add_layer(layer['name'], layer['layer_type'], layer['est_type'], layer['op_s'], layer['bandwidth'],
-                    architecture = layer['architecture'],
-                    est_model = layer['est_model'],
-                    conv_dict = layer['est_dict'],
-                    y_val = layer['y_val'])
+                                       architecture=layer['architecture'],
+                                       est_model=layer['est_model'],
+                                       conv_dict=layer['est_dict'],
+                                       y_val=layer['y_val'])
             elif layer['est_type'] == 'statistical':
                 output_model.add_layer(layer['name'], layer['layer_type'], layer['est_type'], layer['op_s'], layer['bandwidth'],
-                    est_model = layer['est_model'],
-                    conv_dict = layer['est_dict'])
+                                       est_model=layer['est_model'],
+                                       conv_dict=layer['est_dict'])
             elif layer['est_type'] == 'refined_roofline':
                 output_model.add_layer(layer['name'], layer['layer_type'], layer['est_type'], layer['op_s'], layer['bandwidth'],
-                    architecture = layer['architecture'])
+                                       architecture=layer['architecture'])
             else:
                 output_model.add_layer(layer['name'], layer['layer_type'], layer['est_type'], layer['op_s'], layer['bandwidth'],
-                    architecture=arc)
+                                       architecture=arc)
         return output_model
 
 
 def main():
+    """main function that runs the main loop
+    """
 
     return True

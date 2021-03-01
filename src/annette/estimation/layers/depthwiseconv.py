@@ -17,22 +17,12 @@ class DepthwiseConvLayer(BaseLayer):
         # Model parameters
         self.op_s = op_s 
         self.bandwidth = bandwidth 
-        if architecture:
-            self.architecture = architecture 
+        if not architecture:
+            self.architecture = {"bit_act": 8, "bit_weight": 8}
         else:
-            self.architecture = {}
-        if not "bit_act" in self.architecture:
-            self.architecture["bit_act"] = 8
-        if not "bit_weights" in self.architecture:
-            self.architecture["bit_weights"] = 8
-        self.y_val = 'ops/s'
+            self.architecture = architecture
 
-        # Layer stuff
-        self.num_weights = None
-        self.num_inputs = None
-        self.num_outputs = None
-        self.num_ops= None
-        self.parents = None
+        self.y_val = 'ops/s'
 
         # Layer description dictionary, add information for rebuilding here
         self.desc = self.gen_dict()
@@ -188,20 +178,15 @@ class DepthwiseConvLayer(BaseLayer):
         return time_ms
 
     def estimate_statistical(self):
+        """estimate the performance of the model
+
+        Returns:
+            [type]: [description]
+        """
         print("statistical estimation")
         self.layer = self.compute_parameters(self.layer)
         vector = np.zeros([1,len(self.est_dict)])
-        print(self.layer)
-        for i in self.est_dict.items():
-            if isinstance(i[1], dict):
-                vector[0,int(i[0])] = self.layer[i[1]['name']][i[1]['i']] 
-                if 'dec' in i[1].keys():
-                    vector[0,i[0]] = vector[0,i[0]] - i[1]['dec'] 
-            elif isinstance(i[1], str):
-                vector[0,int(i[0])] = self.layer[i[1]]
-            else:
-                vector[0,int(i[0])] = i[1]
-        print(vector)
+        vector = self.build_vector(self.est_dict)
         result = self.est_model.predict(vector)
         print(result)
         time_ms = self.layer['num_ops']/result[0]*1e3
@@ -250,15 +235,3 @@ class DepthwiseConvLayer(BaseLayer):
         #time_ms = np.max([time_ms, time_ms_stat])
 
         return time_ms
-
-    def load_estimator(self, est_model=None, est_dict=None):
-        if est_model != None:
-            self.est_model = pickle.load(open(est_model, 'rb'))
-            self.desc['est_model'] = est_model
-        else:
-            self.est_model = pickle.load(open('database/conv2d_all.sav', 'rb'))
-
-        self.est_dict = est_dict
-        self.desc['est_dict'] = est_dict
-        print(self.est_dict)
-    

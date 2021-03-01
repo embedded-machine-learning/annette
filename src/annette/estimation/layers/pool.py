@@ -19,12 +19,6 @@ class PoolLayer(BaseLayer):
         self.bandwidth = bandwidth 
         self.architecture = architecture
 
-        # Layer stuff
-        self.num_inputs = None
-        self.num_outputs = None
-        self.num_ops= None
-        self.parents = None
-        
         self.desc = self.gen_dict()
 
     def estimate(self, layer = None):
@@ -46,8 +40,6 @@ class PoolLayer(BaseLayer):
             self.num_ops = self.num_outputs*reduce(lambda x, y: x*y, layer['kernel_shape'][1:])*2
         else:
             self.num_ops = 0 
-
-
         print("Compute Parameters Pool:", layer)
 
         if self.architecture:
@@ -70,15 +62,3 @@ class PoolLayer(BaseLayer):
         print(data_roof)
         print(time_ms)
         return time_ms
-
-    def estimate_mixed(self, layer):
-        print("mixed estimation")
-        self.compute_parameters(layer)
-        print(layer)
-
-    def load_estimator(self, est_model=None):
-        if est_model != None:
-            self.est_model = pickle.load(open(est_model, 'rb'))
-            self.est_file = est_model
-        else:
-            self.est_model = pickle.load(open('database/conv2d_all.sav', 'rb'))

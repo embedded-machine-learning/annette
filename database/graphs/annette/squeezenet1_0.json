@@ -24,9 +24,9 @@
             ],
             "output_shape": [
                 -1,
-                109,
-                109,
-                96
+                111,
+                111,
+                64
             ],
             "input_shape": [
                 -1,
@@ -35,10 +35,10 @@
                 3
             ],
             "kernel_shape": [
-                7,
-                7,
                 3,
-                96
+                3,
+                3,
+                64
             ],
             "strides": [
                 1,
@@ -73,15 +73,15 @@
             ],
             "output_shape": [
                 -1,
-                109,
-                109,
-                96
+                111,
+                111,
+                64
             ],
             "input_shape": [
                 -1,
-                109,
-                109,
-                96
+                111,
+                111,
+                64
             ]
         },
         "node55": {
@@ -94,15 +94,15 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
-                96
+                55,
+                55,
+                64
             ],
             "input_shape": [
                 -1,
-                109,
-                109,
-                96
+                111,
+                111,
+                64
             ],
             "kernel_shape": [
                 1,
@@ -144,20 +144,20 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 16
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
-                96
+                55,
+                55,
+                64
             ],
             "kernel_shape": [
                 1,
                 1,
-                96,
+                64,
                 16
             ],
             "strides": [
@@ -194,14 +194,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 16
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 16
             ]
         },
@@ -215,14 +215,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 16
             ],
             "kernel_shape": [
@@ -264,14 +264,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 16
             ],
             "kernel_shape": [
@@ -313,14 +313,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ]
         },
@@ -334,14 +334,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ]
         },
@@ -356,14 +356,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 128
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ]
         },
@@ -377,14 +377,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 16
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 128
             ],
             "kernel_shape": [
@@ -427,14 +427,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 16
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 16
             ]
         },
@@ -448,14 +448,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 16
             ],
             "kernel_shape": [
@@ -497,14 +497,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 16
             ],
             "kernel_shape": [
@@ -546,14 +546,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ]
         },
@@ -567,14 +567,14 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ]
         },
@@ -589,19 +589,19 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 128
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                55,
+                55,
                 64
             ]
         },
         "node70": {
-            "type": "Conv",
+            "type": "Pool",
             "parents": [
                 "node69"
             ],
@@ -610,14 +610,64 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                27,
+                27,
+                128
+            ],
+            "input_shape": [
+                -1,
+                55,
+                55,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX",
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node71": {
+            "type": "Conv",
+            "parents": [
+                "node70"
+            ],
+            "children": [
+                "node72"
+            ],
+            "output_shape": [
+                -1,
+                27,
+                27,
                 32
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                27,
+                27,
                 128
             ],
             "kernel_shape": [
@@ -649,46 +699,46 @@
                 1
             ]
         },
-        "node71": {
-            "type": "Relu",
-            "parents": [
-                "node70"
-            ],
-            "children": [
-                "node72",
-                "node74"
-            ],
-            "output_shape": [
-                -1,
-                54,
-                54,
-                32
-            ],
-            "input_shape": [
-                -1,
-                54,
-                54,
-                32
-            ]
-        },
         "node72": {
-            "type": "Conv",
+            "type": "Relu",
             "parents": [
                 "node71"
             ],
             "children": [
-                "node73"
+                "node73",
+                "node75"
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                27,
+                27,
+                32
+            ],
+            "input_shape": [
+                -1,
+                27,
+                27,
+                32
+            ]
+        },
+        "node73": {
+            "type": "Conv",
+            "parents": [
+                "node72"
+            ],
+            "children": [
+                "node74"
+            ],
+            "output_shape": [
+                -1,
+                27,
+                27,
                 128
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                27,
+                27,
                 32
             ],
             "kernel_shape": [
@@ -711,6 +761,55 @@
                 0,
                 0,
                 0,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node75": {
+            "type": "Conv",
+            "parents": [
+                "node72"
+            ],
+            "children": [
+                "node76"
+            ],
+            "output_shape": [
+                -1,
+                27,
+                27,
+                128
+            ],
+            "input_shape": [
+                -1,
+                27,
+                27,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
                 0
             ],
             "dilations": [
@@ -721,100 +820,29 @@
             ]
         },
         "node74": {
-            "type": "Conv",
-            "parents": [
-                "node71"
-            ],
-            "children": [
-                "node75"
-            ],
-            "output_shape": [
-                -1,
-                54,
-                54,
-                128
-            ],
-            "input_shape": [
-                -1,
-                54,
-                54,
-                32
-            ],
-            "kernel_shape": [
-                3,
-                3,
-                32,
-                128
-            ],
-            "strides": [
-                1,
-                1,
-                1,
-                1
-            ],
-            "pads": [
-                0,
-                1,
-                1,
-                0,
-                0,
-                1,
-                1,
-                0
-            ],
-            "dilations": [
-                1,
-                1,
-                1,
-                1
-            ]
-        },
-        "node73": {
             "type": "Relu",
             "parents": [
-                "node72"
+                "node73"
             ],
             "children": [
-                "node76"
+                "node77"
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
+                27,
+                27,
                 128
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
-                128
-            ]
-        },
-        "node75": {
-            "type": "Relu",
-            "parents": [
-                "node74"
-            ],
-            "children": [
-                "node76"
-            ],
-            "output_shape": [
-                -1,
-                54,
-                54,
-                128
-            ],
-            "input_shape": [
-                -1,
-                54,
-                54,
+                27,
+                27,
                 128
             ]
         },
         "node76": {
-            "type": "Concat",
+            "type": "Relu",
             "parents": [
-                "node73",
                 "node75"
             ],
             "children": [
@@ -822,20 +850,21 @@
             ],
             "output_shape": [
                 -1,
-                54,
-                54,
-                256
+                27,
+                27,
+                128
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
+                27,
+                27,
                 128
             ]
         },
         "node77": {
-            "type": "Pool",
+            "type": "Concat",
             "parents": [
+                "node74",
                 "node76"
             ],
             "children": [
@@ -849,38 +878,9 @@
             ],
             "input_shape": [
                 -1,
-                54,
-                54,
-                256
-            ],
-            "kernel_shape": [
-                1,
-                3,
-                3,
-                1
-            ],
-            "strides": [
-                1,
-                2,
-                2,
-                1
-            ],
-            "pads": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                2,
-                2,
-                0
-            ],
-            "pooling_type": "MAX",
-            "dilations": [
-                1,
-                1,
-                1,
-                1
+                27,
+                27,
+                128
             ]
         },
         "node78": {
@@ -1117,7 +1117,7 @@
             ]
         },
         "node85": {
-            "type": "Conv",
+            "type": "Pool",
             "parents": [
                 "node84"
             ],
@@ -1126,14 +1126,64 @@
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
-                48
+                13,
+                13,
+                256
             ],
             "input_shape": [
                 -1,
                 27,
                 27,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX",
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node86": {
+            "type": "Conv",
+            "parents": [
+                "node85"
+            ],
+            "children": [
+                "node87"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                48
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
                 256
             ],
             "kernel_shape": [
@@ -1165,46 +1215,46 @@
                 1
             ]
         },
-        "node86": {
-            "type": "Relu",
-            "parents": [
-                "node85"
-            ],
-            "children": [
-                "node87",
-                "node89"
-            ],
-            "output_shape": [
-                -1,
-                27,
-                27,
-                48
-            ],
-            "input_shape": [
-                -1,
-                27,
-                27,
-                48
-            ]
-        },
         "node87": {
-            "type": "Conv",
+            "type": "Relu",
             "parents": [
                 "node86"
             ],
             "children": [
-                "node88"
+                "node88",
+                "node90"
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
+                48
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                48
+            ]
+        },
+        "node88": {
+            "type": "Conv",
+            "parents": [
+                "node87"
+            ],
+            "children": [
+                "node89"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
                 192
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 48
             ],
             "kernel_shape": [
@@ -1227,6 +1277,55 @@
                 0,
                 0,
                 0,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node90": {
+            "type": "Conv",
+            "parents": [
+                "node87"
+            ],
+            "children": [
+                "node91"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                192
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                48
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                48,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
                 0
             ],
             "dilations": [
@@ -1237,100 +1336,29 @@
             ]
         },
         "node89": {
-            "type": "Conv",
-            "parents": [
-                "node86"
-            ],
-            "children": [
-                "node90"
-            ],
-            "output_shape": [
-                -1,
-                27,
-                27,
-                192
-            ],
-            "input_shape": [
-                -1,
-                27,
-                27,
-                48
-            ],
-            "kernel_shape": [
-                3,
-                3,
-                48,
-                192
-            ],
-            "strides": [
-                1,
-                1,
-                1,
-                1
-            ],
-            "pads": [
-                0,
-                1,
-                1,
-                0,
-                0,
-                1,
-                1,
-                0
-            ],
-            "dilations": [
-                1,
-                1,
-                1,
-                1
-            ]
-        },
-        "node88": {
             "type": "Relu",
             "parents": [
-                "node87"
+                "node88"
             ],
             "children": [
-                "node91"
+                "node92"
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 192
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
-                192
-            ]
-        },
-        "node90": {
-            "type": "Relu",
-            "parents": [
-                "node89"
-            ],
-            "children": [
-                "node91"
-            ],
-            "output_shape": [
-                -1,
-                27,
-                27,
-                192
-            ],
-            "input_shape": [
-                -1,
-                27,
-                27,
+                13,
+                13,
                 192
             ]
         },
         "node91": {
-            "type": "Concat",
+            "type": "Relu",
             "parents": [
-                "node88",
                 "node90"
             ],
             "children": [
@@ -1338,20 +1366,21 @@
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
-                384
+                13,
+                13,
+                192
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 192
             ]
         },
         "node92": {
-            "type": "Conv",
+            "type": "Concat",
             "parents": [
+                "node89",
                 "node91"
             ],
             "children": [
@@ -1359,14 +1388,35 @@
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
+                384
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                192
+            ]
+        },
+        "node93": {
+            "type": "Conv",
+            "parents": [
+                "node92"
+            ],
+            "children": [
+                "node94"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
                 48
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 384
             ],
             "kernel_shape": [
@@ -1398,46 +1448,46 @@
                 1
             ]
         },
-        "node93": {
-            "type": "Relu",
-            "parents": [
-                "node92"
-            ],
-            "children": [
-                "node94",
-                "node96"
-            ],
-            "output_shape": [
-                -1,
-                27,
-                27,
-                48
-            ],
-            "input_shape": [
-                -1,
-                27,
-                27,
-                48
-            ]
-        },
         "node94": {
-            "type": "Conv",
+            "type": "Relu",
             "parents": [
                 "node93"
             ],
             "children": [
-                "node95"
+                "node95",
+                "node97"
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
+                48
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                48
+            ]
+        },
+        "node95": {
+            "type": "Conv",
+            "parents": [
+                "node94"
+            ],
+            "children": [
+                "node96"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
                 192
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 48
             ],
             "kernel_shape": [
@@ -1460,6 +1510,55 @@
                 0,
                 0,
                 0,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node97": {
+            "type": "Conv",
+            "parents": [
+                "node94"
+            ],
+            "children": [
+                "node98"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                192
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                48
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                48,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
                 0
             ],
             "dilations": [
@@ -1470,100 +1569,29 @@
             ]
         },
         "node96": {
-            "type": "Conv",
-            "parents": [
-                "node93"
-            ],
-            "children": [
-                "node97"
-            ],
-            "output_shape": [
-                -1,
-                27,
-                27,
-                192
-            ],
-            "input_shape": [
-                -1,
-                27,
-                27,
-                48
-            ],
-            "kernel_shape": [
-                3,
-                3,
-                48,
-                192
-            ],
-            "strides": [
-                1,
-                1,
-                1,
-                1
-            ],
-            "pads": [
-                0,
-                1,
-                1,
-                0,
-                0,
-                1,
-                1,
-                0
-            ],
-            "dilations": [
-                1,
-                1,
-                1,
-                1
-            ]
-        },
-        "node95": {
             "type": "Relu",
             "parents": [
-                "node94"
+                "node95"
             ],
             "children": [
-                "node98"
+                "node99"
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 192
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
-                192
-            ]
-        },
-        "node97": {
-            "type": "Relu",
-            "parents": [
-                "node96"
-            ],
-            "children": [
-                "node98"
-            ],
-            "output_shape": [
-                -1,
-                27,
-                27,
-                192
-            ],
-            "input_shape": [
-                -1,
-                27,
-                27,
+                13,
+                13,
                 192
             ]
         },
         "node98": {
-            "type": "Concat",
+            "type": "Relu",
             "parents": [
-                "node95",
                 "node97"
             ],
             "children": [
@@ -1571,20 +1599,21 @@
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
-                384
+                13,
+                13,
+                192
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 192
             ]
         },
         "node99": {
-            "type": "Conv",
+            "type": "Concat",
             "parents": [
+                "node96",
                 "node98"
             ],
             "children": [
@@ -1592,14 +1621,35 @@
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
+                384
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                192
+            ]
+        },
+        "node100": {
+            "type": "Conv",
+            "parents": [
+                "node99"
+            ],
+            "children": [
+                "node101"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
                 64
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 384
             ],
             "kernel_shape": [
@@ -1631,46 +1681,46 @@
                 1
             ]
         },
-        "node100": {
-            "type": "Relu",
-            "parents": [
-                "node99"
-            ],
-            "children": [
-                "node101",
-                "node103"
-            ],
-            "output_shape": [
-                -1,
-                27,
-                27,
-                64
-            ],
-            "input_shape": [
-                -1,
-                27,
-                27,
-                64
-            ]
-        },
         "node101": {
-            "type": "Conv",
+            "type": "Relu",
             "parents": [
                 "node100"
             ],
             "children": [
-                "node102"
+                "node102",
+                "node104"
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
+                64
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                64
+            ]
+        },
+        "node102": {
+            "type": "Conv",
+            "parents": [
+                "node101"
+            ],
+            "children": [
+                "node103"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
                 256
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 64
             ],
             "kernel_shape": [
@@ -1693,6 +1743,55 @@
                 0,
                 0,
                 0,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node104": {
+            "type": "Conv",
+            "parents": [
+                "node101"
+            ],
+            "children": [
+                "node105"
+            ],
+            "output_shape": [
+                -1,
+                13,
+                13,
+                256
+            ],
+            "input_shape": [
+                -1,
+                13,
+                13,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
                 0
             ],
             "dilations": [
@@ -1703,100 +1802,29 @@
             ]
         },
         "node103": {
-            "type": "Conv",
-            "parents": [
-                "node100"
-            ],
-            "children": [
-                "node104"
-            ],
-            "output_shape": [
-                -1,
-                27,
-                27,
-                256
-            ],
-            "input_shape": [
-                -1,
-                27,
-                27,
-                64
-            ],
-            "kernel_shape": [
-                3,
-                3,
-                64,
-                256
-            ],
-            "strides": [
-                1,
-                1,
-                1,
-                1
-            ],
-            "pads": [
-                0,
-                1,
-                1,
-                0,
-                0,
-                1,
-                1,
-                0
-            ],
-            "dilations": [
-                1,
-                1,
-                1,
-                1
-            ]
-        },
-        "node102": {
             "type": "Relu",
             "parents": [
-                "node101"
+                "node102"
             ],
             "children": [
-                "node105"
+                "node106"
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 256
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
-                256
-            ]
-        },
-        "node104": {
-            "type": "Relu",
-            "parents": [
-                "node103"
-            ],
-            "children": [
-                "node105"
-            ],
-            "output_shape": [
-                -1,
-                27,
-                27,
-                256
-            ],
-            "input_shape": [
-                -1,
-                27,
-                27,
+                13,
+                13,
                 256
             ]
         },
         "node105": {
-            "type": "Concat",
+            "type": "Relu",
             "parents": [
-                "node102",
                 "node104"
             ],
             "children": [
@@ -1804,20 +1832,21 @@
             ],
             "output_shape": [
                 -1,
-                27,
-                27,
-                512
+                13,
+                13,
+                256
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
+                13,
+                13,
                 256
             ]
         },
         "node106": {
-            "type": "Pool",
+            "type": "Concat",
             "parents": [
+                "node103",
                 "node105"
             ],
             "children": [
@@ -1831,38 +1860,9 @@
             ],
             "input_shape": [
                 -1,
-                27,
-                27,
-                512
-            ],
-            "kernel_shape": [
-                1,
-                3,
-                3,
-                1
-            ],
-            "strides": [
-                1,
-                2,
-                2,
-                1
-            ],
-            "pads": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                1,
-                1,
-                0
-            ],
-            "pooling_type": "MAX",
-            "dilations": [
-                1,
-                1,
-                1,
-                1
+                13,
+                13,
+                256
             ]
         },
         "node107": {

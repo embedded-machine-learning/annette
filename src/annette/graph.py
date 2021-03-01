@@ -16,7 +16,7 @@ from mmdnn.conversion.common.utils import *
 
 __author__ = "Matthias Wess"
 __copyright__ = "Christian Doppler Laboratory for Embedded Machine Learning"
-__license__ = "BOOST"
+__license__ = "Apache-2.0"
 
 
 class AnnetteGraph():
@@ -36,13 +36,13 @@ class AnnetteGraph():
         model_spec[output_layers] (list): list of the output layer names
     """
 
-    def __init__(self, name, json_file = None):
+    def __init__(self, name, json_file=None):
         self.model_spec = dict()
         self.model_spec['name'] = name
         self.model_spec['layers'] = dict()
 
         if json_file:
-            print("Loading from file: ",json_file)
+            print("Loading from file: ", json_file)
             with open(json_file, 'r') as f:
                 self.model_spec = json.load(f)
         if not 'input_layers' in self.model_spec:
@@ -78,7 +78,8 @@ class AnnetteGraph():
 
     def _make_input_layers(self, rebuild=False):
         for name, layer in self.model_spec['layers'].items():
-            self.model_spec['layers'][name]['left_parents'] = len(layer['parents'])
+            self.model_spec['layers'][name]['left_parents'] = len(
+                layer['parents'])
             if len(layer['parents']) == 0:
                 self.model_spec['input_layers'].append(name)
 
@@ -121,9 +122,11 @@ class AnnetteGraph():
                 logging.debug("Add layer")
                 if n == 0:
                     # change layer name
-                    self.model_spec['layers'][new_name] = self.model_spec['layers'].pop(primary)
+                    self.model_spec['layers'][new_name] = self.model_spec['layers'].pop(
+                        primary)
                 else:
-                    self.add_layer(new_name, self.model_spec['layers'][new_layers[0]])
+                    self.add_layer(
+                        new_name, self.model_spec['layers'][new_layers[0]])
                 # change layer type
                 self.model_spec['layers'][new_name]['type'] = in_layer
                 logging.debug(self.model_spec['layers'][new_name])
@@ -134,30 +137,39 @@ class AnnetteGraph():
                 if n == 0:
                     # change parents
                     for p in self.model_spec['layers'][in_layer]['parents']:
-                        logging.debug("parent: %s" % self.model_spec['layers'][p]['children'])
+                        logging.debug("parent: %s" %
+                                      self.model_spec['layers'][p]['children'])
                         self.model_spec['layers'][p]['children'] = \
-                            [in_layer if x==primary else x for x in self.model_spec['layers'][p]['children']]
-                        logging.debug("new_parent: %s" % self.model_spec['layers'][p]['children'])
+                            [in_layer if x == primary else x for x in self.model_spec['layers'][p]['children']]
+                        logging.debug("new_parent: %s" %
+                                      self.model_spec['layers'][p]['children'])
                     logging.debug("new layer name: %s" % in_layer)
                     # change children
-                    logging.debug("new_child:" +new_layers[n+1])
-                    self.model_spec['layers'][in_layer]['children'] = [new_layers[n+1]]
+                    logging.debug("new_child:" + new_layers[n+1])
+                    self.model_spec['layers'][in_layer]['children'] = [
+                        new_layers[n+1]]
                 elif n == len(new_layers)-1:
                     logging.debug(n)
                     # change parents
-                    logging.debug("new_parent:" +new_layers[n-1])
-                    self.model_spec['layers'][in_layer]['parents'] = [new_layers[n-1]]
+                    logging.debug("new_parent:" + new_layers[n-1])
+                    self.model_spec['layers'][in_layer]['parents'] = [
+                        new_layers[n-1]]
                     # change children
                     for c in self.model_spec['layers'][in_layer]['children']:
                         logging.debug(c)
-                        logging.debug("children: %s" % self.model_spec['layers'][c]['parents'])
+                        logging.debug("children: %s" %
+                                      self.model_spec['layers'][c]['parents'])
                         self.model_spec['layers'][c]['parents'] = \
-                            [in_layer if x==primary else x for x in self.model_spec['layers'][c]['parents']]
-                        logging.debug("children: %s" % self.model_spec['layers'][c]['parents'])
+                            [in_layer if x ==
+                                primary else x for x in self.model_spec['layers'][c]['parents']]
+                        logging.debug("children: %s" %
+                                      self.model_spec['layers'][c]['parents'])
                     logging.debug("current layer name: %s" % new_name)
                 else:
-                    self.model_spec['layers'][in_layer]['parents'] = [new_layers[n-1]]
-                    self.model_spec['layers'][in_layer]['children'] = [new_layers[n+1]]
+                    self.model_spec['layers'][in_layer]['parents'] = [
+                        new_layers[n-1]]
+                    self.model_spec['layers'][in_layer]['children'] = [
+                        new_layers[n+1]]
             return True
 
     def delete_layer(self, name):
@@ -174,12 +186,14 @@ class AnnetteGraph():
             if len(self.model_spec['layers'][name]['parents']) > 0:
                 parents = (self.model_spec['layers'][name]['parents'])
             else:
-                parents = []; logging.debug("No parents")
+                parents = []
+                logging.debug("No parents")
 
             if len(self.model_spec['layers'][name]['children']) > 0:
                 children = (self.model_spec['layers'][name]['children'])
             else:
-                children = []; logging.debug("No children")
+                children = []
+                logging.debug("No children")
 
             for p in parents:
                 logging.debug("parents: %s" % p)
@@ -203,7 +217,7 @@ class AnnetteGraph():
                 self.model_spec['input_layers'].remove(name)
 
             if name in self.model_spec['output_layers']:
-                for p in parents: 
+                for p in parents:
                     self.model_spec['output_layers'].append(p)
                 self.model_spec['output_layers'].remove(name)
 
@@ -223,13 +237,14 @@ class AnnetteGraph():
         self.topological_sort = self.model_spec['input_layers'][:]
         idx = 0
         for n in self.model_spec['layers']:
-            self.model_spec['layers'][n]['left_parents'] = len(self.model_spec['layers'][n]['parents'])
+            self.model_spec['layers'][n]['left_parents'] = len(
+                self.model_spec['layers'][n]['parents'])
         while idx < len(self.topological_sort):
             name = self.topological_sort[idx]
             current_node = self.model_spec['layers'][name]
             for next_node in current_node['children']:
                 next_node_info = self.model_spec['layers'][next_node]
-                # one node may connect another node by more than one edge. 
+                # one node may connect another node by more than one edge.
                 self.model_spec['layers'][next_node]['left_parents'] -= \
                     self._check_left_parents(name, next_node_info)
                 if next_node_info['left_parents'] == 0:
@@ -250,37 +265,46 @@ class AnnetteGraph():
             f.write(json.dumps(self.model_spec, indent=4))
         print("Stored to %s" % filename)
 
-        
 
 class MMGraph:
-    """ Import MMDNN Graph and convert to annette
+    """ MMDNN Graph Class
+
+    Args:
+        graphfile (str): MMDNN graphfile
+        weightfile(str, optional): MMDNN weightfile, dropped anyways
+
+    Attributes:
+        IR_graph : mmdnn Intermediate Representation Graph 
     """
-    def __init__(self, graph, weight=None):
+
+    def __init__(self, graphfile, weightfile=None):
         print("Initializing network...")
 
-        self.graphfile = graph
-        self.weightfile = weight
+        self.graphfile = graphfile
+        self.weightfile = weightfile
 
         self.IR_graph = IRGraph(self.graphfile)
         self.IR_graph.build()
         self.IR_graph.model = 1
 
-        if weight is None:
+        if self.weightfile is None:
             logging.info("No weights file loaded\n")
         else:
             logging.info("Load weights...\n")
             try:
-                self.weights_dict = np.load(self.weightfile, allow_pickle=True).item()
+                self.weights_dict = np.load(
+                    self.weightfile, allow_pickle=True).item()
             except:
-                self.weights_dict = np.load(self.weightfile, encoding='bytes', allow_pickle=True).item()
+                self.weights_dict = np.load(
+                    self.weightfile, encoding='bytes', allow_pickle=True).item()
 
         self.analyze_net()
-        print("Analyzed network...\n")
+        print("Network analyzed successfully...\n")
 
     def analyze_net(self):
         """Walk through net and compute attributes"""
-        
-        #TODO look for DataInput layer and add if necessary
+
+        # TODO look for DataInput layer and add if necessary
         """
         for layer in self.IR_graph.topological_sort:
             current_node = self.IR_graph.get_node(layer)
@@ -292,18 +316,18 @@ class MMGraph:
 
         for layer in self.IR_graph.topological_sort:
             current_node = self.IR_graph.get_node(layer)
-            node_type = current_node.type
+            #node_type = current_node.type
             self.fix_shape_names(current_node)
 
     def fix_shape_names(self, layer):
         """Fixed shape_names
-        
+
         Arguments:
             layer (obj): layer to fix names and shapes
         """
         if not(layer.type in ['yolo']):
             output_shape = layer.get_attr('_output_shape')
-            #For tensorflow models it is called output_shapes
+            # For tensorflow models it is called output_shapes
             if output_shape is None:
                 output_shape = layer.get_attr('_output_shapes')
             output_shape = shape_to_list(output_shape[0])
@@ -313,7 +337,7 @@ class MMGraph:
             if(layer.in_edges):
                 innode = self.IR_graph.get_node(layer.in_edges[0])
                 input_shape = innode.get_attr('_output_shape')
-                #For tensorflow models it is called output_shapes
+                # For tensorflow models it is called output_shapes
                 if input_shape is None:
                     input_shape = innode.get_attr('_output_shapes')
                 input_shape = shape_to_list(input_shape[0])
@@ -321,13 +345,13 @@ class MMGraph:
 
     def fix_depthwise(self, layer):
         """Fixed depthwise layers 
-        
+
         Arguments:
             layer (obj): layer to fix names and shapes
         """
         if layer.type in ['Conv']:
             output_shape = layer.get_attr('_output_shape')
-            #For tensorflow models it is called output_shapes
+            # For tensorflow models it is called output_shapes
             if output_shape is None:
                 output_shape = layer.get_attr('_output_shapes')
             output_shape = shape_to_list(output_shape[0])
@@ -338,9 +362,8 @@ class MMGraph:
                 logging.debug(output_shape)
                 if group == output_shape[3]:
                     return 'DepthwiseConv'
-            
+
         return layer.type
-        
 
     def convert_to_annette(self, name):
         """Convert MMDNN to Annette graph
@@ -351,7 +374,7 @@ class MMGraph:
         Return:
             annette_graph (obj)
         """
-        annette_graph = AnnetteGraph(name) #TODO
+        annette_graph = AnnetteGraph(name)  # TODO
 
         for layer in self.IR_graph.topological_sort:
             current_node = self.IR_graph.get_node(layer)
@@ -364,8 +387,8 @@ class MMGraph:
             layer_dict['parents'] = current_node.in_edges
             layer_dict['children'] = current_node.out_edges
 
-            attributes = ['output_shape','input_shape','kernel_shape','strides','pads','pooling_type','global_pooling','dilations']
-
+            attributes = ['output_shape', 'input_shape', 'kernel_shape',
+                          'strides', 'pads', 'pooling_type', 'global_pooling', 'dilations']
 
             for attr in attributes:
                 tmp = current_node.get_attr(attr)
@@ -375,7 +398,6 @@ class MMGraph:
                         tmp[3] = 1
                         layer_dict[attr] = tmp
 
-            
             annette_graph.add_layer(layer_name, layer_dict)
 
         return annette_graph

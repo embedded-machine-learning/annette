@@ -1,10 +1,14 @@
 from __future__ import print_function
-from pprint import pprint
-from functools import reduce
+
+import logging
 import pickle
+from functools import reduce
+from pprint import pprint
+
 import numpy as np
 import pandas as pde
 from annette.estimation.layers.base import BaseLayer
+
 
 class InputLayer(BaseLayer):
     """InputLayer estimation"""
@@ -17,59 +21,27 @@ class InputLayer(BaseLayer):
         # Model parameters
         self.op_s = op_s 
         self.bandwidth = bandwidth 
-        self.architecture = architecture
-
-        # Layer stuff
-        self.num_inputs = None
-        self.num_outputs = None
-        self.num_ops= None
-        self.parents = None
         
+        if not architecture:
+            self.architecture = {"bit_act": 8, "bit_weight": 8}
+        else:
+            self.architecture = architecture
+
         # Layer description dictionary, add information for rebuilding here
         self.desc = self.gen_dict()
 
-    def estimate(self, layer = None):
-        """return estimated InputLayer execution time (ms)"""
-        print("Estimation Type: " + self.estimation)
-        if hasattr(self, "estimate_" + self.estimation):
-            func = getattr(self, "estimate_" + self.estimation)
-            r = func(layer)
-            return r
+    def estimate_roofline(self):
+        """returns roofline estimated InputLayer execution time (ms)"""
+        logging.info("Roofline Estimation Input Layer")
+        data_bytes = ((self.layer['num_outputs']) * self.architecture['bit_act']) / 8
+        data_roof = data_bytes / self.bandwidth
+        op_roof = self.layer['num_ops'] / self.op_s
+        time_ms = np.max([op_roof, data_roof])*1000 # to milliseconds
+        if op_roof > data_roof:
+            logging.debug("OP Roof")
         else:
-            print("No " + self.estimation + " Estimator implemented")
-            return 0
-
-    def compute_parameters(self, layer):
-        """Compute Parameters for Input Layer prediction"""
-        self.num_outputs = reduce(lambda x, y: x*y, layer['output_shape'][1:])
-        self.num_inputs = 0
-        self.num_weights = 0
-
-        if self.architecture:
-            print("noarch")
-
-
-    def estimate_roofline(self, layer):
-        """returns roofline estimated ConvLayer execution time (ms)"""
-        print("roofline estimation")
-        self.compute_parameters(layer)
-        print(layer)
-        #op_roof = self.num_ops / self.op_s
-        if self.bandwidth == 0:
-            time_ms = 0
-        else:
-            data_roof = (self.num_inputs + self.num_outputs) / self.bandwidth
-            time_ms = np.max([data_roof])*1000 # to milliseconds
+            logging.debug("Data Roof")
+        logging.debug(op_roof)
+        logging.debug(data_roof)
+        logging.debug(time_ms)
         return time_ms
-
-    def estimate_mixed(self, layer):
-        print("mixed estimation")
-        self.compute_parameters(layer)
-        print(layer)
-
-    def load_estimator(self, est_model=None):
-        if est_model != None:
-            self.est_model = pickle.load(open(est_model, 'rb'))
-            self.est_file = est_model
-        else:
-            self.est_model = pickle.load(open('database/conv2d_all.sav', 'rb'))

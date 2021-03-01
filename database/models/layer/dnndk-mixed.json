@@ -63,7 +63,7 @@
 			"h_alpha": 0.485896
 		},
         "est_type": "mixed",
-		"est_model": "./database/models/layer/dnndk-stat/conv2d_all.sav"
+		"est_model": "models/layer/dnndk-stat/conv2d_all.sav"
 	},
     "ConvTranspose": {
 		"name": "ConvTranspose",
@@ -129,7 +129,7 @@
 			"h_alpha": 0.485896
 		},
         "est_type": "mixed",
-		"est_model": "./database/models/layer/dnndk-stat/conv2d_all.sav"
+		"est_model": "models/layer/dnndk-stat/conv2d_all.sav"
 	},
     "bandwidth": 15109525179.51176,
     "op_s": 1173488332240.4373,

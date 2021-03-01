@@ -20,14 +20,10 @@ class AdditionLayer(BaseLayer):
         # Model parameters
         self.op_s = op_s 
         self.bandwidth = bandwidth 
-        if architecture:
-            self.architecture = architecture 
+        if not architecture:
+            self.architecture = {"bit_act": 8, "bit_weight": 8}
         else:
-            self.architecture = {}
-        if not "bit_act" in self.architecture:
-            self.architecture["bit_act"] = 8
-        if not "bit_weights" in self.architecture:
-            self.architecture["bit_weights"] = 8
+            self.architecture = architecture
 
         # Layer parameters 
         self.layer = {}
@@ -36,32 +32,17 @@ class AdditionLayer(BaseLayer):
         self.layer['num_ops'] = None
         self.layer['parents'] = None
         
+        # Layer description dictionary, add information for rebuilding here
         self.desc = self.gen_dict()
+
+    def compute_parameters(self, layer = None):
+        """Compute Parameters for Base Layer prediction"""
+        self.layer = self.compute_nums(self.layer)
+        self.layer['data_bytes'] = self.layer['num_outputs'] * self.architecture['bit_act']*3 / 8 # Element wise addition layer moves data *3
+        return self.layer
 
     def estimate_roofline(self):
         """returns roofline estimated AdditionLayer execution time (ms)"""
-        self.compute_parameters()
-        data_bytes = self.layer['num_outputs'] * self.architecture['bit_act']*3 / 8 # Element wise addition layer moves data *3
-        data_roof = data_bytes / self.bandwidth
-        time_ms = np.max([data_roof])*1000 # to milliseconds
-        print(data_roof)
-        return time_ms
-
-    def estimate_mixed(self):
-        """returns roofline estimated Mixed execution time (ms)"""
-        self.compute_parameters()
-        print(self.layer)
-        if hasattr(self, 'est_model'):
-            print("loaded")
-        else:
-            print("No estimator loaded")
-            return 0
-
-    def gen_dict(self, filename = None):
-        desc = {"name":self.name,
-                "layer_type":self.layer_type,
-                "est_type":self.estimation,
-                "op_s":self.op_s,
-                "bandwidth":self.bandwidth,
-                "architecture":self.architecture}
-        return desc
+        self.layer['data_roof'] = self.layer['data_bytes'] / self.bandwidth
+        self.layer['time_ms'] = np.max([self.layer['data_roof']])*1000 # to milliseconds
+        return self.layer['time_ms']

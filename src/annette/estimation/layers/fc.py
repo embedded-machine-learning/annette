@@ -18,22 +18,11 @@ class FullyConnectedLayer(BaseLayer):
         # Model parameters
         self.op_s = op_s 
         self.bandwidth = bandwidth 
-        if architecture:
-            self.architecture = architecture 
+        if not architecture:
+            self.architecture = {"bit_act": 8, "bit_weight": 8}
         else:
-            self.architecture = {}
-        if not "bit_act" in self.architecture:
-            self.architecture["bit_act"] = 8
-        if not "bit_weights" in self.architecture:
-            self.architecture["bit_weights"] = 8
+            self.architecture = architecture
 
-        # Layer stuff
-        self.layer = {}
-        self.layer['num_inputs'] = None
-        self.layer['num_outputs'] = None
-        self.layer['num_ops'] = None
-        self.layer['parents'] = None
-        
         self.desc = self.gen_dict()
 
     def estimate(self, layer = None):
@@ -47,7 +36,6 @@ class FullyConnectedLayer(BaseLayer):
         else:
             print("No " + self.estimation + " Estimator implemented")
             return 0
-
 
     @staticmethod
     def compute_nums(layer):
@@ -71,22 +59,22 @@ class FullyConnectedLayer(BaseLayer):
         """returns roofline estimated AdditionLayer execution time (ms)"""
         print("roofline estimation")
         self.compute_parameters()
-        #op_roof = self.num_ops / self.op_s
+        #self.layer['op_roof'] = self.num_ops / self.op_s
         print("Architecture: ", self.architecture)
         data_bytes = (
             (self.layer['num_outputs'] + self.layer['num_inputs']) * self.architecture['bit_act']
             + self.layer['num_weights'] * self.architecture['bit_weights']) / 8
-        data_roof = data_bytes / self.bandwidth
-        op_roof = self.layer['num_ops'] / self.op_s
-        time_ms = np.max([op_roof, data_roof])*1000 # to milliseconds
-        if op_roof > data_roof:
+        self.layer['data_roof'] = data_bytes / self.bandwidth
+        self.layer['op_roof'] = self.layer['num_ops'] / self.op_s
+        self.layer['time_ms'] = np.max([self.layer['op_roof'], self.layer['data_roof']])*1000 # to milliseconds
+        if self.layer['op_roof'] > self.layer['data_roof']:
             print("OP Roof")
         else:
             print("Data Roof")
-        print(op_roof)
-        print(data_roof)
-        print(time_ms)
-        return time_ms
+        print(self.layer['op_roof'])
+        print(self.layer['data_roof'])
+        print(self.layer['time_ms'])
+        return self.layer['time_ms']
 
     def estimate_mixed(self):
         """returns roofline estimated Mixed execution time (ms)"""
@@ -100,16 +88,16 @@ class FullyConnectedLayer(BaseLayer):
         print(self.y_val)
 
         print('Operations:',self.layer['num_ops'])
-        op_roof = self.layer['num_ops'] / self.op_s
-        data_roof = (self.layer['num_inputs'] + self.layer['num_outputs']) / self.bandwidth
-        time_ms = np.max([op_roof, data_roof])*1000 # to milliseconds
+        self.layer['op_roof'] = self.layer['num_ops'] / self.op_s
+        self.layer['data_roof'] = (self.layer['num_inputs'] + self.layer['num_outputs']) / self.bandwidth
+        self.layer['time_ms'] = np.max([self.layer['op_roof'], self.layer['data_roof']])*1000 # to milliseconds
         if self.y_val == 'time(ms)':
-            time_ms = result[0]
+            self.layer['time_ms'] = result[0]
         else:
-            time_ms = self.layer['num_ops']/result[0]*1e3
-        if op_roof > data_roof:
+            self.layer['time_ms'] = self.layer['num_ops']/result[0]*1e3
+        if self.layer['op_roof'] > self.layer['data_roof']:
             print("OP Roof")
-            time_ms = time_ms
+            self.layer['time_ms'] = self.layer['time_ms']
         else:
             print("Data Roof")
 
@@ -117,24 +105,4 @@ class FullyConnectedLayer(BaseLayer):
             print("loaded")
         else:
             print("No estimator loaded")
-        return time_ms
-
-    def load_estimator(self, est_model=None, est_dict=None):
-        if est_model != None:
-            self.est_model = pickle.load(open(est_model, 'rb'))
-            self.desc['est_model'] = est_model
-        else:
-            self.est_model = pickle.load(open('database/conv2d_all.sav', 'rb'))
-
-        self.est_dict = est_dict
-        self.desc['est_dict'] = est_dict
-        print(self.est_dict)
-        
-    def gen_dict(self, filename = None):
-        desc = {"name":self.name,
-                "layer_type":self.layer_type,
-                "est_type":self.estimation,
-                "op_s":self.op_s,
-                "bandwidth":self.bandwidth,
-                "architecture":self.architecture}
-        return desc
+        return self.layer['time_ms']
