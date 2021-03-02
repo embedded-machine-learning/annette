@@ -1,8 +1,13 @@
-# ANNETTE - Accurate Neural Network Execution Time Estimation
+<div align="center">
+  <img src="_img/banner.png">
+</div>
+
+## Accurate Neural Network Execution Time Estimation
 
 Implementation of the ANNETTE Estimation Module <a href="https://ieeexplore.ieee.org/abstract/document/9306831/" target="_blank">Link to Paper</a>
 
 Cite: 
+
 `M. Wess, M. Ivanov, C. Unger, A. Nookala, A. Wendt and A. Jantsch, "ANNETTE: Accurate Neural Network Execution Time Estimation With Stacked Models," in IEEE Access, vol. 9, pp. 3545-3556, 2021, doi: 10.1109/ACCESS.2020.3047259.`
 
 # Install

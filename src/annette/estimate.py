@@ -113,13 +113,14 @@ def main(args):
     print(args)
     args = parse_args(args)
     print(args.__dict__)
-    print("kik")
     setup_logging(args.loglevel)
     print(args.network)
     total, layerwise = estimate(args)
     print("The network {} is layer results are: \n{}".format(
         args.network, layerwise))
     print("The network {} is executed in {} ms ".format(args.network, total))
+
+    return total, layerwise
 
 
 def run():
