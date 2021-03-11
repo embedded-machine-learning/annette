@@ -19,7 +19,7 @@ class FullyConnectedLayer(BaseLayer):
         self.op_s = op_s 
         self.bandwidth = bandwidth 
         if not architecture:
-            self.architecture = {"bit_act": 8, "bit_weight": 8}
+            self.architecture = {"bit_act": 8, "bit_weights": 8}
         else:
             self.architecture = architecture
 
@@ -63,7 +63,7 @@ class FullyConnectedLayer(BaseLayer):
         print("Architecture: ", self.architecture)
         data_bytes = (
             (self.layer['num_outputs'] + self.layer['num_inputs']) * self.architecture['bit_act']
-            + self.layer['num_weights'] * self.architecture['bit_weights']) / 8
+            + self.layer['num_weights'] * self.architecture['bit_weight']) / 8
         self.layer['data_roof'] = data_bytes / self.bandwidth
         self.layer['op_roof'] = self.layer['num_ops'] / self.op_s
         self.layer['time_ms'] = np.max([self.layer['op_roof'], self.layer['data_roof']])*1000 # to milliseconds

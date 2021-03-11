@@ -18,7 +18,7 @@ class DepthwiseConvLayer(BaseLayer):
         self.op_s = op_s 
         self.bandwidth = bandwidth 
         if not architecture:
-            self.architecture = {"bit_act": 8, "bit_weight": 8}
+            self.architecture = {"bit_act": 8, "bit_weights": 8}
         else:
             self.architecture = architecture
 

@@ -18,6 +18,8 @@ recommended install:
 - `cd annette`
 - `pip install -r requirements.txt`
 - `pip install -e .`
+- `wget https://github.com/embedded-machine-learning/annette/releases/download/v0.1/models.zip`
+- `unzip -o models.zip -d database`
 
 
 # Usage
@@ -31,9 +33,16 @@ recommended install:
 ## Estimation
 `annette_estimate [network-name] [mapping-model] [layer-model]`
 
+## Results
+* The results are store in `database/results/[layer-model]`
+* Python functions return the total execution time in [ms] and a pandas dataframe with the layer-wise results
+* Example visualization with plotly (`notebooks/sample_estimation.ipynb`)
+<img src='_img/result.png'></img>
+
 ## Examples
 
 * Some example graphs are already stored in `database/graphs/annette`
+* Some example notebooks are found in `notebooks/`
 * Some model optimizer examples `ov` and `dnndk`
 * Some layer model exmaples `ncs2-roofline` and `dnndk-roofline`
 * For conversion and download MMDNN requires some of the frameworks such as pytorch, tensorflow
@@ -75,10 +84,6 @@ annette_estimate squeezenet1_0 ov ncs2-roofline
 mmtoir -f tensorflow -w database/graphs/tf/deeplabv3_mnv2_dm05_pascal.pb --inNodeName MobilenetV2/MobilenetV2/input --inputShape 513,513,3 --dstNodeName ArgMax -o database/graphs/mmdnn/deeplabv3
 annette_m2a deeplabv3 
 annette_estimate deeplabv3 ov ncs2-roofline
-
-
-mmtoir -f tensorflow -d database/graphs/mmdnn/tf_deeplabv3_original --inputShape 1025,2049,3 database/graphs/tf/deeplabv3_original.pb
-
 ```
 
 ### Mobilenetv1

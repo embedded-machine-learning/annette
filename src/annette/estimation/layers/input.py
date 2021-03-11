@@ -23,7 +23,7 @@ class InputLayer(BaseLayer):
         self.bandwidth = bandwidth 
         
         if not architecture:
-            self.architecture = {"bit_act": 8, "bit_weight": 8}
+            self.architecture = {"bit_act": 8, "bit_weights": 8}
         else:
             self.architecture = architecture
 
