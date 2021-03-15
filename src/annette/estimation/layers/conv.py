@@ -95,6 +95,7 @@ class ConvLayer(BaseLayer):
         logging.debug(self.layer['op_roof'])
         logging.debug(self.layer['data_roof'])
         logging.debug(self.layer['time_ms'])
+
         return self.layer['time_ms']
 
     def estimate_statistical(self):
@@ -127,7 +128,7 @@ class ConvLayer(BaseLayer):
 
         if self.layer['op_roof'] > self.layer['data_roof']:
             logging.debug("OP Roof")
-            self.layer['time_ms'] = self.layer['time_ms'] / (self.layer['h_eff']*self.layer['c_eff']*self.layer['f_eff'])
+            self.layer['time_ms'] = self.layer['time_ms'] / (self.layer['eff'])
         else:
             logging.debug("Data Roof")
 
