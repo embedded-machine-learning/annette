@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 from annette.graph import MMGraph
 from annette.graph import AnnetteGraph
-import annette.benchmark.generator
+import annette.benchmark.generator as generator
 
 __author__ = "Matthias Wess"
 __copyright__ = "Christian Doppler Laboratory for Embedded Machine Learning"
@@ -21,14 +21,23 @@ def test_annette_to_model(network="cf_reid"):
     annette_graph = AnnetteGraph(network, json_file)
 
     # execute the function under test
-    annette.benchmark.generator.generate_tf2_model(annette_graph)
+    generator.generate_tf_model(annette_graph)
     assert True
 
+def test_annette_to_model_from_config(network="cf_reid"):
+
+    gen = generator.Graph_generator(network)
+    print(gen.__dict__)
+    gen.add_configfile("config_v6.csv")
+    gen.generate_graph_from_config(500)
+
+    assert True
 
 def main():
     print("Main")
-    network = "cf_reid"
+    network = "annette_bench0"
     test_annette_to_model(network)
+    test_annette_to_model_from_config(network)
 
 if __name__ == '__main__':
     main()
