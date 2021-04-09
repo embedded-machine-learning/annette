@@ -7,6 +7,7 @@ import pickle as pkl
 import logging
 from pathlib import Path
 import tensorflow as tf
+import tensorflow.contrib.slim as slim
 import os
 
 from annette import get_database 
@@ -136,6 +137,14 @@ class Graph_generator():
                 self.tf_graph[layer_n] = self.tf_gen_dwconv(layer_attrs, layer_n)
             elif layer_attrs['type'] == "Pool":
                 self.tf_graph[layer_n] = self.tf_gen_pool(layer_attrs, layer_n)
+            elif layer_attrs['type'] == "Concat":
+                self.tf_graph[layer_n] = self.tf_gen_concat(layer_attrs, layer_n)
+            elif layer_attrs['type'] == "Flatten":
+                self.tf_graph[layer_n] = self.tf_gen_flatten(layer_attrs, layer_n)
+            elif layer_attrs['type'] == "Softmax":
+                self.tf_graph[layer_n] = self.tf_gen_softmax(layer_attrs, layer_n)
+            elif layer_attrs['type'] == "MatMul" or layer_attrs['type'] == "FullyConnected": # TODO check this! Maybe FullyConnected with bias
+                self.tf_graph[layer_n] = self.tf_gen_matmul(layer_attrs, layer_n)
             else:
                 print("no layer")
                 exit()
@@ -144,7 +153,10 @@ class Graph_generator():
             logging.debug("Current graph %s" % self.tf_graph)
 
         # return annette graph
-        self.tf_export_to_pb("Add_1")
+        out = self.graph.model_spec['output_layers']
+        print(out)
+        logging.debug(self.graph.model_spec)
+        self.tf_export_to_pb(out)
         return None
 
     def tf_export_to_pb(self, output_node):
@@ -157,7 +169,7 @@ class Graph_generator():
             g = g.as_graph_def(add_shapes = True)
 
             # Convert variables to constants until the "fully_conn_1/Softmax" node
-            frozen_graph_def = tf.graph_util.convert_variables_to_constants(sess, g, [output_node])
+            frozen_graph_def = tf.graph_util.convert_variables_to_constants(sess, g, output_node)
 
             print("load graph")
             graph_nodes=[n for n in frozen_graph_def.node]
@@ -176,23 +188,24 @@ class Graph_generator():
         logging.debug("Generating Relu with dict: %s" % layer)
         inp_name = layer['parents'][0]
         inp = self.tf_graph[inp_name]
-        k_w = layer['kernel_shape'][2]
-        k_h = layer['kernel_shape'][3]
+        k_w = layer['kernel_shape'][1]
+        k_h = layer['kernel_shape'][2]
         stride_w = layer['strides'][1]
         stride_h = layer['strides'][2]
-        if layer['pooling_type'] != 'MAX':
+        if layer['pooling_type'] == 'MAX':
+            return maxpool(inp, (k_w, k_h),(stride_w, stride_h), name)
+        elif layer['pooling_type'] == 'AVG':
+            return globavgpool(inp, name)
+        else:
             logging.error("only max pooling implemented currently")
             exit()
-        
-        return maxpool(inp, (k_w, k_h),(stride_w, stride_h), name)
 
     def tf_gen_concat(self, layer, name=None):
-        logging.debug("Generating Add with dict: %s" % layer)
+        logging.debug("Generating Concat with dict: %s" % layer)
         inp_name0 = layer['parents'][0]
         inp_name1 = layer['parents'][1]
-        inp0 = self.tf_graph[inp_name0]
-        inp1 = self.tf_graph[inp_name1]
-        return tf.add(inp0, inp1)
+        inp = [self.tf_graph[x] for x in layer['parents']]
+        return tf.concat(inp,axis=3,name=name)
 
     def tf_gen_add(self, layer, name=None):
         logging.debug("Generating Add with dict: %s" % layer)
@@ -202,6 +215,12 @@ class Graph_generator():
         inp1 = self.tf_graph[inp_name1]
         return tf.add(inp0, inp1, name=name)
 
+    def tf_gen_flatten(self, layer, name=None):
+        logging.debug("Generating Flatten with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        return flatten(inp, name)
+
     def tf_gen_relu(self, layer, name=None):
         logging.debug("Generating Relu with dict: %s" % layer)
         inp_name = layer['parents'][0]
@@ -209,13 +228,26 @@ class Graph_generator():
         inp = self.tf_graph[inp_name]
         return relu(inp, name)
 
+    def tf_gen_softmax(self, layer, name=None):
+        logging.debug("Generating Softmax with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        return softmax(inp, name)
+
+    def tf_gen_matmul(self, layer, name=None):
+        logging.debug("Generating MatMul with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        filters = layer['output_shape'][1]
+        return matmul(inp, filters, name)
+
     def tf_gen_conv(self, layer, name=None):
         logging.debug("Generating Conv with dict: %s" % layer)
         inp_name = layer['parents'][0]
         inp = self.tf_graph[inp_name]
         filters = layer['output_shape'][3]
-        k_w = layer['kernel_shape'][2]
-        k_h = layer['kernel_shape'][3]
+        k_w = layer['kernel_shape'][0]
+        k_h = layer['kernel_shape'][1]
         stride_w = layer['strides'][1]
         stride_h = layer['strides'][2]
         return conv2d(inp, filters, (k_w,k_h), (stride_w,stride_h), name)
@@ -227,16 +259,28 @@ class Graph_generator():
         k_h = layer['kernel_shape'][3]
         inp = self.tf_graph[inp_name]
         filters = layer['output_shape'][3]
-        return tf.layers.separable_conv2d(inp, filters, (k_w,k_h), padding='same')
+        #return tf.layers.separable_conv2d(inp, filters, (k_w,k_h), padding='same')
+        return dw_conv2d(inp, (k_w,k_h), (1, 1), name)
 
     def tf_gen_placeholder(self, layer, name="x"):
         logging.debug("Generating Placeholder with dict: %s" % layer)
         batch_size = layer['output_shape'][0]
+        if batch_size == -1:
+            batch_size = 1
         width = layer['output_shape'][1] 
         height = layer['output_shape'][2]
         channels = layer['output_shape'][3]
         return tf.compat.v1.placeholder(tf.float32, [batch_size, width, height, channels], name=name)
 
+def dw_conv2d(x_tensor, conv_ksize, stride, name):
+    layer = slim.separable_convolution2d(x_tensor,
+                                            num_outputs=None,
+                                            stride=stride,
+                                            depth_multiplier=1,
+                                            kernel_size=conv_ksize,
+                                            scope=name)
+    return layer
+    
 
 def conv2d(x_tensor, filters, conv_ksize, stride, name):
     # Weights
@@ -262,6 +306,14 @@ def relu(x_tensor, name):
     x = tf.nn.relu(x_tensor,name=name)
     return x
 
+def softmax(x_tensor, name):
+    # Nonlinear activation (ReLU)
+    x = tf.nn.softmax(x_tensor,name=name)
+    return x
+
+def globavgpool(x_tensor, name='avg_pool'):
+    x = tf.reduce_mean(x_tensor, axis=[1,2], name = name)
+    return x
 
 def maxpool(x_tensor, pool_ksize, pool_strides, name='max_pool'):
     with tf.name_scope(name):
@@ -275,22 +327,18 @@ def maxpool(x_tensor, pool_ksize, pool_strides, name='max_pool'):
     return x
 
 
-def flatten(x_tensor):
-    with tf.name_scope('flatten'):
-        x = tf.reshape(x_tensor, [-1, np.prod(x_tensor.shape.as_list()[1:])])
+def flatten(x_tensor, name):
+    x = tf.reshape(x_tensor, [1, np.prod(x_tensor.shape.as_list()[1:])], name = name)
     return x
 
 
-def fully_conn(x_tensor, num_outputs):
-    with tf.name_scope('fully_conn'):
-        # Weights and bias
-        W = tf.Variable(tf.truncated_normal([int(x_tensor.shape[1]), num_outputs], stddev=.05))
-        b = tf.Variable(tf.zeros([num_outputs]))
-        # The fully connected layer
-        x = tf.add(tf.matmul(x_tensor, W), b)
-
-        # Nonlinear activation (ReLU)
-        x = tf.nn.relu(x)
+def matmul(x_tensor, num_outputs, name):
+    # Weights and bias
+    s = [int(x_tensor.shape[1]), num_outputs]
+    W = tf.Variable(tf.truncated_normal(s , stddev=.05))
+    b = tf.Variable(tf.zeros([num_outputs]))
+    # The fully connected layer
+    x = tf.add(tf.matmul(x_tensor, W, name=name), b)
     return x
 
 
