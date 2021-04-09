@@ -36,48 +36,9 @@ def generate_tf_model(graph):
     filename = get_database( 'benchmark', 'graphs' ,'tf2', network_name+'.pb')
     logging.debug("Stored to: %s" % filename)
 
-"""
-        width = int(df.at[index, 'width'])
-        height = int(df.at[index, 'height'])
-        channels = int(df.at[index, 'channels'])
-        filters = int(df.at[index, 'filters'])
-        kernel_size = int(df.at[index, 'k_size'])
-        batch_size = 1
-        stride = 1
-
-        # Remove previous weights, bias, inputs, etc..
-        tf.compat.v1.reset_default_graph()
-
-        # Inputs in format: [b_s,h,w,channels]
-        x = tf.compat.v1.placeholder(tf.float32, [batch_size, width, height, channels], name="x")
-
-        output_node = "" # Name of the model output node, differs for different networks
-        k = (kernel_size, kernel_size)
-        maxpool_param = (2,2)
-
-#First Block
-        print(k)
-
-        xq = conv2d(x, filters, k, stride)
-        xq_1 = conv2d(x, filters, (kernel_size,1), stride)
-        x1_q = conv2d(x, filters, (1,kernel_size), stride)
-        x = tf.add(xq,xq_1)
-        x = tf.add(x,x1_q)
-
-        x = tf.layers.separable_conv2d(x, channels, k, padding='same')
-
-        x1 = conv2d(x, filters, k, 2)
-
-        x = conv2d(x, filters, k, 1)
-        x = maxpool(x, maxpool_param, maxpool_param)
-
-        x = tf.concat([x1,x],axis=3)
-
-        output_node = "concat"
-"""    
 
 class Graph_generator():
-    """Bench generator"""
+    """Graph generator"""
 
     def __init__(self, network):
         #load graphstruct
@@ -194,8 +155,10 @@ class Graph_generator():
         stride_h = layer['strides'][2]
         if layer['pooling_type'] == 'MAX':
             return maxpool(inp, (k_w, k_h),(stride_w, stride_h), name)
-        elif layer['pooling_type'] == 'AVG':
+        elif layer['pooling_type'] == 'AVG' and layer['kernel_shape'][1] == -1:
             return globavgpool(inp, name)
+        elif layer['pooling_type'] == 'AVG':
+            return avgpool(inp, (k_w, k_h),(stride_w, stride_h), name)
         else:
             logging.error("only max pooling implemented currently")
             exit()
@@ -322,10 +285,21 @@ def maxpool(x_tensor, pool_ksize, pool_strides, name='max_pool'):
             x_tensor,
             ksize = [1] + list(pool_ksize) + [1],
             strides = [1] + list(pool_strides) + [1],
-            padding = 'SAME'
+            padding = 'SAME',
+            name = name
         )
     return x
 
+def avgpool(x_tensor, pool_ksize, pool_strides, name='avg_pool'):
+    x = tf.nn.avg_pool(
+            x_tensor,
+            ksize = [1] + list(pool_ksize) + [1],
+            strides = [1] + list(pool_strides) + [1],
+            padding = 'SAME',
+            name = name
+        )
+
+    return x
 
 def flatten(x_tensor, name):
     x = tf.reshape(x_tensor, [1, np.prod(x_tensor.shape.as_list()[1:])], name = name)

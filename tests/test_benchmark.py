@@ -36,7 +36,7 @@ def test_annette_to_model_from_config(network="cf_reid"):
 def main():
     print("Main")
     network = "annette_bench0"
-    network = "cf_inceptionv1_mod"
+    network = "cf_inceptionv4"
     test_annette_to_model(network)
     test_annette_to_model_from_config(network)
 
