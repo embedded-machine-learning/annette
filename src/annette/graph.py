@@ -36,7 +36,7 @@ class AnnetteGraph():
         model_spec[output_layers] (list): list of the output layer names
     """
 
-    def __init__(self, name, json_file=None):
+    def __init__(self, name, json_file=None, in_dict=None):
         self.model_spec = dict()
         self.model_spec['name'] = name
         self.model_spec['layers'] = dict()
@@ -68,15 +68,25 @@ class AnnetteGraph():
             * check for duplicate layer_names
             * check for valid attributes
         """
+        print(layer_attr['parents'])
+        for p in layer_attr['parents']:
+            print(p)
+            if p in self.model_spec['layers'].keys():
+                self.model_spec['layers'][p]['children'].append(layer_name)
         self.model_spec['layers'][layer_name] = layer_attr.copy()
+        self._make_input_layers()
+        self._make_output_layers()
+        self.topological_sort = self._get_topological_sort()
         return True
 
     def _make_output_layers(self):
+        self.model_spec['output_layers'] = []
         for name, layer in self.model_spec['layers'].items():
             if len(layer['children']) == 0:
                 self.model_spec['output_layers'].append(name)
 
     def _make_input_layers(self, rebuild=False):
+        self.model_spec['input_layers'] = []
         for name, layer in self.model_spec['layers'].items():
             self.model_spec['layers'][name]['left_parents'] = len(
                 layer['parents'])
@@ -401,3 +411,14 @@ class MMGraph:
             annette_graph.add_layer(layer_name, layer_dict)
 
         return annette_graph
+
+class ONNXGraph:
+    """ ONNX Graph Class
+
+    Args:
+        graphfile (str): MMDNN graphfile
+        weightfile(str, optional): MMDNN weightfile, dropped anyways
+
+    Attributes:
+        IR_graph : mmdnn Intermediate Representation Graph 
+    """
