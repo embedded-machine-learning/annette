@@ -13,6 +13,8 @@ import os
 from annette import get_database 
 from annette.graph import AnnetteGraph
 
+#TODO renaming of tf_variables and move some things to the tf file
+
 def generate_tf_model(graph):
     """generates Tensorflow 2 graph out of ANNETTE graph description
     and stores to benchmark/graphs/tf2/ directory
