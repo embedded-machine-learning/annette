@@ -5,8 +5,7 @@ from pathlib import Path
 import logging
 import os
 
-from annette.graph import MMGraph
-from annette.graph import AnnetteGraph
+import annette.graph as graph
 
 __author__ = "Matthias Wess"
 __copyright__ = "Christian Doppler Laboratory for Embedded Machine Learning"
@@ -17,7 +16,7 @@ def test_MMGraph_to_annette(network="cf_resnet50"):
     print("MMGraph_test")
     graphfile = Path('database','graphs','mmdnn',network+'.pb')
     weightfile = None
-    mmdnn_graph = graphs.MMGraph(graphfile, weightfile)
+    mmdnn_graph = graph.MMGraph(graphfile, weightfile)
     annette_graph = mmdnn_graph.convert_to_annette(network)
     json_file = Path('database','graphs','annette',annette_graph.model_spec["name"]+'.json')
     annette_graph.to_json(json_file)
@@ -27,7 +26,7 @@ def test_MMGraph_to_annette(network="cf_resnet50"):
 
 def test_annette_from_json(network="cf_resnet50"):
     json_file = Path('database','graphs','annette',network+'.json')
-    new_annette_graph = graphs.AnnetteGraph(network, json_file)
+    new_annette_graph = graph.AnnetteGraph(network, json_file)
 
     logging.warning("test")
     assert True
