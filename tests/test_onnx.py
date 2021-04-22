@@ -14,7 +14,7 @@ __license__ = "Apache 2.0"
 
 def test_ONNXGraph_to_annette(network="cf_resnet50",inputs=None):
     network_file = get_database('graphs','onnx',network+'.onnx')
-    onnx_network = graphs.ONNXGraph(network_file)
+    onnx_network = graph.ONNXGraph(network_file)
     annette_graph = onnx_network.onnx_to_annette(network, inputs)
     json_file = get_database( 'graphs', 'annette',
                      annette_graph.model_spec["name"]+'.json')
