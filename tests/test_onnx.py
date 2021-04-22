@@ -6,7 +6,7 @@ import logging
 import os
 
 from annette import get_database
-import annette.graphs as graphs
+import annette.graph as graph
 
 __author__ = "Matthias Wess"
 __copyright__ = "Christian Doppler Laboratory for Embedded Machine Learning"
