@@ -1,3 +1,6 @@
 [submodule "src/annette/graph"]
 	path = src/annette/graph
 	url = https://github.com/embedded-machine-learning/mmdnn-graph-utils.git
+[submodule "src/annette/hw_modules"]
+	path = src/annette/hw_modules
+	url = https://github.com/embedded-machine-learning/inference-modules.git
