@@ -226,8 +226,8 @@ class Graph_generator():
     def tf_gen_dwconv(self, layer, name=None):
         logging.debug("Generating DWConv with dict: %s" % layer)
         inp_name = layer['parents'][0]
-        k_w = layer['kernel_shape'][2]
-        k_h = layer['kernel_shape'][3]
+        k_w = layer['kernel_shape'][0]
+        k_h = layer['kernel_shape'][1]
         inp = self.tf_graph[inp_name]
         filters = layer['output_shape'][3]
         #return tf.layers.separable_conv2d(inp, filters, (k_w,k_h), padding='same')
