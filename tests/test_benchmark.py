@@ -29,16 +29,15 @@ def test_annette_to_model_from_config(network="cf_reid"):
     gen = generator.Graph_generator(network)
     print(gen.__dict__)
     gen.add_configfile("config_v6.csv")
-    gen.generate_graph_from_config(9001)
+    gen.generate_graph_from_config(401)
 
     assert True
 
 def main():
     print("Main")
-    network = "annette_bench0"
-    network = "cf_inceptionv4"
+    network = "annette_bench1"
     test_annette_to_model(network)
-    test_annette_to_model_from_config(network)
+    model = test_annette_to_model_from_config(network)
 
 if __name__ == '__main__':
     main()

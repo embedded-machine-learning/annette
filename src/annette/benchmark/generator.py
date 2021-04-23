@@ -117,12 +117,11 @@ class Graph_generator():
 
         # return annette graph
         out = self.graph.model_spec['output_layers']
-        print(out)
         logging.debug(self.graph.model_spec)
         self.tf_export_to_pb(out)
-        return None
+        return out 
 
-    def tf_export_to_pb(self, output_node):
+    def tf_export_to_pb(self, output_node, save_path = None):
         # Collect default graph information
         g = tf.get_default_graph()
 
@@ -143,7 +142,12 @@ class Graph_generator():
             print(names)
 
         # Write the intermediate representation of the graph to .pb file
-        with open(os.path.join("network.pb"), 'wb') as f:
+        if save_path:
+            net_file = save_path
+        else:
+            net_file = get_database('graphs','tf',self.graph.model_spec['name']+".pb")
+        print(net_file)
+        with open(os.path.join(net_file), 'wb') as f:
             graph_string = (frozen_graph_def.SerializeToString())
             f.write(graph_string)
 
@@ -174,11 +178,14 @@ class Graph_generator():
 
     def tf_gen_add(self, layer, name=None):
         logging.debug("Generating Add with dict: %s" % layer)
-        inp_name0 = layer['parents'][0]
-        inp_name1 = layer['parents'][1]
-        inp0 = self.tf_graph[inp_name0]
-        inp1 = self.tf_graph[inp_name1]
-        return tf.add(inp0, inp1, name=name)
+        if len(layer['parents']) == 2:
+            inp_name0 = layer['parents'][0]
+            inp_name1 = layer['parents'][1]
+            inp0 = self.tf_graph[inp_name0]
+            inp1 = self.tf_graph[inp_name1]
+            return tf.add(inp0, inp1, name=name)
+        else:
+            raise NotImplementedError
 
     def tf_gen_flatten(self, layer, name=None):
         logging.debug("Generating Flatten with dict: %s" % layer)
@@ -189,7 +196,6 @@ class Graph_generator():
     def tf_gen_relu(self, layer, name=None):
         logging.debug("Generating Relu with dict: %s" % layer)
         inp_name = layer['parents'][0]
-        filters = layer['output_shape'][3]
         inp = self.tf_graph[inp_name]
         return relu(inp, name)
 
@@ -311,6 +317,7 @@ def flatten(x_tensor, name):
 def matmul(x_tensor, num_outputs, name):
     # Weights and bias
     s = [int(x_tensor.shape[1]), num_outputs]
+    print(s)
     W = tf.Variable(tf.truncated_normal(s , stddev=.05))
     b = tf.Variable(tf.zeros([num_outputs]))
     # The fully connected layer
