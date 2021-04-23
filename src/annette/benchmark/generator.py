@@ -266,9 +266,6 @@ def conv2d(x_tensor, filters, conv_ksize, stride, name):
         padding = 'SAME',
         name = name
     )
-    # Add bias
-    b = tf.Variable(tf.zeros([filters]))
-    x = tf.nn.bias_add(x, b)
 
     return x
 
