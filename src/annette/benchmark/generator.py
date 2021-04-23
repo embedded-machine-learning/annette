@@ -313,11 +313,9 @@ def flatten(x_tensor, name):
 def matmul(x_tensor, num_outputs, name):
     # Weights and bias
     s = [int(x_tensor.shape[1]), num_outputs]
-    print(s)
     W = tf.Variable(tf.truncated_normal(s , stddev=.05))
-    b = tf.Variable(tf.zeros([num_outputs]))
     # The fully connected layer
-    x = tf.add(tf.matmul(x_tensor, W, name=name), b)
+    x = tf.matmul(x_tensor, W, name=name)
     return x
 
 
