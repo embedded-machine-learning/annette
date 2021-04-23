@@ -284,15 +284,14 @@ def globavgpool(x_tensor, name='avg_pool'):
     return x
 
 def maxpool(x_tensor, pool_ksize, pool_strides, name='max_pool'):
-    with tf.name_scope(name):
-        # Max pooling
-        x = tf.nn.max_pool(
-            x_tensor,
-            ksize = [1] + list(pool_ksize) + [1],
-            strides = [1] + list(pool_strides) + [1],
-            padding = 'SAME',
-            name = name
-        )
+    # Max pooling
+    x = tf.nn.max_pool(
+        x_tensor,
+        ksize = [1] + list(pool_ksize) + [1],
+        strides = [1] + list(pool_strides) + [1],
+        padding = 'SAME',
+        name = name
+    )
     return x
 
 def avgpool(x_tensor, pool_ksize, pool_strides, name='avg_pool'):
