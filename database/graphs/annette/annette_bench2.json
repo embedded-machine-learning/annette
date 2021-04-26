@@ -1,0 +1,105 @@
+{
+    "name": "annette_bench2",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "flatten/Reshape"
+            ],
+            "output_shape": [
+                "batch_size",
+                "width",
+                "height",
+                "channels"
+            ]
+        },
+        "flatten/Reshape": {
+            "type": "Flatten",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "fully_conn_0/MatMul"
+            ],
+            "output_shape": [
+                -1,
+                -1
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                -1,
+                -1
+            ]
+        },
+        "fully_conn_0/MatMul": {
+            "type": "MatMul",
+            "parents": [
+                "flatten/Reshape"
+            ],
+            "children": [
+                "fully_conn_0/Relu"
+            ],
+            "output_shape": [
+                -1,
+                "channels"
+            ],
+            "input_shape": [
+                -1,
+                "filters"
+            ]
+        },
+        "fully_conn_0/Relu": {
+            "type": "Relu",
+            "parents": [
+                "fully_conn_0/MatMul"
+            ],
+            "children": [
+                "fully_conn_1/MatMul"
+            ],
+            "output_shape": [
+                1,
+                "channels"
+            ],
+            "input_shape": [
+                1,
+                "channels"
+            ]
+        },
+        "fully_conn_1/MatMul": {
+            "type": "MatMul",
+            "parents": [
+                "fully_conn_0/Relu"
+            ],
+            "children": [
+                "fully_conn_1/Softmax"
+            ],
+            "output_shape": [
+                1,
+                "filters"
+            ],
+            "input_shape": [
+                1,
+                "channels"
+            ]
+        },
+        "fully_conn_1/Softmax": {
+            "type": "Softmax",
+            "parents": [
+                "fully_conn_1/MatMul"
+            ],
+            "children": [],
+            "output_shape": [
+                1,
+                "filters"
+            ],
+            "input_shape": [
+                1,
+                "filters"
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}
