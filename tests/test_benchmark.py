@@ -33,7 +33,7 @@ def test_annette_to_model_from_config(network="cf_reid"):
 
     assert True
 
-def test_compute_dims(network):
+def test_compute_dims(network="annette_bench1"):
     gen = generator.Graph_generator(network)
     print(gen.__dict__)
     gen.add_configfile("config_v6.csv")
