@@ -276,7 +276,7 @@
                 "k_size",
                 "k_size",
                 1,
-                -1
+                "filters"
             ],
             "strides": [
                 1,
@@ -319,8 +319,8 @@
             "kernel_shape": [
                 1,
                 1,
-				-1,
-				-1
+                "filters",
+                "channels"
             ],
             "strides": [
                 1,
@@ -362,8 +362,8 @@
             "kernel_shape": [
                 "k_size",
                 "k_size",
-                -1,
-                -1
+                "channels",
+                "filters"
             ],
             "strides": [
                 1,
@@ -405,8 +405,8 @@
             "kernel_shape": [
                 "k_size",
                 "k_size",
-                -1,
-                -1
+                "channels",
+                "filters"
             ],
             "strides": [
                 1,
@@ -531,7 +531,8 @@
                 -1,
                 -1,
                 -1
-            ]
+            ],
+            "axis": 3
         },
         "flatten/Reshape": {
             "type": "Flatten",
