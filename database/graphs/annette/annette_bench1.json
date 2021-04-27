@@ -5,9 +5,9 @@
             "type": "DataInput",
             "parents": [],
             "children": [
-                "conv2d_0/Conv2D",
-                "conv2d_1/Conv2D",
-                "conv2d_2/Conv2D"
+                "conv2d_0_Conv2D",
+                "conv2d_1_Conv2D",
+                "conv2d_2_Conv2D"
             ],
             "output_shape": [
                 "batch_size",
@@ -16,13 +16,13 @@
                 "channels"
             ]
         },
-        "conv2d_0/Conv2D": {
+        "conv2d_0_Conv2D": {
             "type": "Conv",
             "parents": [
                 "Placeholder"
             ],
             "children": [
-                "conv2d_0/Relu"
+                "conv2d_0_Relu"
             ],
             "output_shape": [
                 1,
@@ -59,13 +59,13 @@
                 0
             ]
         },
-        "conv2d_1/Conv2D": {
+        "conv2d_1_Conv2D": {
             "type": "Conv",
             "parents": [
                 "Placeholder"
             ],
             "children": [
-                "conv2d_1/Relu"
+                "conv2d_1_Relu"
             ],
             "output_shape": [
                 -1,
@@ -102,13 +102,13 @@
                 0
             ]
         },
-        "conv2d_2/Conv2D": {
+        "conv2d_2_Conv2D": {
             "type": "Conv",
             "parents": [
                 "Placeholder"
             ],
             "children": [
-                "conv2d_2/Relu"
+                "conv2d_2_Relu"
             ],
             "output_shape": [
                 -1,
@@ -145,13 +145,13 @@
                 0
             ]
         },
-        "conv2d_0/Relu": {
+        "conv2d_0_Relu": {
             "type": "Relu",
             "parents": [
-                "conv2d_0/Conv2D"
+                "conv2d_0_Conv2D"
             ],
             "children": [
-                "Add"
+                "Add_0"
             ],
             "output_shape": [
                 -1,
@@ -166,13 +166,13 @@
                 "filters"
             ]
         },
-        "conv2d_1/Relu": {
+        "conv2d_1_Relu": {
             "type": "Relu",
             "parents": [
-                "conv2d_1/Conv2D"
+                "conv2d_1_Conv2D"
             ],
             "children": [
-                "Add"
+                "Add_0"
             ],
             "output_shape": [
                 -1,
@@ -187,10 +187,10 @@
                 "filters"
             ]
         },
-        "conv2d_2/Relu": {
+        "conv2d_2_Relu": {
             "type": "Relu",
             "parents": [
-                "conv2d_2/Conv2D"
+                "conv2d_2_Conv2D"
             ],
             "children": [
                 "Add_1"
@@ -208,11 +208,11 @@
                 "filters"
             ]
         },
-        "Add": {
-            "type": "Add",
+        "Add_0": {
+            "type": "Add_0",
             "parents": [
-                "conv2d_0/Relu",
-                "conv2d_1/Relu"
+                "conv2d_0_Relu",
+                "conv2d_1_Relu"
             ],
             "children": [
                 "Add_1"
@@ -231,13 +231,13 @@
             ]
         },
         "Add_1": {
-            "type": "Add",
+            "type": "Add_0",
             "parents": [
                 "Add",
-                "conv2d_2/Relu"
+                "conv2d_2_Relu"
             ],
             "children": [
-                "separable_conv2d/depthwise"
+                "separable_conv2d_depthwise"
             ],
             "output_shape": [
                 -1,
@@ -252,13 +252,13 @@
                 "filters"
             ]
         },
-        "separable_conv2d/depthwise": {
+        "separable_conv2d_depthwise": {
             "type": "DepthwiseConv",
             "parents": [
                 "Add_1"
             ],
             "children": [
-                "separable_conv2d/pointwise"
+                "separable_conv2d_pointwise"
             ],
             "output_shape": [
                 -1,
@@ -295,14 +295,14 @@
                 0
             ]
         },
-        "separable_conv2d/pointwise": {
+        "separable_conv2d_pointwise": {
             "type": "Conv",
             "parents": [
-                "separable_conv2d/depthwise"
+                "separable_conv2d_depthwise"
             ],
             "children": [
-                "conv2d_3/Conv2D",
-                "conv2d_4/Conv2D"
+                "conv2d_3_Conv2D",
+                "conv2d_4_Conv2D"
             ],
             "output_shape": [
                 -1,
@@ -339,13 +339,13 @@
                 0
             ]
         },
-        "conv2d_3/Conv2D": {
+        "conv2d_3_Conv2D": {
             "type": "Conv",
             "parents": [
-                "separable_conv2d/pointwise"
+                "separable_conv2d_pointwise"
             ],
             "children": [
-                "conv2d_3/Relu"
+                "conv2d_3_Relu"
             ],
             "output_shape": [
                 -1,
@@ -382,13 +382,13 @@
                 0
             ]
         },
-        "conv2d_4/Conv2D": {
+        "conv2d_4_Conv2D": {
             "type": "Conv",
             "parents": [
-                "separable_conv2d/pointwise"
+                "separable_conv2d_pointwise"
             ],
             "children": [
-                "conv2d_4/Relu"
+                "conv2d_4_Relu"
             ],
             "output_shape": [
                 -1,
@@ -425,10 +425,10 @@
                 0
             ]
         },
-        "conv2d_3/Relu": {
+        "conv2d_3_Relu": {
             "type": "Relu",
             "parents": [
-                "conv2d_3/Conv2D"
+                "conv2d_3_Conv2D"
             ],
             "children": [
                 "concat"
@@ -446,13 +446,13 @@
                 "channels"
             ]
         },
-        "conv2d_4/Relu": {
+        "conv2d_4_Relu": {
             "type": "Relu",
             "parents": [
-                "conv2d_4/Conv2D"
+                "conv2d_4_Conv2D"
             ],
             "children": [
-                "max_pool/MaxPool"
+                "max_pool_MaxPool"
             ],
             "output_shape": [
                 -1,
@@ -467,10 +467,10 @@
                 "channels"
             ]
         },
-        "max_pool/MaxPool": {
+        "max_pool_MaxPool": {
             "type": "Pool",
             "parents": [
-                "conv2d_4/Relu"
+                "conv2d_4_Relu"
             ],
             "children": [
                 "concat"
@@ -514,11 +514,11 @@
         "concat": {
             "type": "Concat",
             "parents": [
-                "conv2d_3/Relu",
-                "max_pool/MaxPool"
+                "conv2d_3_Relu",
+                "max_pool_MaxPool"
             ],
             "children": [
-                "flatten/Reshape"
+                "flatten_Reshape"
             ],
             "output_shape": [
                 -1,
@@ -534,13 +534,13 @@
             ],
             "axis": 3
         },
-        "flatten/Reshape": {
+        "flatten_Reshape": {
             "type": "Flatten",
             "parents": [
                 "concat"
             ],
             "children": [
-                "fully_conn_0/MatMul"
+                "fully_conn_0_MatMul"
             ],
             "output_shape": [
                 -1,
@@ -553,13 +553,13 @@
                 -1
             ]
         },
-        "fully_conn_0/MatMul": {
+        "fully_conn_0_MatMul": {
             "type": "MatMul",
             "parents": [
-                "flatten/Reshape"
+                "flatten_Reshape"
             ],
             "children": [
-                "fully_conn_0/Relu"
+                "fully_conn_0_Relu"
             ],
             "output_shape": [
                 -1,
@@ -570,13 +570,13 @@
                 "filters"
             ]
         },
-        "fully_conn_0/Relu": {
+        "fully_conn_0_Relu": {
             "type": "Relu",
             "parents": [
-                "fully_conn_0/MatMul"
+                "fully_conn_0_MatMul"
             ],
             "children": [
-                "fully_conn_1/MatMul"
+                "fully_conn_1_MatMul"
             ],
             "output_shape": [
                 1,
@@ -587,13 +587,13 @@
                 "channels"
             ]
         },
-        "fully_conn_1/MatMul": {
+        "fully_conn_1_MatMul": {
             "type": "MatMul",
             "parents": [
-                "fully_conn_0/Relu"
+                "fully_conn_0_Relu"
             ],
             "children": [
-                "fully_conn_1/Softmax"
+                "fully_conn_1_Softmax"
             ],
             "output_shape": [
                 1,
@@ -604,10 +604,10 @@
                 "channels"
             ]
         },
-        "fully_conn_1/Softmax": {
+        "fully_conn_1_Softmax": {
             "type": "Softmax",
             "parents": [
-                "fully_conn_1/MatMul"
+                "fully_conn_1_MatMul"
             ],
             "children": [],
             "output_shape": [

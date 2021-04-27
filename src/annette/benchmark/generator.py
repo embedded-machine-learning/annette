@@ -72,7 +72,6 @@ class Graph_generator():
         tf.compat.v1.reset_default_graph()
         self.tf_graph = {}
 
-        logging.debug("Loop through layers")
         for layer_n, layer_attrs in self.graph.model_spec['layers'].items():
             logging.debug("layer name %s " % layer_n)
             logging.debug("layer attrs %s " % layer_attrs)
@@ -88,6 +87,11 @@ class Graph_generator():
                 else:
                     self.graph.model_spec['layers'][layer_n][attr_n] = replace_key(attr_v, self.config, num)
 
+        self.graph.compute_dims()
+
+        logging.debug("Loop through layers")
+
+        for layer_n, layer_attrs in self.graph.model_spec['layers'].items():
             if layer_attrs['type'] == "DataInput":
                 self.tf_graph[layer_n] = self.tf_gen_placeholder(layer_attrs, layer_n)
             elif layer_attrs['type'] == "Conv":
@@ -309,7 +313,6 @@ def flatten(x_tensor, name):
     x = tf.reshape(x_tensor, [1, np.prod(x_tensor.shape.as_list()[1:])], name = name)
     return x
 
-
 def matmul(x_tensor, num_outputs, name):
     # Weights and bias
     s = [int(x_tensor.shape[1]), num_outputs]
@@ -317,7 +320,6 @@ def matmul(x_tensor, num_outputs, name):
     # The fully connected layer
     x = tf.matmul(x_tensor, W, name=name)
     return x
-
 
 def output(x_tensor, num_outputs):
     with tf.name_scope('fully_conn'):
@@ -329,4 +331,3 @@ def output(x_tensor, num_outputs):
         x = tf.add(tf.matmul(x_tensor, W), b)
         x = tf.nn.softmax(x)
     return x
-
