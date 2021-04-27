@@ -48,7 +48,6 @@ class Graph_generator():
         self.json_file = get_database('graphs','annette',network+'.json')
         self.init_graph = AnnetteGraph(network, self.json_file)
         self.graph = deepcopy(self.init_graph)
-        print(self.graph)
         #load configfile
     
     def add_configfile(self, configfile):
