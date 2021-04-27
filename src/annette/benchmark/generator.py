@@ -9,6 +9,7 @@ from pathlib import Path
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import os
+from copy import deepcopy
 
 from annette import get_database 
 from annette.graph import AnnetteGraph
@@ -44,8 +45,9 @@ class Graph_generator():
 
     def __init__(self, network):
         #load graphstruct
-        json_file = get_database('graphs','annette',network+'.json')
-        self.graph = AnnetteGraph(network, json_file)
+        self.json_file = get_database('graphs','annette',network+'.json')
+        self.init_graph = AnnetteGraph(network, self.json_file)
+        self.graph = deepcopy(self.init_graph)
         print(self.graph)
         #load configfile
     
@@ -56,9 +58,10 @@ class Graph_generator():
     def generate_graph_from_config(self, num):
         # can be used as to generate input for generate_tf_model
         # execute the function under test
+        self.graph = deepcopy(self.init_graph)
 
         def replace_key(value, config, num):
-            if value in self.config.keys():
+            if value in self.config.keys().to_numpy():
                 logging.debug("%s detected", value)
                 return int(self.config.iloc[num][value])
             else:
