@@ -209,7 +209,7 @@
             ]
         },
         "Add_0": {
-            "type": "Add_0",
+            "type": "Add",
             "parents": [
                 "conv2d_0_Relu",
                 "conv2d_1_Relu"
@@ -231,9 +231,9 @@
             ]
         },
         "Add_1": {
-            "type": "Add_0",
+            "type": "Add",
             "parents": [
-                "Add",
+                "Add_0",
                 "conv2d_2_Relu"
             ],
             "children": [
