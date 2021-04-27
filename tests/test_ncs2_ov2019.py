@@ -10,7 +10,7 @@ import annette.benchmark.generator as generator
 import annette.benchmark.matcher as matcher 
 from annette import get_database
 
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 print(ncs2.__dict__)
 
@@ -66,7 +66,7 @@ def test_matcher(network='annette_bench3', shape = None):
     ncs2.read_report(test_report)
     print(gen.graph.model_spec) 
 
-def test_all(network="annette_bench1",config="config_v6.csv"):
+def test_all(network="annette_bench5",config="config_v6.csv"):
 
     match = {
             "conv2d_0_Conv2D": {
@@ -119,7 +119,7 @@ def main():
     #test_all(network='annette_bench2')
     #test_all(network='annette_bench3')
     #test_matcher(network='annette_bench1')
-    test_all(network='annette_bench1')
+    test_all(network='annette_bench5')
     #test_read_ncs2_report()
 
 if __name__ == '__main__':

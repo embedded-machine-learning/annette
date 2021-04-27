@@ -33,6 +33,9 @@ class Graph_matcher():
     def run_bench(self, optimize = None, execute = None, parse = None, store = 10, hardware='ncs2'):
         config_len = len(self.gen.config)
         for i in range(config_len):
+            print('-'*60)
+            print('Running Config %i of %i' % (i, config_len))
+            print('-'*60)
             self.gen.generate_graph_from_config(i)
 
             test_net = get_database('graphs','tf', self.network+'.pb')
@@ -44,12 +47,17 @@ class Graph_matcher():
             test_report = get_database('benchmarks','tmp','benchmark_average_counters_report.csv')
             report = parse(test_report) 
             self.match_and_add(self.gen.graph, report)
-            if i % store == 0 or i == config_len-1:
+            if i % store == 0 and i > store-1 or i == config_len-1:
+                print(i)
 
-            for key, v in self.df_out.items():
-                print(key)
-                print(v)
-                v.to_pickle(get_database('benchmarks',hardware,'measurements',key+'.p')
+                for key, v in self.df_out.items():
+                    #print(key)
+                    #print(v)
+                    try:
+                        os.makedirs(get_database('benchmarks',hardware,'measurements'))
+                    except:
+                        pass
+                    v.to_pickle(get_database('benchmarks',hardware,'measurements',key+'.p'))
 
 
     def match_and_add(self, graph, report):

@@ -145,14 +145,13 @@ class Graph_generator():
             for t in graph_nodes:
                 if not ("Variable" in t.name or "BiasAdd" in t.name):
                     names.append(t.name.replace("/","_").replace("-","_"))
-            print(names)
 
         # Write the intermediate representation of the graph to .pb file
         if save_path:
             net_file = save_path
         else:
             net_file = get_database('graphs','tf',self.graph.model_spec['name']+".pb")
-        print(net_file)
+        #print(net_file)
         with open(os.path.join(net_file), 'wb') as f:
             graph_string = (frozen_graph_def.SerializeToString())
             f.write(graph_string)
