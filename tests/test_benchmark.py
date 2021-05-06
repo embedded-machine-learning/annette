@@ -50,12 +50,14 @@ def test_matcher(network="annette_bench1",config="config_v6.csv"):
 
 
 
+
 def main():
     print("Main")
     network = "annette_bench1"
     #test_annette_to_model(network)
     #model = test_annette_to_model_from_config(network)
     test_matcher(network)
+    test_compute_dims(network)
 
 if __name__ == '__main__':
     main()
