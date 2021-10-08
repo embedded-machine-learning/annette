@@ -110,12 +110,18 @@ class Graph_generator():
                 self.tf_graph[layer_n] = self.tf_gen_concat(layer_attrs, layer_n)
             elif layer_attrs['type'] == "Flatten":
                 self.tf_graph[layer_n] = self.tf_gen_flatten(layer_attrs, layer_n)
+            elif layer_attrs['type'] == "Squeeze":
+                self.tf_graph[layer_n] = self.tf_gen_flatten(layer_attrs, layer_n)
             elif layer_attrs['type'] == "Softmax":
                 self.tf_graph[layer_n] = self.tf_gen_softmax(layer_attrs, layer_n)
             elif layer_attrs['type'] == "MatMul" or layer_attrs['type'] == "FullyConnected": # TODO check this! Maybe FullyConnected with bias
                 self.tf_graph[layer_n] = self.tf_gen_matmul(layer_attrs, layer_n)
+            elif layer_attrs['type'] == "Relu6":
+                self.tf_graph[layer_n] = self.tf_gen_relu6(layer_attrs, layer_n)
+            elif layer_attrs['type'] == "BatchNorm":
+                self.tf_graph[layer_n] = self.tf_gen_batchnorm(layer_attrs, layer_n)
             else:
-                print("no layer")
+                logging.debug("layer %s not yet implemented", layer_attrs['type'])
                 exit()
 
             logging.debug("Config %s" % self.config.iloc[num])
@@ -164,14 +170,17 @@ class Graph_generator():
         k_h = layer['kernel_shape'][2]
         stride_w = layer['strides'][1]
         stride_h = layer['strides'][2]
+        pad = 'SAME'
+        if sum(layer['pads']) == 0:
+            pad = 'VALID'
         if layer['pooling_type'] == 'MAX':
             return maxpool(inp, (k_w, k_h),(stride_w, stride_h), name)
         elif layer['pooling_type'] == 'AVG' and layer['kernel_shape'][1] == -1:
             return globavgpool(inp, name)
         elif layer['pooling_type'] == 'AVG':
-            return avgpool(inp, (k_w, k_h),(stride_w, stride_h), name)
+            return avgpool(inp, (k_w, k_h),(stride_w, stride_h), pad, name)
         else:
-            logging.error("only max pooling implemented currently")
+            logging.error("not all pooling options implementes up to now")
             exit()
 
     def tf_gen_concat(self, layer, name=None):
@@ -198,11 +207,23 @@ class Graph_generator():
         inp = self.tf_graph[inp_name]
         return flatten(inp, name)
 
+    def tf_gen_batchnorm(self, layer, name=None):
+        logging.debug("Generating Batchnorm with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        return batch_norm(inp, name)
+
     def tf_gen_relu(self, layer, name=None):
         logging.debug("Generating Relu with dict: %s" % layer)
         inp_name = layer['parents'][0]
         inp = self.tf_graph[inp_name]
         return relu(inp, name)
+
+    def tf_gen_relu6(self, layer, name=None):
+        logging.debug("Generating Relu6 with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        return relu6(inp, name)
 
     def tf_gen_softmax(self, layer, name=None):
         logging.debug("Generating Softmax with dict: %s" % layer)
@@ -233,10 +254,12 @@ class Graph_generator():
         inp_name = layer['parents'][0]
         k_w = layer['kernel_shape'][0]
         k_h = layer['kernel_shape'][1]
+        s_w = layer['strides'][1]
+        s_h = layer['strides'][2]
         inp = self.tf_graph[inp_name]
         filters = layer['output_shape'][3]
         #return tf.layers.separable_conv2d(inp, filters, (k_w,k_h), padding='same')
-        return dw_conv2d(inp, (k_w,k_h), (1, 1), name)
+        return dw_conv2d(inp, (k_w,k_h), (s_w, s_h), name)
 
     def tf_gen_placeholder(self, layer, name="x"):
         logging.debug("Generating Placeholder with dict: %s" % layer)
@@ -279,8 +302,18 @@ def relu(x_tensor, name):
     x = tf.nn.relu(x_tensor,name=name)
     return x
 
+def relu6(x_tensor, name):
+    # Nonlinear activation (ReLU6)
+    x = tf.nn.relu6(x_tensor,name=name)
+    return x
+
+def batch_norm(x_tensor, name):
+    # batch normalization
+    x = tf.nn.batch_normalization(x_tensor,0,0,0,1,1e-5,name=name)
+    return x
+
 def softmax(x_tensor, name):
-    # Nonlinear activation (ReLU)
+    # Nonlinear activation (Softmax)
     x = tf.nn.softmax(x_tensor,name=name)
     return x
 
@@ -299,12 +332,12 @@ def maxpool(x_tensor, pool_ksize, pool_strides, name='max_pool'):
     )
     return x
 
-def avgpool(x_tensor, pool_ksize, pool_strides, name='avg_pool'):
+def avgpool(x_tensor, pool_ksize, pool_strides, pads='SAME', name='avg_pool'):
     x = tf.nn.avg_pool(
             x_tensor,
             ksize = [1] + list(pool_ksize) + [1],
             strides = [1] + list(pool_strides) + [1],
-            padding = 'SAME',
+            padding = pads,
             name = name
         )
 
