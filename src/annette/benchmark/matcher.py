@@ -38,7 +38,6 @@ class Graph_matcher():
             print('-'*60)
             self.gen.generate_graph_from_config(i)
 
-
             test_net = get_database('graphs','tf', self.network+'.pb')
             optimize(test_net, source_fw = "tf", network = self.network, image = None , save_folder = get_database('benchmarks','tmp'))
 
@@ -52,10 +51,7 @@ class Graph_matcher():
             self.match_and_add(self.gen.graph, report)
             if i % store == 0 and i > store-1 or i == config_len-1:
                 print(i)
-
                 for key, v in self.df_out.items():
-                    #print(key)
-                    #print(v)
                     try:
                         os.makedirs(get_database('benchmarks',hardware,'measurements'))
                     except:
@@ -65,7 +61,6 @@ class Graph_matcher():
 
     def match_and_add(self, graph, report):
         #compares graph with report
-
         logging.debug(report)
         logging.debug(graph.model_spec)
         missing_layers = []
@@ -88,6 +83,7 @@ class Graph_matcher():
             else:
                 missing_layers.append(l_name)
                 #logging.debug("layer %s not found " % l_name)
+                
         logging.debug("Missing layers %s" %missing_layers)
 
         #TODO make this a separate function?

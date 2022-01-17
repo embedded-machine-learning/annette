@@ -40,6 +40,7 @@ def write_result(network, res_dict, model, hardware, folder='database'):
         temp["model"] = model
         json.dump(temp, json_file, indent=4)
 
+    res_dict[2].to_csv(Path(folder,hardware, network+'_'+model+'.csv'))
     """
     with open(Path(folder, hardware, network+'_'+model+'_detail.json'), 'w+') as json_file:
         temp = res_dict[2].to_json()

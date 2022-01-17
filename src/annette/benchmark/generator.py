@@ -7,9 +7,10 @@ import pickle as pkl
 import logging
 from pathlib import Path
 import tensorflow as tf
-import tensorflow.contrib.slim as slim
+#import tensorflow.compat.v1.contrib.slim as slim
 import os
 from copy import deepcopy
+import subprocess
 
 from annette import get_database 
 from annette.graph import AnnetteGraph
@@ -71,7 +72,10 @@ class Graph_generator():
             logging.debug(key)
             logging.debug(value)
 
-        tf.compat.v1.reset_default_graph()
+        if tf.__version__[0] == '2':
+            tf.compat.v1.reset_default_graph()
+        else:
+            tf.reset_default_graph()
         self.tf_graph = {}
 
         for layer_n, layer_attrs in self.graph.model_spec['layers'].items():
@@ -120,6 +124,8 @@ class Graph_generator():
                 self.tf_graph[layer_n] = self.tf_gen_relu6(layer_attrs, layer_n)
             elif layer_attrs['type'] == "BatchNorm":
                 self.tf_graph[layer_n] = self.tf_gen_batchnorm(layer_attrs, layer_n)
+            elif layer_attrs['type'] == "Reshape":
+                self.tf_graph[layer_n] = self.tf_gen_reshape(layer_attrs, layer_n)
             else:
                 logging.debug("layer %s not yet implemented", layer_attrs['type'])
                 exit()
@@ -128,10 +134,89 @@ class Graph_generator():
             logging.debug("Current graph %s" % self.tf_graph)
 
         # return annette graph
-        out = self.graph.model_spec['output_layers']
+        out = deepcopy(self.graph.model_spec['output_layers'])
         logging.debug(self.graph.model_spec)
-        self.tf_export_to_pb(out)
+
+        for i, o in enumerate(out):
+            print(i,o)
+            if self.graph.model_spec['layers'][o]['type'] == 'BatchNorm':
+                out[i] = o+'/add'
+        #self.tf_export_to_pb(out)
         return out 
+
+    def lite_to_onnx(self, input_nodes, output_nodes, input_shapes, load_path= None, save_path = None):
+        # Convert the model.
+        subprocess.call("python -m tf2onnx.convert --opset 13 --tflite "+str(load_path)+" --output "+str(save_path), shell=True)
+
+    def tf2_export_to_lite(self, input_nodes, output_nodes, input_shapes, load_path= None, save_path = None):
+        # Convert the model.
+        converter = tf.compat.v1.lite.TFLiteConverter.from_frozen_graph(
+            graph_def_file= load_path,
+                            # both `.pb` and `.pbtxt` files are accepted.
+            input_arrays= input_nodes,
+            input_shapes= input_shapes,
+            output_arrays=output_nodes
+        )
+        #tf.contrib.quantize.create_eval_graph()
+        #converter.optimizations = [tf.lite.Optimize.DEFAULT]
+        #converter = tf.compat.v1.lite.TFLiteConverter.from_keras_model_file(model_fn)
+        converter.optimizations = [tf.lite.Optimize.DEFAULT]
+        converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
+        # Set inputs and outputs of network to 8-bit unsigned integer
+        converter.inference_input_type = tf.uint8
+        converter.inference_output_type = tf.uint8
+
+        def representative_dataset_gen():
+            for _ in range(250):
+                yield [np.random.uniform(0.0, 0.0, size=input_shapes['input']).astype(np.float32)]
+        converter.representative_dataset = representative_dataset_gen
+        converter._experimental_new_quantizer = True
+
+        tflite_model = converter.convert()
+
+        # Save thesave_path
+        with open(save_path, 'wb') as f:
+            f.write(tflite_model) 
+
+    def tf_export_to_l(self, input_nodes, output_nodes, input_shapes, load_path= None, save_path = None):
+        # Collect default graph information
+        g = tf.get_default_graph()
+
+        with tf.Session() as sess:
+            # Initialize the variables
+            sess.run(tf.global_variables_initializer())
+            g = g.as_graph_def(add_shapes = True)
+            tf.contrib.quantize.create_eval_graph()
+
+            # Convert variables to constants until the "fully_conn_1/Softmax" node
+            frozen_graph_def = tf.graph_util.convert_variables_to_constants(sess, g, output_nodes)
+
+            print("load graph")
+            graph_nodes=[n for n in frozen_graph_def.node]
+            names = []
+            for t in graph_nodes:
+                if not ("Variable" in t.name or "BiasAdd" in t.name):
+                    names.append(t.name.replace("/","_").replace("-","_"))
+        converter = tf.lite.TFLiteConverter.from_frozen_graph(
+            graph_def_file= load_path,
+                            # both `.pb` and `.pbtxt` files are accepted.
+            input_arrays= input_nodes,
+            input_shapes= input_shapes,
+            output_arrays=output_nodes
+        )
+
+        tf.contrib.quantize.create_eval_graph()
+        converter.optimizations = [tf.lite.Optimize.DEFAULT]
+        converter.default_ranges_stats = (0,1)
+
+
+        tflite_model = converter.convert()
+
+        # Save thesave_path
+        with open(save_path, 'wb') as f:
+            f.write(tflite_model) 
+
+        exit()
 
     def tf_export_to_pb(self, output_node, save_path = None):
         # Collect default graph information
@@ -144,6 +229,35 @@ class Graph_generator():
 
             # Convert variables to constants until the "fully_conn_1/Softmax" node
             frozen_graph_def = tf.graph_util.convert_variables_to_constants(sess, g, output_node)
+
+            print("load graph")
+            graph_nodes=[n for n in frozen_graph_def.node]
+            names = []
+            for t in graph_nodes:
+                if not ("Variable" in t.name or "BiasAdd" in t.name):
+                    names.append(t.name.replace("/","_").replace("-","_"))
+
+        # Write the intermediate representation of the graph to .pb file
+        if save_path:
+            net_file = save_path
+        else:
+            net_file = get_database('graphs','tf',self.graph.model_spec['name']+".pb")
+        #print(net_file)
+        with open(os.path.join(net_file), 'wb') as f:
+            graph_string = (frozen_graph_def.SerializeToString())
+            f.write(graph_string)
+
+    def tf2_export_to_pb(self, output_node, save_path = None):
+        # Collect default graph information
+        g = tf.compat.v1.get_default_graph()
+
+        with tf.compat.v1.Session() as sess:
+            # Initialize the variables
+            sess.run(tf.compat.v1.global_variables_initializer())
+            g = g.as_graph_def(add_shapes = True)
+
+            # Convert variables to constants until the "fully_conn_1/Softmax" node
+            frozen_graph_def = tf.compat.v1.graph_util.convert_variables_to_constants(sess, g, output_node)
 
             print("load graph")
             graph_nodes=[n for n in frozen_graph_def.node]
@@ -207,6 +321,13 @@ class Graph_generator():
         inp = self.tf_graph[inp_name]
         return flatten(inp, name)
 
+    def tf_gen_reshape(self, layer, name=None):
+        logging.debug("Generating Reshape with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        print(layer['output_shape'])
+        return reshape(inp, layer['output_shape'], name)
+
     def tf_gen_batchnorm(self, layer, name=None):
         logging.debug("Generating Batchnorm with dict: %s" % layer)
         inp_name = layer['parents'][0]
@@ -269,15 +390,32 @@ class Graph_generator():
         width = layer['output_shape'][1] 
         height = layer['output_shape'][2]
         channels = layer['output_shape'][3]
+        tf.compat.v1.disable_eager_execution()
         return tf.compat.v1.placeholder(tf.float32, [batch_size, width, height, channels], name=name)
 
 def dw_conv2d(x_tensor, conv_ksize, stride, name):
-    layer = slim.separable_convolution2d(x_tensor,
-                                            num_outputs=None,
-                                            stride=stride,
-                                            depth_multiplier=1,
-                                            kernel_size=conv_ksize,
-                                            scope=name)
+    
+    #layer = slim.separable_convolution2d(x_tensor,
+    #                                        num_outputs=None,
+    #                                        stride=stride,
+    #                                        depth_multiplier=1,
+    #                                        kernel_size=conv_ksize,
+    #                                        scope=name,
+    #                                        activation_fn=None)
+                                            
+    strides = [1] + list(stride) + [1]
+    W_shape = list(conv_ksize) + [int(x_tensor.shape[3]), 1]
+    W = tf.Variable(tf.random.truncated_normal(W_shape, stddev=.05))
+    layer = tf.raw_ops.DepthwiseConv2dNative(input=x_tensor, filter=W, strides=strides, padding="SAME", name=name)
+
+
+    #layer = tf.keras.layers.Conv2D(int(x_tensor.shape[3]), list(conv_ksize), padding='valid', groups=int(x_tensor.shape[3]), use_bias=False)
+
+    #layer = tf.layers.separable_conv2d(x_tensor,
+    #                                        strides=stride,
+    #                                        depth_multiplier=1,
+    #                                        kernel_size=conv_ksize,
+    #                                        name=name)
     return layer
     
 
@@ -285,7 +423,7 @@ def conv2d(x_tensor, filters, conv_ksize, stride, name):
     # Weights
     conv_strides = stride
     W_shape = list(conv_ksize) + [int(x_tensor.shape[3]), filters]
-    W = tf.Variable(tf.truncated_normal(W_shape, stddev=.05))
+    W = tf.Variable(tf.random.truncated_normal(W_shape, stddev=.05))
 
     # Apply convolution
     x = tf.nn.conv2d(
@@ -347,10 +485,14 @@ def flatten(x_tensor, name):
     x = tf.reshape(x_tensor, [1, np.prod(x_tensor.shape.as_list()[1:])], name = name)
     return x
 
+def reshape(x_tensor, reshape, name):
+    x = tf.reshape(x_tensor, reshape, name = name)
+    return x
+
 def matmul(x_tensor, num_outputs, name):
     # Weights and bias
     s = [int(x_tensor.shape[1]), num_outputs]
-    W = tf.Variable(tf.truncated_normal(s , stddev=.05))
+    W = tf.Variable(tf.random.truncated_normal(s , stddev=.05))
     # The fully connected layer
     x = tf.matmul(x_tensor, W, name=name)
     return x
@@ -358,8 +500,8 @@ def matmul(x_tensor, num_outputs, name):
 def output(x_tensor, num_outputs):
     with tf.name_scope('fully_conn'):
         # Weights and bias
-        W = tf.Variable(tf.truncated_normal([int(x_tensor.shape[1]), num_outputs], stddev=.05))
-        b = tf.Variable(tf.zeros([num_outputs]))
+        W = tf.Variable(tf.random.truncated_normal([int(x_tensor.shape[1]), num_outputs], stddev=.05))
+        b = tf.Variable(tf.ones([num_outputs]))
 
         # The output layer
         x = tf.add(tf.matmul(x_tensor, W), b)
