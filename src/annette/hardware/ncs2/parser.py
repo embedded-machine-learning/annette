@@ -96,9 +96,9 @@ def extract_data_from_ncs2_report(infold, outfold, report, format="pickle"):
 
         # change all "/" and "-" to "_" in LayerName
         for i, elem in enumerate(data["LayerName"]):
-            if "/" in elem:
+            if "/" in str(elem):
                 elem = elem.replace("/", "_")
-            elif "-" in elem:
+            elif "-" in str(elem):
                 elem = elem.replace("-", "_")
             data["LayerName"][i] = elem
     except:

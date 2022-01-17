@@ -1,0 +1,1817 @@
+{
+    "name": "resnet18-v1-7",
+    "layers": {
+        "data": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ]
+        },
+        "resnetv15_conv0_fwd": {
+            "type": "Conv",
+            "parents": [
+                "data"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                3,
+                64
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "resnetv15_batchnorm0_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_conv0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "resnetv15_relu0_fwd": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_batchnorm0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "resnetv15_pool0_fwd": {
+            "type": "Pool",
+            "parents": [
+                "resnetv15_relu0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "pooling_type": "MAX"
+        },
+        "resnetv15_stage1_conv0_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_pool0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_batchnorm0_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage1_conv0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_relu0_fwd": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage1_batchnorm0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_conv1_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage1_relu0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_batchnorm1_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage1_conv1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1__plus0": {
+            "type": "Add",
+            "parents": [
+                "resnetv15_pool0_fwd",
+                "resnetv15_stage1_batchnorm1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_activation0": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage1__plus0"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_conv2_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage1_activation0"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_batchnorm2_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage1_conv2_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_relu1_fwd": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage1_batchnorm2_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_conv3_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage1_relu1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_batchnorm3_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage1_conv3_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1__plus1": {
+            "type": "Add",
+            "parents": [
+                "resnetv15_stage1_activation0",
+                "resnetv15_stage1_batchnorm3_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage1_activation1": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage1__plus1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnetv15_stage2_conv2_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage1_activation1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_batchnorm2_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage2_conv2_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_conv0_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage1_activation1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_batchnorm0_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage2_conv0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_relu0_fwd": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage2_batchnorm0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_conv1_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage2_relu0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_batchnorm1_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage2_conv1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2__plus0": {
+            "type": "Add",
+            "parents": [
+                "resnetv15_stage2_batchnorm2_fwd",
+                "resnetv15_stage2_batchnorm1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_activation0": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage2__plus0"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_conv3_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage2_activation0"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_batchnorm3_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage2_conv3_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_relu1_fwd": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage2_batchnorm3_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_conv4_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage2_relu1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_batchnorm4_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage2_conv4_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2__plus1": {
+            "type": "Add",
+            "parents": [
+                "resnetv15_stage2_activation0",
+                "resnetv15_stage2_batchnorm4_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage2_activation1": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage2__plus1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnetv15_stage3_conv2_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage2_activation1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_batchnorm2_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage3_conv2_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_conv0_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage2_activation1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_batchnorm0_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage3_conv0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_relu0_fwd": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage3_batchnorm0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_conv1_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage3_relu0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_batchnorm1_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage3_conv1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3__plus0": {
+            "type": "Add",
+            "parents": [
+                "resnetv15_stage3_batchnorm2_fwd",
+                "resnetv15_stage3_batchnorm1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_activation0": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage3__plus0"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_conv3_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage3_activation0"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_batchnorm3_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage3_conv3_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_relu1_fwd": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage3_batchnorm3_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_conv4_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage3_relu1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_batchnorm4_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage3_conv4_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3__plus1": {
+            "type": "Add",
+            "parents": [
+                "resnetv15_stage3_activation0",
+                "resnetv15_stage3_batchnorm4_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage3_activation1": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage3__plus1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnetv15_stage4_conv2_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage3_activation1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_batchnorm2_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage4_conv2_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_conv0_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage3_activation1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_batchnorm0_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage4_conv0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_relu0_fwd": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage4_batchnorm0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_conv1_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage4_relu0_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_batchnorm1_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage4_conv1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4__plus0": {
+            "type": "Add",
+            "parents": [
+                "resnetv15_stage4_batchnorm2_fwd",
+                "resnetv15_stage4_batchnorm1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_activation0": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage4__plus0"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_conv3_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage4_activation0"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_batchnorm3_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage4_conv3_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_relu1_fwd": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage4_batchnorm3_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_conv4_fwd": {
+            "type": "Conv",
+            "parents": [
+                "resnetv15_stage4_relu1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_batchnorm4_fwd": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnetv15_stage4_conv4_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4__plus1": {
+            "type": "Add",
+            "parents": [
+                "resnetv15_stage4_activation0",
+                "resnetv15_stage4_batchnorm4_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_stage4_activation1": {
+            "type": "Relu",
+            "parents": [
+                "resnetv15_stage4__plus1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnetv15_pool1_fwd": {
+            "type": "Pool",
+            "parents": [
+                "resnetv15_stage4_activation1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                7,
+                7,
+                1
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                512
+            ],
+            "pooling_type": "AVG"
+        },
+        "flatten_170": {
+            "type": "Flatten",
+            "parents": [
+                "resnetv15_pool1_fwd"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                512
+            ],
+            "output_shape": [
+                -1,
+                512
+            ]
+        },
+        "resnetv15_dense0_fwd": {
+            "type": "FullyConnected",
+            "parents": [
+                "flatten_170"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                512
+            ],
+            "output_shape": [
+                -1,
+                1000
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}
