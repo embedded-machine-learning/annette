@@ -4,6 +4,7 @@ import json
 import logging
 from functools import reduce
 from pprint import pprint
+import time
 
 import numpy as np
 import pandas as pd
@@ -120,6 +121,7 @@ class Layer_model():
         result_pd['num_weights'] = np.nan
         # Add info to layer stuff
         """Loop through Layers"""
+        start = time.time()
         # for layer_name, layer_info in model.model_spec['layers'].items():
         for layer_name in model.topological_sort:
             layer_info = model.model_spec['layers'][layer_name]
@@ -147,6 +149,9 @@ class Layer_model():
             n_w = try_read('num_weights')
             result_pd.loc[len(result_pd)] = {"name": layer_name, "type": layer_info['type'],
                                              "time(ms)": layer_info['time_ms'], "num_ops": gop, "num_inputs": n_i, "num_outputs": n_o, "num_weights": n_w}
+
+        end = time.time()
+        print("Layermodel executed in", end-start)
 
         return [sum_result, result, result_pd]
 

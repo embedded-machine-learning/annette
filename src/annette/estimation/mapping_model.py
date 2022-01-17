@@ -103,8 +103,7 @@ class Optimizer():
         # graph.delete_layer(c)
         graph.fuse_layer(layer, c)
         graph.model_spec['layers'][layer]['type'] = self.out_type
-        print(self.layer_classes[layertype].compute_nums(
-            graph.model_spec['layers'][layer]))
+        #print(self.layer_classes[layertype].compute_nums(graph.model_spec['layers'][layer]))
 
     def merge_cond(self, graph, layer):
         print("conditional merge")
