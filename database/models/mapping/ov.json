@@ -80,5 +80,14 @@
         "est_model": null,
         "conv_dict": null,
         "fuse_cond": null
+    },
+	"Swish": {
+        "name": "Swish",
+        "prim_type": "Sigmoid",
+        "sec_type": "Mul",
+        "out_type": "Swish",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
     }
 }

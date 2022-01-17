@@ -27,6 +27,15 @@
         "conv_dict": null,
         "fuse_cond": null
     },
+    "ConvLeakyRelu": {
+        "name": "ConvLeakyRelu",
+        "prim_type": "Conv",
+        "sec_type": "LeakyRelu",
+        "out_type": "Conv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
     "ConvRelu6": {
         "name": "ConvRelu6",
         "prim_type": "Conv",
