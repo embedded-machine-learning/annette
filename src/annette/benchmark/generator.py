@@ -141,7 +141,7 @@ class Graph_generator():
             print(i,o)
             if self.graph.model_spec['layers'][o]['type'] == 'BatchNorm':
                 out[i] = o+'/add'
-        #self.tf_export_to_pb(out)
+        self.tf_export_to_pb(out)
         return out 
 
     def lite_to_onnx(self, input_nodes, output_nodes, input_shapes, load_path= None, save_path = None):
