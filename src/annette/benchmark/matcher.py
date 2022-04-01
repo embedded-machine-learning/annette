@@ -65,7 +65,7 @@ class Graph_matcher():
             #dur, power_dir, power_file = execute(**execute_kwargs)
             p = multiprocessing.Process(target=execute,kwargs=execute_kwargs)
             p.start()
-            p.join(10)
+            p.join(60)
             if p.is_alive():
                 print("Execution seem stuck!")
                 p.terminate()
@@ -85,8 +85,13 @@ class Graph_matcher():
                 print(report)
                 duration = np.sum(report['time(ms)'])
                 #total_result = processing.extract_power_profile(pm.dat_filename, pm.data_dir, duration, sample_rate = rate)
+                
+                pad = int(np.min((np.sqrt(duration)*200,2000)))
 
-                result = processing.unite_latency_power_meas(report, 'test_infmod.dat', 'tmp/', sample_rate = rate, padding=200, vis=False)
+                print("duration: ",duration)
+                print("pad : ",pad)
+
+                result = processing.unite_latency_power_meas(report, 'test_infmod.dat', 'tmp/', sample_rate = rate, padding=pad, vis=False)
 
                 self.match_and_add(self.gen.graph, result[0])
                 if i % store == 0 and i > store-1 or i == config_len-1:
