@@ -65,7 +65,7 @@ def test_matcher(network='annette_bench3', shape = None):
     ncs2.read_report(test_report)
     print(gen.graph.model_spec) 
 
-def test_all(network="annette_bench5",config="config_test.csv",start=0):
+def test_all(network="annette_bench5",config="config_test.csv",start=0,vis=False):
 
     match = {
             "conv2d_0_Conv2D": {
@@ -99,7 +99,7 @@ def test_all(network="annette_bench5",config="config_test.csv",start=0):
         }
 
     bench1 = matcher.Graph_matcher(network, config, match)
-    bench1.run_bench(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, start=start)
+    bench1.run_bench(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, start=start, vis=vis)
 
     for key, v in bench1.df_out.items():
         print(key)
@@ -127,7 +127,7 @@ def main():
     #test_all(network='annette_bench2')
     #test_all(network='annette_bench3')
     #test_matcher(network='annette_bench1')
-    test_all(network='annette_bench5',config='config_v6.csv',start=0)
+    test_all(network='annette_bench5',config='config_v6_1.csv',start=0,vis=False)
     #test_measure_network(network='squeezenet1.0-9')
     #test_measure_annette_network(network='cf_inceptionv1')
     #test_measure_destruct_annette_network(network='annette_bench5')

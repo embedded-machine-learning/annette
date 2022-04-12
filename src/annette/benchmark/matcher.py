@@ -38,7 +38,7 @@ class Graph_matcher():
         #make layer list
         print(self.gen.graph.model_spec['layers'])
 
-    def run_bench(self, optimize = None, execute = None, parse = None, store = 5, hardware='ncs2', start=0):
+    def run_bench(self, optimize = None, execute = None, parse = None, store = 5, hardware='ncs2', start=0, vis=False):
         config_len = len(self.gen.config)
         assert(start >= config_len, "Selected starting number {s} larger than config length {l}".format(s=start,l=config_len))
 
@@ -91,7 +91,7 @@ class Graph_matcher():
                 print("duration: ",duration)
                 print("pad : ",pad)
 
-                result = processing.unite_latency_power_meas(report, 'test_infmod.dat', 'tmp/', sample_rate = rate, padding=pad, vis=False)
+                result = processing.unite_latency_power_meas(report, 'test_infmod.dat', 'tmp/', sample_rate = rate, padding=pad, vis=vis)
 
                 self.match_and_add(self.gen.graph, result[0])
                 if i % store == 0 and i > store-1 or i == config_len-1:
