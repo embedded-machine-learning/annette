@@ -41,6 +41,10 @@ class Graph_matcher():
     def run_bench(self, optimize = None, execute = None, parse = None, store = 5, hardware='ncs2', start=0, vis=False):
         config_len = len(self.gen.config)
         assert(start >= config_len, "Selected starting number {s} larger than config length {l}".format(s=start,l=config_len))
+        if vis:
+            print("Visualization enabled!")
+        else:
+            print("Visualization disabled!")
 
         for i in range(start, config_len):
             print('-'*60)
@@ -48,7 +52,6 @@ class Graph_matcher():
             print('-'*60)
             self.gen.generate_graph_from_config(i)
             rate = 500
-            vis = True
 
             test_net = get_database('graphs','tf', self.network+'.pb')
             optimize(test_net, source_fw = "tf", network = self.network, input_shape = None , save_folder = get_database('benchmarks','tmp'))
@@ -90,6 +93,7 @@ class Graph_matcher():
 
                 print("duration: ",duration)
                 print("pad : ",pad)
+                print("vis: ",vis)
 
                 result = processing.unite_latency_power_meas(report, 'test_infmod.dat', 'tmp/', sample_rate = rate, padding=pad, vis=vis)
 
