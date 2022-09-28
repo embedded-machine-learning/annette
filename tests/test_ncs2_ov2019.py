@@ -7,7 +7,10 @@ import os
 
 import annette.hw_modules.hw_modules.ncs2_ov2019 as ncs2
 import annette.benchmark.generator as generator
+import annette.benchmark.matcher as matcher 
 from annette import get_database
+
+logging.basicConfig(level=logging.DEBUG)
 
 print(ncs2.__dict__)
 
@@ -31,11 +34,11 @@ def test_read_ncs2_report(network="benchmark_average_counters_report"):
     report_file = get_database('benchmarks','tmp',network+'.csv')
     ncs2.read_report(report_file)
     annette_report = ncs2.r2a(report_file)
-    annette_report.to_pickle(get_database('benchmarks','tmp','annette_bench1.pkl')) 
+    #annette_report.to_pickle(get_database('benchmarks','tmp','annette_bench1.pkl')) 
 
     assert True
 
-def test_all(network="annette_bench1", shape = None):
+def test_pipeline(network="annette_bench1", shape = None):
 
     gen = generator.Graph_generator(network)
     gen.add_configfile("config_v6.csv")
@@ -63,6 +66,47 @@ def test_matcher(network='annette_bench3', shape = None):
     ncs2.read_report(test_report)
     print(gen.graph.model_spec) 
 
+def test_all(network="annette_bench1",config="config_v6.csv"):
+
+    match = {
+            "conv2d_0_Conv2D": {
+                "conv2d_0_Relu" : "f_act",
+                "Add_0" : "f_add",
+            },
+            "conv2d_1_Conv2D": {
+                "conv2d_1_Relu" : "f_act",
+                "Add_0" : "f_add",
+                "Add_1" : "f_add_1",
+            },
+            "conv2d_2_Conv2D": {
+                "conv2d_2_Relu" : "f_act",
+                "Add_1" : "f_add_1",
+            },
+            "conv2d_3_Conv2D": {
+                "conv2d_3_Relu" : "f_act",
+                "concat" : "f_concat"
+            },
+            "conv2d_4_Conv2D": {
+                "conv2d_4_Relu" : "f_act",
+                "max_pool_MaxPool" : "f_pool",
+                "concat" : "f_concat"
+            },
+            "fully_conn_0_MatMul": {
+                "fully_conn_0_Relu" : "f_act",
+            },
+            "fully_conn_1_MatMul": {
+                "fully_conn_1_Softmax" : "f_act",
+            }
+        }
+
+    bench1 = matcher.Graph_matcher(network, config, match)
+    bench1.run_bench(optimize = ncs2.optimize_network, execute = ncs2.run_network, parse = ncs2.r2a)
+
+    for key, v in bench1.df_out.items():
+        print(key)
+        print(v)
+
+    assert True
 
 
 def main():
@@ -74,8 +118,9 @@ def main():
     #test_all(network='annette_bench1')
     #test_all(network='annette_bench2')
     #test_all(network='annette_bench3')
-    test_matcher(network='annette_bench1')
-    test_read_ncs2_report()
+    #test_matcher(network='annette_bench1')
+    test_all(network='annette_bench1')
+    #test_read_ncs2_report()
 
 if __name__ == '__main__':
     main()

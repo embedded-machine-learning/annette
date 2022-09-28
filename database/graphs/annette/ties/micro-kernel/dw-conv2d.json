@@ -1,0 +1,40 @@
+{
+    "name": "dw-conv2d",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "dw-conv1"
+            ],
+            "output_shape": [
+                "batch_size", "width", "height", "channels"
+            ]
+        },
+        "dw-conv1": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [],
+            "output_shape": [
+                -1, -1, -1, -1
+            ],
+            "input_shape": [
+                -1, -1, -1, -1
+            ],
+            "kernel_shape": [
+                "k_size", "k_size", 1, "channels"
+            ],
+            "pads": [
+                0, 0,   0, 0,   0, 0,   0, 0
+            ],
+            "strides": [
+                1, "stride", "stride", 1
+            ],
+            "dilations": [
+                1, "dilation", "dilation", 1
+            ]
+        }
+    }
+}

@@ -46,5 +46,19 @@ docs/_build/*
 cover/*
 MANIFEST
 
-# Per-project virtualenvs
+# Per-project virtualenvs and pyenv version
 .venv*/
+venv/
+.python-version
+
+# Database graph and benchmarking temporary files:
+database/models/layer/dnndk-stat/
+database/models/layer/ncs2-stat/
+database/models/mapping/ov2-stat/
+database/models/mapping/ov2.json
+database/results/
+database/graphs/tf/*
+database/graphs/torch/*
+
+src/annette/benchmark/tmp
+src/annette/benchmark/aiware_*

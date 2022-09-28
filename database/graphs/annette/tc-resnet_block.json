@@ -1,0 +1,240 @@
+{
+    "name": "tc-resnet_block",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "conv1d_0/Conv1D",
+                "conv1d_res/Conv1D"
+            ],
+            "output_shape": [
+                1,
+                48,
+                16
+            ]
+        },
+        "conv1d_0/Conv1D": {
+            "type": "Conv1d",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "conv1d_0/Relu"
+            ],
+            "output_shape": [
+                1,
+                -1,
+                24
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                16
+            ],
+            "kernel_shape": [
+                9,
+                16,
+                24
+            ],
+            "strides": [
+                1,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1
+            ]
+        },
+        "conv1d_0/Relu": {
+            "type": "Relu",
+            "parents": [
+                "conv1d_0/Conv1D"
+            ],
+            "children": [
+                "conv1d_1/Conv1D"
+            ],
+            "output_shape": [
+                -1,
+                -1,
+                24
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                24
+            ]
+        },
+        "conv1d_1/Conv1D": {
+            "type": "Conv1d",
+            "parents": [
+                "conv1d_0/Relu"
+            ],
+            "children": [
+                "conv1d_1/Relu"
+            ],
+            "output_shape": [
+                1,
+                -1,
+                24
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                24
+            ],
+            "kernel_shape": [
+                9,
+                24,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1
+            ]
+        },
+        "conv1d_1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "conv1d_1/Conv1D"
+            ],
+            "children": [
+                "Add"
+            ],
+            "output_shape": [
+                -1,
+                -1,
+                24
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                24
+            ]
+        },
+        "conv1d_res/Conv1D": {
+            "type": "Conv1d",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "conv1d_res/Relu"
+            ],
+            "output_shape": [
+                1,
+                -1,
+                24
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                16
+            ],
+            "kernel_shape": [
+                1,
+                16,
+                24
+            ],
+            "strides": [
+                1,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1
+            ]
+        },
+        "conv1d_res/Relu": {
+            "type": "Relu",
+            "parents": [
+                "conv1d_res/Conv1D"
+            ],
+            "children": [
+                "Add"
+            ],
+            "output_shape": [
+                -1,
+                -1,
+                24
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                24
+            ]
+        },
+        "Add": {
+            "type": "Add",
+            "parents": [
+                "conv1d_1/Relu",
+                "conv1d_res/Relu"
+            ],
+            "children": [
+                "Add/Relu"
+            ],
+            "output_shape": [
+                -1,
+                -1,
+                24
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                24
+            ]
+        },
+        "Add/Relu": {
+            "type": "Relu",
+            "parents": [
+                "Add"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                -1,
+                24
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                24
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

@@ -1,64 +1,76 @@
 from __future__ import print_function
 from pprint import pprint
 from functools import reduce
-import pickle
 import numpy as np
-import pandas as pde
+import logging
 from annette.estimation.layers.base import BaseLayer
 
 class PoolLayer(BaseLayer):
     """PoolLayer estimation"""
 
-    def __init__(self, name, layer_type = "Pool", est_type = "roofline", op_s = 1*1e9, bandwidth = 1*1e9, architecture = None):
-        self.name = name
-        self.layer_type = layer_type
-        self.estimation = est_type
+    def __init__(self, name, layer_type="Pool", est_type="roofline", op_s=1e9, bandwidth=1e9, architecture=None):
+        super().__init__(name, layer_type, est_type, op_s, bandwidth, architecture)
+        self.y_val = 'ops/s'
 
-        # Model parameters
-        self.op_s = op_s 
-        self.bandwidth = bandwidth 
-        self.architecture = architecture
+    @staticmethod
+    def compute_nums(layer):
+        layer = BaseLayer.compute_nums(layer)
+        layer['num_ops'] = layer['num_outputs'] * reduce(lambda x, y: x*y, layer['kernel_shape'][1:]) * 2
 
-        self.desc = self.gen_dict()
+        return layer
 
-    def estimate(self, layer = None):
-        """return estimated PoolLayer execution time (ms)"""
-        print("Estimation Type: " + self.estimation)
-        if hasattr(self, "estimate_" + self.estimation):
-            func = getattr(self, "estimate_" + self.estimation)
-            r = func(layer)
-            return r
-        else:
-            print("No " + self.estimation + " Estimator implemented")
-            return 0
-
-    def compute_parameters(self, layer):
+    def compute_parameters(self, layer=None):
         """Compute Parameters for Pooling Layer prediction"""
-        self.num_outputs = reduce(lambda x, y: x*y, layer['output_shape'][1:])
-        self.num_inputs = reduce(lambda x, y: x*y, layer['output_shape'][1:2])*layer['kernel_shape'][2]*reduce(lambda x, y: x*y, layer['strides'][1:])
-        if layer['pooling_type'] == 'AVG':
-            self.num_ops = self.num_outputs*reduce(lambda x, y: x*y, layer['kernel_shape'][1:])*2
-        else:
-            self.num_ops = 0 
-        print("Compute Parameters Pool:", layer)
+        self.layer = self.compute_nums(self.layer)
+        return self.layer
 
-        if self.architecture:
-            print("noarch")
+    def compute_eff(self):
+        self.compute_efficiency(
+            self.layer['output_shape'][2], 'h_eff', 'h_div', 'h_mod', 'h_par', 'h_alpha',
+            replication=True
+        )
+        self.compute_efficiency(
+            self.layer['output_shape'][1], 'w_eff', 'w_div', 'w_mod', 'w_par', 'w_alpha',
+            replication=True
+        )
+        self.compute_efficiency(
+            self.layer['input_shape'][3], 'c_eff', 'c_div', 'c_mod', 'c_par', 'c_alpha',
+            replication=True
+        )
+        self.compute_efficiency(
+            self.layer['output_shape'][3], 'f_eff', 'f_div', 'f_mod', 'f_par', 'f_alpha',
+            replication=True
+        )
+        self.layer['eff'] = (
+            self.layer['h_eff'] * self.layer['w_eff']
+            * self.layer['c_eff'] * self.layer['f_eff']
+        )
 
+        return self.layer
 
-    def estimate_roofline(self, layer):
-        """returns roofline estimated ConvLayer execution time (ms)"""
-        print("roofline estimation")
-        self.compute_parameters(layer)
-        print(layer)
-        op_roof = self.num_ops / self.op_s
-        data_roof = (self.num_inputs + self.num_outputs) / self.bandwidth
-        if op_roof > data_roof:
-            print("OP Roof")
-        else:
-            print("Data Roof")
-        time_ms = np.max([data_roof, op_roof])*1000 # to milliseconds
-        print(op_roof)
-        print(data_roof)
-        print(time_ms)
-        return time_ms
+    def estimate_roofline(self):
+        """Returns roofline estimated PoolLayer execution time (ms)"""
+        logging.debug("PoolLayer: Roofline estimation")
+        logging.debug(f"Architecture: {self.architecture}")
+        super().estimate_roofline()
+
+        return self.layer['time_ms']
+
+    def estimate_refined_roofline(self):
+        """Returns refined roofline estimated PoolLayer execution time (ms)"""
+        logging.debug("PoolLayer: Refined roofline estimation")
+        super().estimate_refined_roofline()
+
+        return self.layer['time_ms']
+
+    def estimate_statistical(self):
+        logging.debug("PoolLayer: Statistical estimation")
+        super().estimate_statistical()
+
+        return self.layer['time_ms']
+
+    def estimate_mixed(self):
+        logging.debug("PoolLayer: Mixed estimation")
+        super().estimate_mixed()
+
+        return self.layer['time_ms']

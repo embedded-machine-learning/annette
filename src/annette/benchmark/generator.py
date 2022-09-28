@@ -1,5 +1,4 @@
 from __future__ import print_function
-from annette.estimation import layers
 import json
 import numpy as np
 import pandas as pd
@@ -9,11 +8,15 @@ from pathlib import Path
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import os
+import torch
+from torchsummary import summary
+from annette.benchmark.pytorch_conversion import TorchGraph
+
+tf.get_logger().setLevel('ERROR') # Prevent TF deprecation warnings
 
 from annette import get_database 
 from annette.graph import AnnetteGraph
 
-#TODO renaming of tf_variables and move some things to the tf file
 
 def generate_tf_model(graph):
     """generates Tensorflow 2 graph out of ANNETTE graph description
@@ -42,88 +45,141 @@ def generate_tf_model(graph):
 class Graph_generator():
     """Graph generator"""
 
-    def __init__(self, network):
+    def __init__(self, network, net_dir='', pad_pooling=True):
         #load graphstruct
-        json_file = get_database('graphs','annette',network+'.json')
-        self.graph = AnnetteGraph(network, json_file)
+        self.network = network
+        self.json_file = get_database('graphs', 'annette', net_dir, network+'.json')
+        self.pad_pooling = pad_pooling
+        self.graph = AnnetteGraph(self.network, self.json_file, pad_pooling=self.pad_pooling)
+        self.export_pt_file = True
         print(self.graph)
-        #load configfile
-    
+
     def add_configfile(self, configfile):
-        self.config = pd.read_csv(get_database('benchmarks','config', configfile))
+        self.config = pd.read_csv(get_database('benchmarks', 'config', configfile))
         print(self.config)
 
-    def generate_graph_from_config(self, num):
+    def get_torch_input_shape(self):
+        graph_shape = self.graph.model_spec['layers']['Placeholder']['output_shape']
+        if len(graph_shape) == 2:
+            pt_shape = graph_shape
+        elif len(graph_shape) == 3:
+            pt_shape = (graph_shape[0], graph_shape[2], graph_shape[1])
+        else:
+            pt_shape = (graph_shape[0], graph_shape[3], graph_shape[2], graph_shape[1])
+
+        return pt_shape
+
+    def generate_graph_from_config(self, num, framework='tf'):
         # can be used as to generate input for generate_tf_model
         # execute the function under test
 
         def replace_key(value, config, num):
-            if value in self.config.keys():
+            if type(value) is str and '*' in value:
+                modifier, value = sorted([v.strip() for v in value.split('*')], key=len)
+                assert value in self.config.keys()
+                return int(self.config.iloc[num][value]) * int(modifier)
+            elif type(value) is str and '+' in value:
+                modifier, value = sorted([v.strip() for v in value.split('+')], key=len)
+                assert value in self.config.keys()
+                return int(self.config.iloc[num][value]) + int(modifier)
+            elif value in self.config.keys():
                 logging.debug("%s detected", value)
                 return int(self.config.iloc[num][value])
+            elif value in ['stride', 'dilation', 'batch_size']: # set default for non-strictly necessary values
+                return 1
             else:
                 return value
 
+        # Reset the Anette graph, s.t. new config values can be inserted:
+        self.graph = AnnetteGraph(self.network, self.json_file, pad_pooling=self.pad_pooling)
+
         # model_spec contains some info about the model
-        for key, value  in self.graph.model_spec.items():
+        for key, value in self.graph.model_spec.items():
             logging.debug(key)
             logging.debug(value)
-
-        tf.compat.v1.reset_default_graph()
-        self.tf_graph = {}
 
         for layer_n, layer_attrs in self.graph.model_spec['layers'].items():
             logging.debug("layer name %s " % layer_n)
             logging.debug("layer attrs %s " % layer_attrs)
-            for attr_n,attr_v in layer_attrs.items():
+            for attr_n, attr_v in layer_attrs.items():
                 logging.debug("attribute name %s" % attr_n)
                 logging.debug("attribute values %s" % attr_v)
 
                 if isinstance(attr_v, list):
-                    for n,attr_ele in enumerate(attr_v):
-                        #logging.debug(n)
-                        #logging.debug(attr_ele)
+                    for n, attr_ele in enumerate(attr_v):
                         self.graph.model_spec['layers'][layer_n][attr_n][n] = replace_key(attr_ele, self.config, num)
                 else:
                     self.graph.model_spec['layers'][layer_n][attr_n] = replace_key(attr_v, self.config, num)
 
         self.graph.compute_dims()
 
-        logging.debug("Loop through layers")
-
-        for layer_n, layer_attrs in self.graph.model_spec['layers'].items():
-            if layer_attrs['type'] == "DataInput":
-                self.tf_graph[layer_n] = self.tf_gen_placeholder(layer_attrs, layer_n)
-            elif layer_attrs['type'] == "Conv":
-                self.tf_graph[layer_n] = self.tf_gen_conv(layer_attrs, layer_n)
-            elif layer_attrs['type'] == "Relu":
-                self.tf_graph[layer_n] = self.tf_gen_relu(layer_attrs, layer_n)
-            elif layer_attrs['type'] == "Add":
-                self.tf_graph[layer_n] = self.tf_gen_add(layer_attrs, layer_n)
-            elif layer_attrs['type'] == "DepthwiseConv":
-                self.tf_graph[layer_n] = self.tf_gen_dwconv(layer_attrs, layer_n)
-            elif layer_attrs['type'] == "Pool":
-                self.tf_graph[layer_n] = self.tf_gen_pool(layer_attrs, layer_n)
-            elif layer_attrs['type'] == "Concat":
-                self.tf_graph[layer_n] = self.tf_gen_concat(layer_attrs, layer_n)
-            elif layer_attrs['type'] == "Flatten":
-                self.tf_graph[layer_n] = self.tf_gen_flatten(layer_attrs, layer_n)
-            elif layer_attrs['type'] == "Softmax":
-                self.tf_graph[layer_n] = self.tf_gen_softmax(layer_attrs, layer_n)
-            elif layer_attrs['type'] == "MatMul" or layer_attrs['type'] == "FullyConnected": # TODO check this! Maybe FullyConnected with bias
-                self.tf_graph[layer_n] = self.tf_gen_matmul(layer_attrs, layer_n)
-            else:
-                print("no layer")
-                exit()
-
-            logging.debug("Config %s" % self.config.iloc[num])
-            logging.debug("Current graph %s" % self.tf_graph)
-
-        # return annette graph
         out = self.graph.model_spec['output_layers']
         logging.debug(self.graph.model_spec)
-        self.tf_export_to_pb(out)
-        return out 
+
+        if framework in ['pytorch', 'torch', 'pt']:
+            self.pt_graph = TorchGraph(self.graph)
+            self.pt_graph.cpu().eval()
+
+            if logging.root.level == logging.DEBUG:
+                inp_shape = self.get_torch_input_shape()
+                self.graph.print_as_table()
+                self.print_torch_summary(self.pt_graph, inp_shape)
+
+            if self.export_pt_file:
+                self.torch_export_to_pt()
+
+            # return annette graph output layers and torch model:
+            return out, self.pt_graph
+
+        elif framework in ['tensorflow', 'tf']:
+            tf.compat.v1.reset_default_graph()
+            self.tf_graph = {}
+
+            logging.debug("TF model generation: Loop through layers")
+
+            for layer_n, layer_attrs in self.graph.model_spec['layers'].items():
+                if layer_attrs['type'] == "DataInput":
+                    self.tf_graph[layer_n] = self.tf_gen_placeholder(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Conv":
+                    self.tf_graph[layer_n] = self.tf_gen_conv(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Conv1d":
+                    self.tf_graph[layer_n] = self.tf_gen_conv1d(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Relu":
+                    self.tf_graph[layer_n] = self.tf_gen_relu(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Add":
+                    self.tf_graph[layer_n] = self.tf_gen_add(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "DepthwiseConv":
+                    self.tf_graph[layer_n] = self.tf_gen_dwconv(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Pool":
+                    self.tf_graph[layer_n] = self.tf_gen_pool(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Pool1d":
+                    self.tf_graph[layer_n] = self.tf_gen_pool1d(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Concat":
+                    self.tf_graph[layer_n] = self.tf_gen_concat(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Flatten":
+                    self.tf_graph[layer_n] = self.tf_gen_flatten(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Softmax":
+                    self.tf_graph[layer_n] = self.tf_gen_softmax(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "MatMul" or layer_attrs['type'] == "FullyConnected": # TODO check this! Maybe FullyConnected with bias
+                    self.tf_graph[layer_n] = self.tf_gen_matmul(layer_attrs, layer_n)
+                else:
+                    print("no layer")
+                    exit()
+
+                logging.debug("Config %s" % self.config.iloc[num])
+                logging.debug("Current graph %s" % self.tf_graph)
+
+            self.tf_export_to_pb(out)
+
+            # return annette graph output layers
+            return out
+
+        else:
+            raise ValueError(f'Framework {framework} is not supported! Try "pytorch" or "tensorflow".')
+
+    def torch_export_to_pt(self, save_path=None):
+        path = save_path if save_path else get_database('graphs','torch',self.graph.model_spec['name']+".pt")
+        torch.save(self.pt_graph, path)
 
     def tf_export_to_pb(self, output_node, save_path = None):
         # Collect default graph information
@@ -155,6 +211,13 @@ class Graph_generator():
             graph_string = (frozen_graph_def.SerializeToString())
             f.write(graph_string)
 
+    def print_torch_summary(self, pt_graph, inp_size):
+        summary(pt_graph,
+                torch.randn(inp_size, device=torch.device('cpu')),
+                col_names=['input_size', 'kernel_size', 'output_size', 'mult_adds'],
+                depth=5,
+                device=torch.device('cpu'))
+
     def tf_gen_pool(self, layer, name=None):
         logging.debug("Generating Relu with dict: %s" % layer)
         inp_name = layer['parents'][0]
@@ -170,7 +233,23 @@ class Graph_generator():
         elif layer['pooling_type'] == 'AVG':
             return avgpool(inp, (k_w, k_h),(stride_w, stride_h), name)
         else:
-            logging.error("only max pooling implemented currently")
+            logging.error("Only max, (global) average pooling implemented currently")
+            exit()
+
+    def tf_gen_pool1d(self, layer, name=None):
+        logging.debug("Generating Relu with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        k_w = layer['kernel_shape'][1]
+        stride_w = layer['strides'][1]
+        if layer['pooling_type'] == 'MAX':
+            return maxpool1d(inp, k_w, stride_w, name)
+        elif layer['pooling_type'] == 'AVG' and layer['kernel_shape'][1] == -1:
+            return globavgpool1d(inp, name)
+        elif layer['pooling_type'] == 'AVG':
+            return avgpool1d(inp, k_w, stride_w, name)
+        else:
+            logging.error("Only max, (global) average pooling implemented currently")
             exit()
 
     def tf_gen_concat(self, layer, name=None):
@@ -178,7 +257,7 @@ class Graph_generator():
         inp_name0 = layer['parents'][0]
         inp_name1 = layer['parents'][1]
         inp = [self.tf_graph[x] for x in layer['parents']]
-        return tf.concat(inp,axis=3,name=name)
+        return tf.concat(inp, axis=3, name=name)
 
     def tf_gen_add(self, layer, name=None):
         logging.debug("Generating Add with dict: %s" % layer)
@@ -225,7 +304,19 @@ class Graph_generator():
         k_h = layer['kernel_shape'][1]
         stride_w = layer['strides'][1]
         stride_h = layer['strides'][2]
-        return conv2d(inp, filters, (k_w,k_h), (stride_w,stride_h), name)
+        dilation_w = layer['dilations'][1]
+        dilation_h = layer['dilations'][2]
+        return conv2d(inp, filters, (k_w,k_h), (stride_w,stride_h), name, (dilation_w, dilation_h))
+
+    def tf_gen_conv1d(self, layer, name=None):
+        logging.debug("Generating 1D Conv with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        filters = layer['output_shape'][2]
+        k_w = layer['kernel_shape'][0]
+        stride_w = layer['strides'][1]
+        dilation_w = layer['dilations'][1]
+        return conv1d(inp, filters, k_w, name, stride_w, dilation_w)
 
     def tf_gen_dwconv(self, layer, name=None):
         logging.debug("Generating DWConv with dict: %s" % layer)
@@ -239,13 +330,25 @@ class Graph_generator():
 
     def tf_gen_placeholder(self, layer, name="x"):
         logging.debug("Generating Placeholder with dict: %s" % layer)
-        batch_size = layer['output_shape'][0]
-        if batch_size == -1:
-            batch_size = 1
-        width = layer['output_shape'][1] 
-        height = layer['output_shape'][2]
-        channels = layer['output_shape'][3]
-        return tf.compat.v1.placeholder(tf.float32, [batch_size, width, height, channels], name=name)
+        if len(layer['output_shape']) == 4: # 2d convolution
+            batch_size = layer['output_shape'][0]
+            if batch_size == -1:
+                batch_size = 1
+            width = layer['output_shape'][1] 
+            height = layer['output_shape'][2]
+            channels = layer['output_shape'][3]
+            placeholder_shape = [batch_size, width, height, channels]
+        elif len(layer['output_shape']) == 3: # 1d convolution
+            batch_size = layer['output_shape'][0]
+            if batch_size == -1:
+                batch_size = 1
+            width = layer['output_shape'][1] 
+            channels = layer['output_shape'][2]
+            placeholder_shape = [batch_size, width, channels]
+        else:
+            raise NotImplementedError
+
+        return tf.compat.v1.placeholder(tf.float32, placeholder_shape, name=name)
 
 def dw_conv2d(x_tensor, conv_ksize, stride, name):
     layer = slim.separable_convolution2d(x_tensor,
@@ -257,7 +360,7 @@ def dw_conv2d(x_tensor, conv_ksize, stride, name):
     return layer
     
 
-def conv2d(x_tensor, filters, conv_ksize, stride, name):
+def conv2d(x_tensor, filters, conv_ksize, stride, name, dilation=(1, 1)):
     # Weights
     conv_strides = stride
     W_shape = list(conv_ksize) + [int(x_tensor.shape[3]), filters]
@@ -267,6 +370,25 @@ def conv2d(x_tensor, filters, conv_ksize, stride, name):
     x = tf.nn.conv2d(
         x_tensor, W,
         strides = [1] + list(conv_strides) + [1],
+        dilations = [1] + list(dilation) + [1],
+        padding = 'SAME',
+        name = name
+    )
+
+    return x
+
+def conv1d(x_tensor, filters, conv_ksize, name, stride=1, dilation=1):
+    # X needs to be formatted as [batch_size, width, channels]
+    # Weights need to be formatted as [filter_width, in_channels, out_channels]
+    W_shape = [conv_ksize, int(x_tensor.shape[2]), filters]
+    W = tf.Variable(tf.truncated_normal(W_shape, stddev=.05))
+
+    # Apply convolution
+    x = tf.nn.conv1d(
+        x_tensor, W,
+        data_format='NWC',
+        stride = [1, stride, 1],
+        dilations = [1, dilation, 1],
         padding = 'SAME',
         name = name
     )
@@ -283,12 +405,15 @@ def softmax(x_tensor, name):
     x = tf.nn.softmax(x_tensor,name=name)
     return x
 
-def globavgpool(x_tensor, name='avg_pool'):
-    x = tf.reduce_mean(x_tensor, axis=[1,2], name = name)
+def globavgpool(x_tensor, name='glob_avg_pool'):
+    x = tf.reduce_mean(x_tensor, axis=[1,2], name=name)
+    return x
+
+def globavgpool1d(x_tensor, name='glob_avg_pool1d'):
+    x = tf.reduce_mean(x_tensor, axis=[1], name=name)
     return x
 
 def maxpool(x_tensor, pool_ksize, pool_strides, name='max_pool'):
-    # Max pooling
     x = tf.nn.max_pool(
         x_tensor,
         ksize = [1] + list(pool_ksize) + [1],
@@ -296,6 +421,19 @@ def maxpool(x_tensor, pool_ksize, pool_strides, name='max_pool'):
         padding = 'SAME',
         name = name
     )
+
+    return x
+
+def maxpool1d(x_tensor, pool_ksize, pool_strides, name='max_pool1d'):
+    x = tf.nn.max_pool1d(
+        x_tensor,
+        ksize = [1, pool_ksize, 1],
+        strides = [1, pool_strides, 1],
+        padding = 'SAME',
+        data_format='NWC',
+        name = name
+    )
+
     return x
 
 def avgpool(x_tensor, pool_ksize, pool_strides, name='avg_pool'):
@@ -306,6 +444,18 @@ def avgpool(x_tensor, pool_ksize, pool_strides, name='avg_pool'):
             padding = 'SAME',
             name = name
         )
+
+    return x
+
+def avgpool1d(x_tensor, pool_ksize, pool_strides, name='avg_pool1d'):
+    x = tf.nn.avg_pool1d(
+        x_tensor,
+        ksize = [1, pool_ksize, 1],
+        strides = [1, pool_strides, 1],
+        padding = 'SAME',
+        data_format='NWC',
+        name = name
+    )
 
     return x
 

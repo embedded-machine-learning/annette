@@ -1,0 +1,128 @@
+{
+    "name": "annette_fcnet",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "conv1"
+            ],
+            "output_shape": [
+                "batch_size", "width", "height", "channels"
+            ]
+        },
+        "conv1": {
+            "type": "Conv",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "pool1"
+            ],
+            "output_shape": [
+                -1, -1, -1, -1
+            ],
+            "input_shape": [
+                -1, -1, -1, -1
+            ],
+            "kernel_shape": [
+                "k_size", "k_size", "channels", "filters"
+            ],
+            "pads": [
+                0, 0,   0, 0,   0, 0,   0, 0
+            ],
+            "strides": [
+                1, "stride", "stride", 1
+            ],
+            "dilations": [
+                1, "dilation", "dilation", 1
+            ]
+        },
+        "pool1": {
+            "type": "Pool",
+            "parents": [
+                "conv1"
+            ],
+            "children": [
+                "flatten1"
+            ],
+            "output_shape": [
+                -1, -1, -1, -1
+            ],
+            "input_shape": [
+                -1, -1, -1, -1
+            ],
+            "kernel_shape": [
+                1, -1, -1, 1
+            ],
+            "pads": [
+                0, 0,   0, 0,   0, 0,   0, 0
+            ],
+            "strides": [
+                1, 1, 1, 1
+            ],
+            "dilations": [
+                1, 1, 1, 1
+            ],
+            "pooling_type": "AVG"
+        },
+        "flatten1": {
+            "type": "Flatten",
+            "parents": [
+                "pool1"
+            ],
+            "children": [
+                "fully-connected1"
+            ],
+            "output_shape": [
+                -1, -1
+            ],
+            "input_shape": [
+                -1, -1, -1, -1
+            ]
+        },
+        "fully-connected1": {
+            "type": "MatMul",
+            "parents": [
+                "flatten1"
+            ],
+            "children": [
+                "fully-connected2"
+            ],
+            "output_shape": [
+                -1, "filters"
+            ],
+            "input_shape": [
+                -1, -1
+            ]
+        },
+        "fully-connected2": {
+            "type": "MatMul",
+            "parents": [
+                "fully-connected1"
+            ],
+            "children": [
+                "softmax1"
+            ],
+            "output_shape": [
+                -1, "filters"
+            ],
+            "input_shape": [
+                -1, -1
+            ]
+        },
+        "softmax1": {
+            "type": "Softmax",
+            "parents": [
+                "fully-connected2"
+            ],
+            "children": [],
+            "output_shape": [
+                1, "filters"
+            ],
+            "input_shape": [
+                -1, -1
+            ]
+        }
+    }
+}

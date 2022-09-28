@@ -9,16 +9,20 @@ from annette.estimation.layers.convpool import ConvPoolLayer
 from annette.estimation.layers.add  import AdditionLayer 
 from annette.estimation.layers.fc   import FullyConnectedLayer
 from annette.estimation.layers.input import InputLayer
+from annette.estimation.layers.depthwisesepconv import DepthwiseSepConvLayer
 
 # Layer Dictionary, Naming has to be equal to the Annette Naming convention
 __layer_classes__ = {
     'Base': BaseLayer,
     'Conv': ConvLayer,
     'ConvTranspose': ConvTransposeLayer,
+    'ConvTranspose2d': ConvTransposeLayer,
     'DepthwiseConv': DepthwiseConvLayer,
     'Pool': PoolLayer,
     'ConvPool': ConvPoolLayer,
     'Add': AdditionLayer,
     'DataInput': InputLayer,
-    'FullyConnected':FullyConnectedLayer,
+    'FullyConnected': FullyConnectedLayer,
+    'MatMul': FullyConnectedLayer,
+    'DepthwiseSepConv': DepthwiseSepConvLayer
 }

@@ -319,8 +319,8 @@
             "kernel_shape": [
                 1,
                 1,
-				-1,
-				-1
+				"filters",
+				"channels"
             ],
             "strides": [
                 1,

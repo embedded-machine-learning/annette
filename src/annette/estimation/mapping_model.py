@@ -31,12 +31,15 @@ class Optimizer():
             'Pool': layers.PoolLayer,
             'Conv': layers.ConvLayer,
             'ConvTranspose': layers.ConvTransposeLayer,
+            'ConvTranspose2d': layers.ConvTransposeLayer,
             'Add': layers.AdditionLayer,
             'Base': layers.BaseLayer,
-            'Input': layers.InputLayer,
+            'DataInput': layers.InputLayer,
             'FullyConnected': layers.FullyConnectedLayer,
             'ConvPool': layers.ConvPoolLayer,
             'DepthwiseConv': layers.DepthwiseConvLayer,
+            'MatMul': layers.FullyConnectedLayer,
+            'DepthwiseSepConv': layers.DepthwiseSepConvLayer
         }
 
         self.desc = self.gen_dict()
@@ -69,6 +72,11 @@ class Optimizer():
         # recompute nums
         # print(self.layer_classes[layertype].compute_nums(graph.model_spec['layers'][layer]))
 
+    def apply_removal(self, graph, layer):
+        if layer in graph.model_spec['layers'] and graph.model_spec['layers'][layer]['type'] == self.prim_type:
+            logging.debug(f'Removing layer: {layer}')
+            graph.delete_layer(layer)
+
     def apply_merge(self, graph, layer):
         # check layer type
         if layer in graph.model_spec['layers'] and graph.model_spec['layers'][layer]['type'] == self.prim_type:
@@ -92,7 +100,7 @@ class Optimizer():
                         print(self.est_model)
                         print(self.conv_dict)
                         merge = merge and self.merge_model(graph, layer)
-                    print("Merge Desicion")
+                    print("Merge Decision")
                     if merge:
                         print(merge)
                         self.merge_simple(graph, layer)
@@ -191,7 +199,6 @@ class Optimizer():
         except:
             secondary = graph.model_spec['layers'][c]
 
-
         vector = np.zeros([1, len(self.conv_dict)])
         for i in self.conv_dict.items():
             if isinstance(i[1], dict):
@@ -246,9 +253,13 @@ class Mapping_model():
             print(key)
             # loop over layers
             if opt.sec_type is None:
-                print("Splitter")
-                for layer in graph.topological_sort:
-                    opt.apply_split(graph, layer)
+                if opt.out_type is None:
+                    for layer in graph.topological_sort:
+                        opt.apply_removal(graph, layer)
+                else:
+                    print("Splitter")
+                    for layer in graph.topological_sort:
+                        opt.apply_split(graph, layer)
         for key, opt in self.optimizers.items():
             if opt.sec_type is not None:
                 print("Fuser")

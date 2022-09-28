@@ -1,0 +1,117 @@
+{
+    "name": "annette_bench_conv1d_test",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "conv1d/Conv1D"
+            ],
+            "output_shape": [
+                "batch_size",
+                "width",
+                "channels"
+            ]
+        },
+        "conv1d/Conv1D": {
+            "type": "Conv1d",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "avg_pool"
+            ],
+            "output_shape": [
+                1,
+                -1,
+                "filters"
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                "channels"
+            ],
+            "kernel_shape": [
+                "k_size",
+                "channels",
+                "filters"
+            ],
+            "strides": [
+                1,
+                "stride",
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "dilations": [
+                1,
+                "dilation",
+                1
+            ]
+        },
+        "avg_pool": {
+            "type": "Pool1d",
+            "parents": [
+                "conv1d/Conv1D"
+            ],
+            "children": [
+                "conv1d/Relu"
+            ],
+            "output_shape": [
+                -1,
+                -1,
+                -1
+            ],
+            "input_shape": [
+                -1,
+                -1,
+				-1
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "AVG"
+        },        
+        "conv1d/Relu": {
+            "type": "Relu",
+            "parents": [
+                "avg_pool"
+            ],
+            "children": [
+            ],
+            "output_shape": [
+                -1,
+                -1,
+                "filters"
+            ],
+            "input_shape": [
+                -1,
+                -1,
+                "filters"
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}
