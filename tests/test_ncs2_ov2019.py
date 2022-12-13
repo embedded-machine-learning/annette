@@ -127,9 +127,9 @@ def main():
     #test_all(network='annette_bench2')
     #test_all(network='annette_bench3')
     #test_matcher(network='annette_bench1')
-    test_all(network='annette_bench5',config='config_v6_1.csv',start=0,vis=False)
+    #test_all(network='annette_bench5',config='config_v6_1.csv',start=0,vis=False)
     #test_measure_network(network='squeezenet1.0-9')
-    #test_measure_annette_network(network='cf_inceptionv1')
+    test_measure_annette_network(network='alexnet0')
     #test_measure_destruct_annette_network(network='annette_bench5')
     #test_read_ncs2_report()
 

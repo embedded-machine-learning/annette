@@ -6,7 +6,7 @@ import pandas as pd
 import pickle as pkl
 import logging
 from pathlib import Path
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 #import tensorflow.compat.v1.contrib.slim as slim
 import os
 from copy import deepcopy
@@ -50,6 +50,7 @@ class Graph_generator():
         self.init_graph = AnnetteGraph(network, self.json_file)
         self.graph = deepcopy(self.init_graph)
         #load configfile
+        self.config = None
     
     def add_configfile(self, configfile):
         self.config = pd.read_csv(get_database('benchmarks','config', configfile))
@@ -78,20 +79,21 @@ class Graph_generator():
             tf.reset_default_graph()
         self.tf_graph = {}
 
-        for layer_n, layer_attrs in self.graph.model_spec['layers'].items():
-            logging.debug("layer name %s " % layer_n)
-            logging.debug("layer attrs %s " % layer_attrs)
-            for attr_n,attr_v in layer_attrs.items():
-                logging.debug("attribute name %s" % attr_n)
-                logging.debug("attribute values %s" % attr_v)
+        if self.config:
+            for layer_n, layer_attrs in self.graph.model_spec['layers'].items():
+                logging.debug("layer name %s " % layer_n)
+                logging.debug("layer attrs %s " % layer_attrs)
+                for attr_n,attr_v in layer_attrs.items():
+                    logging.debug("attribute name %s" % attr_n)
+                    logging.debug("attribute values %s" % attr_v)
 
-                if isinstance(attr_v, list):
-                    for n,attr_ele in enumerate(attr_v):
-                        #logging.debug(n)
-                        #logging.debug(attr_ele)
-                        self.graph.model_spec['layers'][layer_n][attr_n][n] = replace_key(attr_ele, self.config, num)
-                else:
-                    self.graph.model_spec['layers'][layer_n][attr_n] = replace_key(attr_v, self.config, num)
+                    if isinstance(attr_v, list):
+                        for n,attr_ele in enumerate(attr_v):
+                            #logging.debug(n)
+                            #logging.debug(attr_ele)
+                            self.graph.model_spec['layers'][layer_n][attr_n][n] = replace_key(attr_ele, self.config, num)
+                    else:
+                        self.graph.model_spec['layers'][layer_n][attr_n] = replace_key(attr_v, self.config, num)
 
         self.graph.compute_dims()
 
@@ -130,7 +132,8 @@ class Graph_generator():
                 logging.debug("layer %s not yet implemented", layer_attrs['type'])
                 exit()
 
-            logging.debug("Config %s" % self.config.iloc[num])
+            if self.config:
+                logging.debug("Config %s" % self.config.iloc[num])
             logging.debug("Current graph %s" % self.tf_graph)
 
         # return annette graph
@@ -277,7 +280,7 @@ class Graph_generator():
             f.write(graph_string)
 
     def tf_gen_pool(self, layer, name=None):
-        logging.debug("Generating Relu with dict: %s" % layer)
+        logging.debug("Generating Pool with dict: %s" % layer)
         inp_name = layer['parents'][0]
         inp = self.tf_graph[inp_name]
         k_w = layer['kernel_shape'][1]

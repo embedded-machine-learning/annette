@@ -38,13 +38,9 @@ class Graph_matcher():
         #make layer list
         print(self.gen.graph.model_spec['layers'])
 
-    def run_bench(self, optimize = None, execute = None, parse = None, store = 5, hardware='ncs2', start=0, vis=False):
+    def run_bench(self, optimize = None, execute = None, parse = None, store = 5, hardware='ncs2', start=0,vis=False):
         config_len = len(self.gen.config)
         assert(start >= config_len, "Selected starting number {s} larger than config length {l}".format(s=start,l=config_len))
-        if vis:
-            print("Visualization enabled!")
-        else:
-            print("Visualization disabled!")
 
         for i in range(start, config_len):
             print('-'*60)
@@ -88,14 +84,8 @@ class Graph_matcher():
                 print(report)
                 duration = np.sum(report['time(ms)'])
                 #total_result = processing.extract_power_profile(pm.dat_filename, pm.data_dir, duration, sample_rate = rate)
-                
-                pad = int(np.min((np.sqrt(duration)*200,2000)))
 
-                print("duration: ",duration)
-                print("pad : ",pad)
-                print("vis: ",vis)
-
-                result = processing.unite_latency_power_meas(report, 'test_infmod.dat', 'tmp/', sample_rate = rate, padding=pad, vis=vis)
+                result = processing.unite_latency_power_meas(report, 'test_infmod.dat', 'tmp/', sample_rate = rate, padding=100, vis=vis)
 
                 self.match_and_add(self.gen.graph, result[0])
                 if i % store == 0 and i > store-1 or i == config_len-1:
@@ -227,19 +217,23 @@ def measure_annette_network(optimize, execute, parse, network):
         vis = False
 
         gen = generator.Graph_generator(network)
-        gen.generate_graph_from_config()
+        gen.config = None
+        gen.generate_graph_from_config(0)
         test_net = get_database('graphs','tf', network+'.pb')
 
         optimize(test_net, source_fw = "tf", network = network, input_shape = None , save_folder = get_database('benchmarks','tmp'))
 
         test_net = get_database('benchmarks','tmp', network+'.xml')
         execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD'}
-        dur, power_dir, power_file = execute(**execute_kwargs)
+        execute(**execute_kwargs)
+
+        power_file = 'test_infmod.dat'
+        power_dir = 'tmp/'
 
         test_report = get_database('benchmarks','tmp','benchmark_average_counters_report.csv')
         report = parse(test_report) 
         duration = np.sum(report['time(ms)'])
-        result = processing.unite_latency_power_meas(report, power_file+'.dat', power_dir, sample_rate = rate, vis=vis, padding=200)
+        result = processing.unite_latency_power_meas(report, power_file, power_dir, sample_rate = rate, vis=vis, padding=200)
         print(result)
         print(len(result[1]))
 
