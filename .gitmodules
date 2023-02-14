@@ -1,6 +1,6 @@
 [submodule "src/annette/graph"]
 	path = src/annette/graph
-	url = git@atreus.informatik.uni-tuebingen.de:ties/genial/mmdnn-graph-utils.git
+	url = git@github.com:embedded-machine-learning/mmdnn-graph-utils.git
 [submodule "src/annette/hw_modules"]
 	path = src/annette/hw_modules
-	url = git@atreus.informatik.uni-tuebingen.de:ties/genial/inference_modules.git
+	url = git@github.com:embedded-machine-learning/inference_modules.git

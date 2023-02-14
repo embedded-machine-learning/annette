@@ -54,7 +54,7 @@ class BaseLayer(object):
 
         return layer
 
-    def compute_efficiency(self, unrolled, eff, div, mod, par=None, alpha=None, replication=True):
+    def compute_efficiency(self, unrolled, eff, div, mod, par = None, alpha = None, replication = False):
         """Compute layer efficiency for one unrolled parameter.
 
         Args:

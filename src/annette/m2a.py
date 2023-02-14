@@ -8,7 +8,7 @@ from pathlib import Path
 from annette import __version__
 from annette.estimation.layer_model import Layer_model
 from annette.estimation.mapping_model import Mapping_model
-from annette.graph import AnnetteGraph, MMGraph
+import annette.graph as graph
 from annette import get_database 
 
 sys.path.append("./")
@@ -42,13 +42,42 @@ def mmdnn_to_annette(args):
         logging.error("File not found")
 
     weightfile = None
-    mmdnn_graph = MMGraph(graphfile, weightfile)
+    mmdnn_graph = graph.MMGraph(graphfile, weightfile)
     annette_graph = mmdnn_graph.convert_to_annette(args.network)
     json_file = get_database( 'graphs', 'annette',
                      annette_graph.model_spec["name"]+'.json')
     annette_graph.to_json(json_file)
 
     return annette_graph
+
+def onnx_to_annette(args):
+    """Convert ONNNX graph .onnx-File to annette json format and stores to Annette graph std path.
+
+    Args:
+      network name (str): network name 
+      input node name (str): input node name 
+
+    Returns:
+      :obj:`annette.AnnetteGraph`: AnnetteGraph object
+    """
+
+    graphfile = get_database('graphs','onnx',args.network+'.onnx')
+    if(os.path.exists(graphfile)):
+        print("Graph found")
+    elif(os.path.exists(args.network)):
+        print("Graph-file detected")
+        # extract network name
+        args.network = os.path.split(args.network)[1].split('.onnx')[0]
+        graphfile = get_database( 'graphs', 'onnx', args.network+'.onnx')
+    else:
+        logging.error("File not found")
+    onnx_network = graph.ONNXGraph(graphfile)
+    annette_graph = onnx_network.onnx_to_annette(args.network, args.inputs)
+    json_file = get_database( 'graphs', 'annette',
+                     annette_graph.model_spec["name"]+'.json')
+    annette_graph.to_json(json_file)
+
+    return annette_graph 
 
 
 def parse_args(args):
@@ -67,10 +96,20 @@ def parse_args(args):
         action="version",
         version="annette {ver}".format(ver=__version__))
     parser.add_argument(
+        "-n",
+        "--network",
         dest="network",
         help="network name to estimate",
         type=str,
-        metavar="network name in database/graphs/mmdnn")
+        metavar="net")
+    parser.add_argument(
+        "-i",
+        "--inputs",
+        dest="inputs",
+        default=None,
+        help="input_nodes in list form e.g. ['data']",
+        type=str,
+        metavar="in")
     parser.add_argument(
         "-v",
         "--verbose",
@@ -99,7 +138,7 @@ def setup_logging(loglevel):
                         format=logformat, datefmt="%Y-%m-%d %H:%M:%S")
 
 
-def main(args):
+def main(args, iformat='mmdnn'):
     """Main entry point allowing external calls.
 
     Args:
@@ -107,13 +146,21 @@ def main(args):
     """
     args = parse_args(args)
     setup_logging(args.loglevel)
-    mmdnn_to_annette(args)
+    if iformat == 'mmdnn':
+        mmdnn_to_annette(args)
+    elif iformat == 'onnx':
+        onnx_to_annette(args)
+    else:
+        logging.info('Unknown input format')
 
 
 def run():
     """Entry point for console_scripts."""
     main(sys.argv[1:])
 
+def run_onnx():
+    """Entry point for console_scripts."""
+    main(sys.argv[1:], iformat='onnx')
 
 if __name__ == "__main__":
     run()

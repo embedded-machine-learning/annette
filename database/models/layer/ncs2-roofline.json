@@ -98,6 +98,17 @@
 			"bit_weights": 16
 		}
     },
+	"Swish": {
+        "name": "Mixed",
+        "layer_type": "Swish",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 1339718849.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
 	"FullyConnected": {
         "name": "Mixed",
         "layer_type": "FullyConnected",

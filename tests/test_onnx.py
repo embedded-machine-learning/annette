@@ -25,7 +25,8 @@ def test_ONNXGraph_to_annette(network="cf_resnet50",inputs=None):
 
 def main():
     print("main")
-    test_ONNXGraph_to_annette('squeezenet1.0-9',['data_0'])
+    test_ONNXGraph_to_annette('vgg16-7',['data'])
+    #test_ONNXGraph_to_annette('yolov5s',['images'])
 
 if __name__ == '__main__':
     main()

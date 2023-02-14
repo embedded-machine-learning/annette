@@ -3665,25 +3665,6 @@
                 "MobilenetV2/Logits/Conv2d_1c_1x1/Conv2D"
             ],
             "children": [
-                "MobilenetV2/Predictions/Reshape"
-            ],
-            "output_shape": [
-                -1,
-                1001
-            ],
-            "input_shape": [
-                -1,
-                1,
-                1,
-                1001
-            ]
-        },
-        "MobilenetV2/Predictions/Reshape": {
-            "type": "Reshape",
-            "parents": [
-                "MobilenetV2/Logits/Squeeze"
-            ],
-            "children": [
                 "MobilenetV2/Predictions/Softmax"
             ],
             "output_shape": [
@@ -3692,13 +3673,15 @@
             ],
             "input_shape": [
                 -1,
+                1,
+                1,
                 1001
             ]
         },
         "MobilenetV2/Predictions/Softmax": {
             "type": "Softmax",
             "parents": [
-                "MobilenetV2/Predictions/Reshape"
+                "MobilenetV2/Logits/Squeeze"
             ],
             "children": [],
             "output_shape": [

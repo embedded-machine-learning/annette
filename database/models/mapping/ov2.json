@@ -36,14 +36,22 @@
         "conv_dict": null,
         "fuse_cond": null
     },
-    "ConvRelu": {
+    "ConvRelu":
+		{"conv_dict": {"0": {"name": "num_ops", "layer": "primary"},
+		  "1": {"name": "num_inputs", "layer": "primary"},
+		  "2": {"name": "num_outputs", "layer": "primary"},
+		  "3": {"name": "input_shape", "i": 1, "layer": "primary"},
+		  "4": {"name": "input_shape", "i": 2, "layer": "primary"},
+		  "5": {"name": "input_shape", "i": 3, "layer": "primary"},
+		  "6": {"name": "output_shape", "i": 3, "layer": "primary"},
+		  "7": {"name": "kernel_shape", "i": 0, "layer": "primary"},
+		  "8": {"name": "kernel_shape", "i": 1, "layer": "primary"},
+		  "9": {"name": "num_weights", "layer": "primary"}},
 		 "name": "ConvRelu",
 		 "prim_type": "Conv",
 		 "sec_type": "Relu",
 		 "out_type": "Conv",
-        "est_model": null,
-        "conv_dict": null,
-        "fuse_cond": null
+		 "est_model": "models/mapping/ov2-stat/convrelu.sav"
 	},
     "ConvRelu6": {
         "name": "ConvRelu6",
@@ -63,14 +71,28 @@
         "conv_dict": null,
         "fuse_cond": null
     },
-    "ConvPool": {
-		"name": "ConvPool",
-		"prim_type": "Conv",
-		"sec_type": "Pool",
-		"out_type": "ConvPool",
-        "est_model": null,
-        "conv_dict": null,
-        "fuse_cond": null
+    "ConvPool": {"conv_dict": {"0": {"name": "num_ops", "layer": "primary"},
+	  "1": {"name": "num_inputs", "layer": "primary"},
+	  "2": {"name": "num_outputs", "layer": "primary"},
+	  "3": {"name": "input_shape", "i": 1, "layer": "primary"},
+	  "4": {"name": "input_shape", "i": 2, "layer": "primary"},
+	  "5": {"name": "input_shape", "i": 3, "layer": "primary"},
+	  "6": {"name": "output_shape", "i": 3, "layer": "primary"},
+	  "7": {"name": "kernel_shape", "i": 0, "layer": "primary"},
+	  "8": {"name": "kernel_shape", "i": 1, "layer": "primary"},
+	  "9": {"name": "num_weights", "layer": "primary"}},
+	 "name": "ConvPool",
+	 "prim_type": "Conv",
+	 "sec_type": "Pool",
+	 "out_type": "ConvPool",
+	 "fuse_cond": {"primary": {},
+	  "secondary": {"1": {"name": "kernel_shape",
+		"i": 1,
+		"cond": "==",
+		"val": "2"},
+	   "2": {"name": "kernel_shape", "i": 2, "cond": "==", "val": "2"},
+	   "3": {"name": "pooling_type", "cond": "==", "val": "MAX"}}},
+	 "est_model": "models/mapping/ov2-stat/convpool.sav"
 	},
 	"Softplus": {
         "name": "Softplus",
