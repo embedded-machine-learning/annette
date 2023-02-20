@@ -1,13 +1,11 @@
 {
-    "name": "annette_bench1",
+"name": "annette_bench0",
     "layers": {
         "Placeholder": {
             "type": "DataInput",
             "parents": [],
             "children": [
-                "conv2d/Conv2D",
-                "conv2d_1/Conv2D",
-                "conv2d_2/Conv2D"
+                "conv2d_Conv2D"
             ],
             "output_shape": [
                 "batch_size",
@@ -16,13 +14,13 @@
                 "channels"
             ]
         },
-        "conv2d/Conv2D": {
+        "conv2d_Conv2D": {
             "type": "Conv",
             "parents": [
                 "Placeholder"
             ],
             "children": [
-                "conv2d/Relu"
+                "conv2d_Relu"
             ],
             "output_shape": [
                 1,
@@ -59,184 +57,13 @@
                 0
             ]
         },
-        "conv2d_1/Conv2D": {
-            "type": "Conv",
-            "parents": [
-                "Placeholder"
-            ],
-            "children": [
-                "conv2d_1/Relu"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "channels"
-            ],
-            "kernel_shape": [
-                "k_size",
-                "k_size",
-                1,
-                1
-            ],
-            "strides": [
-                1,
-                1,
-                1,
-                1
-            ],
-            "pads": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-            ]
-        },
-        "conv2d_2/Conv2D": {
-            "type": "Conv",
-            "parents": [
-                "Placeholder"
-            ],
-            "children": [
-                "conv2d_2/Relu"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "channels"
-            ],
-            "kernel_shape": [
-                "k_size",
-                "k_size",
-                1,
-                1
-            ],
-            "strides": [
-                1,
-                1,
-                1,
-                1
-            ],
-            "pads": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-            ]
-        },
-        "conv2d/Relu": {
+        "conv2d_Relu": {
             "type": "Relu",
             "parents": [
-                "conv2d/Conv2D"
+                "conv2d_Conv2D"
             ],
             "children": [
-                "Add"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ]
-        },
-        "conv2d_1/Relu": {
-            "type": "Relu",
-            "parents": [
-                "conv2d_1/Conv2D"
-            ],
-            "children": [
-                "Add"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ]
-        },
-        "conv2d_2/Relu": {
-            "type": "Relu",
-            "parents": [
-                "conv2d_2/Conv2D"
-            ],
-            "children": [
-                "Add_1"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ]
-        },
-        "Add": {
-            "type": "Add",
-            "parents": [
-                "conv2d/Relu",
-                "conv2d_1/Relu"
-            ],
-            "children": [
-                "Add_1"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ]
-        },
-        "Add_1": {
-            "type": "Add",
-            "parents": [
-                "Add",
-                "conv2d_2/Relu"
-            ],
-            "children": [
+                "depthwise"
             ],
             "output_shape": [
                 -1,
@@ -254,7 +81,7 @@
         "depthwise": {
             "type": "DepthwiseConv",
             "parents": [
-                "Add_1"
+                "conv2d_Relu"
             ],
             "children": [
                 "pointwise"
@@ -272,10 +99,10 @@
                 "filters"
             ],
             "kernel_shape": [
-                1,
-                1,
                 "k_size",
-                "k_size"
+                "k_size",
+                "filters",
+                1
             ],
             "strides": [
                 1,
@@ -300,14 +127,13 @@
                 "depthwise"
             ],
             "children": [
-				"conv2d_3/Conv2D",
-				"conv2d_4/Conv2D"
+				"avg_pool"
             ],
             "output_shape": [
                 -1,
                 -1,
                 -1,
-                "filters"
+                "channels"
             ],
             "input_shape": [
                 -1,
@@ -318,8 +144,8 @@
             "kernel_shape": [
                 1,
                 1,
-                1,
-                1
+                "filters",
+                "channels"
             ],
             "strides": [
                 1,
@@ -336,206 +162,12 @@
                 0,
                 0,
                 0
-            ]
-        },
-        "conv2d_3/Conv2D": {
-            "type": "Conv",
-            "parents": [
-                "pointwise"
-            ],
-            "children": [
-                "conv2d_3/Relu"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "kernel_shape": [
-                1,
-                1,
-                3,
-                3
-            ],
-            "strides": [
-                1,
-                2,
-                2,
-                1
-            ],
-            "pads": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-            ]
-        },
-        "conv2d_4/Conv2D": {
-            "type": "Conv",
-            "parents": [
-                "pointwise"
-            ],
-            "children": [
-                "conv2d_4/Relu"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "kernel_shape": [
-                1,
-                1,
-                3,
-                3
-            ],
-            "strides": [
-                1,
-                1,
-                1,
-                1
-            ],
-            "pads": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-            ]
-        },
-        "conv2d_3/Relu": {
-            "type": "Relu",
-            "parents": [
-                "conv2d_3/Conv2D"
-            ],
-            "children": [
-                "concat"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ]
-        },
-        "conv2d_4/Relu": {
-            "type": "Relu",
-            "parents": [
-                "conv2d_4/Conv2D"
-            ],
-            "children": [
-                "max_pool/MaxPool"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ]
-        },
-        "max_pool/MaxPool": {
-            "type": "Pool",
-            "parents": [
-                "conv2d_4/Relu"
-            ],
-            "children": [
-                "concat"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                "filters"
-            ],
-            "kernel_shape": [
-                1,
-                2,
-                2,
-                1
-            ],
-            "strides": [
-                1,
-                2,
-                2,
-                1
-            ],
-            "pads": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                1,
-                1,
-                0
-            ],
-            "pooling_type": "MAX"
-        },
-        "concat": {
-            "type": "Concat",
-            "parents": [
-                "conv2d_3/Relu",
-                "max_pool/MaxPool"
-            ],
-            "children": [
-                "flatten"
-            ],
-            "output_shape": [
-                -1,
-                -1,
-                -1,
-                -1
-            ],
-            "input_shape": [
-                -1,
-                -1,
-                -1,
-                -1
             ]
         },
         "avg_pool": {
             "type": "Pool",
             "parents": [
-                "concat"
+                "pointwise"
             ],
             "children": [
                 "flatten"
@@ -554,8 +186,8 @@
             ],
             "kernel_shape": [
                 1,
-                -1,
-                -1,
+                "height",
+                "width",
                 1
             ],
             "strides": [
@@ -596,23 +228,26 @@
             ]
         },
         "MatMul": {
-            "type": "MatMul",
+            "type": "FullyConnected",
             "parents": [
                 "flatten"
             ],
             "children": [
-                "fully_conn/Add"
             ],
             "output_shape": [
                 -1,
                 "filters"
             ],
+            "kernel_shape": [
+                "filters",
+                "channels"
+            ],
             "input_shape": [
                 -1,
-                -1
+                "channels"
             ]
         }
 	},
-    "input_layers": [],
-    "output_layers": []
+    "input_layers": ["Placeholder"],
+    "output_layers": ["MatMul"]
 }

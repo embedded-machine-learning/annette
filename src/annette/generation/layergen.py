@@ -2,6 +2,8 @@ from __future__ import print_function
 from pprint import pprint
 from functools import reduce
 from annette.estimation import layers
+from annette.utils import get_database
+from pathlib import Path
 import annette.utils as utils
 import json
 import numpy as np
@@ -15,9 +17,51 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import PolynomialFeatures
 from scipy.optimize import curve_fit
 
+
+class HardwareModelGen():
+    """Can be used to generate a hardware model from a given dataset"""
+
+    def __init__(self, name):
+        self.name = name
+        self.layer_dict = {}
+
+    def add_layer(self, name = "Base", layer_type = "Base", est_type = "roofline", architecture = None, data = None, sweep_data = None, est_dict = None):
+        """Add a layer to the hardware model"""
+        self.layer_dict[name] = LayerModelGen(name, layer_type, est_type, architecture)
+
+        est_type = "roofline"
+        if sweep_data is not None:
+            self.layer_dict[name].read_sweep_data(sweep_data)
+        if data is not None:
+            self.layer_dict[name].read_data(data)
+        
+        """compute Parameters for layer"""
+        self.layer_dict[name].compute_parameters()
+        self.layer_dict[name].compute_parameters(sweep = True)
+
+        self.layer_dict[name].generate_architecture()
+        y_val = 'ops/s'
+
+        if est_dict is None:
+            """get default estimation dictionary for all columns in data that are not None"""
+            est_dict = {}
+            val = 0
+            for col in self.layer_dict[name].data.columns:
+                if self.layer_dict[name].data[col].isnull().values.any():
+                    continue
+                if col in ['ops/s', 'bandwidth', 'time(ms)']:
+                    continue
+                print(val, col)
+                est_dict[str(val)] = col
+                val += 1
+            print(est_dict)
+        self.layer_dict[name].generate_estimator(est_dict = est_dict, est_model = get_database('models','layer',self.name,name+'.sav'), y_val=y_val)
+
+        
+
 class LayerModelGen():
 
-    def __init__(self, name, layer_type="Base", est_type="roofline", architecture=None):
+    def __init__(self, name = "Base", layer_type = "Base", est_type = "roofline", architecture = None):
         self.name = name
         self.layer_type = layer_type
         self.estimation = est_type
@@ -157,7 +201,7 @@ class LayerModelGen():
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
 
         if regressor is None:
-            self.regressor = RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=50, random_state=False, verbose=False, criterion='mse')
+            self.regressor = RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=50, random_state=False, verbose=False, criterion='squared_error')
         else:
             self.regressor = regressor
 
@@ -184,6 +228,7 @@ class LayerModelGen():
         if est_model is None:
             print("No Estimator stored!\n")
         else:
+            Path(self.est_model).parents[0].mkdir(parents=True, exist_ok=True)
             self.est_model = est_model
             self.store_model(est_model)
         return y_test, y_pred
@@ -216,7 +261,7 @@ class LayerModelGen():
                     self.est_dict[k] = {"name": "strides", "i": 0}
                 if v == "k_dilation":
                     self.est_dict[k] = {"name": "dilations", "i": 0}
-        elif self.layer_type == "DetphwiseConv":
+        elif self.layer_type == "DepthwiseConv":
             for k, v in self.est_dict.items():
                 if v == "height":
                     self.est_dict[k] = {"name": "input_shape", "i": 2}
@@ -254,6 +299,30 @@ class LayerModelGen():
                     self.est_dict[k] = {"name": "output_shape", "i": 1}
         else:
             raise NotImplementedError(f'Not immplemented for layer type: {self.layer_type}')
+    
+    def compute_parameters(self, sweep=False):
+        """Computes additional parameters for layers"""
+        if sweep is True:
+            data = self.sweep_data
+        else:
+            data = self.data
+
+        if data is None:
+            print("No data stored!\n")
+            return False
+        else:
+            data['time(ms)'] = data['time(ms)'].apply(lambda x: np.mean(np.array(x, dtype=np.float32)))
+        if self.layer_type == "Conv":
+            data['num_ops'] = data['k_height']*data['k_width']*data['height']*data['width']*data['channels']*data['filters']*2/data['k_stride']/data['k_stride']
+            data['num_inputs'] = data['height']*data['width']*data['channels']
+            data['num_outputs'] = data['height']*data['width']*data['filters']/data['k_stride']/data['k_stride']
+            data['num_weights'] = data['k_height']*data['k_width']*data['filters']*data['channels']
+            data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
+            print(f"Arguments for layer type {self.layer_type} computed!")
+            return True
+        else:
+            print(f"layer type {self.layer_type} does not exist yet!") 
+            return False
 
     def to_json(self):
         tmp = copy.deepcopy(self.layer_dict)
@@ -302,6 +371,7 @@ class gen_arc():
         return xdata, ydata, est
 
     def do_regression(self, data):
+        print(data)
         xdata, ydata, est = data
         min_loss = 1000
         for s in range(1, 65):
@@ -323,7 +393,7 @@ class gen_arc():
     def gen_archarchitecture(self):
         if not self.fix_params_dict:
             self.fix_params_dict = {
-                'k_width': 7, 'k_height': 7, 'width': 128, 'height': 128, 'channels': 128, 'filters': 128
+                'k_width': 3, 'k_height': 3, 'width': 32, 'height': 32, 'channels': 32, 'filters': 32
             }
 
         self.architecture = {}

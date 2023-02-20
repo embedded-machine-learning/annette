@@ -12,7 +12,7 @@ def gen_config_conv2d(param_range=256, fixed_val=128):
             dp[p] = i
             for o in other_params:
                 dp[o] = fixed_val
-            dp['k_size'] = 7
+            dp['k_size'] = 3
             dp['stride'] = 1
             dp['dilation'] = 1
             dp['batch_size'] = 1
@@ -81,12 +81,12 @@ def gen_config_pool(param_range=256, fixed_val=128):
 
 
 if __name__ == '__main__':
-    CONF_FILENAME = 'dwconv2d_finesweep.csv'
+    CONF_FILENAME = 'conv2d_finesweep.csv'
 
-    # conf_points = gen_config_conv2d(256, 128)
+    conf_points = gen_config_conv2d(256, 32)
     # conf_points = gen_config_fc(256, 128)
     # conf_points = gen_config_pool(256, 128)
-    conf_points = gen_config_dwconv2d(256, 128)
+    # conf_points = gen_config_dwconv2d(256, 128)
 
     conf_df = pd.DataFrame(conf_points)
     print(conf_df)

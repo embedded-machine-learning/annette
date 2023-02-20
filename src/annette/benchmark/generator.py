@@ -19,6 +19,7 @@ tf.get_logger().setLevel('ERROR') # Prevent TF deprecation warnings
 from annette import get_database 
 from annette.graph import AnnetteGraph
 
+#TODO renaming of tf_variables and move some things to the tf file
 
 def generate_tf_model(graph):
     """generates Tensorflow 2 graph out of ANNETTE graph description
@@ -47,12 +48,11 @@ def generate_tf_model(graph):
 class Graph_generator():
     """Graph generator"""
 
-    def __init__(self, network, net_dir='', pad_pooling=True):
+    def __init__(self, network, net_dir=''):
         #load graphstruct
         self.network = network
         self.json_file = get_database('graphs', 'annette', net_dir, network+'.json')
-        self.pad_pooling = pad_pooling
-        self.init_graph = AnnetteGraph(self.network, self.json_file, pad_pooling=self.pad_pooling)
+        self.init_graph = AnnetteGraph(self.network, self.json_file)
         self.export_pt_file = True
         self.graph = deepcopy(self.init_graph)
         self.config = None
@@ -95,7 +95,7 @@ class Graph_generator():
                 return value
 
         # Reset the Anette graph, s.t. new config values can be inserted:
-        self.graph = AnnetteGraph(self.network, self.json_file, pad_pooling=self.pad_pooling)
+        self.graph = AnnetteGraph(self.network, self.json_file)
 
         # model_spec contains some info about the model
         for key, value in self.graph.model_spec.items():
@@ -108,7 +108,7 @@ class Graph_generator():
             tf.reset_default_graph()
         self.tf_graph = {}
 
-        if self.config:
+        if self.config is not None:
             for layer_n, layer_attrs in self.graph.model_spec['layers'].items():
                 logging.debug("layer name %s " % layer_n)
                 logging.debug("layer attrs %s " % layer_attrs)
@@ -116,11 +116,11 @@ class Graph_generator():
                     logging.debug("attribute name %s" % attr_n)
                     logging.debug("attribute values %s" % attr_v)
 
-                if isinstance(attr_v, list):
-                    for n, attr_ele in enumerate(attr_v):
-                        self.graph.model_spec['layers'][layer_n][attr_n][n] = replace_key(attr_ele, self.config, num)
-                else:
-                    self.graph.model_spec['layers'][layer_n][attr_n] = replace_key(attr_v, self.config, num)
+                    if isinstance(attr_v, list):
+                        for n, attr_ele in enumerate(attr_v):
+                            self.graph.model_spec['layers'][layer_n][attr_n][n] = replace_key(attr_ele, self.config, num)
+                    else:
+                        self.graph.model_spec['layers'][layer_n][attr_n] = replace_key(attr_v, self.config, num)
 
         self.graph.compute_dims()
 
@@ -360,6 +360,8 @@ class Graph_generator():
             return maxpool(inp, (k_w, k_h),(stride_w, stride_h), name)
         elif layer['pooling_type'] == 'AVG' and layer['kernel_shape'][1] == -1:
             return globavgpool(inp, name)
+        elif layer['pooling_type'] == 'GLOBAVG':
+            return globavgpool(inp, name)
         elif layer['pooling_type'] == 'AVG':
             return avgpool(inp, (k_w, k_h),(stride_w, stride_h), pad, name)
         else:
@@ -453,8 +455,12 @@ class Graph_generator():
         k_h = layer['kernel_shape'][1]
         stride_w = layer['strides'][1]
         stride_h = layer['strides'][2]
-        dilation_w = layer['dilations'][1]
-        dilation_h = layer['dilations'][2]
+        if 'dilations' in layer.keys():
+            dilation_w = layer['dilations'][1]
+            dilation_h = layer['dilations'][2]
+        else:
+            dilation_w = 1
+            dilation_h = 1
         return conv2d(inp, filters, (k_w,k_h), (stride_w,stride_h), name, (dilation_w, dilation_h))
 
     def tf_gen_conv1d(self, layer, name=None):

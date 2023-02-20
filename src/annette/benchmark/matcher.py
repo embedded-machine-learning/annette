@@ -38,65 +38,76 @@ class Graph_matcher():
         #make layer list
         print(self.gen.graph.model_spec['layers'])
 
-    def run_bench(self, optimize = None, execute = None, parse = None, store = 5, hardware='ncs2', start=0,vis=False):
+    def run_bench(self, optimize = None, execute = None, parse = None, store = 5, hardware = 'ncs2', start = 0, end = None, vis=False, execute_kwargs={}):
         config_len = len(self.gen.config)
-        assert(start >= config_len, "Selected starting number {s} larger than config length {l}".format(s=start,l=config_len))
+        assert(start >= config_len, f"Selected starting number {start} larger than config length {config_len}")
+        if end is None:
+            end = config_len
+        else:
+            assert(end <= config_len, f"Selected end number {end} larger than config length {config_len}")
 
-        for i in range(start, config_len):
+        for i in range(start, end):
             print('-'*60)
-            print('Running Config %i of %i' % (i, config_len))
+            print('Running Config %i of %i' % (i, end))
             print('-'*60)
             self.gen.generate_graph_from_config(i)
             rate = 500
 
             test_net = get_database('graphs','tf', self.network+'.pb')
-            optimize(test_net, source_fw = "tf", network = self.network, input_shape = None , save_folder = get_database('benchmarks','tmp'))
+            execute_kwargs = optimize(test_net, source_fw = "tf", network = self.network, input_shape = None , save_folder = get_database('benchmarks','tmp'))
 
-            test_net = get_database('benchmarks','tmp', self.network+'.xml')
+            logging.debug(f"Optimization arguments {execute_kwargs}")
+            #test_net = get_database('benchmarks','tmp', self.network+'.xml')
 
             # gather power data into .dat file
             #pm = measurement.power_measurement(sampling_rate=rate*1000, data_dir="./tmp", max_duration=60)
             #pm_kwargs = {"model_name": "tmpmodel"}
             #pm.start_gather(pm_kwargs) # power data aquisation
 
-            execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD', 'sleep_time': 0.001}
+            #execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD', 'sleep_time': 0.001}
             #execute(test_net, report_dir = get_database('benchmarks','tmp'))
             #dur, power_dir, power_file = execute(**execute_kwargs)
-            p = multiprocessing.Process(target=execute,kwargs=execute_kwargs)
-            p.start()
-            p.join(60)
-            if p.is_alive():
-                print("Execution seem stuck!")
-                p.terminate()
-                p.join()
-            elif p.exitcode != 0:
-                print("Execution failed with exitcode: {}".format(p.exitcode))
+            if hardware in ['ncs2']:
+                p = multiprocessing.Process(target=execute,kwargs=execute_kwargs)
+                p.start()
+                p.join(60)
+                if p.is_alive():
+                    print("Execution seem stuck!")
+                    p.terminate()
+                    p.join()
+                    break
+                elif p.exitcode != 0:
+                    print("Execution failed with exitcode: {}".format(p.exitcode))
+                    break
+                else:
+                    print("Execution run successfully")
+                    # end power measurement
+                    #pm.end_gather(True)  # stop the power measurement
+                    #store dat file
+                    #dat_file_path = pm.dat_filepath # filepath of the dat file with the measurement
             else:
-                print("Execution run successfully")
-                # end power measurement
-                #pm.end_gather(True)  # stop the power measurement
-                #store dat file
-                #dat_file_path = pm.dat_filepath # filepath of the dat file with the measurement
+                report_file = execute(**execute_kwargs)
 
-                test_report = get_database('benchmarks','tmp','benchmark_average_counters_report.csv')
-                #test_report = get_database('benchmarks','tmp','timeline_01.json')
-                report = parse(test_report) 
-                print(report)
-                duration = np.sum(report['time(ms)'])
-                #total_result = processing.extract_power_profile(pm.dat_filename, pm.data_dir, duration, sample_rate = rate)
+            report = parse(report_file) 
+            #print(report)
+            duration = np.sum(report['time(ms)'])
+            #total_result = processing.extract_power_profile(pm.dat_filename, pm.data_dir, duration, sample_rate = rate)
 
-                result = processing.unite_latency_power_meas(report, 'test_infmod.dat', 'tmp/', sample_rate = rate, padding=100, vis=vis)
+            # if power measurement is not available, use dummy data
+            #result = processing.unite_latency_power_meas(report, 'test_infmod.dat', 'tmp/', sample_rate = rate, padding=100, vis=vis)
 
-                self.match_and_add(self.gen.graph, result[0])
-                if i % store == 0 and i > store-1 or i == config_len-1:
-                    print(i)
+            #print(type(report))
+            result = report
+            self.match_and_add(self.gen.graph, result)
+            if i % store == 0 and i > store-1 or i == config_len-1:
+                #print(i)
 
-                    for key, v in self.df_out.items():
-                        try:
-                            os.makedirs(get_database('benchmarks',hardware,'measurements'))
-                        except:
-                            pass
-                        v.to_pickle(get_database('benchmarks',hardware,'measurements',key+'.p'))
+                for key, v in self.df_out.items():
+                    try:
+                        os.makedirs(get_database('benchmarks',hardware,self.network))
+                    except:
+                        pass
+                    v.to_pickle(get_database('benchmarks',hardware,self.network,key+'.p'))
 
 
     def match_and_add(self, graph, report):
@@ -114,7 +125,7 @@ class Graph_matcher():
                 self.gen.graph.model_spec['layers'][l_name]['report_name'] = report_name
                 #logging.debug("layer %s found " % l_name)
             elif 'Placeholder' in l_name:
-                print(report)
+                #print(report)
                 if 'NaN' in report['name'].to_numpy():
                     report_name = 'NaN'
                     self.gen.graph.model_spec['layers'][l_name]['report_name'] = report_name
@@ -185,8 +196,10 @@ class Graph_matcher():
                     return report[key][report['name']==report_name].to_numpy(dtype=str)
 
                 tmp['time(ms)'] = add_to_tmp(report,report_name,'time(ms)')
-                tmp['mult(mJ)'] = add_to_tmp(report,report_name,'mult(mJ)')
-                tmp['mean(W)'] = add_to_tmp(report,report_name,'mean(W)')
+                if 'mult(mJ)' in report.keys():
+                    tmp['mult(mJ)'] = add_to_tmp(report,report_name,'mult(mJ)')
+                if 'mem(mJ)' in report.keys():
+                    tmp['mean(W)'] = add_to_tmp(report,report_name,'mean(W)')
                 report = report[report['name']!=report_name]
 
                 logging.debug(self.match)

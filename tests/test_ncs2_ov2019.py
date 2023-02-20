@@ -99,7 +99,8 @@ def test_all(network="annette_bench5",config="config_test.csv",start=0,vis=False
         }
 
     bench1 = matcher.Graph_matcher(network, config, match)
-    bench1.run_bench(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, start=start, vis=vis)
+    bench1.run_bench(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, start=start, vis=vis, 
+        execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD', 'sleep_time': 0.001}
 
     for key, v in bench1.df_out.items():
         print(key)
