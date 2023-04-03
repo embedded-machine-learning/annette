@@ -23,12 +23,12 @@ import matplotlib.pyplot as plt
 class Graph_matcher():
     """Graph matcher"""
 
-    def __init__(self, network, config, match=None):
+    def __init__(self, network, config, match=None, framework='tensorflow'):
         #make generator object
         self.network = network
         self.gen = generator.Graph_generator(network)
         self.gen.add_configfile(config)
-
+        self.framework = framework
         self.match = match
         self.df = {}
         self.column_names = ['width', 'height', 'channels', 'filters',
@@ -50,11 +50,16 @@ class Graph_matcher():
             print('-'*60)
             print('Running Config %i of %i' % (i, end))
             print('-'*60)
-            self.gen.generate_graph_from_config(i)
+            if hardware in  ['rpi4']:
+                format = 'tflite'
+            else:
+                format = 'pb'
             rate = 500
 
-            test_net = get_database('graphs','tf', self.network+'.pb')
-            execute_kwargs = optimize(test_net, source_fw = "tf", network = self.network, input_shape = None , save_folder = get_database('benchmarks','tmp'))
+            self.gen.generate_graph_from_config(i, format=format)
+            test_net = get_database('graphs','tf', self.network+f'.{format}')
+            if optimize is not None:
+                execute_kwargs.update(optimize(test_net, source_fw = "tf", network = self.network, input_shape = None , save_folder = get_database('benchmarks','tmp')))
 
             logging.debug(f"Optimization arguments {execute_kwargs}")
             #test_net = get_database('benchmarks','tmp', self.network+'.xml')
@@ -67,8 +72,15 @@ class Graph_matcher():
             #execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD', 'sleep_time': 0.001}
             #execute(test_net, report_dir = get_database('benchmarks','tmp'))
             #dur, power_dir, power_file = execute(**execute_kwargs)
-            if hardware in ['ncs2']:
-                p = multiprocessing.Process(target=execute,kwargs=execute_kwargs)
+            def run_network_wrapped(dummy, kwargs):
+                report_dir = execute(**kwargs)
+                kwargs['report_file'] = report_dir
+
+            if hardware in ['ncs']: 
+                manager = multiprocessing.Manager()
+                return_dict = manager.dict()
+                return_dict.update(execute_kwargs)
+                p = multiprocessing.Process(target=run_network_wrapped,args=(0, return_dict))
                 p.start()
                 p.join(60)
                 if p.is_alive():
@@ -85,7 +97,10 @@ class Graph_matcher():
                     #pm.end_gather(True)  # stop the power measurement
                     #store dat file
                     #dat_file_path = pm.dat_filepath # filepath of the dat file with the measurement
+                print(f"KWARGS = {return_dict}")
+                report_file = return_dict['report_file']
             else:
+                print(f"KWARGS = {execute_kwargs}")
                 report_file = execute(**execute_kwargs)
 
             report = parse(report_file) 
@@ -98,16 +113,19 @@ class Graph_matcher():
 
             #print(type(report))
             result = report
-            self.match_and_add(self.gen.graph, result)
-            if i % store == 0 and i > store-1 or i == config_len-1:
-                #print(i)
+            if self.match is not None:
+                self.match_and_add(self.gen.graph, result)
+                if i % store == 0 and i > store-1 or i == config_len-1:
+                    #print(i)
 
-                for key, v in self.df_out.items():
-                    try:
-                        os.makedirs(get_database('benchmarks',hardware,self.network))
-                    except:
-                        pass
-                    v.to_pickle(get_database('benchmarks',hardware,self.network,key+'.p'))
+                    for key, v in self.df_out.items():
+                        try:
+                            os.makedirs(get_database('benchmarks',hardware,self.network))
+                        except:
+                            pass
+                        v.to_pickle(get_database('benchmarks',hardware,self.network,key+'.p'))
+            
+        return result
 
 
     def match_and_add(self, graph, report):
@@ -120,24 +138,33 @@ class Graph_matcher():
             report_name = None
             logging.debug("L_name: %s" % l_name)
             #print([l for l in report['name'].to_numpy(dtype=str) if l.find(l_name) != 1])
-            if l_name in report['name'].to_numpy(dtype=str):
-                report_name = l_name
+            r_name = l_name; r2_name = l_name
+            if l_name in self.match.keys():
+                if 'name' in self.match[l_name].keys():
+                    r_name = self.match[l_name]['name']
+                if 'name2' in self.match[l_name].keys():
+                    r2_name = self.match[l_name]['name2']
+                
+            if r_name in report['name'].to_numpy(dtype=str):
+                report_name = r_name
                 self.gen.graph.model_spec['layers'][l_name]['report_name'] = report_name
-                #logging.debug("layer %s found " % l_name)
+            if r2_name in report['name'].to_numpy(dtype=str):
+                report_name = r2_name
+                self.gen.graph.model_spec['layers'][l_name]['report_name'] = report_name
             elif 'Placeholder' in l_name:
                 #print(report)
                 if 'NaN' in report['name'].to_numpy():
                     report_name = 'NaN'
                     self.gen.graph.model_spec['layers'][l_name]['report_name'] = report_name
-            elif len([l for l in report['name'].to_numpy(dtype=str) if l.find(l_name) != 1]) > 0:
+            elif len([l for l in report['name'].to_numpy(dtype=str) if l.find(l_name) != 1]) < 5:
                 report_name = [l for l in report['name'].to_numpy(dtype=str) if l.find(l_name) != 1]
                 report_name = report_name[0] 
                 self.gen.graph.model_spec['layers'][l_name]['report_name'] = report_name
                 logging.debug("layer %s found " % l_name)
+                logging.debug("layer %s found " % report_name)
             else:
                 missing_layers.append(l_name)
-                #logging.debug("layer %s not found " % l_name)
-                
+                logging.debug("layer %s not found " % l_name)
         logging.debug("Missing layers %s" %missing_layers)
 
         #TODO make this a separate function?
@@ -151,11 +178,11 @@ class Graph_matcher():
                 tmp = {}
                 tmp['batch_size'] = l_attr['output_shape'][0]
                 try:
-                    tmp['height'] = l_attr['input_shape'][1]
+                    tmp['width'] = l_attr['input_shape'][1]
                 except:
                     pass
                 try:
-                    tmp['width'] = l_attr['input_shape'][2]
+                    tmp['height'] = l_attr['input_shape'][2]
                 except:
                     pass
                 try:
@@ -164,22 +191,22 @@ class Graph_matcher():
                     pass
                 if l_attr['type'] == 'DataInput':
                     tmp.update({
-                        'height': l_attr['output_shape'][1],
-                        'width': l_attr['output_shape'][2],
+                        'width': l_attr['output_shape'][1],
+                        'height': l_attr['output_shape'][2],
                         'channels': l_attr['output_shape'][3],
                     })
                 elif l_attr['type'] == 'Conv':
                     tmp.update({
                         'filters': l_attr['output_shape'][3],
-                        'k_height': l_attr['kernel_shape'][0],
-                        'k_width': l_attr['kernel_shape'][1],
+                        'k_width': l_attr['kernel_shape'][0],
+                        'k_height': l_attr['kernel_shape'][1],
                         'k_stride': l_attr['strides'][1],
                     })
                 elif l_attr['type'] == 'DepthwiseConv':
                     tmp.update({
                         'filters': l_attr['output_shape'][3],
-                        'k_height': l_attr['kernel_shape'][0],
-                        'k_width': l_attr['kernel_shape'][1],
+                        'k_width': l_attr['kernel_shape'][0],
+                        'k_height': l_attr['kernel_shape'][1],
                         'k_stride': l_attr['strides'][1],
                     })
                 elif l_attr['type'] == 'MatMul':
@@ -188,8 +215,8 @@ class Graph_matcher():
                     })
                 elif l_attr['type'] == 'Concat':
                     tmp.update({
-                        'height': l_attr['output_shape'][1],
-                        'width': l_attr['output_shape'][2],
+                        'width': l_attr['output_shape'][1],
+                        'height': l_attr['output_shape'][2],
                         'channels': l_attr['output_shape'][3],
                     })
                 def add_to_tmp(report,report_name,key):
@@ -225,7 +252,7 @@ class Graph_matcher():
         else:
             logging.debug("No left layers")
 
-def measure_annette_network(optimize, execute, parse, network):
+def measure_annette_network(optimize, execute, parse, network, hardware):
         rate = 500
         vis = False
 
@@ -237,7 +264,7 @@ def measure_annette_network(optimize, execute, parse, network):
         optimize(test_net, source_fw = "tf", network = network, input_shape = None , save_folder = get_database('benchmarks','tmp'))
 
         test_net = get_database('benchmarks','tmp', network+'.xml')
-        execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD'}
+        execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': hardware}
         execute(**execute_kwargs)
 
         power_file = 'test_infmod.dat'

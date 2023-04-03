@@ -87,8 +87,10 @@ class BaseLayer(object):
                     self.layer[eff] = 1 / ((1-self.architecture[alpha]) + 1/self.layer[eff] * (self.architecture[alpha]))
                 logging.debug(f'{eff} with alpha: {self.layer[eff]}')
             else:
+                self.layer[eff] = 1
                 logging.error(f'{par} not in architecture!')
         else:
+            self.layer[eff] = 1
             logging.error('No architecture available!')
 
     def compute_parameters(self, layer=None):
@@ -149,6 +151,7 @@ class BaseLayer(object):
         else:
             logging.error('Layer type does not have est_dict or est_model!')
 
+        print(self.est_model.__dict__)
         return self.layer['time_ms']
 
     def estimate_mixed(self):

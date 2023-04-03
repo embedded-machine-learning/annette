@@ -5,7 +5,7 @@ from pathlib import Path
 import logging
 import os
 
-import hw_modules.ncs2 as ncs2
+import annette.hw_modules.hw_modules.ncs2 as ncs2
 import annette.benchmark.generator as generator
 import annette.benchmark.matcher as matcher 
 from annette import get_database
@@ -65,8 +65,7 @@ def test_matcher(network='annette_bench3', shape = None):
     ncs2.read_report(test_report)
     print(gen.graph.model_spec) 
 
-def test_all(network="annette_bench5",config="config_test.csv",start=0,vis=False):
-
+def test_all(network="annette_bench5",config="config_test.csv",start=0,vis=False, match = None):
     match = {
             "conv2d_0_Conv2D": {
                 "conv2d_0_Relu" : "f_act",
@@ -99,8 +98,8 @@ def test_all(network="annette_bench5",config="config_test.csv",start=0,vis=False
         }
 
     bench1 = matcher.Graph_matcher(network, config, match)
-    bench1.run_bench(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, start=start, vis=vis, 
-        execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD', 'sleep_time': 0.001}
+    bench1.run_bench(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, start = start, vis = vis, hardware = 'ov_cpu',
+        execute_kwargs = {"report_dir": get_database('benchmarks','tmp'), 'device': 'CPU', 'sleep_time': 0.001})
 
     for key, v in bench1.df_out.items():
         print(key)
@@ -110,10 +109,10 @@ def test_all(network="annette_bench5",config="config_test.csv",start=0,vis=False
 
 
 def test_measure_network(network="cf_reid"):
-    matcher.measure_network(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, network = network, framework = 'onnx')
+    matcher.measure_network(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, network = network, hardware = 'ov_cpu')
 
 def test_measure_annette_network(network="cf_reid"):
-    matcher.measure_annette_network(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, network = network)
+    matcher.measure_annette_network(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, network = network, hardware = 'ov_cpu')
 
 def test_measure_destruct_annette_network(network="cf_reid"):
     matcher.measure_destruct_annette_network(optimize = ncs2.inference.optimize_network, execute = ncs2.inference.run_network_new, parse = ncs2.parser.r2a, network = network, config="config_v6.csv")
@@ -128,9 +127,11 @@ def main():
     #test_all(network='annette_bench2')
     #test_all(network='annette_bench3')
     #test_matcher(network='annette_bench1')
-    #test_all(network='annette_bench5',config='config_v6_1.csv',start=0,vis=False)
+    #test_all(network='annette_bench0',config='conv2d_finesweep.csv', start=0, vis=False)
+    #test_all(network='annette_bench5',config='config_v6_1.csv', start=0, vis=False)
+    test_all(network='annette_bench_1d',config='config_1d_full.csv', start=0, vis=False)
     #test_measure_network(network='squeezenet1.0-9')
-    test_measure_annette_network(network='alexnet0')
+    #test_measure_annette_network(network='alexnet0')
     #test_measure_destruct_annette_network(network='annette_bench5')
     #test_read_ncs2_report()
 

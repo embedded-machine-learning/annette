@@ -23,15 +23,10 @@ def write_result(network, res_dict, model, hardware, folder='database'):
         hardware ([type]): [description]
         folder (str, optional): [description]. Defaults to 'database'.
     """
-    try:
-        os.mkdir(Path(folder))
-    except:
-        pass
-    try:
-        os.mkdir(Path(folder,hardware))
-    except:
-        pass
-    with open(Path(folder,hardware, network+'_'+model+'.json'), 'w+') as json_file:
+    
+    f = Path(folder,hardware, network+'_'+model+'.json')
+    f.parents[0].mkdir(parents=True, exist_ok=True)
+    with open(f, 'w+') as json_file:
         temp = {}
         temp["layers"] = res_dict[1]
         temp["sum"] = res_dict[0]
@@ -39,6 +34,11 @@ def write_result(network, res_dict, model, hardware, folder='database'):
         temp["network"] = network
         temp["model"] = model
         json.dump(temp, json_file, indent=4)
+        content = json_file.read()
+
+        # replace :: with _
+        new_content = content.replace('::', '_')
+        json_file.write(new_content)
 
     res_dict[2].to_csv(Path(folder,hardware, network+'_'+model+'.csv'))
     """
@@ -99,6 +99,8 @@ def bench_to_annette(in_dict):
                 in_dict[k] = {"name": "kernel_shape", "i": 0}
             if v == "k_width":
                 in_dict[k] = {"name": "kernel_shape", "i": 1}
+            if v == "k_stride":
+                in_dict[k] = {"name": "strides", "i": 1}
     return in_dict
 
 

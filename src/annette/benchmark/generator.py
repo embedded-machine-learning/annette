@@ -6,6 +6,7 @@ import pickle as pkl
 import logging
 from pathlib import Path
 import tensorflow.compat.v1 as tf
+tf.compat.v1.disable_v2_behavior()
 #import tensorflow.compat.v1.contrib.slim as slim
 import os
 from copy import deepcopy
@@ -62,7 +63,12 @@ class Graph_generator():
         print(self.config)
 
     def get_torch_input_shape(self):
-        graph_shape = self.graph.model_spec['layers']['Placeholder']['output_shape']
+        #get name of input layer
+        self.graph._make_input_layers()
+        input_layer = self.graph.model_spec['input_layers'][0]
+        graph_shape = self.graph.model_spec['layers'][input_layer]['output_shape']
+        graph_shape[0] = 1
+        #graph_shape = self.graph.model_spec['layers']['Placeholder']['output_shape']
         if len(graph_shape) == 2:
             pt_shape = graph_shape
         elif len(graph_shape) == 3:
@@ -72,7 +78,7 @@ class Graph_generator():
 
         return pt_shape
 
-    def generate_graph_from_config(self, num, framework='tf'):
+    def generate_graph_from_config(self, num, framework='tf', format='pb'):
         # can be used as to generate input for generate_tf_model
         # execute the function under test
         self.graph = deepcopy(self.init_graph)
@@ -197,6 +203,13 @@ class Graph_generator():
                 if self.graph.model_spec['layers'][o]['type'] == 'BatchNorm':
                     out[i] = o+'/add'
             self.tf_export_to_pb(out)
+            if format in ["tflite"]:
+                inp_shape = list(self.get_torch_input_shape())
+                self.tf2_export_to_lite(self.graph.model_spec['input_layers'],
+                                        self.graph.model_spec['output_layers'],
+                                        {x : self.graph.model_spec['layers'][x]['output_shape'] for x in self.graph.model_spec['input_layers']},
+                                        load_path= get_database('graphs','tf',self.graph.model_spec['name']+".pb"),
+                                        save_path= get_database('graphs','tf',self.graph.model_spec['name']+".tflite"))
             return out 
 
         else:
@@ -230,7 +243,7 @@ class Graph_generator():
 
         def representative_dataset_gen():
             for _ in range(250):
-                yield [np.random.uniform(0.0, 0.0, size=input_shapes['input']).astype(np.float32)]
+                yield [np.random.uniform(0.0, 0.0, size=input_shapes[input_nodes[0]]).astype(np.float32)]
         converter.representative_dataset = representative_dataset_gen
         converter._experimental_new_quantizer = True
 
@@ -339,11 +352,13 @@ class Graph_generator():
             f.write(graph_string)
 
     def print_torch_summary(self, pt_graph, inp_size):
+        # tuple to tensor
+        # inp_size = torch.tensor(inp_size)
         summary(pt_graph,
-                torch.randn(inp_size, device=torch.device('cpu')),
-                col_names=['input_size', 'kernel_size', 'output_size', 'mult_adds'],
-                depth=5,
-                device=torch.device('cpu'))
+                torch.randn(inp_size, device=torch.device('cpu')))
+                #col_names=['input_size', 'kernel_size', 'output_size', 'mult_adds'],
+                #depth=5,
+                #device=torch.device('cpu'))
 
     def tf_gen_pool(self, layer, name=None):
         logging.debug("Generating Pool with dict: %s" % layer)
@@ -624,7 +639,7 @@ def avgpool(x_tensor, pool_ksize, pool_strides, pads='SAME', name='avg_pool'):
             x_tensor,
             ksize = [1] + list(pool_ksize) + [1],
             strides = [1] + list(pool_strides) + [1],
-            padding = 'SAME',
+            padding = pads,
             name = name
         )
 

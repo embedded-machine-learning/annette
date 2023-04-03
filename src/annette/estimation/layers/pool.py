@@ -15,6 +15,7 @@ class PoolLayer(BaseLayer):
     @staticmethod
     def compute_nums(layer):
         layer = BaseLayer.compute_nums(layer)
+        # TODO: compute number of operations correctly
         layer['num_ops'] = layer['num_outputs'] * reduce(lambda x, y: x*y, layer['kernel_shape'][1:]) * 2
 
         return layer

@@ -24,16 +24,21 @@ class HardwareModelGen():
     def __init__(self, name):
         self.name = name
         self.layer_dict = {}
+        self.hw_dict = {"name": self.name}
+    
 
-    def add_layer(self, name = "Base", layer_type = "Base", est_type = "roofline", architecture = None, data = None, sweep_data = None, est_dict = None):
+    def add_layer(self, name = "Base", layer_type = "Base", est_type = "roofline", architecture = None,
+                  data = None, sweep_data = None, est_dict = None, regressor = None):
         """Add a layer to the hardware model"""
         self.layer_dict[name] = LayerModelGen(name, layer_type, est_type, architecture)
 
-        est_type = "roofline"
+        self.est_type = "roofline"
         if sweep_data is not None:
             self.layer_dict[name].read_sweep_data(sweep_data)
         if data is not None:
             self.layer_dict[name].read_data(data)
+        else:
+            return
         
         """compute Parameters for layer"""
         self.layer_dict[name].compute_parameters()
@@ -51,12 +56,57 @@ class HardwareModelGen():
                     continue
                 if col in ['ops/s', 'bandwidth', 'time(ms)']:
                     continue
-                print(val, col)
                 est_dict[str(val)] = col
                 val += 1
-            print(est_dict)
-        self.layer_dict[name].generate_estimator(est_dict = est_dict, est_model = get_database('models','layer',self.name,name+'.sav'), y_val=y_val)
+        
+        self.layer_dict[name].generate_estimator(est_dict = est_dict, est_model = get_database('models','layer',self.name,name+'.sav'), y_val=y_val, regressor=regressor)
+        self.regenerate_base_layer()
+        self.regenerate_json()
 
+    def regenerate_json(self):
+        """Regenerate the JSON file for the hardware model"""
+        self.regenerate_hw_dict()
+        with open(get_database('models','layer',self.name + ".json"), "w") as write_file:
+            json.dump(self.hw_dict, write_file, indent=4)
+
+    def regenerate_hw_dict(self):
+        """Regenerate the hardware dictionary"""
+        self.hw_dict = {"name": self.name}
+        for layer in self.layer_dict:
+            self.layer_dict[layer].gen_dict()
+            tmp = copy.deepcopy(self.layer_dict[layer].layer_dict)
+            tmp = utils.bench_to_annette(tmp)
+            self.hw_dict[layer] = tmp
+        self.hw_dict["op_s"] = self.op_s
+        self.hw_dict["bandwidth"] = self.bandwidth
+        self.hw_dict["architecture"] = self.architecture
+    
+    def regenerate_base_layer(self):
+        """Regenerate the base layer if there are some other layers available"""
+
+        #If there are any layers in the model else get maximum bandwidth and op/s from all layers
+        if len(self.layer_dict) == 0:
+            max_bandwidth = 0
+            max_ops = 0
+        else:
+            max_bandwidth = 0
+            max_ops = 0
+            for layer in self.layer_dict:
+                if self.layer_dict[layer].bandwidth > max_bandwidth:
+                    max_bandwidth = self.layer_dict[layer].bandwidth
+                if self.layer_dict[layer].op_s > max_ops:
+                    max_ops = self.layer_dict[layer].op_s
+
+        print("Base Layer: Bandwidth: %f, Op/s: %f" % (max_bandwidth, max_ops))
+
+        # If Base layer exists write the maximum bandwidth and op/s into the base layer othwerwise create a new base layer
+        if "Base" not in self.layer_dict:
+            self.add_layer(name = "Base", layer_type = "Base", est_type = "roofline", architecture = None, data = None, sweep_data = None, est_dict = None)
+        self.layer_dict["Base"].bandwidth = max_bandwidth
+        self.layer_dict["Base"].op_s = max_ops
+        self.op_s = max_ops
+        self.bandwidth = max_bandwidth
+        self.architecture = self.layer_dict["Base"].architecture
         
 
 class LayerModelGen():
@@ -82,6 +132,7 @@ class LayerModelGen():
         self.architecture["f_alpha"] = self.architecture["c_alpha"] = self.architecture["h_alpha"] = self.architecture["w_alpha"] = 0.0
 
         self.layer_dict = {}
+
     
     def read_sweep_data(self, filename):
         self.read_data(filename, sweep=True)
@@ -205,6 +256,8 @@ class LayerModelGen():
         else:
             self.regressor = regressor
 
+        print(regressor)
+
         y_train = y_train.reshape(-1)
         y_test = y_test.reshape(-1)
 
@@ -228,8 +281,8 @@ class LayerModelGen():
         if est_model is None:
             print("No Estimator stored!\n")
         else:
-            Path(self.est_model).parents[0].mkdir(parents=True, exist_ok=True)
             self.est_model = est_model
+            Path(self.est_model).parents[0].mkdir(parents=True, exist_ok=True)
             self.store_model(est_model)
         return y_test, y_pred
     
@@ -320,11 +373,20 @@ class LayerModelGen():
             data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
             print(f"Arguments for layer type {self.layer_type} computed!")
             return True
+        elif self.layer_type == "DepthwiseConv":
+            data['num_ops'] = data['k_height']*data['k_width']*data['height']*data['width']*data['channels']*2/data['k_stride']/data['k_stride']
+            data['num_inputs'] = data['height']*data['width']*data['channels']
+            data['num_outputs'] = data['height']*data['width']*data['filters']/data['k_stride']/data['k_stride']
+            data['num_weights'] = data['k_height']*data['k_width']*data['channels']
+            data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
+            print(f"Arguments for layer type {self.layer_type} computed!")
+            return True
         else:
             print(f"layer type {self.layer_type} does not exist yet!") 
             return False
 
     def to_json(self):
+        self.gen_dict()
         tmp = copy.deepcopy(self.layer_dict)
         tmp = utils.bench_to_annette(tmp)
         tmp_json = json.dumps(tmp, indent=4)

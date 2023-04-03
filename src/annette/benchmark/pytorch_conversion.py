@@ -58,7 +58,11 @@ class TorchGraph(nn.Module):
                 out_channels = layer_info['output_shape'][3]
                 strides = tuple(layer_info['strides'][1:3][::-1])
                 padding = tuple([layer_info['pads'][4], layer_info['pads'][2]])
-                dilations = tuple(layer_info['dilations'][1:3][::-1])
+                # if no dilations are specified, the default is 1
+                if 'dilations' not in layer_info:
+                    dilations = (1, 1)
+                else:
+                    dilations = tuple(layer_info['dilations'][1:3][::-1])
                 # groups = in_channels => depthwise conv
                 groups = in_channels if layer_type == 'DepthwiseConv' else 1
                 assert groups == 1 or in_channels == out_channels

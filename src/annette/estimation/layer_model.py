@@ -122,6 +122,7 @@ class Layer_model():
         # Add info to layer stuff
         """Loop through Layers"""
         start = time.time()
+        
         # for layer_name, layer_info in model.model_spec['layers'].items():
         for layer_name in model.topological_sort:
             layer_info = model.model_spec['layers'][layer_name]
