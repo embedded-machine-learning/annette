@@ -59,6 +59,7 @@ database/models/mapping/ov2.json
 database/results/
 database/graphs/tf/*
 database/graphs/torch/*
+database/*
 
 src/annette/benchmark/tmp
 src/annette/benchmark/aiware_*
