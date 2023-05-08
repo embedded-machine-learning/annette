@@ -1,0 +1,38 @@
+hardware:
+        imx8:
+                Rshunt: 0.1
+                Uref: 5.0
+                thresh: 3.0
+                tau: 200
+                mean: 31
+                median: 31
+                downsample: 100
+                niter: 100
+                remove_last: 10
+                max_peaks: 50
+                pause: 10       #ms
+                rate: 500      #kHz
+        edgetpu_std:
+                Rshunt: 0.1
+                Uref: 5.0
+                thresh: 1.1
+                tau: 1
+                mean: 31
+                median: 31
+                downsample: 100
+                niter: 4
+                pause: 10       #ms
+                remove_last: 0
+                max_peaks: 3
+                rate: 500      #kHz
+
+network:
+        mobilenetv2-7-sim:
+                imx8: 
+                        layers: 99
+                        time: 10
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/{network}_destruct_{layer}.dat 
+                edgetpu_std:
+                        layers: 99
+                        time: 3.5
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/edgetpu_std/destruct/{network}{layer}_edgetpu_std.dat
