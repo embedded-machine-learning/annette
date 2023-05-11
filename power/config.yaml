@@ -1,9 +1,24 @@
 hardware:
+        gap8:
+                Rshunt: 0.1
+                Uref: 2.8
+                thresh: 0.3
+                tau: 3
+                mean: 11
+                median: 11
+                downsample: 100
+                niter: 100
+                remove_last: 1
+                max_peaks: 50
+                pause: 10       #ms
+                width: 10       #ms
+                rate: 500      #kHz
+                min_peaks: 30
         imx8:
                 Rshunt: 0.1
                 Uref: 5.0
                 thresh: 3.0
-                tau: 200
+                tau: 100
                 mean: 31
                 median: 31
                 downsample: 100
@@ -11,6 +26,7 @@ hardware:
                 remove_last: 10
                 max_peaks: 50
                 pause: 10       #ms
+                width: 0.5       #ms
                 rate: 500      #kHz
         edgetpu_std:
                 Rshunt: 0.1
@@ -24,6 +40,22 @@ hardware:
                 pause: 10       #ms
                 remove_last: 0
                 max_peaks: 3
+                width: 0.5       #ms
+                rate: 500      #kHz
+        ncs2:
+                Rshunt: 0.1
+                Uref: 5.0
+                thresh: 1.4
+                tau: 1
+                mean: 31
+                median: 31
+                downsample: 100
+                niter: 100
+                pause: 2       #ms
+                remove_last: 5
+                max_peaks: 99
+                min_peaks: 30
+                width: 2       #ms
                 rate: 500      #kHz
 
 network:
@@ -32,7 +64,36 @@ network:
                         layers: 99
                         time: 10
                         file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/{network}_destruct_{layer}.dat 
+                        thresh2: 3.5 # 3.4
+                        extend: 0.02
+                        smoothed: 21
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+                ncs2:
+                        layers: 99
+                        time: 28
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/{hardware}/destruct/{network}_destruct_{layer}.dat
+                        thresh2: 1.1
+                        extend: 2
+                        smoothed: 11 
+                        diverge_smoothing: 10
+                        alignment_smoothing: 20
                 edgetpu_std:
                         layers: 99
                         time: 3.5
                         file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/edgetpu_std/destruct/{network}{layer}_edgetpu_std.dat
+                        thresh2: 1.05
+                        extend: 0.02
+                        smoothed: 11
+                        diverge_smoothing: 10
+                        alignment_smoothing: 20
+        testnet:
+                gap8: 
+                        layers: 1
+                        time: 5
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/gap8/destruct/{network}_{layer}.dat 
+                        thresh2: 0.35
+                        extend: 0.02
+                        smoothed: 21
+                        diverge_smoothing: 1
+                        alignment_smoothing: 1

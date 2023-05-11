@@ -73,6 +73,9 @@ def onnx_to_annette(args):
         logging.error("File not found")
     onnx_network = graph.ONNXGraph(graphfile)
     annette_graph = onnx_network.onnx_to_annette(args.network, args.inputs)
+    if annette_graph == None:
+        logging.error("Input node not found")
+        return None
     json_file = get_database( 'graphs', 'annette',
                      annette_graph.model_spec["name"]+'.json')
     annette_graph.to_json(json_file)

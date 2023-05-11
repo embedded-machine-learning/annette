@@ -107,7 +107,7 @@ print(location)
 print(time)
 # plot cutouts
 
-plt.plot(result[0])
+plt.plot(result[70])
 plt.show()
 # %%
 
@@ -153,78 +153,103 @@ def compute_divergence(ks, div_th, max_th, r1, r2):
     divergence = smooth(divergence,ks)
     #divergece = np.log(divergece)[:-ks]
     divergence = divergence[:-ks]
-    divergence2 = smooth(divergence,ks)
-    divergence3 = smooth(divergence,ks)
-
-    div3 = np.where(divergence3[:get_max(divergence3, max_th)] < div_th)[0]
-    div2 = np.where(divergence2[:get_max(divergence2, max_th)] < div_th)[0]
 
     # find where divergance below threshold
     div = np.where(divergence[:get_max(divergence, max_th)] < div_th)[0]
-    return divergence,div, div2, div3
+    return divergence,div
 
+
+d_thr = 0.05
+div_list = []
+d_list = []
+prev_div = 0
 for i in tqdm(range(0,num)):
+#for i in tqdm(range(0,20)):
+
+    if i > 0:
+        top_i = i-1
+    else:
+        top_i = 0
+            
     i1 = i
+    r1 = 0
+    r2 = 0
+    length = 0
+
+    r1_list = []
+    r2_list = []
+    #for i1 in (top_i,i):
     # get index of first peak in signal r1 at 90 percent of max
     i1_first_peak = np.where(result[i1] > np.max(result[i1])*0.9)[0][0]
     i2_first_peak = np.where(result[i2] > np.max(result[i2])*0.9)[0][0]
 
-
     r1 = result[i1][i1_first_peak:]
     r2 = result[i2][i2_first_peak:-int(extend*rate)]
+    r1_list.append(r1)
+    r2_list.append(r2)  
     dist, r1, r2 = processing.align(r1, r2, shift, vis=False, ks=alignks)
     dist -= i1_first_peak-i2_first_peak
 
 
     #plot correlation
     length = np.min([len(r1),len(r2)])
-    divergence, div, d2, d3 = compute_divergence(ks, div_th, max_th, r1, r2)
+    divergence, div  = compute_divergence(ks, div_th, max_th, r1, r2)
     r1_norm = processing.normalize(r1[:length]); r2_norm = processing.normalize(r2[:length])
-    divergence2, div2, _, _ = compute_divergence(ks, div_th, max_th, r1_norm, r2_norm)
+    divergence2, div2 = compute_divergence(ks, div_th, max_th, r1_norm, r2_norm)
+    d_list.append(divergence)
 
-    iters = 100
-    divergs = [0]*iters
-    divergs[0] = divergence
-    #smoothen divergence 10 times iteratively
-    for divs in range(iters-1):
-        divergs[divs+1] = smooth(divergs[divs],100)
-    #plot divergences
-    for divs in range(iters-1):
-        plt.plot(divergs[divs]-divergs[divs+1])
-        divergs[divs] = divergs[divs]-divergs[divs+1]
-    plt.show()
+    min_length = np.min([len(d) for d in d_list])
+    d_list = [d[:min_length] for d in d_list]
 
-    #loop backwards through smoothed divergences and find the minima below 0
-    minima = []
-    if i == 0:
-        current_min = [np.argmin(divergs[0])]
-    else:
-        for divs in range(iters-1,0,-1):
-            minima = find_peaks(-divergs[divs], height=0)[0]
-            print(minima)
-            if divs == iters-1:
-                #first iteration select position of global minimum
-                current_min = [np.argmin(divergs[divs])]
-            else:
-                #select minima left of previous minima
-                current_min = minima[minima < current_min]
-                current_min = current_min[-1]
+    print(len(d_list))
+
+    from functools import reduce
+    mom = 0.5
+    d_ewma = reduce(lambda x,y : mom*x + (1-mom)*y, d_list)
+
+    s_iter = 3
+    s_ewma = [0]*s_iter
+    for iter in range(s_iter):
+        s_ewma[iter] = smooth(d_ewma,int(50*(iter+1)*(iter+1)))
+
+    if i == 89:
+        pass
+
+    p_div = d_ewma
+
+    if prev_div == 0:
+        prev_div = len(d_ewma)
+    
+    for rev in range(s_iter-1,-1,-1):
+        print(rev)
+        div = np.where(s_ewma[rev][:prev_div] < d_thr)[0]
+        if prev_div == np.max(div)+1:
+            print("keep div")
+            div = prev_div
+            first_div = div
+        else:
+                #select minimum left of div
+                sel_div = div[-1]
+                if rev == 0:
+                    minima = find_peaks(-s_ewma[rev][:first_div], height=-d_thr)[0]
+                    if len(minima) > 0:
+                        div = minima[-1]
+                else:
+                    div = sel_div
+                    if s_ewma[rev][div] <  s_ewma[rev-1][div]:
+                        prev_div = div
+                        print("new prev div")
+                
 
 
 
+    # find where divergance below threshold
+    #div = np.where(p_div < div_th)[0]
 
-
-    print(current_min)
-
-    div = current_min
-    #div2 = current_min
-
-        
-
-    print(div)
 
     # find latest point where divergance below threshold
     # if no point found, take last point
+    """
     if len(div) == 0:
         div = len(divergence)
     else:
@@ -233,15 +258,15 @@ for i in tqdm(range(0,num)):
         div2 = len(divergence2)
     else:
         div2 = div2[-1]
+    """
     
     # take the higher of the two
     #div = np.max([div,div2])
     div = np.max([div])
 
-
-
+    prev_div = div
     # find time of latest point
-    time_new[i1] = (div+dist)/rate
+    time_new[i1] = (div+i1_first_peak)/rate
 
 
     if 0 <= i < 100:
@@ -255,18 +280,26 @@ for i in tqdm(range(0,num)):
         """
         
         #plot smoothed signals
-        plt.plot(smooth(r1[:length]))
-        plt.plot(smooth(r2[:]))
+        plt.plot(smooth(r1_list[0][:length]))
+        plt.plot(smooth(r2_list[0][:length]))
+        for r in d_list[:-1]:
+            plt.plot(smooth(r[:length]))
+        plt.axvline(x=div, color='r', linestyle='--')
+        plt.show()
         #plt.plot(smooth(r1_norm[:length]))
         #plt.plot(smooth(r2_norm[:]))
-        plt.plot(divergence)
-        plt.plot(divergence2)
+        #plt.plot(smooth(r1_list[1][:length]))
+        #plt.plot(smooth(r2_list[1][:]))
+        #plt.plot(divergence)
+        plt.plot(d_list[-1])
+        for iter in s_ewma:
+            plt.plot(iter)
+        #plt.plot(divergence2)
         #plt.plot(divergece2)
         #vertical line at latest point
         plt.axvline(x=div, color='r', linestyle='--')
         plt.show()
 
-# %%
 print(time_new)
 
 # %%

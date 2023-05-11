@@ -344,8 +344,7 @@ def measure_network(optimize, execute, parse, network, framework = "tf"):
             plt.legend()
             plt.show()
 
-def measure_destruct_annette_network(optimize, execute, parse, network, config = None):
-        rate = 500
+def measure_destruct_annette_network(optimize, execute, parse, network, config = None, hardware = 'ncs2', power=False, rate=500, port=5, execute_kwargs= {}):
         vis = False
 
         gen = generator.Graph_generator(network)
@@ -355,25 +354,69 @@ def measure_destruct_annette_network(optimize, execute, parse, network, config =
         rem_layers = []
         durations = []
         meas_durations = []
+        if power is True:
+            get_database('benchmarks', hardware, 'destruct').mkdir(parents=True, exist_ok=True)
+            dir_path = get_database('benchmarks', hardware)
+            dir_str = str(dir_path)
         for j, l in enumerate(reversed(gen.init_graph.topological_sort)):
-            out = gen.generate_graph_from_config(100)
+            net_destruct = f'destruct/{network}_destruct_{j}'
+            gen.init_graph.model_spec['name'] = net_destruct
+            get_database('graphs', 'tf', 'destruct').mkdir(parents=True, exist_ok=True)
+            out = gen.generate_graph_from_config(100, format = 'tf', noreset=True)
             select = -1
             for i, l2 in enumerate(gen.init_graph.model_spec['output_layers']):
                 if len(gen.init_graph.model_spec['layers'][l2]['children']) == 0:
                     select = i
-
+            #break if input layer equals output layer
+            if gen.init_graph.model_spec['output_layers'] == gen.init_graph.model_spec['input_layers']:
+                break
             init_graph = deepcopy(gen.graph)
-            test_net = get_database('graphs', 'tf', network+'.pb')
-            optimize(test_net, source_fw = 'tf', network = network, input_shape = None , save_folder = get_database('benchmarks','tmp'))
+            test_net = get_database('graphs', 'tf', net_destruct+'.pb')
 
-            test_net = get_database('benchmarks','tmp', network+'.xml')
-            execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD', 'name': str(j)}
-            dur, power_dir, power_fil2e = execute(**execute_kwargs)
-            test_report = get_database('benchmarks','tmp','benchmark_average_counters_report.csv')
-            report = parse(test_report) 
-            duration = np.sum(report['time(ms)'])
-            durations.append(duration)
-            meas_durations.append(dur)
+            execute_kwargs.update(optimize(test_net, source_fw = "tf", network = net_destruct, input_shape = None , save_folder = get_database('benchmarks','tmp')))
+
+            logging.debug(f"Optimization arguments {execute_kwargs}")
+            def run_network_wrapped(dummy, kwargs):
+                report_dir = execute(**kwargs)
+                kwargs['report_file'] = report_dir
+
+            if power is True:
+                print('start power measurement')
+                print(f'{dir_str}, {net_destruct}')
+                pm = measurement.power_measurement(sampling_rate=rate*1000, data_dir=f'{dir_str}', max_duration=150, port=port)
+                pm_kwargs = {"model_name": net_destruct}
+                pm.start_gather(pm_kwargs) # power data aquisation
+
+            if hardware in ['ncs']: 
+                manager = multiprocessing.Manager()
+                return_dict = manager.dict()
+                return_dict.update(execute_kwargs)
+                #start power measurement
+                p = multiprocessing.Process(target=run_network_wrapped,args=(0, return_dict))
+                p.start()
+                p.join(60)
+                if p.is_alive():
+                    print("Execution seem stuck!")
+                    p.terminate()
+                    p.join()
+                    break
+                elif p.exitcode != 0:
+                    print("Execution failed with exitcode: {}".format(p.exitcode))
+                    break
+                else:
+                    print("Execution run successfully")
+                    # end power measurement
+                    #pm.end_gather(True)  # stop the power measurement
+                    #store dat file
+                    #dat_file_path = pm.dat_filepath # filepath of the dat file with the measurement
+                print(f"KWARGS = {return_dict}")
+                report_file = return_dict['report_file']
+            else:
+                print(f"KWARGS = {execute_kwargs}")
+                report_file = execute(**execute_kwargs)
+                print("done")
+            if power is True:
+                pm.end_gather(True) # power data aquisation end
 
             if select == -1:
                 logging.error("All output layers have children. This should not be possible. Check your graph.")
@@ -381,7 +424,72 @@ def measure_destruct_annette_network(optimize, execute, parse, network, config =
             name = gen.init_graph.model_spec['output_layers'][select]
             rem_layers.append(gen.init_graph.model_spec['layers'][name])
             gen.init_graph.delete_layer(name)
-            print(rem_layers)
+
+def measure_destruct_annette_tflite(optimize, execute, parse, network, config = None, hardware = 'imx8', power=False, rate=500, port=5, niter=100):
+        vis = False
+
+        gen = generator.Graph_generator(network)
+        if config:
+            gen.add_configfile(config)
+
+        rem_layers = []
+        durations = []
+        meas_durations = []
+        if power is True:
+            get_database('benchmarks', hardware, 'destruct').mkdir(parents=True, exist_ok=True)
+            dir_path = get_database('benchmarks', hardware)
+            dir_str = str(dir_path)
+        for j, l in enumerate(reversed(gen.init_graph.topological_sort)):
+            net_destruct = f'destruct/{network}_destruct_{j}'
+            gen.init_graph.model_spec['name'] = net_destruct
+            get_database('graphs', 'tf', 'destruct').mkdir(parents=True, exist_ok=True)
+            out = gen.generate_graph_from_config(100, format = 'tflite', noreset=True)
+            select = -1
+            for i, l2 in enumerate(gen.init_graph.model_spec['output_layers']):
+                if len(gen.init_graph.model_spec['layers'][l2]['children']) == 0:
+                    select = i
+            #break if input layer equals output layer
+            if gen.init_graph.model_spec['output_layers'] == gen.init_graph.model_spec['input_layers']:
+                break
+
+            init_graph = deepcopy(gen.graph)
+            test_net = get_database('graphs', 'tf', f'{net_destruct}.tflite')
+            optimize(test_net, source_fw = 'tflite', network = net_destruct, input_shape = None , save_folder = get_database('benchmarks','tmp'))
+
+            test_net = get_database('graphs', 'tf', net_destruct+'.tflite')
+            execute_kwargs = {"tflite_model": net_destruct, "model_path": get_database('graphs','tf'), "save_dir": get_database('benchmarks','tmp'), 'niter': niter, 'print_bool': False, 'sleep_time': 0.1}
+            #start power measurement
+            if power is True:
+                print('start power measurement')
+                print(f'{dir_str}, {net_destruct}')
+                pm = measurement.power_measurement(sampling_rate=rate*1000, data_dir=f'{dir_str}', max_duration=150, port=port)
+                pm_kwargs = {"model_name": net_destruct}
+                pm.start_gather(pm_kwargs) # power data aquisation
+
+            test_report = execute(**execute_kwargs)
+            if power is True:
+                pm.end_gather(True) # power data aquisation end
+
+            print(test_report)
+            report = parse(test_report) 
+            duration = np.sum(report['time(ms)'])
+            durations.append(duration)
+            dur = duration
+            meas_durations.append(dur)
+
+            if select == -1:
+                logging.error("All output layers have children. This should not be possible. Check your graph.")
+                exit()
+            name = gen.init_graph.model_spec['output_layers'][select]
+            rem_layers.append(gen.init_graph.model_spec['layers'][name])
+            rem_layers[-1]['name'] = name
+            gen.init_graph = gen.init_graph.delete_layer(name)
+            print("Removed:",rem_layers)
             print(durations)
             print(meas_durations)
+        # make directory with pathlib
+        Path(get_database('benchmarks', hardware)).mkdir(parents=True, exist_ok=True)
 
+        # store results
+        with open(get_database('benchmarks', hardware, network+'_destruct.json'), 'w') as fp:
+            json.dump({'layers': rem_layers, 'durations': durations, 'meas_durations': meas_durations}, fp)

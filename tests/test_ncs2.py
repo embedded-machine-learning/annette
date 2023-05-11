@@ -10,6 +10,9 @@ import annette.benchmark.generator as generator
 import annette.benchmark.matcher as matcher 
 from annette import get_database
 
+
+#init logging
+logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 

@@ -78,7 +78,7 @@ class Graph_generator():
 
         return pt_shape
 
-    def generate_graph_from_config(self, num, framework='tf', format='pb'):
+    def generate_graph_from_config(self, num, framework='tf', format='pb',noreset=False):
         # can be used as to generate input for generate_tf_model
         # execute the function under test
         self.graph = deepcopy(self.init_graph)
@@ -101,7 +101,8 @@ class Graph_generator():
                 return value
 
         # Reset the Anette graph, s.t. new config values can be inserted:
-        self.graph = AnnetteGraph(self.network, self.json_file)
+        if not noreset:
+            self.graph = AnnetteGraph(self.network, self.json_file)
 
         # model_spec contains some info about the model
         for key, value in self.graph.model_spec.items():
@@ -128,7 +129,7 @@ class Graph_generator():
                     else:
                         self.graph.model_spec['layers'][layer_n][attr_n] = replace_key(attr_v, self.config, num)
 
-        self.graph.compute_dims()
+        #self.graph.compute_dims()
 
         out = self.graph.model_spec['output_layers']
         logging.debug(self.graph.model_spec)
@@ -165,6 +166,8 @@ class Graph_generator():
                     self.tf_graph[layer_n] = self.tf_gen_relu(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Add":
                     self.tf_graph[layer_n] = self.tf_gen_add(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Mul":
+                    self.tf_graph[layer_n] = self.tf_gen_mul(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "DepthwiseConv":
                     self.tf_graph[layer_n] = self.tf_gen_dwconv(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Pool":
@@ -187,6 +190,10 @@ class Graph_generator():
                     self.tf_graph[layer_n] = self.tf_gen_batchnorm(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Reshape":
                     self.tf_graph[layer_n] = self.tf_gen_reshape(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Resize":
+                    self.tf_graph[layer_n] = self.tf_gen_resize(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "HardSigmoid":
+                    self.tf_graph[layer_n] = self.tf_gen_hardsigmoid(layer_attrs, layer_n)
                 else:
                     logging.debug("layer %s not yet implemented", layer_attrs['type'])
                     exit()
@@ -202,11 +209,13 @@ class Graph_generator():
                 print(i,o)
                 if self.graph.model_spec['layers'][o]['type'] == 'BatchNorm':
                     out[i] = o+'/add'
+                elif self.graph.model_spec['layers'][o]['type'] == 'Resize':
+                    out[i] = o+'/ResizeBilinear'
             self.tf_export_to_pb(out)
             if format in ["tflite"]:
                 inp_shape = list(self.get_torch_input_shape())
                 self.tf2_export_to_lite(self.graph.model_spec['input_layers'],
-                                        self.graph.model_spec['output_layers'],
+                                        out,
                                         {x : self.graph.model_spec['layers'][x]['output_shape'] for x in self.graph.model_spec['input_layers']},
                                         load_path= get_database('graphs','tf',self.graph.model_spec['name']+".pb"),
                                         save_path= get_database('graphs','tf',self.graph.model_spec['name']+".tflite"))
@@ -225,6 +234,7 @@ class Graph_generator():
 
     def tf2_export_to_lite(self, input_nodes, output_nodes, input_shapes, load_path= None, save_path = None):
         # Convert the model.
+        print(output_nodes)
         converter = tf.compat.v1.lite.TFLiteConverter.from_frozen_graph(
             graph_def_file= load_path,
                             # both `.pb` and `.pbtxt` files are accepted.
@@ -301,6 +311,8 @@ class Graph_generator():
             # Initialize the variables
             sess.run(tf.global_variables_initializer())
             g = g.as_graph_def(add_shapes = True)
+
+            print(output_node)
 
             # Convert variables to constants until the "fully_conn_1/Softmax" node
             frozen_graph_def = tf.graph_util.convert_variables_to_constants(sess, g, output_node)
@@ -417,6 +429,17 @@ class Graph_generator():
         else:
             raise NotImplementedError
 
+    def tf_gen_mul(self, layer, name=None):
+        logging.debug("Generating Mul with dict: %s" % layer)
+        if len(layer['parents']) == 2:
+            inp_name0 = layer['parents'][0]
+            inp_name1 = layer['parents'][1]
+            inp0 = self.tf_graph[inp_name0]
+            inp1 = self.tf_graph[inp_name1]
+            return tf.math.multiply(inp0, inp1, name=name)
+        else:
+            raise NotImplementedError
+
     def tf_gen_flatten(self, layer, name=None):
         logging.debug("Generating Flatten with dict: %s" % layer)
         inp_name = layer['parents'][0]
@@ -429,6 +452,13 @@ class Graph_generator():
         inp = self.tf_graph[inp_name]
         print(layer['output_shape'])
         return reshape(inp, layer['output_shape'], name)
+
+    def tf_gen_resize(self, layer, name=None):
+        logging.debug("Generating Resize with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        print(layer['output_shape'])
+        return resize(inp, layer['output_shape'], name)
 
     def tf_gen_batchnorm(self, layer, name=None):
         logging.debug("Generating Batchnorm with dict: %s" % layer)
@@ -453,6 +483,13 @@ class Graph_generator():
         inp_name = layer['parents'][0]
         inp = self.tf_graph[inp_name]
         return softmax(inp, name)
+
+    def tf_gen_hardsigmoid(self, layer, name=None):
+        logging.debug("Generating HardSigmoid with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        filters = layer['output_shape'][1]
+        return hardsigmoid(inp, name)
 
     def tf_gen_matmul(self, layer, name=None):
         logging.debug("Generating MatMul with dict: %s" % layer)
@@ -603,6 +640,11 @@ def softmax(x_tensor, name):
     x = tf.nn.softmax(x_tensor,name=name)
     return x
 
+def hardsigmoid(x_tensor, name):
+    # Nonlinear activation (Hard Sigmoid)
+    x = tf.keras.activations.hard_sigmoid(x_tensor)
+    return x
+
 def globavgpool(x_tensor, name='glob_avg_pool'):
     x = tf.reduce_mean(x_tensor, axis=[1,2], name=name)
     return x
@@ -661,8 +703,20 @@ def flatten(x_tensor, name):
     x = tf.reshape(x_tensor, [1, np.prod(x_tensor.shape.as_list()[1:])], name = name)
     return x
 
-def reshape(x_tensor, reshape, name):
-    x = tf.reshape(x_tensor, reshape, name = name)
+def reshape(x_tensor, shape, name):
+    x = tf.reshape(x_tensor, shape, name = name)
+    return x
+
+def resize(x_tensor, size, name):
+    if len(size) == 4:
+        size = size[1:3]
+    else:
+        raise NotImplementedError('Only 2D resizing is supported')
+    x = tf.image.resize(x_tensor, size, name = name)
+    return x
+
+def mul(x_tensor, x2_tensor, name):
+    x = tf.math.multiply(x_tensor, x2_tensor, name = name)
     return x
 
 def matmul(x_tensor, num_outputs, name):
