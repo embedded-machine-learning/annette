@@ -29,9 +29,11 @@ pprint(config)
 hardware = "gap8"
 network = "testnet"
 
-hardware = "imx8"
+#hardware = "imx8"
 #hardware = "ncs2"
+hardware = "edgetpu_std"
 network = "mobilenetv2-7-sim"
+#network = "cf_reid"
 
 
 num = config['network'][network][hardware]['layers']
@@ -61,7 +63,7 @@ end = [0]*num
 for x in tqdm(range(num)):
     net = f'{network}_{str(x)}'
 
-    power_file= net+'_dec.npy'
+    power_file= net+'.npy'
     power_path = Path('data','edge_tpu_mobilenet_tf2')
     power_path = Path('data', f'{hardware}_{network}')
     
@@ -95,6 +97,8 @@ for x in tqdm(range(num)):
     #ncs2 thresh 0.4 others 0.7
     result[x] = processing.extract_power_profile(power_file, power_path, duration, sample_rate = rate, start_thresh=0.3, end_thresh=0.3, peak_thresh=0.7, vis = v, multiplier=1.0, redefine_start=False, smooth=smoothed)
     start[x], end[x], time[x], cut[x] = processing.get_time(result[x], tresh, kernel_size=smoothed, vis=v) #12 for std edge freq
+    plt.plot(result[x])
+    plt.show()
 
     #if x > 0:
     #    time[x] = min(time[x],time[x-1])
@@ -107,7 +111,8 @@ print(location)
 print(time)
 # plot cutouts
 
-plt.plot(result[70])
+plt.plot(result[70], label = "result")
+plt.plot(cut[70], label = "cut")
 plt.show()
 # %%
 
@@ -159,10 +164,14 @@ def compute_divergence(ks, div_th, max_th, r1, r2):
     return divergence,div
 
 
-d_thr = 0.05
+d_thr = 0.1
+sel_in =  False
 div_list = []
 d_list = []
 prev_div = 0
+vis_div = False
+
+first_peak_list = []*num
 for i in tqdm(range(0,num)):
 #for i in tqdm(range(0,20)):
 
@@ -178,10 +187,13 @@ for i in tqdm(range(0,num)):
 
     r1_list = []
     r2_list = []
-    #for i1 in (top_i,i):
+    #for i2 in range(top_i,i):
     # get index of first peak in signal r1 at 90 percent of max
     i1_first_peak = np.where(result[i1] > np.max(result[i1])*0.9)[0][0]
     i2_first_peak = np.where(result[i2] > np.max(result[i2])*0.9)[0][0]
+    first_peak_list.append(i1_first_peak)
+
+
 
     r1 = result[i1][i1_first_peak:]
     r2 = result[i2][i2_first_peak:-int(extend*rate)]
@@ -204,13 +216,18 @@ for i in tqdm(range(0,num)):
     print(len(d_list))
 
     from functools import reduce
-    mom = 0.5
+    mom = 0.4
     d_ewma = reduce(lambda x,y : mom*x + (1-mom)*y, d_list)
 
     s_iter = 3
     s_ewma = [0]*s_iter
     for iter in range(s_iter):
-        s_ewma[iter] = smooth(d_ewma,int(50*(iter+1)*(iter+1)))
+        s_ewma[iter] = smooth(d_ewma,int(ks*(iter+1)*(iter+1)))
+    
+    # min value of s_ewma[-1]
+    sub = np.min(s_ewma[-1])
+    s_ewma = [s-sub for s in s_ewma]
+        
 
     if i == 89:
         pass
@@ -219,54 +236,145 @@ for i in tqdm(range(0,num)):
 
     if prev_div == 0:
         prev_div = len(d_ewma)
-    
+    print("prev_div: ",prev_div)
+
+    lower_b = 0
+    upper_b = prev_div
+    def update_boundaries(lower_b, upper_b):
+        print("lower_b?")
+        in_lower = input("in_lower: ")
+        if in_lower != "":
+            lower_b = int(in_lower)
+        print("upper_b?")
+        in_upper = input("in_upper: ")
+        if in_upper != "":
+            upper_b = int(in_upper)
+        return lower_b, upper_b
+    if vis_div == True:
+        plt.plot(r1_list[0][:length])
+        plt.plot(r2_list[0][:length])
+        plt.plot(d_list[-1])
+        for iter in s_ewma:
+            plt.plot(iter)
+        plt.show()
+    accept = ""    
+    div = 0
     for rev in range(s_iter-1,-1,-1):
-        print(rev)
-        div = np.where(s_ewma[rev][:prev_div] < d_thr)[0]
-        if prev_div == np.max(div)+1:
-            print("keep div")
-            div = prev_div
-            first_div = div
-        else:
-                #select minimum left of div
-                sel_div = div[-1]
-                if rev == 0:
-                    minima = find_peaks(-s_ewma[rev][:first_div], height=-d_thr)[0]
-                    if len(minima) > 0:
-                        div = minima[-1]
+        prev_lower_b = lower_b
+        prev_upper_b = upper_b
+        div = np.where(s_ewma[rev][lower_b:upper_b+1] > d_thr)[0]
+        div_double = np.where(s_ewma[rev][lower_b:upper_b+1] > d_thr)[0]
+        div_below = np.where(s_ewma[rev][lower_b:upper_b+1] < d_thr)[0]
+        if rev == 0:
+            minima = find_peaks(-s_ewma[rev][lower_b:upper_b+1], height=-d_thr)[0]
+            if len(minima) > 0:
+                div = lower_b+minima[-1]
+            else:
+                if len(div_below) > 0:
+                    div = lower_b+div_below[-1]
                 else:
-                    div = sel_div
-                    if s_ewma[rev][div] <  s_ewma[rev-1][div]:
-                        prev_div = div
-                        print("new prev div")
-                
+                    div = lower_b+np.argmin(s_ewma[rev][lower_b:upper_b+1])
+        else:
+            # if everywhere higher than threshold, take last point
+            if len(div_below) == 0:
+                div = upper_b-lower_b
+                #print(f"no change: {div}")
+            else:
+                div = div_below[-1]
+                if len(div_double) > 0 and rev == (s_iter-1):
+                    #print(f"div_double: {div_double[0]}, lower_b: {lower_b}")
+                    # find closes peak to div_double[0]
+                    maxima = find_peaks(s_ewma[rev][lower_b:], height=d_thr)[0]
+                    if len(maxima) > 0:
+                        #sort by distance to div_double[0]
+                        maxima = sorted(maxima, key=lambda x: np.abs(div_double[0]-x))
+                        upper_b = np.min((upper_b,lower_b+maxima[0]))
+                        div = lower_b+div_double[0]
+                    #print(f"upper_b: {upper_b}")
+                elif s_ewma[rev][div] >  s_ewma[rev-1][div]:
+                    # if lower than previous, set new lower bound
+                    #print(lower_b, div)
+                    lower_b = lower_b+div
+                    #print(f"lower_b: {lower_b}")
+                else:
+                    # if higher than previous, set new upper bound
+                    upper_b = lower_b+div
+                    #print(f"upper_b: {upper_b}")
 
+        p_lower_b = np.min((prev_lower_b//100, div//100))*100
+        p_upper_b = prev_upper_b
+        if vis_div == True:
+            print(f"lower_b: {lower_b}, upper_b: {upper_b}")
+            plt.plot(r1_list[0][p_lower_b:p_upper_b], label="r1")
+            plt.plot(r2_list[0][p_lower_b:p_upper_b], label="r2")
+            plt.plot(d_list[-1][p_lower_b:p_upper_b], label="div")
+            for iter in s_ewma:
+                plt.plot(iter[p_lower_b:p_upper_b])
+            plt.plot((div-p_lower_b), d_list[-1][div], "o")
+            #get current ticks
+            ticks = plt.xticks()[0]
+            #get current tick labels
+            labels = plt.xticks()[1]
+            #build new set of tick labels, one for each tick
+            new_labels = []
+            for tick, label in zip(ticks, labels):
+                new_labels.append(str(int(tick + p_lower_b)))
+            #set new ticks
+            plt.xticks(ticks, new_labels)
+            plt.legend()
+            plt.show()
 
+        if sel_in == True:
+            print("accept")
+            accept = input("accept? ")
+        if accept == "y" or accept == "yes" or accept == "Y" or accept == "Yes" or accept == "":
+            pass
+        else:
+            lower_b, upper_b = update_boundaries(lower_b, upper_b)
+            print(f"lower_b: {lower_b}, upper_b: {upper_b} div: {div}")
 
-    # find where divergance below threshold
-    #div = np.where(p_div < div_th)[0]
-
-
-    # find latest point where divergance below threshold
-    # if no point found, take last point
-    """
-    if len(div) == 0:
-        div = len(divergence)
+    print(f"Final div: {div}")
+    p_lower_b = np.max((np.max((lower_b//100, div//100))*100-300, 0))
+    p_upper_b = np.min((div+300, length))
+    if vis_div == True or True:
+        print(f"lower_b: {lower_b}, upper_b: {p_upper_b}")
+        plt.plot(r1_list[0][p_lower_b:p_upper_b], label="r1")
+        plt.plot(r2_list[0][p_lower_b:p_upper_b], label="r2")
+        plt.plot(d_list[-1][p_lower_b:p_upper_b], label="div")
+        for iter in s_ewma:
+            plt.plot(iter[p_lower_b:p_upper_b])
+        plt.plot((div-p_lower_b), d_list[-1][div], "o")
+        #get current ticks
+        ticks = plt.xticks()[0]
+        #get current tick labels
+        labels = plt.xticks()[1]
+        #build new set of tick labels, one for each tick
+        new_labels = []
+        for tick, label in zip(ticks, labels):
+            new_labels.append(str(int(tick + p_lower_b)))
+        #set new ticks
+        plt.xticks(ticks, new_labels)
+        plt.legend()
+        #make a grid
+        plt.grid()
+        plt.show()
+    print("DIV!")
+    if sel_in == True:
+        accept = input("div? ")
+    if accept == "y" or accept == "yes" or accept == "Y" or accept == "Yes" or accept == "":
+        pass
     else:
-        div = div[-1]
-    if len(div2) == 0:
-        div2 = len(divergence2)
-    else:
-        div2 = div2[-1]
-    """
-    
+        div = int(accept)
     # take the higher of the two
     #div = np.max([div,div2])
     div = np.max([div])
 
+
+
     prev_div = div
     # find time of latest point
-    time_new[i1] = (div+i1_first_peak)/rate
+    time_new[i1] = (div)/rate
+    shifts[i] = dist
 
 
     if 0 <= i < 100:
@@ -280,16 +388,19 @@ for i in tqdm(range(0,num)):
         """
         
         #plot smoothed signals
-        plt.plot(smooth(r1_list[0][:length]))
-        plt.plot(smooth(r2_list[0][:length]))
+        plt.plot(r1_list[0][:length])
+        plt.plot(r2_list[0][:length])
         for r in d_list[:-1]:
-            plt.plot(smooth(r[:length]))
+            plt.plot(r[:length])
+
         plt.axvline(x=div, color='r', linestyle='--')
         plt.show()
         #plt.plot(smooth(r1_norm[:length]))
         #plt.plot(smooth(r2_norm[:]))
         #plt.plot(smooth(r1_list[1][:length]))
         #plt.plot(smooth(r2_list[1][:]))
+
+
         #plt.plot(divergence)
         plt.plot(d_list[-1])
         for iter in s_ewma:
@@ -299,14 +410,23 @@ for i in tqdm(range(0,num)):
         #vertical line at latest point
         plt.axvline(x=div, color='r', linestyle='--')
         plt.show()
+        print(time_new)
 
-print(time_new)
+time_stored = time_new
+
 
 # %%
 
+time_new = time_stored
+time_new.append(0)
+print(time_new) 
+diff = np.diff(np.flip(time_new))
+print(diff)
+
+
+# %%
 time_new[0] = time_new[1]
 plt.plot(time_new)  	
-plt.plot(shifts/np.max(shifts))
         
 # remove outliers where time before and after are both higher or lower
 for i in range(1,num-1):
@@ -321,18 +441,32 @@ for i in range(1,num):
         time_new[i] = time_new[i-1]
 plt.plot(time_new)
 
+plt.plot([s/rate for s in shifts], label="shifts")
+plt.plot([f/rate for f in first_peak_list], label='first_peak')
+#legend
+plt.legend()
+plt.show()
+
+# %%
+# differences between time points
+diff = np.diff(time_new)
+print(diff)
 
 #%%
 #np.flip(time)
 np.flip(location)
 time_s = time_new
+
+
 # %%
 print(time)
 print(shifts)
 # %%
 print(time)
 print(start)
-time = [x  for x in time_s]
+begin = 0.8 # edgetpu mobilenetv2
+begin = 5.1 # ncs2  mobilenetv2
+time = [x+begin  for x in time_s]
 start[0] = 0
 print(len(time))
 #%%
@@ -350,7 +484,6 @@ print(len(time))
 
 # Create DataFrame  
 print(start[0])
-start[0] = 0.4
 print(time)
 #concatenate lists
 

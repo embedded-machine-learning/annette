@@ -23,9 +23,9 @@ with open("config.yaml", 'r') as stream:
     config = yaml.safe_load(stream)
 pprint(config)
 
-#hardware = "edgetpu_std"
-hardware = "imx8"
-hardware = "ncs2"
+hardware = "edgetpu_std"
+#hardware = "imx8"
+#hardware = "ncs2"
 network = "mobilenetv2-7-sim"
 #hardware = "gap8"
 #network = "testnet"
@@ -64,6 +64,7 @@ select_one = True
 logging.debug(f'{pause}')
 #%%
 vis = False
+final_vis = True
 for layer in tqdm(range(0, layers), position=0, leave=True):
     # load data
     #data_in = np.load(f'/home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/{network}_destruct_{layer}.dat')# resistor = 0.1 ohms
@@ -95,7 +96,7 @@ for layer in tqdm(range(0, layers), position=0, leave=True):
     #widths = peak_widths(data_down_filt1, peaks, rel_height=0.5)
     # just select the n broadest peaks
     #peaks = peaks[np.argsort(widths[0])][::-1]
-    peaks = peaks[:niter]
+    #peaks = peaks[:niter]
     #resort by index
     peaks = np.sort(peaks)
     logging.debug(f"Peaks {peaks}")
@@ -109,6 +110,7 @@ for layer in tqdm(range(0, layers), position=0, leave=True):
         plt.show()
 
     # just select the n highest peaks
+    print(np.argsort(data_down_filt1[peaks]))
     peaks = peaks[np.argsort(data_down_filt1[peaks])][::-1]
     peaks = peaks[:max_peaks]
     #resort by index
@@ -155,7 +157,7 @@ for layer in tqdm(range(0, layers), position=0, leave=True):
             plt.plot(m, data_down_filt1[m], "x")
         #plot peaks
         for p in peaks:
-            plt.plot(p, data_down_filt1[m], "x")
+            plt.plot(p, data_down_filt1[p], "x")
         plt.show()
         
     logging.debug(f"Minima {np.max(minima)}")
@@ -220,7 +222,7 @@ for layer in tqdm(range(0, layers), position=0, leave=True):
         curr_dist = end - start
         curr_width = int((curr_dist-dist)/2 + width)
         start2 = (start-curr_width)*down
-        end2 = (start+dist+pause)*down
+        end2 = (start+dist+pause+width)*down
         end2 = int(end2+(tau-1))
         new = data_cut[start2:end2]
         # sum all new in array
@@ -238,6 +240,7 @@ for layer in tqdm(range(0, layers), position=0, leave=True):
         plt.plot(plot.T)
         plt.show()
     
+
     #remove signals that have highest activity at start or end
     #find max of each signal
     maxs = [np.max(n) for n in f]
@@ -386,21 +389,22 @@ for layer in tqdm(range(0, layers), position=0, leave=True):
     #print("start deconvolution")
 
     sub = filt2.min()
-    filt3 = sp.signal.medfilt(filt2, 15)
-    filt3 = filt3-sub
-    dec, rem = sp.signal.deconvolve(filt3, ir2)
+    #filt3 = sp.signal.medfilt(filt2, 15)
+    #filt3 = filt3-sub
+    dec, rem = sp.signal.deconvolve(new, ir2)
     dec = dec + sub
 
     filt = sp.signal.medfilt(dec, 5)
 
     # plot
-    if vis is True:
-        plt.plot(news[0][20:-20], label='reflect')
-        plt.plot(new[20:-20], label='reflect')
-        plt.plot(filt2[20:-20], label='reflect')
+    if (vis is True) or (final_vis is True):
+        plt.plot(news[0][20:-20], label='first')
+        plt.plot(new[20:-tau], label='selected')
+        plt.plot(dec[20:-20], label='deconved')
+        plt.legend()
         plt.show()
-        plt.plot(dec[tau:-20], label='reflect')
-        plt.show()
+        #plt.plot(dec[tau:-20], label='rdeflect')
+        #plt.show()
 
     Path.mkdir(Path(f'data/{hardware}_{network}'), exist_ok=True)
 

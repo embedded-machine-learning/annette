@@ -10,10 +10,10 @@ hardware:
                 niter: 100
                 remove_last: 1
                 max_peaks: 50
+                min_peaks: 30
                 pause: 10       #ms
                 width: 10       #ms
                 rate: 500      #kHz
-                min_peaks: 30
         imx8:
                 Rshunt: 0.1
                 Uref: 5.0
@@ -25,6 +25,7 @@ hardware:
                 niter: 100
                 remove_last: 10
                 max_peaks: 50
+                min_peaks: 30
                 pause: 10       #ms
                 width: 0.5       #ms
                 rate: 500      #kHz
@@ -37,9 +38,10 @@ hardware:
                 median: 31
                 downsample: 100
                 niter: 4
-                pause: 10       #ms
+                pause: 5       #ms
                 remove_last: 0
                 max_peaks: 3
+                min_peaks: 1
                 width: 0.5       #ms
                 rate: 500      #kHz
         ncs2:
@@ -66,7 +68,7 @@ network:
                         file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/{network}_destruct_{layer}.dat 
                         thresh2: 3.5 # 3.4
                         extend: 0.02
-                        smoothed: 21
+                        smoothed: 11
                         diverge_smoothing: 10
                         alignment_smoothing: 1
                 ncs2:
@@ -76,7 +78,7 @@ network:
                         thresh2: 1.1
                         extend: 2
                         smoothed: 11 
-                        diverge_smoothing: 10
+                        diverge_smoothing: 50
                         alignment_smoothing: 20
                 edgetpu_std:
                         layers: 99
@@ -97,3 +99,31 @@ network:
                         smoothed: 21
                         diverge_smoothing: 1
                         alignment_smoothing: 1
+
+        cf_reid:
+                imx8: 
+                        layers: 99
+                        time: 10
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/{network}_destruct_{layer}.dat 
+                        thresh2: 3.5 # 3.4
+                        extend: 0.02
+                        smoothed: 21
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+
+        old_mobilenet:
+                edgetpu_std:
+                        Rshunt: 0.1
+                        Uref: 5.0
+                        thresh: 1.1
+                        tau: 1
+                        mean: 31
+                        median: 31
+                        downsample: 100
+                        niter: 4
+                        pause: 5       #ms
+                        remove_last: 0
+                        max_peaks: 3
+                        min_peaks: 1
+                        width: 0.5       #ms
+                        rate: 500      #kHz
