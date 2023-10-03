@@ -210,10 +210,6 @@ for i in tqdm(range(0,num)):
                 current_min = minima[minima < current_min]
                 current_min = current_min[-1]
 
-
-
-
-
     print(current_min)
 
     div = current_min

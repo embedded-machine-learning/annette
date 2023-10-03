@@ -11,7 +11,7 @@ from powerutils import processing
 import pandas as pd
 import plotly.express as px
 from scipy.signal import find_peaks, medfilt, convolve, peak_widths
-from scipy.ndimage import convolve1d
+from scipy.ndimage import convolve1d, gaussian_filter1d
 import scipy
 import yaml
 from tqdm import tqdm
@@ -29,7 +29,7 @@ pprint(config)
 hardware = "gap8"
 network = "testnet"
 
-#hardware = "imx8"
+hardware = "imx8"
 #hardware = "ncs2"
 hardware = "edgetpu_std"
 network = "mobilenetv2-7-sim"
@@ -121,8 +121,9 @@ i2 = 0
 
 def smooth(data, ks=5):
     #data = processing.normalize(data)
-    kernel = np.ones(ks)/ks
-    return convolve1d(data, kernel, mode='reflect')
+    #kernel = np.ones(ks)/ks
+    #return convolve1d(data, kernel, mode='reflect')
+    return gaussian_filter1d(data, ks, mode='reflect')
 
 shifts = [0]*num
 
@@ -154,7 +155,7 @@ def compute_divergence(ks, div_th, max_th, r1, r2):
             maximum = len(divergence)
         return maximum
     length = np.min([len(r1),len(r2)])
-    divergence = np.abs(smooth(r1[:length],ks)-smooth(r2[:length],ks))
+    divergence = smooth(r1[:length],ks)-smooth(r2[:length],ks)
     divergence = smooth(divergence,ks)
     #divergece = np.log(divergece)[:-ks]
     divergence = divergence[:-ks]
@@ -163,22 +164,23 @@ def compute_divergence(ks, div_th, max_th, r1, r2):
     div = np.where(divergence[:get_max(divergence, max_th)] < div_th)[0]
     return divergence,div
 
+pre = 150
 
-d_thr = 0.1
-sel_in =  False
-div_list = []
+d_thr = 0.05
+#d_thr = 0.02
+sel_in = True
 d_list = []
 prev_div = 0
-vis_div = False
+vis_div = True 
 
 first_peak_list = []*num
 for i in tqdm(range(0,num)):
 #for i in tqdm(range(0,20)):
 
     if i > 0:
-        top_i = i-1
+        top_i = i
     else:
-        top_i = 0
+        top_i = 1
             
     i1 = i
     r1 = 0
@@ -187,27 +189,35 @@ for i in tqdm(range(0,num)):
 
     r1_list = []
     r2_list = []
-    #for i2 in range(top_i,i):
-    # get index of first peak in signal r1 at 90 percent of max
-    i1_first_peak = np.where(result[i1] > np.max(result[i1])*0.9)[0][0]
-    i2_first_peak = np.where(result[i2] > np.max(result[i2])*0.9)[0][0]
-    first_peak_list.append(i1_first_peak)
+    div_list = []
+    for i2 in range(0, top_i):
+        # get index of first peak in signal r1 at 90 percent of max
+        i1_first_peak = np.where(result[i1] > np.max(result[i1])*0.9)[0][0] - pre
+        i2_first_peak = np.where(result[i2] > np.max(result[i2])*0.9)[0][0] - pre
+        first_peak_list.append(i1_first_peak)
 
 
 
-    r1 = result[i1][i1_first_peak:]
-    r2 = result[i2][i2_first_peak:-int(extend*rate)]
-    r1_list.append(r1)
-    r2_list.append(r2)  
-    dist, r1, r2 = processing.align(r1, r2, shift, vis=False, ks=alignks)
-    dist -= i1_first_peak-i2_first_peak
+        r1 = result[i1][i1_first_peak:]
+        r2 = result[i2][i2_first_peak:-int(extend*rate)]
+        r1_list.append(r1)
+        r2_list.append(r2)  
+        dist, r1, r2 = processing.align(r1, r2, shift, vis=False, ks=alignks)
+        dist -= i1_first_peak-i2_first_peak
 
 
-    #plot correlation
-    length = np.min([len(r1),len(r2)])
-    divergence, div  = compute_divergence(ks, div_th, max_th, r1, r2)
-    r1_norm = processing.normalize(r1[:length]); r2_norm = processing.normalize(r2[:length])
-    divergence2, div2 = compute_divergence(ks, div_th, max_th, r1_norm, r2_norm)
+        #plot correlation
+        length = np.min([len(r1),len(r2)])
+        divergence, div  = compute_divergence(ks, div_th, max_th, r1, r2)
+        r1_norm = processing.normalize(r1[:length]); r2_norm = processing.normalize(r2[:length])
+        divergence2, div2 = compute_divergence(ks, div_th, max_th, r1_norm, r2_norm)
+        div_list.append(divergence)
+
+    min_length = np.min([len(d) for d in div_list])
+    div_list = [d[:min_length] for d in div_list]
+    divergence = np.mean(div_list, axis=0)
+    divergence = np.abs(divergence)
+
     d_list.append(divergence)
 
     min_length = np.min([len(d) for d in d_list])
@@ -357,10 +367,12 @@ for i in tqdm(range(0,num)):
         plt.legend()
         #make a grid
         plt.grid()
+        # micro grid
+        plt.minorticks_on()
         plt.show()
     print("DIV!")
     if sel_in == True:
-        accept = input("div? ")
+        accept = input("final div? ")
     if accept == "y" or accept == "yes" or accept == "Y" or accept == "Yes" or accept == "":
         pass
     else:
@@ -377,7 +389,7 @@ for i in tqdm(range(0,num)):
     shifts[i] = dist
 
 
-    if 0 <= i < 100:
+    if 0 <= i < 0:
         """
         plt.plot(result[i1])
         plt.plot(result[i2])
@@ -417,12 +429,20 @@ time_stored = time_new
 
 # %%
 
-time_new = time_stored
+#time_new = time_stored
 time_new.append(0)
 print(time_new) 
 diff = np.diff(np.flip(time_new))
 print(diff)
 
+# %%
+import yaml
+
+# load json
+filename = Path("..","database", "benchmarks", "imx8", f'{network}_destruct.json')
+with open(filename) as f:
+    data = yaml.load(f, Loader=yaml.FullLoader)
+    print(data)
 
 # %%
 time_new[0] = time_new[1]
@@ -464,8 +484,9 @@ print(shifts)
 # %%
 print(time)
 print(start)
-begin = 0.8 # edgetpu mobilenetv2
-begin = 5.1 # ncs2  mobilenetv2
+begin = 0.40 # edgetpu mobilenetv2
+#
+# begin = 5.1 # ncs2  mobilenetv2
 time = [x+begin  for x in time_s]
 start[0] = 0
 print(len(time))
@@ -523,6 +544,21 @@ for xc in np.flip(time):
     plt.axvline(x=xc,c='red')
     print(xc)
 plt.show()
+
+
+# %%
+print(len(cut))
+
+# get names and type of layers in data into dataframe
+layer = [0]*len(cut)
+
+df = pd.DataFrame(columns=['name', 'type', 'time'])
+for i, l in zip(data['layers'], time):
+    # append with concat
+    df = pd.concat([df, pd.DataFrame([[i['name'], i['type'], l]], columns=['name', 'type', 'time'])], ignore_index=True)
+print(df.tail(10))
+
+
 
 # %% Plot:
 x= np.arange(len(cut[0]))/rate
