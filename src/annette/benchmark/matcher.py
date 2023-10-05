@@ -28,6 +28,7 @@ class Graph_matcher():
         self.network = network
         self.gen = generator.Graph_generator(network)
         self.gen.add_configfile(config)
+        self.config_name = config.split('.')[0]
         self.framework = framework
         self.match = match
         self.df = {}
@@ -39,18 +40,20 @@ class Graph_matcher():
         print(self.gen.graph.model_spec['layers'])
 
     def run_bench(self, optimize = None, execute = None, parse = None, store = 5, hardware = 'ncs2', start = 0, end = None, vis=False, execute_kwargs={}):
+        self.bench_name = hardware+'_'+self.config_name
         config_len = len(self.gen.config)
         assert(start >= config_len, f"Selected starting number {start} larger than config length {config_len}")
         if end is None:
             end = config_len
         else:
             assert(end <= config_len, f"Selected end number {end} larger than config length {config_len}")
+        
 
         for i in range(start, end):
             print('-'*60)
             print('Running Config %i of %i' % (i, end))
             print('-'*60)
-            if hardware in  ['rpi4']:
+            if hardware in  ['rpi4', 'imx93', 'imx8']:
                 format = 'tflite'
             else:
                 format = 'pb'
@@ -120,10 +123,10 @@ class Graph_matcher():
 
                     for key, v in self.df_out.items():
                         try:
-                            os.makedirs(get_database('benchmarks',hardware,self.network))
+                            os.makedirs(get_database('benchmarks',self.bench_name,self.network))
                         except:
                             pass
-                        v.to_pickle(get_database('benchmarks',hardware,self.network,key+'.p'))
+                        v.to_pickle(get_database('benchmarks',self.bench_name,self.network,key+'.p'))
             
         return result
 
