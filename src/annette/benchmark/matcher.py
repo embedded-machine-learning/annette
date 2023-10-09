@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from powerutils import measurement, processing
+import pickle
 
 import annette.benchmark.generator as generator
 from annette import get_database
@@ -50,18 +51,30 @@ class Graph_matcher():
         else:
             assert (end <= config_len,
                     f"Selected end number {end} larger than config length {config_len}")
+        # load current counter if file exists
+        try:
+            with open(get_database('benchmarks', self.bench_name, self.network, 'current.txt'), 'r') as outfile:
+                start = int(outfile.read())
+            # load self.df
+            with open(get_database('benchmarks', self.bench_name, self.network, 'df.p'), 'rb') as outfile:
+                self.df = pickle.load(outfile)
+        except Exception as e:
+            logging.debug(e)
+            start = 0
+            pass
+
 
         for i in range(start, end):
             print('-'*60)
             print('Running Config %i of %i' % (i, end))
             print('-'*60)
             if hardware in ['rpi4', 'imx93', 'imx8']:
-                format = 'tflite'
+                file_format = 'tflite'
             else:
-                format = 'pb'
+                file_format = 'pb'
 
-            self.gen.generate_graph_from_config(i, format=format)
-            test_net = get_database('graphs', 'tf', self.network+f'.{format}')
+            self.gen.generate_graph_from_config(i, format=file_format)
+            test_net = get_database('graphs', 'tf', self.network+f'.{file_format}')
             if optimize is not None:
                 execute_kwargs.update(optimize(test_net, source_fw="tf", network=self.network,
                                       input_shape=None, save_folder=get_database('benchmarks', 'tmp')))
@@ -77,7 +90,7 @@ class Graph_matcher():
             # execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD', 'sleep_time': 0.001}
             # execute(test_net, report_dir = get_database('benchmarks','tmp'))
             # dur, power_dir, power_file = execute(**execute_kwargs)
-            def run_network_wrapped(dummy, kwargs):
+            def run_network_wrapped(_, kwargs):
                 report_dir = execute(**kwargs)
                 kwargs['report_file'] = report_dir
 
@@ -124,15 +137,25 @@ class Graph_matcher():
                 if i % store == 0 and i > store-1 or i == config_len-1:
                     # print(i)
 
+                    try:
+                        os.makedirs(get_database(
+                            'benchmarks', self.bench_name, self.network))
+                    except Exception as e:
+                        logging.debug(e)
+                        pass
+                    # store selfx.df
+                    with open(get_database('benchmarks', self.bench_name, self.network, 'df.p'), 'wb') as outfile:
+                        pickle.dump(self.df, outfile)
                     for key, v in self.df_out.items():
-                        try:
-                            os.makedirs(get_database(
-                                'benchmarks', self.bench_name, self.network))
-                        except Exception as e:
-                            logging.debug(e)
-                            pass
                         v.to_pickle(get_database(
                             'benchmarks', self.bench_name, self.network, key+'.p'))
+                    
+                    # store current counter config
+                    with open(get_database('benchmarks', self.bench_name, self.network, 'current.txt'), 'w') as outfile:
+                        # store value of counter
+                        outfile.write(str(i))
+
+
 
         return result
 
