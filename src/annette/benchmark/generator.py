@@ -54,7 +54,7 @@ class Graph_generator():
         self.network = network
         self.json_file = get_database('graphs', 'annette', net_dir, network+'.json')
         self.init_graph = AnnetteGraph(self.network, self.json_file)
-        self.export_pt_file = True
+        self.export_pt_file = False
         self.graph = deepcopy(self.init_graph)
         self.config = None
 
@@ -140,11 +140,14 @@ class Graph_generator():
 
             if logging.root.level == logging.DEBUG:
                 inp_shape = self.get_torch_input_shape()
+                print(inp_shape)
                 self.graph.print_as_table()
-                self.print_torch_summary(self.pt_graph, inp_shape)
+                #self.print_torch_summary(self.pt_graph, inp_shape)
 
             if self.export_pt_file:
                 self.torch_export_to_pt()
+            
+            self.torch_export_to_onnx()
 
             # return annette graph output layers and torch model:
             return out, self.pt_graph
@@ -225,8 +228,19 @@ class Graph_generator():
             raise ValueError(f'Framework {framework} is not supported! Try "pytorch" or "tensorflow".')
 
     def torch_export_to_pt(self, save_path=None):
+        #generate folder if not exist
+        if not os.path.exists(get_database('graphs','torch')):
+            os.makedirs(get_database('graphs','torch'))
         path = save_path if save_path else get_database('graphs','torch',self.graph.model_spec['name']+".pt")
         torch.save(self.pt_graph, path)
+
+    def torch_export_to_onnx(self, save_path=None):
+        if not os.path.exists(get_database('graphs','onnx')):
+            os.makedirs(get_database('graphs','onnx'))
+        path = save_path if save_path else get_database('graphs','onnx',self.graph.model_spec['name']+".onnx")
+        torch.onnx.export(self.pt_graph, torch.randn(self.get_torch_input_shape()), path)
+        print(path)
+        return path
 
     def lite_to_onnx(self, input_nodes, output_nodes, input_shapes, load_path= None, save_path = None):
         # Convert the model.

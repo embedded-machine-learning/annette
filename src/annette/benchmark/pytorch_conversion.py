@@ -57,7 +57,8 @@ class TorchGraph(nn.Module):
                 in_channels = layer_info['input_shape'][3]
                 out_channels = layer_info['output_shape'][3]
                 strides = tuple(layer_info['strides'][1:3][::-1])
-                padding = tuple([layer_info['pads'][4], layer_info['pads'][2]])
+                #padding = tuple([layer_info['pads'][4], layer_info['pads'][2]])
+                padding = tuple([layer_info['kernel_shape'][0]//2, layer_info['kernel_shape'][1]//2])
                 # if no dilations are specified, the default is 1
                 if 'dilations' not in layer_info:
                     dilations = (1, 1)

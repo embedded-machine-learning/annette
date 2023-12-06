@@ -4,11 +4,11 @@ import json
 import logging
 import multiprocessing
 import os
-from copy import deepcopy
+from copy import deepcopy 
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy as np 
 import pandas as pd
 from powerutils import measurement, processing
 import pickle
@@ -38,6 +38,48 @@ class Graph_matcher():
         # make layer list
         print(self.gen.graph.model_spec['layers'])
 
+    def run_network(self, hardware, execute, execute_kwargs):
+        # gather power data into .dat file
+        # pm = measurement.power_measurement(sampling_rate=rate*1000, data_dir="./tmp", max_duration=60)
+        # pm_kwargs = {"model_name": "tmpmodel"}
+        # pm.start_gather(pm_kwargs) # power data aquisation
+
+        # execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD', 'sleep_time': 0.001}
+        # execute(test_net, report_dir = get_database('benchmarks','tmp'))
+        # dur, power_dir, power_file = execute(**execute_kwargs)
+        def run_network_wrapped(_, kwargs):
+            report_dir = execute(**kwargs)
+            kwargs['report_file'] = report_dir
+
+        if hardware in ['ncs']:
+            manager = multiprocessing.Manager()
+            return_dict = manager.dict()
+            return_dict.update(execute_kwargs)
+            p = multiprocessing.Process(
+                target=run_network_wrapped, args=(0, return_dict))
+            p.start()
+            p.join(60)
+            if p.is_alive():
+                print("Execution seem stuck!")
+                p.terminate()
+                p.join()
+                break
+            elif p.exitcode != 0:
+                print("Execution failed with exitcode: {}".format(p.exitcode))
+                break
+            else:
+                print("Execution run successfully")
+                # end power measurement
+                # pm.end_gather(True)  # stop the power measurement
+                # store dat file
+                # dat_file_path = pm.dat_filepath # filepath of the dat file with the measurement
+            print(f"KWARGS = {return_dict}")
+            report_file = return_dict['report_file']
+        else:
+            print(f"KWARGS = {execute_kwargs}")
+            report_file = execute(**execute_kwargs)
+        return report_file
+
     def run_bench(self, optimize=None, execute=None, parse=None, store=5,
                   hardware='ncs2', start=0, end=None, vis=False,
                   execute_kwargs={}):
@@ -49,78 +91,39 @@ class Graph_matcher():
         if end is None:
             end = config_len
         else:
-            assert (end <= config_len,
-                    f"Selected end number {end} larger than config length {config_len}")
+            assert end <= config_len, f"Selected end number {end} larger than config length {config_len}"
+
+
         # load current counter if file exists
         try:
-            with open(get_database('benchmarks', self.bench_name, self.network, 'current.txt'), 'r') as outfile:
-                start = int(outfile.read())
+            with open(get_database('benchmarks', self.bench_name, self.network,
+                                   'current.txt'), 'r') as outfile:
+                start = int(outfile.read()) 
             # load self.df
-            with open(get_database('benchmarks', self.bench_name, self.network, 'df.p'), 'rb') as outfile:
+            with open(get_database('benchmarks', self.bench_name, self.network,
+                                   'df.p'), 'rb') as outfile:
                 self.df = pickle.load(outfile)
         except Exception as e:
             logging.debug(e)
             start = 0
             pass
 
-
         for i in range(start, end):
             print('-'*60)
             print('Running Config %i of %i' % (i, end))
             print('-'*60)
-            if hardware in ['rpi4', 'imx93', 'imx8']:
-                file_format = 'tflite'
-            else:
-                file_format = 'pb'
-
-            self.gen.generate_graph_from_config(i, format=file_format)
-            test_net = get_database('graphs', 'tf', self.network+f'.{file_format}')
+            
+            file_format, file_folder = self.generate_file_names(hardware)
+            self.gen.generate_graph_from_config(i, format=file_format, framework=self.framework)
+            test_net = get_database('graphs', file_folder, self.network+f'.{file_format}')
             if optimize is not None:
-                execute_kwargs.update(optimize(test_net, source_fw="tf", network=self.network,
+                execute_kwargs.update(optimize(test_net, source_fw=self.framework, network=self.network,
                                       input_shape=None, save_folder=get_database('benchmarks', 'tmp')))
 
             logging.debug(f"Optimization arguments {execute_kwargs}")
             # test_net = get_database('benchmarks','tmp', self.network+'.xml')
 
-            # gather power data into .dat file
-            # pm = measurement.power_measurement(sampling_rate=rate*1000, data_dir="./tmp", max_duration=60)
-            # pm_kwargs = {"model_name": "tmpmodel"}
-            # pm.start_gather(pm_kwargs) # power data aquisation
-
-            # execute_kwargs = {"xml_path": test_net, "report_dir": get_database('benchmarks','tmp'), 'device': 'MYRIAD', 'sleep_time': 0.001}
-            # execute(test_net, report_dir = get_database('benchmarks','tmp'))
-            # dur, power_dir, power_file = execute(**execute_kwargs)
-            def run_network_wrapped(_, kwargs):
-                report_dir = execute(**kwargs)
-                kwargs['report_file'] = report_dir
-
-            if hardware in ['ncs']:
-                manager = multiprocessing.Manager()
-                return_dict = manager.dict()
-                return_dict.update(execute_kwargs)
-                p = multiprocessing.Process(
-                    target=run_network_wrapped, args=(0, return_dict))
-                p.start()
-                p.join(60)
-                if p.is_alive():
-                    print("Execution seem stuck!")
-                    p.terminate()
-                    p.join()
-                    break
-                elif p.exitcode != 0:
-                    print("Execution failed with exitcode: {}".format(p.exitcode))
-                    break
-                else:
-                    print("Execution run successfully")
-                    # end power measurement
-                    # pm.end_gather(True)  # stop the power measurement
-                    # store dat file
-                    # dat_file_path = pm.dat_filepath # filepath of the dat file with the measurement
-                print(f"KWARGS = {return_dict}")
-                report_file = return_dict['report_file']
-            else:
-                print(f"KWARGS = {execute_kwargs}")
-                report_file = execute(**execute_kwargs)
+            report_file = self.run_network(hardware, execute, execute_kwargs)
 
             report = parse(report_file)
             # print(report)
@@ -134,7 +137,7 @@ class Graph_matcher():
             result = report
             if self.match is not None:
                 self.match_and_add(self.gen.graph, result)
-                if i % store == 0 and i > store-1 or i == config_len-1:
+                if i % store == 0 and i > store-1 or i <= config_len-1:
                     # print(i)
 
                     try:
@@ -159,6 +162,19 @@ class Graph_matcher():
 
         return result
 
+    def generate_file_names(self, hardware):
+        """Generate file names for different hardware"""
+        if hardware in ['rpi4', 'imx93', 'imx8']:
+            file_format = 'tflite'
+            file_folder = 'tf'
+        if hardware in ['xavier']:
+            file_format = 'onnx'
+            file_folder = 'onnx'
+        else:
+            file_format = 'pb'
+            file_folder = 'tf'
+        return file_format, file_folder
+
     def match_and_add(self, graph, report):
         # compares graph with report
         logging.debug(report)
@@ -176,7 +192,7 @@ class Graph_matcher():
                     r_name = self.match[l_name]['name']
                 if 'name2' in self.match[l_name].keys():
                     r2_name = self.match[l_name]['name2']
-
+            
             if r_name in report['name'].to_numpy(dtype=str):
                 report_name = r_name
                 self.gen.graph.model_spec['layers'][l_name]['report_name'] = report_name
