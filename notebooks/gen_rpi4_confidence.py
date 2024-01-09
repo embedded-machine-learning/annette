@@ -44,8 +44,9 @@ for alpha in alphas:
 rpi4 = {}
 
 for k, r in regressors.items():
-    rpi4[k] = HardwareModelGen("rpi4"+str(k))
-    rpi4[k].add_layer("conv", "Conv", "statistical", data = get_database('benchmarks', 'rpi4', 'annette_bench5', 'Conv.p'),
+    rpi4[k] = HardwareModelGen("imx8"+str(k))
+    #rpi4[k].add_layer("conv", "Conv", "statistical", data = get_database('benchmarks', 'rpi4', 'annette_bench5', 'Conv.p'),
+    rpi4[k].add_layer("conv", "Conv", "statistical", data=get_database('benchmarks', 'imx8_config_v7_3_sampled', 'annette_bench_conv', 'Conv.p'),
         #sweep_data = get_database('benchmarks', 'ov_cpu', 'annette_bench0', 'Conv.p'),
         regressor = r,
         est_dict = conv_est_dict)
@@ -93,7 +94,7 @@ import json
 
 network = "mobilenet_v1"
 optimizer = "simple"
-hws = [f"rpi4{alpha}" for alpha in alphas]
+hws = [f"imx8_conf/imx8{alpha}" for alpha in alphas]
 results = {}
 df = pd.DataFrame()
 # read results
@@ -105,10 +106,20 @@ for hw in hws:
     print(f"Read {hw} results")
     print(results[hw])
     print(results[hw]['sum'])
+    # add hw as new column
+    df[hw] = results[hw]['layers']
 
 
+# %%
+print(df)
 
+# plot as bar chart with plotly
 
+import plotly.express as px
 
+# shorten names for layers to fit in plot just the first letters
+df.index = range(1, len(df.index)+1)
+
+px.bar(df, x=df.index, y=df.columns, barmode='group', title=f"Network: {network}, Optimizer: {optimizer}")
 
 # %%

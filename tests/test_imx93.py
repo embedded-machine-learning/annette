@@ -88,6 +88,15 @@ def test_net(network="reid", config="dummy.csv", start=0, vis=False):
 
     assert True
 
+def test_single_network_destruct(network="annette_bench5", config="config_test.csv", start=0, end=None, vis=False):
+    bench1 = matcher.Graph_matcher(network, framework='tf')
+    imx93_obj = imx93.inference.imx93Class(
+        get_database('configs', 'imx93.yaml'))
+    bench1.run_single_network_destruct(optimize=imx93_obj.optimize_network, execute=imx93_obj.run_network_ssh, parse=imx93.parser.r2a, start=start, vis=vis, hardware='imx93',
+                     execute_kwargs={"model_path": get_database('benchmarks', 'tf'), 'sleep_time': 0.001,
+                                     'niter': 4, 'print_bool': True, 'save_dir': str(get_database('benchmarks', 'tmp'))})
+
+    assert True
 
 def test_all(network="annette_bench5", config="config_test.csv", start=0, end=None, vis=False):
 
@@ -152,6 +161,12 @@ def main():
     # test_all(network='annette_bench_conv_3',config='config_v7_2.csv',start=0, end=10, vis=False)
     # test_all(network='annette_bench_conv',config='config_v7_2.csv',start=0, end=10, vis=False)
     # test_all(network='annette_bench_conv_2',config='config_v7_2.csv',start=0, end=10, vis=False)
+
+    #test_single_network_destruct(network='cf_reid',config='dummy.csv',start=0, end=10, vis=False)
+    test_single_network_destruct(network='mobilenet_v1',config='dummy.csv',start=0, end=10, vis=False)
+    #test_all(network='vgg16-7',
+    #         config='dummy.csv', start=0, end=10, vis=False)
+    exit()
     test_all(network='annette_bench_conv_3',
              config='config_v7_2.csv', start=0, end=10, vis=False)
     test_all(network='annette_bench_avg',

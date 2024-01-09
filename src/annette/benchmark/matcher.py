@@ -20,7 +20,7 @@ from annette import get_database
 class Graph_matcher():
     """Graph matcher"""
 
-    def __init__(self, network, config, match=None, framework='tensorflow'):
+    def __init__(self, network, config='dummy.csv', match=None, framework='tensorflow'):
         # make generator object
         self.network = network
         self.gen = generator.Graph_generator(network)
@@ -63,10 +63,10 @@ class Graph_matcher():
                 print("Execution seem stuck!")
                 p.terminate()
                 p.join()
-                break
+                return False
             elif p.exitcode != 0:
                 print("Execution failed with exitcode: {}".format(p.exitcode))
-                break
+                return False
             else:
                 print("Execution run successfully")
                 # end power measurement
@@ -80,6 +80,116 @@ class Graph_matcher():
             report_file = execute(**execute_kwargs)
         return report_file
 
+    def run_single_network(self, optimize=None, execute=None, parse=None, store=5,
+                           hardware='ncs2', start=0, end=None, vis=False,
+                           execute_kwargs={}):
+        self.bench_name = hardware+'_single'
+
+        file_format, file_folder = self.generate_file_names(hardware)
+        self.gen.generate_graph_from_config(0, format=file_format, framework=self.framework)
+        test_net = get_database('graphs', file_folder, self.network+f'.{file_format}')
+        if optimize is not None:
+            execute_kwargs.update(optimize(test_net, source_fw=self.framework, network=self.network,
+                                    input_shape=None, save_folder=get_database('benchmarks', 'tmp')))
+
+        logging.debug(f"Optimization arguments {execute_kwargs}")
+        # test_net = get_database('benchmarks','tmp', self.network+'.xml')
+
+        report_file = self.run_network(hardware, execute, execute_kwargs)
+        if report_file is False:
+            return False
+
+        report = parse(report_file)
+        print(report)
+        duration = np.sum(report['time(ms)'])
+
+    def run_single_network_destruct(self, optimize=None, execute=None, parse=None, store=5,
+                           hardware='ncs2', start=0, end=None, vis=False,
+                           execute_kwargs={}):
+
+        rem_layers = []
+        layer_names = []
+        meas_durations = []
+
+        file_format, file_folder = self.generate_file_names(hardware)
+        test_net = get_database('graphs', file_folder, self.network+f'.{file_format}')
+
+        for j, l in enumerate(reversed(self.gen.init_graph.topological_sort)):
+            net_destruct = f'destruct/{self.network}_destruct_{j}'
+            self.gen.init_graph.model_spec['name'] = net_destruct
+            folder = get_database('graphs', file_folder, 'destruct')
+            folder.mkdir(
+                parents=True, exist_ok=True)
+            test_net_destruct = get_database('graphs', file_folder, net_destruct+f'.{file_format}')
+            self.gen.generate_graph_from_config(0, format=file_format,
+                                                framework=self.framework,
+                                                noreset=True)
+            select = -1
+            for i, l2 in enumerate(self.gen.init_graph.model_spec['output_layers']):
+                if len(self.gen.init_graph.model_spec['layers'][l2]['children']) == 0:
+                    select = i
+            # break if input layer equals output layer
+            if self.gen.init_graph.model_spec['output_layers'] == self.gen.init_graph.model_spec['input_layers']:
+                break
+
+            #execute_kwargs.update(optimize(test_net_destruct, source_fw="tf", network=net_destruct,
+            #                    input_shape=None, save_folder=get_database('benchmarks', 'tmp')))
+
+            logging.debug(f"Optimization arguments {execute_kwargs}")
+
+            def run_network_wrapped(dummy, kwargs):
+                report_dir = execute(**kwargs)
+                kwargs['report_file'] = report_dir
+
+            if optimize is not None:
+                execute_kwargs.update(optimize(test_net_destruct, source_fw=self.framework, network=net_destruct,
+                                        input_shape=None, save_folder=get_database('benchmarks', 'tmp')))
+
+            logging.debug(f"Optimization arguments {execute_kwargs}")
+            # test_net = get_database('benchmarks','tmp', self.network+'.xml')
+
+            report_file = self.run_network(hardware, execute, execute_kwargs)
+            if report_file is False:
+                return False
+
+            report = parse(report_file)
+            print(report)
+            duration = np.sum(report['time(ms)'])
+            print(duration)
+
+            if select == -1:
+                logging.error(
+                    "All output layers have children. This should not be possible. Check your graph.")
+                exit()
+
+            name = self.gen.init_graph.model_spec['output_layers'][select]
+            rem_layers.append(self.gen.init_graph.model_spec['layers'][name])
+            meas_durations.append(duration)
+            self.gen.init_graph.delete_layer(name)
+            layer_names.append(name)
+
+            print(rem_layers)
+            print(meas_durations)
+            print(layer_names)
+        print(rem_layers)
+        print(meas_durations)
+        print(layer_names)
+        # write to dataframe
+        df = pd.DataFrame()
+        df['layer'] = layer_names
+        df['duration'] = meas_durations
+        df['layer_type'] = [l['type'] for l in rem_layers]
+
+        # store dataframe
+        try:
+            os.makedirs(get_database(
+                'benchmarks', hardware, 'destruct'))
+        except Exception as e:
+            logging.debug(e)
+            pass
+        df.to_pickle(get_database(
+            'benchmarks', hardware, 'destruct', self.network+'.p'))
+
     def run_bench(self, optimize=None, execute=None, parse=None, store=5,
                   hardware='ncs2', start=0, end=None, vis=False,
                   execute_kwargs={}):
@@ -92,7 +202,6 @@ class Graph_matcher():
             end = config_len
         else:
             assert end <= config_len, f"Selected end number {end} larger than config length {config_len}"
-
 
         # load current counter if file exists
         try:
@@ -124,6 +233,8 @@ class Graph_matcher():
             # test_net = get_database('benchmarks','tmp', self.network+'.xml')
 
             report_file = self.run_network(hardware, execute, execute_kwargs)
+            if report_file is False:
+                break
 
             report = parse(report_file)
             # print(report)
@@ -158,16 +269,14 @@ class Graph_matcher():
                         # store value of counter
                         outfile.write(str(i))
 
-
-
         return result
 
     def generate_file_names(self, hardware):
         """Generate file names for different hardware"""
-        if hardware in ['rpi4', 'imx93', 'imx8']:
+        if hardware in ['rpi4', 'imx93', 'imx8', 'gap9']:
             file_format = 'tflite'
             file_folder = 'tf'
-        if hardware in ['xavier']:
+        elif hardware in ['xavier']:
             file_format = 'onnx'
             file_folder = 'onnx'
         else:
@@ -305,7 +414,6 @@ class Graph_matcher():
             logging.debug("Left Layers: %s" % report)
         else:
             logging.debug("No left layers")
-
 
 def measure_annette_network(optimize, execute, parse, network, hardware):
     rate = 500

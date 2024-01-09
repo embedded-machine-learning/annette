@@ -78,7 +78,7 @@ class Graph_generator():
 
         return pt_shape
 
-    def generate_graph_from_config(self, num, framework='tf', format='pb',noreset=False):
+    def generate_graph_from_config(self, num, framework='tf', format='pb', noreset=False, name=False, save_path=None):
         # can be used as to generate input for generate_tf_model
         # execute the function under test
         self.graph = deepcopy(self.init_graph)
@@ -145,9 +145,9 @@ class Graph_generator():
                 #self.print_torch_summary(self.pt_graph, inp_shape)
 
             if self.export_pt_file:
-                self.torch_export_to_pt()
+                self.torch_export_to_pt(save_path=save_path)
             
-            self.torch_export_to_onnx()
+            self.torch_export_to_onnx(save_path=save_path)
 
             # return annette graph output layers and torch model:
             return out, self.pt_graph
@@ -448,8 +448,16 @@ class Graph_generator():
         if len(layer['parents']) == 2:
             inp_name0 = layer['parents'][0]
             inp_name1 = layer['parents'][1]
-            inp0 = self.tf_graph[inp_name0]
-            inp1 = self.tf_graph[inp_name1]
+            # see which input in self.tf_graph.keys()
+            if inp_name0 in self.tf_graph.keys():
+                inp0 = self.tf_graph[inp_name0]
+            else:
+                inp0 = 1.0
+
+            if inp_name1 in self.tf_graph.keys():
+                inp1 = self.tf_graph[inp_name1]
+            else:
+                inp1 = 1.0
             return tf.math.multiply(inp0, inp1, name=name)
         else:
             raise NotImplementedError

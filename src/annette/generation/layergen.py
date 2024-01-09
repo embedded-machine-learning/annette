@@ -381,6 +381,12 @@ class LayerModelGen():
             data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
             print(f"Arguments for layer type {self.layer_type} computed!")
             return True
+        if self.layer_type == "Mul":
+            data['num_inputs'] = data['height']*data['width']*data['channels']
+            data['num_outputs'] = data['height']*data['width']*data['filters']
+            data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
+            print(f"Arguments for layer type {self.layer_type} computed!")
+            return True
         else:
             print(f"layer type {self.layer_type} does not exist yet!") 
             return False

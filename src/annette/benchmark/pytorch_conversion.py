@@ -10,6 +10,23 @@ class Add(nn.Module):
 
     def forward(self, a, b):
         return torch.add(a, b)
+    
+
+class Mul(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, a, b):
+        return torch.mul(a, b)
+
+
+class Resize(nn.Module):
+    def __init__(self, size):
+        super().__init__()
+        self.size = size
+
+    def forward(self, input):
+        return torch.nn.functional.interpolate(input, size=self.size, mode='nearest')
 
 
 class Flatten(nn.Module):
@@ -24,7 +41,6 @@ class Flatten(nn.Module):
         # Use reshape instead of flatten to fix ONNX export problems:
         return torch.reshape(input, (1, -1))
 
-
 class Concat(nn.Module):
     def __init__(self, dim=1):
         super().__init__()
@@ -32,6 +48,24 @@ class Concat(nn.Module):
 
     def forward(self, *inputs):
         return torch.cat(inputs, dim=self.dim)
+
+
+class Squeeze(nn.Module):
+    def __init__(self, dim=1):
+        super().__init__()
+        self.dim = dim
+
+    def forward(self, input):
+        return torch.squeeze(input)
+    
+
+class Reshape(nn.Module):
+    def __init__(self, shape):
+        super().__init__()
+        self.shape = shape
+
+    def forward(self, input):
+        return torch.reshape(input, self.shape)
 
 
 class TorchGraph(nn.Module):
@@ -167,13 +201,41 @@ class TorchGraph(nn.Module):
                 self.nodes[layer_name] = Flatten()
             elif layer_type == 'Softmax':
                 self.nodes[layer_name] = nn.Softmax()
+            elif layer_type == 'Reshape':
+                print(f'Creating reshape layer with shape {layer_info}')
+                self.nodes[layer_name] = Reshape(tuple(layer_info['output_shape']))
+            elif layer_type == 'Squeeze':
+                # make list of dimensions to squeeze
+                input = layer_info['input_shape']
+                output = layer_info['output_shape']
+                # loop over all dimensions and check if they are squeezed
+                dims_to_squeeze = []
+                o = 0
+                for i in range(len(input)):
+                    if input[i] == output[o]:
+                        o += 1
+                    else:
+                        dims_to_squeeze.append(i)
+                self.nodes[layer_name] = Squeeze(tuple(dims_to_squeeze))
+            elif layer_type == 'Relu6':
+                self.nodes[layer_name] = nn.ReLU6()
+            elif layer_type == 'BatchNorm':
+                self.nodes[layer_name] = nn.BatchNorm2d(layer_info['input_shape'][3])
             elif layer_type == 'Concat':
-                dim_map_annette_to_torch = (0, 3, 2, 1) if len(layer_info['output_shape']) == 4 else (0, 2, 1)
+                dim_map_annette_to_torch = (0, 1, 2, 3) if len(layer_info['output_shape']) == 4 else (0, 2, 1)
                 annette_dim = layer_info['axis'] if 'axis' in layer_info.keys() else 1
                 torch_dim = dim_map_annette_to_torch[annette_dim]
                 self.nodes[layer_name] = Concat(torch_dim)
             elif layer_type == 'DataInput':
                 continue # not needed in pytorch
+            elif layer_type == 'Dropout':
+                self.nodes[layer_name] = nn.Identity()
+            elif layer_type == 'Sigmoid':
+                self.nodes[layer_name] = nn.Sigmoid()
+            elif layer_type == 'Mul':
+                self.nodes[layer_name] = Mul()
+            elif layer_type == 'Resize':
+                self.nodes[layer_name] = Resize(tuple(layer_info['output_shape'][1:3][::-1]))
             else:
                 raise NotImplementedError(f'Operation of type {layer_type} is not supported!')
 
