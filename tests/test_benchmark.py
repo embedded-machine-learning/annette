@@ -13,7 +13,6 @@ from annette.graph import AnnetteGraph
 import annette.benchmark.generator as generator
 import annette.benchmark.matcher as matcher 
 
-import annette.hw_modules.hw_modules.ncs2_ov2019 as ncs2
 from annette import get_database
 
 __author__ = "Matthias Wess"
@@ -33,8 +32,8 @@ def test_annette_to_model_from_config(network="cf_reid"):
 
     gen = generator.Graph_generator(network)
     print(gen.__dict__)
-    gen.add_configfile("config_v6.csv")
-    gen.generate_graph_from_config(4002)
+    gen.add_configfile("dummy.csv")
+    gen.generate_graph_from_config(0)
 
     assert True
 
@@ -89,13 +88,13 @@ def test_annette_to_destruct(network="mobilenetv2-7-sim"):
 
 def main():
     print("Main")
-    network = "annette_bench1"
+    network = "annette_bench_conv_max"
     #test_annette_to_model(network)
-    #model = test_annette_to_model_from_config(network)
+    model = test_annette_to_model_from_config(network)
     #test_matcher(network)
     #test_compute_dims(network)
     #test_annette_to_destruct('cf_reid')
-    test_annette_to_destruct()
+    #test_annette_to_destruct()
 
 if __name__ == '__main__':
     main()

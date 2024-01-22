@@ -167,10 +167,14 @@ class Graph_generator():
                     self.tf_graph[layer_n] = self.tf_gen_conv1d(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Relu":
                     self.tf_graph[layer_n] = self.tf_gen_relu(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Sub":
+                    self.tf_graph[layer_n] = self.tf_gen_sub(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Add":
                     self.tf_graph[layer_n] = self.tf_gen_add(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Mul":
                     self.tf_graph[layer_n] = self.tf_gen_mul(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Div":
+                    self.tf_graph[layer_n] = self.tf_gen_div(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "DepthwiseConv":
                     self.tf_graph[layer_n] = self.tf_gen_dwconv(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Pool":
@@ -197,7 +201,20 @@ class Graph_generator():
                     self.tf_graph[layer_n] = self.tf_gen_resize(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "HardSigmoid":
                     self.tf_graph[layer_n] = self.tf_gen_hardsigmoid(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Sigmoid":
+                    self.tf_graph[layer_n] = self.tf_gen_sigmoid(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Dropout":
+                    self.tf_graph[layer_n] = self.tf_gen_dropout(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Split":
+                    self.tf_graph[layer_n] = self.tf_gen_split(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Slice":
+                    self.tf_graph[layer_n] = self.tf_gen_slice(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Transpose":
+                    self.tf_graph[layer_n] = self.tf_gen_transpose(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Max":
+                    self.tf_graph[layer_n] = self.tf_gen_max(layer_attrs, layer_n)
                 else:
+                    print(layer_attrs)
                     logging.debug("layer %s not yet implemented", layer_attrs['type'])
                     exit()
 
@@ -260,6 +277,10 @@ class Graph_generator():
         #converter.optimizations = [tf.lite.Optimize.DEFAULT]
         #converter = tf.compat.v1.lite.TFLiteConverter.from_keras_model_file(model_fn)
         converter.optimizations = [tf.lite.Optimize.DEFAULT]
+        #converter.target_spec.supported_ops = [tf.lite.OpsSet.EXPERIMENTAL_TFLITE_BUILTINS_ACTIVATIONS_INT16_WEIGHTS_INT8]
+        # Set inputs and outputs of network to 8-bit unsigned integer
+        #converter.inference_input_type = tf.int16
+        #converter.inference_output_type = tf.int16
         converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
         # Set inputs and outputs of network to 8-bit unsigned integer
         converter.inference_input_type = tf.uint8
@@ -430,7 +451,25 @@ class Graph_generator():
         inp_name0 = layer['parents'][0]
         inp_name1 = layer['parents'][1]
         inp = [self.tf_graph[x] for x in layer['parents']]
-        return tf.concat(inp, axis=3, name=name)
+        #which axis is different for layer['parents']['output_shape']
+        for i in range(len(layer['output_shape'])):
+            if layer['output_shape'][i] != layer['input_shape'][i]:
+                axis = i
+
+        return tf.concat(inp, axis=axis, name=name)
+
+    def tf_gen_sub(self, layer, name=None):
+        logging.debug("Generating Add with dict: %s" % layer)
+        if len(layer['parents']) == 2:
+            inp_name0 = layer['parents'][0]
+            inp_name1 = layer['parents'][1]
+            inp0 = self.tf_graph[inp_name0]
+            inp1 = self.tf_graph[inp_name1]
+            return tf.add(inp0, -inp1, name=name)
+        else:
+            inp_name0 = layer['parents'][0]
+            inp0 = self.tf_graph[inp_name0]
+            return tf.add(inp0, -tf.random.uniform(layer['input_shape']), name=name)
 
     def tf_gen_add(self, layer, name=None):
         logging.debug("Generating Add with dict: %s" % layer)
@@ -441,7 +480,30 @@ class Graph_generator():
             inp1 = self.tf_graph[inp_name1]
             return tf.add(inp0, inp1, name=name)
         else:
-            raise NotImplementedError
+            inp_name0 = layer['parents'][0]
+            inp0 = self.tf_graph[inp_name0]
+            return tf.add(inp0, tf.random.uniform(layer['input_shape']), name=name)
+
+    def tf_gen_div(self, layer, name=None):
+        logging.debug("Generating Div with dict: %s" % layer)
+        if len(layer['parents']) == 2:
+            inp_name0 = layer['parents'][0]
+            inp_name1 = layer['parents'][1]
+            # see which input in self.tf_graph.keys()
+            if inp_name0 in self.tf_graph.keys():
+                inp0 = self.tf_graph[inp_name0]
+            else:
+                inp0 = 1.0
+
+            if inp_name1 in self.tf_graph.keys():
+                inp1 = self.tf_graph[inp_name1]
+            else:
+                inp1 = 1.0
+            return tf.math.divide(inp0, inp1, name=name)
+        else:
+            inp_name0 = layer['parents'][0]
+            inp0 = self.tf_graph[inp_name0]
+            return tf.math.divide(inp0, 0.123, name=name)
 
     def tf_gen_mul(self, layer, name=None):
         logging.debug("Generating Mul with dict: %s" % layer)
@@ -467,6 +529,12 @@ class Graph_generator():
         inp_name = layer['parents'][0]
         inp = self.tf_graph[inp_name]
         return flatten(inp, name)
+
+    def tf_gen_max(self, layer, name=None):
+        logging.debug("Generating Max with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        return reduce_max(inp, name)
 
     def tf_gen_reshape(self, layer, name=None):
         logging.debug("Generating Reshape with dict: %s" % layer)
@@ -512,6 +580,43 @@ class Graph_generator():
         inp = self.tf_graph[inp_name]
         filters = layer['output_shape'][1]
         return hardsigmoid(inp, name)
+    
+    def tf_gen_dropout(self, layer, name=None):
+        logging.debug("Skipping Dropout with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        return inp
+
+    def tf_gen_slice(self, layer, name=None):
+        logging.debug("Generating Slice with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        layer['input_shape']
+        inp = self.tf_graph[inp_name]
+        return tf.slice(inp, [0 for x in layer['output_shape']], layer['output_shape'])
+        
+    def tf_gen_split(self, layer, name=None):
+        logging.debug("Generating Split as Slice with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        layer['input_shape']
+        inp = self.tf_graph[inp_name]
+        begin = [x-y for x,y in zip(layer['input_shape'], layer['output_shape'])]
+        return tf.slice(inp, begin, layer['output_shape'])
+    
+    def tf_gen_transpose(self, layer, name=None):
+        logging.debug("Generating Transpose with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        print(layer['perm'])
+        print(inp.shape)
+        exit()
+        return tf.transpose(inp, perm=layer['perm'])
+
+    def tf_gen_sigmoid(self, layer, name=None):
+        logging.debug("Generating Sigmoid with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        filters = layer['output_shape'][1]
+        return sigmoid(inp, name)
 
     def tf_gen_matmul(self, layer, name=None):
         logging.debug("Generating MatMul with dict: %s" % layer)
@@ -662,6 +767,11 @@ def softmax(x_tensor, name):
     x = tf.nn.softmax(x_tensor,name=name)
     return x
 
+def sigmoid(x_tensor, name):
+    # Nonlinear activation (Softmax)
+    x = tf.nn.sigmoid(x_tensor,name=name)
+    return x
+
 def hardsigmoid(x_tensor, name):
     # Nonlinear activation (Hard Sigmoid)
     x = tf.keras.activations.hard_sigmoid(x_tensor)
@@ -725,7 +835,12 @@ def flatten(x_tensor, name):
     x = tf.reshape(x_tensor, [1, np.prod(x_tensor.shape.as_list()[1:])], name = name)
     return x
 
+def reduce_max(x_tensor, name):
+    x = tf.math.reduce_max(x_tensor, name=name)
+    return x
+
 def reshape(x_tensor, shape, name):
+    print(shape)
     x = tf.reshape(x_tensor, shape, name = name)
     return x
 

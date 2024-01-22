@@ -9,9 +9,10 @@ from annette.estimation.layers.base import BaseLayer
 class ConvLayer(BaseLayer):
     """ConvLayer estimation"""
 
-    def __init__(self, name, layer_type="Conv", est_type="roofline", op_s=1e9, bandwidth=1e9, architecture=None):
-        super().__init__(name, layer_type, est_type, op_s, bandwidth, architecture)
-        self.y_val = 'ops/s'
+    def __init__(self, name, layer_type="Conv", est_type="roofline", op_s=1e9, bandwidth=1e9, architecture=None, y_val='ops/s'):
+        super().__init__(name, layer_type, est_type, op_s, bandwidth, architecture, y_val)
+        self.y_val = y_val
+        self.layer['y_val'] = y_val
 
     @staticmethod
     def compute_nums(layer):

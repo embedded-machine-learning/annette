@@ -40,7 +40,7 @@ class Layer_model():
         self.layer_dict = {}
         print(self.layer_dict)
 
-    def add_layer(self, name, layer_type, est_type, op_s, bandwidth, architecture=None, est_model=None, conv_dict=None, y_val='ops/s'):
+    def add_layer(self, name, layer_type, est_type, op_s, bandwidth, architecture=None, est_model=None, conv_dict=None, diff_model=None, y_val='ops/s'):
         """add a layer to the model
 
         Args:
@@ -74,14 +74,6 @@ class Layer_model():
             self.layer_dict[layer_type] = self.layer_classes[layer_type](
                 name, layer_type, est_type, op_s, bandwidth, architecture)
 
-            # check which type of estimation
-            if est_type in ["mixed", "statistical"]:
-                print("load statistical estimator: {}...".format(est_model))
-                print("dictionary: {}...".format(conv_dict))
-                self.layer_dict[layer_type].load_estimator(
-                    est_model, conv_dict)
-
-            self.layer_dict[layer_type].y_val = y_val
         else:
             # generate layer
             print("generate {}-layer".format(layer_type))
@@ -89,14 +81,14 @@ class Layer_model():
             self.layer_dict[layer_type] = self.layer_classes['Base'](
                 name, layer_type, est_type, op_s, bandwidth, architecture)
 
-            # check which type of estimation
-            if est_type in ["mixed", "statistical"]:
-                print("load statistical estimator: {}...".format(est_model))
-                print("dictionary: {}...".format(conv_dict))
-                self.layer_dict[layer_type].load_estimator(
-                    est_model, conv_dict)
+        # check which type of estimation
+        if est_type in ["mixed", "statistical"]:
+            print("load statistical estimator: {}...".format(est_model))
+            print("dictionary: {}...".format(conv_dict))
+            self.layer_dict[layer_type].load_estimator(
+                est_model, conv_dict, diff_model)
 
-            self.layer_dict[layer_type].y_val = y_val
+        self.layer_dict[layer_type].y_val = y_val
 
         pass
 
@@ -119,6 +111,10 @@ class Layer_model():
         result_pd['num_inputs'] = np.nan
         result_pd['num_outputs'] = np.nan
         result_pd['num_weights'] = np.nan
+        result_pd['difficulty1'] = np.nan
+        result_pd['difficulty2'] = np.nan
+        result_pd['difficulty3'] = np.nan
+
         # Add info to layer stuff
         """Loop through Layers"""
         start = time.time()
@@ -132,13 +128,13 @@ class Layer_model():
                 layer_info['time_ms'] = \
                     self.layer_dict[layer_info['type']].estimate(layer_info)
             else:
-                layer_info['time_ms']= self.layer_dict['Base'].estimate(layer_info)
+                layer_info['time_ms'] = self.layer_dict['Base'].estimate(layer_info)
 
             def try_read(argument):
                 try:
                     result = layer_info[argument]
                 except:
-                    result = 0
+                    result = layer_info['time_ms']
                 return result 
 
             result[layer_name] = layer_info['time_ms'] 
@@ -148,8 +144,12 @@ class Layer_model():
             n_i = try_read('num_inputs')
             n_o = try_read('num_outputs')
             n_w = try_read('num_weights')
+            n_w = try_read('num_weights')
+            diff = try_read('difficulty')
+            diff2 = try_read('difficulty2')
+            diff3 = try_read('difficulty3')
             result_pd.loc[len(result_pd)] = {"name": layer_name, "type": layer_info['type'],
-                                             "time(ms)": layer_info['time_ms'], "num_ops": gop, "num_inputs": n_i, "num_outputs": n_o, "num_weights": n_w}
+                                             "time(ms)": layer_info['time_ms'], "num_ops": gop, "num_inputs": n_i, "num_outputs": n_o, "num_weights": n_w, "difficulty1": diff, "difficulty2": diff2, "difficulty3": diff3}
 
         end = time.time()
         print("Layermodel executed in", end-start)
@@ -204,19 +204,27 @@ class Layer_model():
             else:
                 arc = None
 
-            if not 'y_val' in layer:
+            if 'y_val' not in layer.keys():
                 layer['y_val'] = None
+            if 'difficulty' not in layer.keys():
+                print(layer)
+                layer['difficulty'] = None
+            else:
+                print(layer)
 
             if layer['est_type'] == 'mixed':
                 output_model.add_layer(layer['name'], layer['layer_type'], layer['est_type'], layer['op_s'], layer['bandwidth'],
                                        architecture=layer['architecture'],
                                        est_model=layer['est_model'],
                                        conv_dict=layer['est_dict'],
-                                       y_val=layer['y_val'])
+                                       y_val=layer['y_val'],
+                                       diff_model=layer['difficulty'])
             elif layer['est_type'] == 'statistical':
                 output_model.add_layer(layer['name'], layer['layer_type'], layer['est_type'], layer['op_s'], layer['bandwidth'],
                                        est_model=layer['est_model'],
-                                       conv_dict=layer['est_dict'])
+                                       conv_dict=layer['est_dict'],
+                                       diff_model=layer['difficulty'],
+                                       y_val=layer['y_val'])
             elif layer['est_type'] == 'refined_roofline':
                 output_model.add_layer(layer['name'], layer['layer_type'], layer['est_type'], layer['op_s'], layer['bandwidth'],
                                        architecture=layer['architecture'])

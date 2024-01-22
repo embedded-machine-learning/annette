@@ -163,20 +163,55 @@ def main():
     # test_all(network='annette_bench_conv_2',config='config_v7_2.csv',start=0, end=10, vis=False)
 
     #test_single_network_destruct(network='cf_reid',config='dummy.csv',start=0, end=10, vis=False)
-    test_single_network_destruct(network='mobilenet_v1',config='dummy.csv',start=0, end=10, vis=False)
-    #test_all(network='vgg16-7',
+    #test_single_network_destruct(network='mobilenet_v1',config='dummy.csv',start=0, end=10, vis=False)
+    #test_all(network='yolov8n-cls-sim',
     #         config='dummy.csv', start=0, end=10, vis=False)
-    exit()
-    test_all(network='annette_bench_conv_3',
+    #test_all(network='yolov8m',
+    #         config='dummy.csv', start=0, end=10, vis=False)
+    #test_all(network='yolov8l',
+    #         config='dummy.csv', start=0, end=10, vis=False)
+    #test_all(network='annette_bench_conv',
+    #         config='mini.csv', start=0, end=10, vis=False)
+    #test_all(network='yolov8n',
+    #         config='dummy.csv', start=0, end=10, vis=False)
+    #test_all(network='deeplabv3_mobilenet_v3_large-sim',
+    #         config='dummy.csv', start=0, end=10, vis=False)
+    #exit()
+    #test_all(network='deeplabv3_mobilenet_v3_large-sim',
+    #         config='dummy.csv', start=0, end=10, vis=False)
+    #test_all(network='annette_bench_conv_padding_in',
+    #         config='config_v7_2.csv', start=0, end=10, vis=False)
+    #test_all(network='annette_bench_conv_padding_out',
+    #         config='config_v7_2.csv', start=0, end=10, vis=False)
+    test_all(network='annette_bench_conv_padding',
              config='config_v7_2.csv', start=0, end=10, vis=False)
-    test_all(network='annette_bench_avg',
-             config='config_v7_2.csv', start=0, end=10, vis=False)
-    test_all(network='annette_bench_conv_avg',
-             config='config_v7_2.csv', start=0, end=10, vis=False)
-    test_all(network='annette_bench_avg',
+    #test_all(network='annette_bench_conv_3',c8sho#C
+
+    #         config='mini.csv', start=0, end=10, vis=False)
+    #test_all(network='annette_bench_conv_4',
+    #         config='mini.csv', start=0, end=10, vis=False)
+    #test_all(network='annette_bench_conv_5',
+    #         config='mini.csv', start=0, end=10, vis=False)
+    test_all(network='annette_bench_conv_padded',
+             config='config_v7_3_sampled.csv', start=0, end=10, vis=False)
+    test_all(network='annette_bench_conv_padded',
+             config='config_v7_3_stride_sampled.csv', start=0, end=10, vis=False)
+    test_all(network='annette_bench_conv_padded',
              config='config_v7_3.csv', start=0, end=10, vis=False)
-    test_all(network='annette_bench_conv_avg',
-             config='config_v7_3.csv', start=0, end=10, vis=False)
+    #test_all(network='yolov8n',
+    #         config='dummy.csv', start=0, end=10, vis=False)
+    #test_all(network='yolov8n-cls-sim',
+    #         config='dummy.csv', start=0, end=10, vis=False)
+    #test_all(network='annette_bench_conv_3',
+    #         config='config_v7_2.csv', start=0, end=10, vis=False)
+    #test_all(network='annette_bench_avg',
+    #         config='config_v7_2.csv', start=0, end=10, vis=False)
+    #test_all(network='annette_bench_conv_avg',
+    #         config='config_v7_2.csv', start=0, end=10, vis=False)
+    #test_all(network='annette_bench_avg',
+    #         config='config_v7_3.csv', start=0, end=10, vis=False)
+    #test_all(network='annette_bench_conv_avg',
+    #         config='config_v7_3.csv', start=0, end=10, vis=False)
     # test_all(network='annette_bench_conv_2',config='config_v7_3.csv',start=0, end=10, vis=False)
     # test_all(network='annette_bench_conv_4',config='config_v7_1.csv',start=0, end=10, vis=False)
     # test_net(network='reid')

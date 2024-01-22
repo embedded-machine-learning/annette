@@ -8,9 +8,9 @@ from annette.estimation.layers.base import BaseLayer
 class FullyConnectedLayer(BaseLayer):
     """FullyConnected estimation"""
 
-    def __init__(self, name, layer_type="FullyConnected", est_type="roofline", op_s=1e9, bandwidth=1e9, architecture=None):
+    def __init__(self, name, layer_type="FullyConnected", est_type="roofline", op_s=1e9, bandwidth=1e9, architecture=None, y_val='ops/s'):
         super().__init__(name, layer_type, est_type, op_s, bandwidth, architecture)
-        self.y_val = 'ops/s'
+        self.y_val = y_val
 
     @staticmethod
     def compute_nums(layer):

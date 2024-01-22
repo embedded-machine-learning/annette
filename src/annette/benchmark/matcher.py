@@ -375,10 +375,16 @@ class Graph_matcher():
                         'filters': l_attr['output_shape'][1],
                     })
                 elif l_attr['type'] == 'Concat':
+                    def try_else_0(x,y):
+                        try:
+                            return x[y]
+                        except Exception as e:
+                            logging.debug(e)
+                            return 0
                     tmp.update({
-                        'width': l_attr['output_shape'][1],
-                        'height': l_attr['output_shape'][2],
-                        'channels': l_attr['output_shape'][3],
+                        'width': try_else_0(l_attr['output_shape'],1),
+                        'height': try_else_0(l_attr['output_shape'],2),
+                        'channels': try_else_0(l_attr['output_shape'],3)
                     })
 
                 def add_to_tmp(report, report_name, key):

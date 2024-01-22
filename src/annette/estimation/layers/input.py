@@ -10,7 +10,7 @@ from annette.estimation.layers.base import BaseLayer
 class InputLayer(BaseLayer):
     """InputLayer estimation"""
 
-    def __init__(self, name, layer_type="DataInput", est_type="roofline", op_s=1e9, bandwidth=1e9, architecture=None):
+    def __init__(self, name, layer_type="DataInput", est_type="roofline", op_s=1e9, bandwidth=1e9, architecture=None, y_val='ops/s'):
         super().__init__(name, layer_type, est_type, op_s, bandwidth, architecture)
 
     @staticmethod

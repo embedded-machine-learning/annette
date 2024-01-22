@@ -15,6 +15,9 @@ from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import PolynomialFeatures
+from sklearn.ensemble import RandomForestRegressor
+from crepes import ConformalRegressor, WrapRegressor
+from crepes.extras import DifficultyEstimator
 from scipy.optimize import curve_fit
 
 
@@ -28,7 +31,7 @@ class HardwareModelGen():
     
 
     def add_layer(self, name = "Base", layer_type = "Base", est_type = "roofline", architecture = None,
-                  data = None, sweep_data = None, est_dict = None, regressor = None):
+                  data = None, sweep_data = None, est_dict = None, regressor = None, y_val = None):
         """Add a layer to the hardware model"""
         self.layer_dict[name] = LayerModelGen(name, layer_type, est_type, architecture)
 
@@ -45,7 +48,10 @@ class HardwareModelGen():
         self.layer_dict[name].compute_parameters(sweep = True)
 
         self.layer_dict[name].generate_architecture()
-        y_val = 'ops/s'
+        if y_val is None:
+            y_val = 'ops/s'
+        else:
+            self.layer_dict[name].y_val = y_val
 
         if est_dict is None:
             """get default estimation dictionary for all columns in data that are not None"""
@@ -195,6 +201,7 @@ class LayerModelGen():
         set_dict('op_s', 'op_s')
         set_dict('bandwidth', 'bandwidth')
         set_dict('architecture', 'architecture')
+        set_dict('y_val', 'y_val')
 
         set_dict('est_type', 'estimation')
         set_dict('est_dict', 'est_dict')
@@ -215,7 +222,7 @@ class LayerModelGen():
         go = gen_arc(self.sweep_data, layer_type=self.layer_type, fix_params_dict=fix_params_dict)
         self.architecture.update(go.gen_archarchitecture())
 
-    def generate_estimator(self, est_dict=None, est_model=None, y_val=None, regressor=None, test_size=None):
+    def generate_estimator(self, est_dict=None, est_model=None, y_val=None, regressor=None, difficulty=None, test_size=None):
         """[summary]
 
         Args:
@@ -239,30 +246,96 @@ class LayerModelGen():
         if isinstance(self.est_dict, dict):
             for k, v in self.est_dict.items():
                 temp.append(v)
-        print(self.est_dict)
 
+        if 'prob' in self.data.columns:
+            self.data_t = self.data[self.data['prob'] == 0.50]
+        else:
+            self.data_t = self.data
         X = self.data[temp].values
+        X_t = self.data_t[temp].values
         if y_val is None:
             y_val = 'ops/s'
-        self.layer_dict['y_val'] = y_val
-        y = self.data[y_val].values.reshape(-1,1)
+            self.layer_dict['y_val'] = y_val
+            y = self.data[y_val].values.reshape(-1,1)
+            y_t = self.data_t[y_val].values.reshape(-1,1)
+        elif y_val == 's/ops':
+            y = self.data['ops/s'].values.reshape(-1,1)
+            y_t = 1/self.data_t['ops/s'].values.reshape(-1,1)*1e9
+            y = 1/y*1e9
+        else:
+            y_val = 'ops/s'
+            self.layer_dict['y_val'] = y_val
+            y = self.data[y_val].values.reshape(-1,1)
+            y_t = self.data_t[y_val].values.reshape(-1,1)
+
+        print(X.shape, y.shape)
+        X = X.astype(np.float32)
+        X_t = X_t.astype(np.float32)
+        # find indices of rows with unique values
+        #X_unique, idx = np.unique(X, return_index=True, axis=0)
+        X_unique, idx = np.unique(X_t, return_index=True, axis=0)
+        print(X_unique.shape, idx.shape)
+        # select and keep dimensions
+        #y_unique = y[idx,:].reshape(-1,1)
+        y_unique = y_t[idx,:].reshape(-1,1)
+        print(X_unique.shape, y_unique.shape)
+        
+        def get_indices(all, unique):
+            indices = []
+            for row in all:
+                indices.append(np.where((unique == row).all(axis=1))[0])
+            #concat
+            indices = np.concatenate(indices)
+            return indices
 
         if not test_size:
-            test_size = 0.1
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
+            test_size = 0.05
+        X_pre_train, X_test, y_pre_train, y_test = train_test_split(X_unique, y_unique, test_size=test_size, random_state=42)
+        X_train, X_cal, y_train, y_cal = train_test_split(X_pre_train, y_pre_train, test_size=0.3)
+        # get indices of train and cal data
+        #X_train_indices = get_indices(X, X_train)
+        X_cal_indices = get_indices(X, X_cal)
+        #X_test_indices = get_indices(X, X_test)
+        
+        # get data for train and cal
+        #X_train = X[X_train_indices]; y_train = y[X_train_indices]
+        X_cal = X[X_cal_indices]; y_cal = y[X_cal_indices]
+        #X_test = X[X_test_indices]; y_test = y[X_test_indices]
+        print(X_train.shape, y_train.shape)
+        print(X_cal.shape, y_cal.shape)
+        print(X_test.shape, y_test.shape)
 
+
+        regressor = None
         if regressor is None:
-            self.regressor = RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=50, random_state=False, verbose=False, criterion='squared_error')
+            self.regressor = WrapRegressor(RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=50, random_state=False, verbose=False, criterion='squared_error'))
+            self.regressor2 = WrapRegressor(RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=50, random_state=False, verbose=False, criterion='squared_error'))
         else:
-            self.regressor = regressor
+            self.regressor = copy.deepcopy(regressor)
+            self.regressor2 = copy.deepcopy(regressor)
 
-        print(regressor)
+        difficulty = None
+        if difficulty is None:
+            self.difficulty = DifficultyEstimator()
+            self.difficulty2 = DifficultyEstimator()
+        else:
+            self.difficulty = difficulty
+            self.difficulty2 = copy.deepcopy(difficulty)
 
         y_train = y_train.reshape(-1)
         y_test = y_test.reshape(-1)
+        y_cal = y_cal.reshape(-1)
 
-        self.regressor.fit(X_train[:,:], y_train[:]).score(X_test, y_test) #training the algorithm
+        self.regressor.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
+        self.regressor2.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
+        self.difficulty2.fit(X_train[:, :], y_train[:])
+        self.difficulty.fit(X_train[:, :])
+        sigmas_cal = self.difficulty.apply(X_cal)
+        sigmas_cal2 = self.difficulty2.apply(X_cal)
+        self.regressor.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal)
+        self.regressor2.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal2)
         y_pred = self.regressor.predict(X_test)
+        y_pred2 = self.regressor.predict(X_test)
         print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred)/1e9)
         print('R2 Score:', metrics.r2_score(y_test, y_pred))
         print('Mean Absolute Error Scaled:', metrics.mean_absolute_error(y_test, y_pred)/self.op_s)
@@ -273,6 +346,15 @@ class LayerModelGen():
             print('Metrics for seconds:')
             y_test = X_test[:,0] / y_test
             y_pred = X_test[:,0] / y_pred
+            print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
+            print('R2 Score:', metrics.r2_score(y_test, y_pred))
+            print('Mean Absolute Error Scaled:', metrics.mean_absolute_error(y_test, y_pred)/self.op_s)
+            print(f'Mean abs. percentage error: {metrics.mean_absolute_percentage_error(y_test, y_pred) :.2%}')
+        elif y_val == 's/ops':
+            # Calculates num_ops / ops_per_sec = secs:
+            print('Metrics for seconds:')
+            y_test = X_test[:,0] * y_test
+            y_pred = X_test[:,0] * y_pred
             print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
             print('R2 Score:', metrics.r2_score(y_test, y_pred))
             print('Mean Absolute Error Scaled:', metrics.mean_absolute_error(y_test, y_pred)/self.op_s)
@@ -293,6 +375,25 @@ class LayerModelGen():
         print("Estimator stored in "+est_model+ "!\n")
         self.est_model = est_model
         self.layer_dict['est_model'] = est_model
+        est_model2 = est_model.replace('.sav', '2.sav')
+        with open(est_model2, 'wb') as out_file:
+            pkl.dump(self.regressor2, out_file)
+        self.layer_dict['est_model2'] = est_model2
+        print("Estimator2 stored in "+est_model2+ "!\n")
+        if self.difficulty is not None:
+            diff1 = est_model.replace('.sav', '_difficulty.sav')
+            with open(diff1, 'wb') as out_file:
+                pkl.dump(self.difficulty, out_file)
+            print("Difficulty stored in "+diff1+ "!\n")
+            diff2 = est_model.replace('.sav', '_difficulty2.sav')
+            with open(diff2, 'wb') as out_file:
+                pkl.dump(self.difficulty2, out_file)
+            print("Difficulty2 stored in "+diff2+ "!\n")
+            self.difficulty = diff1  
+            self.difficulty2 = diff2  
+            self.layer_dict['difficulty'] = diff1
+            self.layer_dict['difficulty2'] = diff2
+        return True
   
     def trans_Conv(self):
         print("Translate prediction parameters to Annette format")

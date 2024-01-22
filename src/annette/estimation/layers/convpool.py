@@ -12,10 +12,11 @@ from annette.estimation.layers.base import BaseLayer
 class ConvPoolLayer(BaseLayer):
     """ConvPoolLayer estimation"""
 
-    def __init__(self, name, layer_type = "Conv", est_type = "roofline", op_s = 1*1e9, bandwidth = 1*1e9, architecture = None):
+    def __init__(self, name, layer_type = "Conv", est_type = "roofline", op_s = 1*1e9, bandwidth = 1*1e9, architecture = None, y_val = 'ops/s'):
         self.name = name
         self.layer_type = layer_type
         self.estimation = est_type
+        self.y_val = y_val
 
         # Model parameters
         self.op_s = op_s 

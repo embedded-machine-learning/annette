@@ -12,11 +12,11 @@ from annette import get_database
 class BaseLayer(object):
     """BaseLayer estimation"""
 
-    def __init__(self, name, layer_type="Base", est_type="roofline", op_s=1e9, bandwidth=1e9, architecture=None):
+    def __init__(self, name, layer_type="Base", est_type="roofline", op_s=1e9, bandwidth=1e9, architecture=None, y_val='ops/s'):
         self.name = name
         self.layer_type = layer_type
         self.estimation = est_type
-        
+        self.y_val = y_val
         # Model parameters
         self.op_s = op_s 
         self.bandwidth = bandwidth 
@@ -24,13 +24,14 @@ class BaseLayer(object):
             self.architecture = {"bit_act": 8, "bit_weights": 8}
         else:
             self.architecture = architecture
-
+        self.confidence = 0.8
         # Layer parameters
         self.layer = {}
         self.layer['num_inputs'] = None
         self.layer['num_outputs'] = None
         self.layer['num_ops'] = None
         self.layer['parents'] = None
+        self.layer['y_val'] = y_val
         
         # Layer description dictionary, add information for rebuilding here
         self.desc = self.gen_dict()
@@ -143,15 +144,83 @@ class BaseLayer(object):
 
     def estimate_statistical(self):
         self.estimate_roofline()
-
+        result = [1.]
         if hasattr(self, 'est_dict') and hasattr(self, 'est_model'):
             vector = self.build_vector(self.est_dict)
             result = self.est_model.predict(vector)
-            self.layer['time_ms'] = self.layer['num_ops'] / result[0] * 1e3
+            if self.y_val == 's/ops':
+                self.layer['time_ms'] = self.layer['num_ops'] * result[0] / 1e6
+            else:
+                self.layer['time_ms'] = self.layer['num_ops'] / result[0] * 1e3
         else:
             logging.error('Layer type does not have est_dict or est_model!')
 
-        print(self.est_model.__dict__)
+        if hasattr(self, 'est_dict') and hasattr(self, 'diff_model'):
+            if self.diff_model is None:
+                logging.error('No difficulty model defined!')
+                return self.layer['time_ms']
+            else:
+                vector = self.build_vector(self.est_dict)
+                sigmas = self.diff_model.apply(vector)
+                r = np.arange(0.95, 0.04, -0.05)
+                self.layer['difficulty'] = [0]*(len(r)*2+1)
+                for i, a in enumerate(r):
+
+                    if self.y_val == 's/ops':
+                        ints = self.est_model.predict_int(vector, sigmas=sigmas, #y_min=0,
+                                                      confidence=a)[0]
+                        self.layer['difficulty'][i] = self.layer['num_ops'] * ints[0] / 1e6
+                        self.layer['difficulty'][len(r)*2-i] = self.layer['num_ops'] * ints[1] / 1e6
+                    else:
+                        ints = self.est_model.predict_int(vector, sigmas=sigmas,
+                                                      y_min=result[0]/100, confidence=a)[0]
+                        self.layer['difficulty'][i] = self.layer['num_ops'] / ints[1] * 1e3
+                        self.layer['difficulty'][len(r)*2-i] = self.layer['num_ops'] / ints[0] * 1e3
+                self.layer['difficulty'][len(r)] = self.layer['time_ms']
+                tmp = 0
+                for i in range(len(self.layer['difficulty'])-1,-1,-1):
+                    # if self.layer['difficulty'][i] is inf
+                    if self.layer['difficulty'][i] == np.inf:
+                        self.layer['difficulty'][i] = tmp
+                    tmp = self.layer['difficulty'][i]
+
+            if self.diff_model2 is None:
+                logging.error('No difficulty2 model defined!')
+                return self.layer['time_ms']
+            else:
+                vector = self.build_vector(self.est_dict)
+                sigmas = self.diff_model2.apply(vector)
+                r = np.arange(0.95, 0.04, -0.05)
+                self.layer['difficulty2'] = [0]*(len(r)*2+1)
+                self.layer['difficulty3'] = [0]*(len(r)*2+1)
+                for i, a in enumerate(r):
+                    if self.y_val == 's/ops':
+                        ints = self.est_model2.predict_int(vector, sigmas=sigmas, #y_min=0, 
+                                                      confidence=a)[0]
+                        self.layer['difficulty2'][i] = self.layer['num_ops'] * ints[0] / 1e6
+                        self.layer['difficulty2'][len(r)*2-i] = self.layer['num_ops'] * ints[1] / 1e6
+                    else:
+                        ints = self.est_model2.predict_int(vector, sigmas=sigmas,
+                                                      y_min=result[0]/100, confidence=a)[0]
+                        self.layer['difficulty2'][i] = self.layer['num_ops'] / ints[1] * 1e3
+                        self.layer['difficulty2'][len(r)*2-i] = self.layer['num_ops'] / ints[0] * 1e3
+                self.layer['difficulty2'][len(r)] = self.layer['time_ms']
+                tmp = 0
+                for i in range(len(self.layer['difficulty2'])-1,-1,-1):
+                    # if self.layer['difficulty'][i] is inf
+                    if self.layer['difficulty2'][i] == np.inf:
+                        self.layer['difficulty2'][i] = tmp
+                    tmp = self.layer['difficulty2'][i]
+                self.layer['difficutlty3'] = self.layer['difficulty2']
+                # now select worst case from both models and store in difficulty3
+                for i in range(len(self.layer['difficulty'])):
+                    if i > int(len(self.layer['difficulty2'])/2):
+                        self.layer['difficulty3'][i] = np.max([self.layer['difficulty'][i], self.layer['difficulty2'][i]])
+                    else:
+                        self.layer['difficulty3'][i] = np.min([self.layer['difficulty'][i], self.layer['difficulty2'][i]])     
+            
+        #print(self.layer['difficulty2'])
+        #print(self.est_model.__dict__)
         return self.layer['time_ms']
 
     def estimate_mixed(self):
@@ -172,12 +241,32 @@ class BaseLayer(object):
 
         return self.layer['time_ms']
 
-    def load_estimator(self, est_model=None, est_dict=None):
+    def load_estimator(self, est_model=None, est_dict=None, diff_model=None):
         if est_model != None:
             self.est_model = pickle.load(open(get_database(est_model), 'rb'))
             self.desc['est_model'] = est_model
+            try:
+                est_model2 = est_model.replace('.sav', '2.sav')
+                self.est_model2 = pickle.load(open(get_database(est_model2), 'rb'))
+                self.desc['est_model2'] = est_model2
+            except:
+                self.est_model2 = None
+                self.desc['est_model2'] = None
         else:
             return False
+
+        if diff_model is not None:
+            self.diff_model = pickle.load(open(get_database(diff_model), 'rb'))
+            self.desc['difficulty'] = diff_model
+            try:
+                diff_model2 = diff_model.replace('.sav', '2.sav')
+                self.diff_model2 = pickle.load(open(get_database(diff_model2), 'rb'))
+                self.desc['difficulty2'] = diff_model2
+            except:
+                self.diff_model2 = None
+                self.desc['difficulty2'] = None
+        else:
+            self.diff_model = None
 
         self.est_dict = est_dict
         self.desc['est_dict'] = est_dict
@@ -206,5 +295,6 @@ class BaseLayer(object):
                 "est_type": self.estimation,
                 "op_s": self.op_s,
                 "bandwidth": self.bandwidth,
-                "architecture": self.architecture}
+                "architecture": self.architecture,
+                "y_val": self.y_val}
         return desc
