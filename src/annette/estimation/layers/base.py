@@ -154,6 +154,7 @@ class BaseLayer(object):
                 self.layer['time_ms'] = self.layer['num_ops'] / result[0] * 1e3
         else:
             logging.error('Layer type does not have est_dict or est_model!')
+        y_hat_test = result
 
         if hasattr(self, 'est_dict') and hasattr(self, 'diff_model'):
             if self.diff_model is None:
@@ -167,13 +168,21 @@ class BaseLayer(object):
                 for i, a in enumerate(r):
 
                     if self.y_val == 's/ops':
-                        ints = self.est_model.predict_int(vector, sigmas=sigmas, #y_min=0,
-                                                      confidence=a)[0]
+                        ints = self.diff_model['reg'].predict(y_hat_test,
+                                                        sigmas=sigmas,
+                                                        #y_min=0, y_max=1,
+                                                        confidence=a)[0]
+                        #ints = self.est_model.predict_int(vector, sigmas=sigmas, #y_min=0,
+                        #                              confidence=a)[0]
                         self.layer['difficulty'][i] = self.layer['num_ops'] * ints[0] / 1e6
                         self.layer['difficulty'][len(r)*2-i] = self.layer['num_ops'] * ints[1] / 1e6
                     else:
-                        ints = self.est_model.predict_int(vector, sigmas=sigmas,
-                                                      y_min=result[0]/100, confidence=a)[0]
+                        ints = self.diff_model['reg'].predict(y_hat_test,
+                                                        sigmas=sigmas,
+                                                        #y_min=0, y_max=1,
+                                                        confidence=a)[0]
+                        #ints = self.est_model.predict_int(vector, sigmas=sigmas,
+                        #                              y_min=result[0]/100, confidence=a)[0]
                         self.layer['difficulty'][i] = self.layer['num_ops'] / ints[1] * 1e3
                         self.layer['difficulty'][len(r)*2-i] = self.layer['num_ops'] / ints[0] * 1e3
                 self.layer['difficulty'][len(r)] = self.layer['time_ms']
@@ -195,11 +204,19 @@ class BaseLayer(object):
                 self.layer['difficulty3'] = [0]*(len(r)*2+1)
                 for i, a in enumerate(r):
                     if self.y_val == 's/ops':
-                        ints = self.est_model2.predict_int(vector, sigmas=sigmas, #y_min=0, 
-                                                      confidence=a)[0]
+                        ints = self.diff_model2['reg'].predict(y_hat_test,
+                                                        sigmas=sigmas,
+                                                        #y_min=0, y_max=1,
+                                                        confidence=a)[0]
+                        #ints = self.est_model2.predict_int(vector, sigmas=sigmas, #y_min=0, 
+                        #                              confidence=a)[0]
                         self.layer['difficulty2'][i] = self.layer['num_ops'] * ints[0] / 1e6
                         self.layer['difficulty2'][len(r)*2-i] = self.layer['num_ops'] * ints[1] / 1e6
                     else:
+                        ints = self.diff_model2['reg'].predict(y_hat_test,
+                                                        sigmas=sigmas,
+                                                        #y_min=0, y_max=1,
+                                                        confidence=a)[0]
                         ints = self.est_model2.predict_int(vector, sigmas=sigmas,
                                                       y_min=result[0]/100, confidence=a)[0]
                         self.layer['difficulty2'][i] = self.layer['num_ops'] / ints[1] * 1e3

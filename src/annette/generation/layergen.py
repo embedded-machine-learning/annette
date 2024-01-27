@@ -271,6 +271,11 @@ class LayerModelGen():
         print(X.shape, y.shape)
         X = X.astype(np.float32)
         X_t = X_t.astype(np.float32)
+
+        #export X and y
+        np.save(get_database('benchmarks', 'tmp', 'X.npy'), X)
+        np.save(get_database('benchmarks', 'tmp', 'y.npy'), y)
+
         # find indices of rows with unique values
         #X_unique, idx = np.unique(X, return_index=True, axis=0)
         X_unique, idx = np.unique(X_t, return_index=True, axis=0)
@@ -293,14 +298,14 @@ class LayerModelGen():
         X_pre_train, X_test, y_pre_train, y_test = train_test_split(X_unique, y_unique, test_size=test_size, random_state=42)
         X_train, X_cal, y_train, y_cal = train_test_split(X_pre_train, y_pre_train, test_size=0.3)
         # get indices of train and cal data
-        #X_train_indices = get_indices(X, X_train)
+        X_train_indices = get_indices(X, X_train)
         X_cal_indices = get_indices(X, X_cal)
-        #X_test_indices = get_indices(X, X_test)
+        X_test_indices = get_indices(X, X_test)
         
         # get data for train and cal
-        #X_train = X[X_train_indices]; y_train = y[X_train_indices]
+        X_train = X[X_train_indices]; y_train = y[X_train_indices]
         X_cal = X[X_cal_indices]; y_cal = y[X_cal_indices]
-        #X_test = X[X_test_indices]; y_test = y[X_test_indices]
+        X_test = X[X_test_indices]; y_test = y[X_test_indices]
         print(X_train.shape, y_train.shape)
         print(X_cal.shape, y_cal.shape)
         print(X_test.shape, y_test.shape)
@@ -330,6 +335,7 @@ class LayerModelGen():
         y_test = y_test.reshape(-1)
         y_cal = y_cal.reshape(-1)
 
+
         self.regressor.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
         self.regressor_std.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
         self.difficulty['diff'].fit(X_train[:, :], scaler=True)
@@ -340,10 +346,10 @@ class LayerModelGen():
         residuals_std_cal = y_cal - y_std_hat_cal
         sigmas_cal = self.difficulty['diff'].apply(X_cal)
         sigmas_cal_std = self.difficulty_std['diff'].apply(X_cal)
-        self.regressor.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal)
-        self.regressor_std.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal_std)
         self.difficulty['reg'].fit(residuals_cal, sigmas=sigmas_cal)
         self.difficulty_std['reg'].fit(residuals_std_cal, sigmas=sigmas_cal_std)
+        self.regressor.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal)
+        self.regressor_std.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal_std)
         y_pred = self.regressor.predict(X_test)
         y_pred_std = self.regressor.predict(X_test)
         sigmas_test = self.difficulty['diff'].apply(X_test)
