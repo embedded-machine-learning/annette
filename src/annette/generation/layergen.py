@@ -308,34 +308,56 @@ class LayerModelGen():
 
         regressor = None
         if regressor is None:
-            self.regressor = WrapRegressor(RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=50, random_state=False, verbose=False, criterion='squared_error'))
-            self.regressor2 = WrapRegressor(RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=50, random_state=False, verbose=False, criterion='squared_error'))
+            self.regressor = WrapRegressor(RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=500, random_state=False, verbose=False, criterion='squared_error', oob_score=True))
+            self.regressor_std = WrapRegressor(RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=500, random_state=False, verbose=False, criterion='squared_error', oob_score=True))
         else:
             self.regressor = copy.deepcopy(regressor)
-            self.regressor2 = copy.deepcopy(regressor)
+            self.regressor_std = copy.deepcopy(regressor)
 
         difficulty = None
         if difficulty is None:
-            self.difficulty = DifficultyEstimator()
-            self.difficulty2 = DifficultyEstimator()
+            self.difficulty = {}
+            self.difficulty_std = {}
+            self.difficulty['diff'] = DifficultyEstimator()
+            self.difficulty_std['diff'] = DifficultyEstimator()
+            self.difficulty['reg'] = ConformalRegressor()
+            self.difficulty_std['reg'] = ConformalRegressor()
         else:
             self.difficulty = difficulty
-            self.difficulty2 = copy.deepcopy(difficulty)
+            self.difficulty_std = copy.deepcopy(difficulty)
 
         y_train = y_train.reshape(-1)
         y_test = y_test.reshape(-1)
         y_cal = y_cal.reshape(-1)
 
         self.regressor.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
-        self.regressor2.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
-        self.difficulty2.fit(X_train[:, :], y_train[:])
-        self.difficulty.fit(X_train[:, :])
-        sigmas_cal = self.difficulty.apply(X_cal)
-        sigmas_cal2 = self.difficulty2.apply(X_cal)
+        self.regressor_std.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
+        self.difficulty['diff'].fit(X_train[:, :], scaler=True)
+        self.difficulty_std['diff'].fit(X_train[:, :], y_train[:], scaler=True)
+        y_hat_cal = self.regressor.predict(X_cal)
+        y_std_hat_cal = self.regressor_std.predict(X_cal)
+        residuals_cal = y_cal - y_hat_cal
+        residuals_std_cal = y_cal - y_std_hat_cal
+        sigmas_cal = self.difficulty['diff'].apply(X_cal)
+        sigmas_cal_std = self.difficulty_std['diff'].apply(X_cal)
         self.regressor.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal)
-        self.regressor2.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal2)
+        self.regressor_std.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal_std)
+        self.difficulty['reg'].fit(residuals_cal, sigmas=sigmas_cal)
+        self.difficulty_std['reg'].fit(residuals_std_cal, sigmas=sigmas_cal_std)
         y_pred = self.regressor.predict(X_test)
-        y_pred2 = self.regressor.predict(X_test)
+        y_pred_std = self.regressor.predict(X_test)
+        sigmas_test = self.difficulty['diff'].apply(X_test)
+        sigmas_test_std = self.difficulty_std['diff'].apply(X_test)
+        y_pred_intervals = self.difficulty['reg'].predict(y_pred,
+                                                          sigmas=sigmas_test,
+                                                          y_min=0, y_max=1)
+        y_pred_intervals_std = self.difficulty_std['reg'].predict(y_pred_std,
+                                                            sigmas=sigmas_test_std,
+                                                            y_min=0, y_max=1)
+        # check percentage of points within 95% confidence interval
+        print(f'Percentage of points within 95% confidence interval: {np.mean((y_test >= y_pred_intervals[:,0]) & (y_test <= y_pred_intervals[:,1])) :.2%}')
+        print(f'Percentage of points within 95% confidence interval for std: {np.mean((y_test >= y_pred_intervals_std[:,0]) & (y_test <= y_pred_intervals_std[:,1])) :.2%}')
+        
         print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred)/1e9)
         print('R2 Score:', metrics.r2_score(y_test, y_pred))
         print('Mean Absolute Error Scaled:', metrics.mean_absolute_error(y_test, y_pred)/self.op_s)
@@ -377,7 +399,7 @@ class LayerModelGen():
         self.layer_dict['est_model'] = est_model
         est_model2 = est_model.replace('.sav', '2.sav')
         with open(est_model2, 'wb') as out_file:
-            pkl.dump(self.regressor2, out_file)
+            pkl.dump(self.regressor_std, out_file)
         self.layer_dict['est_model2'] = est_model2
         print("Estimator2 stored in "+est_model2+ "!\n")
         if self.difficulty is not None:
@@ -385,14 +407,14 @@ class LayerModelGen():
             with open(diff1, 'wb') as out_file:
                 pkl.dump(self.difficulty, out_file)
             print("Difficulty stored in "+diff1+ "!\n")
-            diff2 = est_model.replace('.sav', '_difficulty2.sav')
+            diff2 = est_model.replace('.sav', '_difficulty_std.sav')
             with open(diff2, 'wb') as out_file:
-                pkl.dump(self.difficulty2, out_file)
-            print("Difficulty2 stored in "+diff2+ "!\n")
+                pkl.dump(self.difficulty_std, out_file)
+            print("Difficulty_std stored in "+diff2+ "!\n")
             self.difficulty = diff1  
-            self.difficulty2 = diff2  
+            self.difficulty_std = diff2  
             self.layer_dict['difficulty'] = diff1
-            self.layer_dict['difficulty2'] = diff2
+            self.layer_dict['difficulty_std'] = diff2
         return True
   
     def trans_Conv(self):

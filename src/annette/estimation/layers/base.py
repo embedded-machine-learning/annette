@@ -161,7 +161,7 @@ class BaseLayer(object):
                 return self.layer['time_ms']
             else:
                 vector = self.build_vector(self.est_dict)
-                sigmas = self.diff_model.apply(vector)
+                sigmas = self.diff_model['diff'].apply(vector)
                 r = np.arange(0.95, 0.04, -0.05)
                 self.layer['difficulty'] = [0]*(len(r)*2+1)
                 for i, a in enumerate(r):
@@ -185,11 +185,11 @@ class BaseLayer(object):
                     tmp = self.layer['difficulty'][i]
 
             if self.diff_model2 is None:
-                logging.error('No difficulty2 model defined!')
+                logging.error('No difficulty_std model defined!')
                 return self.layer['time_ms']
             else:
                 vector = self.build_vector(self.est_dict)
-                sigmas = self.diff_model2.apply(vector)
+                sigmas = self.diff_model2['diff'].apply(vector)
                 r = np.arange(0.95, 0.04, -0.05)
                 self.layer['difficulty2'] = [0]*(len(r)*2+1)
                 self.layer['difficulty3'] = [0]*(len(r)*2+1)
@@ -259,12 +259,12 @@ class BaseLayer(object):
             self.diff_model = pickle.load(open(get_database(diff_model), 'rb'))
             self.desc['difficulty'] = diff_model
             try:
-                diff_model2 = diff_model.replace('.sav', '2.sav')
+                diff_model2 = diff_model.replace('.sav', '_std.sav')
                 self.diff_model2 = pickle.load(open(get_database(diff_model2), 'rb'))
-                self.desc['difficulty2'] = diff_model2
+                self.desc['difficulty_std'] = diff_model2
             except:
                 self.diff_model2 = None
-                self.desc['difficulty2'] = None
+                self.desc['difficulty_std'] = None
         else:
             self.diff_model = None
 
