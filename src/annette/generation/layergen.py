@@ -302,6 +302,10 @@ class LayerModelGen():
         X_cal_indices = get_indices(X, X_cal)
         X_test_indices = get_indices(X, X_test)
         
+        print("Multiples of unique rows in train data: ", X.shape[0]//X_unique.shape[0])
+        k = 25
+        k_corr = k*(X.shape[0]//X_unique.shape[0])
+
         # get data for train and cal
         X_train = X[X_train_indices]; y_train = y[X_train_indices]
         X_cal = X[X_cal_indices]; y_cal = y[X_cal_indices]
@@ -329,6 +333,10 @@ class LayerModelGen():
             self.difficulty_std['diff'] = DifficultyEstimator()
             self.difficulty['reg'] = ConformalRegressor()
             self.difficulty_std['reg'] = ConformalRegressor()
+            self.difficulty['diff2'] = DifficultyEstimator()
+            self.difficulty_std['diff2'] = DifficultyEstimator()
+            self.difficulty['reg2'] = ConformalRegressor()
+            self.difficulty_std['reg2'] = ConformalRegressor()
         else:
             self.difficulty = difficulty
             self.difficulty_std = copy.deepcopy(difficulty)
@@ -340,18 +348,17 @@ class LayerModelGen():
 
         self.regressor.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
         self.regressor_std.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
-        self.difficulty['diff'].fit(X_train[:, :], scaler=True)
-        self.difficulty_std['diff'].fit(X_train[:, :], y_train[:], scaler=True)
         y_train_oob = self.regressor_learner.oob_prediction_
         y_std_train_oob = self.regressor_std_learner.oob_prediction_
         residuals_train = y_train - y_train_oob
         residuals_std_train = y_train - y_std_train_oob
+
+        self.difficulty['diff'].fit(X=X_train[:, :], scaler=True, k=k_corr)
+        self.difficulty_std['diff'].fit(X=X_train[:, :], residuals=y_train[:], scaler=True, k=k_corr)
         sigmas_train = self.difficulty['diff'].apply(X_train)
         sigmas_train_std = self.difficulty_std['diff'].apply(X_train)
         self.difficulty['reg'].fit(residuals_train, sigmas=sigmas_train)
         self.difficulty_std['reg'].fit(residuals_std_train, sigmas=sigmas_train_std)
-        #self.regressor.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal)
-        #self.regressor_std.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal_std)
         y_pred = self.regressor.predict(X_test)
         y_pred_std = self.regressor.predict(X_test)
         sigmas_test = self.difficulty['diff'].apply(X_test)
