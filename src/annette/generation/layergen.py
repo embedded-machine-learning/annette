@@ -375,15 +375,15 @@ class LayerModelGen():
                                                           sigmas=sigmas_test)    
         y_pred_intervals_std = self.difficulty_std['reg'].predict(y_pred_std,
                                                             sigmas=sigmas_test_std)
-        y_pred_intervals2 = self.difficulty['reg2'].predict(y_pred,
+        y_pred_intervals2 = self.difficulty['reg2'].predict(y_pred*X_test[:,0],
                                                           sigmas=sigmas_test2)    
-        y_pred_intervals_std2 = self.difficulty_std['reg2'].predict(y_pred_std,
+        y_pred_intervals_std2 = self.difficulty_std['reg2'].predict(y_pred_std*X_test[:,0],
                                                             sigmas=sigmas_test_std2)
         # check percentage of points within 95% confidence interval
         print(f'Percentage of points within 95% confidence interval: {np.mean((y_test >= y_pred_intervals[:,0]) & (y_test <= y_pred_intervals[:,1])) :.2%}')
         print(f'Percentage of points within 95% confidence interval for std: {np.mean((y_test >= y_pred_intervals_std[:,0]) & (y_test <= y_pred_intervals_std[:,1])) :.2%}')
-        print(f'Percentage of points within 95% confidence interval: {np.mean((y_test >= y_pred_intervals2[:,0]) & (y_test <= y_pred_intervals2[:,1])) :.2%}')
-        print(f'Percentage of points within 95% confidence interval for std: {np.mean((y_test >= y_pred_intervals_std2[:,0]) & (y_test <= y_pred_intervals_std2[:,1])) :.2%}')
+        print(f'Percentage of points within 95% confidence interval: {np.mean((y_test*X_test[:,0] >= y_pred_intervals2[:,0]) & (y_test*X_test[:,0] <= y_pred_intervals2[:,1])) :.2%}')
+        print(f'Percentage of points within 95% confidence interval for std: {np.mean((y_test*X_test[:,0] >= y_pred_intervals_std2[:,0]) & (y_test*X_test[:,0] <= y_pred_intervals_std2[:,1])) :.2%}')
         
         print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred)/1e9)
         print('R2 Score:', metrics.r2_score(y_test, y_pred))
