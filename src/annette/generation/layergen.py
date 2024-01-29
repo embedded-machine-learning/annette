@@ -295,8 +295,8 @@ class LayerModelGen():
 
         if not test_size:
             test_size = 0.05
-        X_pre_train, X_test, y_pre_train, y_test = train_test_split(X_unique, y_unique, test_size=test_size, random_state=42)
-        X_train, X_cal, y_train, y_cal = train_test_split(X_pre_train, y_pre_train, test_size=0.3)
+        X_train, X_test, y_train, y_test = train_test_split(X_unique, y_unique, test_size=test_size, random_state=42)
+        X_prop_train, X_cal, y_prop_train, y_cal = train_test_split(X_train, y_train, test_size=0.3)
         # get indices of train and cal data
         X_train_indices = get_indices(X, X_train)
         X_cal_indices = get_indices(X, X_cal)
@@ -313,8 +313,10 @@ class LayerModelGen():
 
         regressor = None
         if regressor is None:
-            self.regressor = WrapRegressor(RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=500, random_state=False, verbose=False, criterion='squared_error', oob_score=True))
-            self.regressor_std = WrapRegressor(RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=500, random_state=False, verbose=False, criterion='squared_error', oob_score=True))
+            self.regressor_learner = RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=500, random_state=False, verbose=False, criterion='squared_error', oob_score=True)
+            self.regressor = WrapRegressor(self.regressor_learner)
+            self.regressor_std_learner = RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=500, random_state=False, verbose=False, criterion='squared_error', oob_score=True)
+            self.regressor_std = WrapRegressor(self.regressor_std_learner)
         else:
             self.regressor = copy.deepcopy(regressor)
             self.regressor_std = copy.deepcopy(regressor)
@@ -340,26 +342,24 @@ class LayerModelGen():
         self.regressor_std.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
         self.difficulty['diff'].fit(X_train[:, :], scaler=True)
         self.difficulty_std['diff'].fit(X_train[:, :], y_train[:], scaler=True)
-        y_hat_cal = self.regressor.predict(X_cal)
-        y_std_hat_cal = self.regressor_std.predict(X_cal)
-        residuals_cal = y_cal - y_hat_cal
-        residuals_std_cal = y_cal - y_std_hat_cal
-        sigmas_cal = self.difficulty['diff'].apply(X_cal)
-        sigmas_cal_std = self.difficulty_std['diff'].apply(X_cal)
-        self.difficulty['reg'].fit(residuals_cal, sigmas=sigmas_cal)
-        self.difficulty_std['reg'].fit(residuals_std_cal, sigmas=sigmas_cal_std)
-        self.regressor.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal)
-        self.regressor_std.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal_std)
+        y_train_oob = self.regressor_learner.oob_prediction_
+        y_std_train_oob = self.regressor_std_learner.oob_prediction_
+        residuals_train = y_train - y_train_oob
+        residuals_std_train = y_train - y_std_train_oob
+        sigmas_train = self.difficulty['diff'].apply(X_train)
+        sigmas_train_std = self.difficulty_std['diff'].apply(X_train)
+        self.difficulty['reg'].fit(residuals_train, sigmas=sigmas_train)
+        self.difficulty_std['reg'].fit(residuals_std_train, sigmas=sigmas_train_std)
+        #self.regressor.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal)
+        #self.regressor_std.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal_std)
         y_pred = self.regressor.predict(X_test)
         y_pred_std = self.regressor.predict(X_test)
         sigmas_test = self.difficulty['diff'].apply(X_test)
         sigmas_test_std = self.difficulty_std['diff'].apply(X_test)
         y_pred_intervals = self.difficulty['reg'].predict(y_pred,
-                                                          sigmas=sigmas_test,
-                                                          y_min=0, y_max=1)
+                                                          sigmas=sigmas_test)    
         y_pred_intervals_std = self.difficulty_std['reg'].predict(y_pred_std,
-                                                            sigmas=sigmas_test_std,
-                                                            y_min=0, y_max=1)
+                                                            sigmas=sigmas_test_std)
         # check percentage of points within 95% confidence interval
         print(f'Percentage of points within 95% confidence interval: {np.mean((y_test >= y_pred_intervals[:,0]) & (y_test <= y_pred_intervals[:,1])) :.2%}')
         print(f'Percentage of points within 95% confidence interval for std: {np.mean((y_test >= y_pred_intervals_std[:,0]) & (y_test <= y_pred_intervals_std[:,1])) :.2%}')
