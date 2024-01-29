@@ -347,29 +347,43 @@ class LayerModelGen():
 
 
         self.regressor.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
-        self.regressor_std.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
+        #self.regressor_std.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
         y_train_oob = self.regressor_learner.oob_prediction_
-        y_std_train_oob = self.regressor_std_learner.oob_prediction_
+        #y_std_train_oob = self.regressor_std_learner.oob_prediction_
         residuals_train = y_train - y_train_oob
-        residuals_std_train = y_train - y_std_train_oob
+        #residuals_std_train = y_train - y_std_train_oob
 
         self.difficulty['diff'].fit(X=X_train[:, :], scaler=True, k=k_corr)
         self.difficulty_std['diff'].fit(X=X_train[:, :], residuals=y_train[:], scaler=True, k=k_corr)
+        self.difficulty['diff2'].fit(X=X_train[:, :], scaler=True, k=k_corr)
+        self.difficulty_std['diff2'].fit(X=X_train[:, :], residuals=y_train[:]*X_train[:,0], scaler=True, k=k_corr)
         sigmas_train = self.difficulty['diff'].apply(X_train)
         sigmas_train_std = self.difficulty_std['diff'].apply(X_train)
+        sigmas_train2 = self.difficulty['diff2'].apply(X_train)
+        sigmas_train_std2 = self.difficulty_std['diff2'].apply(X_train)
         self.difficulty['reg'].fit(residuals_train, sigmas=sigmas_train)
-        self.difficulty_std['reg'].fit(residuals_std_train, sigmas=sigmas_train_std)
+        self.difficulty_std['reg'].fit(residuals_train, sigmas=sigmas_train_std)
+        self.difficulty['reg2'].fit(residuals_train*X_train[:,0], sigmas=sigmas_train2)
+        self.difficulty_std['reg2'].fit(residuals_train*X_train[:,0], sigmas=sigmas_train_std2)
         y_pred = self.regressor.predict(X_test)
         y_pred_std = self.regressor.predict(X_test)
         sigmas_test = self.difficulty['diff'].apply(X_test)
         sigmas_test_std = self.difficulty_std['diff'].apply(X_test)
+        sigmas_test2 = self.difficulty['diff2'].apply(X_test)
+        sigmas_test_std2 = self.difficulty_std['diff2'].apply(X_test)
         y_pred_intervals = self.difficulty['reg'].predict(y_pred,
                                                           sigmas=sigmas_test)    
         y_pred_intervals_std = self.difficulty_std['reg'].predict(y_pred_std,
                                                             sigmas=sigmas_test_std)
+        y_pred_intervals2 = self.difficulty['reg2'].predict(y_pred,
+                                                          sigmas=sigmas_test2)    
+        y_pred_intervals_std2 = self.difficulty_std['reg2'].predict(y_pred_std,
+                                                            sigmas=sigmas_test_std2)
         # check percentage of points within 95% confidence interval
         print(f'Percentage of points within 95% confidence interval: {np.mean((y_test >= y_pred_intervals[:,0]) & (y_test <= y_pred_intervals[:,1])) :.2%}')
         print(f'Percentage of points within 95% confidence interval for std: {np.mean((y_test >= y_pred_intervals_std[:,0]) & (y_test <= y_pred_intervals_std[:,1])) :.2%}')
+        print(f'Percentage of points within 95% confidence interval: {np.mean((y_test >= y_pred_intervals2[:,0]) & (y_test <= y_pred_intervals2[:,1])) :.2%}')
+        print(f'Percentage of points within 95% confidence interval for std: {np.mean((y_test >= y_pred_intervals_std2[:,0]) & (y_test <= y_pred_intervals_std2[:,1])) :.2%}')
         
         print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred)/1e9)
         print('R2 Score:', metrics.r2_score(y_test, y_pred))
