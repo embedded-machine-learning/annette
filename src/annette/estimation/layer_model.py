@@ -114,6 +114,7 @@ class Layer_model():
         result_pd['difficulty1'] = np.nan
         result_pd['difficulty2'] = np.nan
         result_pd['difficulty3'] = np.nan
+        result_pd['difficulty4'] = np.nan
 
         # Add info to layer stuff
         """Loop through Layers"""
@@ -145,11 +146,14 @@ class Layer_model():
             n_o = try_read('num_outputs')
             n_w = try_read('num_weights')
             n_w = try_read('num_weights')
-            diff = try_read('difficulty')
+            diff = try_read('difficulty1')
             diff2 = try_read('difficulty2')
             diff3 = try_read('difficulty3')
+            diff4 = try_read('difficulty4')
             result_pd.loc[len(result_pd)] = {"name": layer_name, "type": layer_info['type'],
-                                             "time(ms)": layer_info['time_ms'], "num_ops": gop, "num_inputs": n_i, "num_outputs": n_o, "num_weights": n_w, "difficulty1": diff, "difficulty2": diff2, "difficulty3": diff3}
+                                             "time(ms)": layer_info['time_ms'], "num_ops": gop,
+                                             "num_inputs": n_i, "num_outputs": n_o, "num_weights": n_w,
+                                             "difficulty1": diff, "difficulty2": diff2, "difficulty3": diff3, "difficulty4": diff4}
 
         end = time.time()
         print("Layermodel executed in", end-start)
