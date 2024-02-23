@@ -1,0 +1,5850 @@
+{
+    "name": "tf_inceptionv1",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "InceptionV1/InceptionV1/Conv2d_1a_7x7/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ]
+        },
+        "InceptionV1/InceptionV1/Conv2d_1a_7x7/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Conv2d_1a_7x7/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                3,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                2,
+                2,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Conv2d_1a_7x7/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Conv2d_1a_7x7/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Conv2d_1a_7x7/Relu"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Conv2d_1a_7x7/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Conv2d_1a_7x7/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/MaxPool_2a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/MaxPool_2a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Conv2d_1a_7x7/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Conv2d_2b_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Conv2d_2b_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_2a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Conv2d_2b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Conv2d_2b_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Conv2d_2b_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Conv2d_2b_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Conv2d_2b_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Conv2d_2b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Conv2d_2c_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Conv2d_2c_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Conv2d_2b_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Conv2d_2c_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                192
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Conv2d_2c_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Conv2d_2c_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Conv2d_2c_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                192
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                192
+            ]
+        },
+        "InceptionV1/InceptionV1/Conv2d_2c_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Conv2d_2c_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/MaxPool_3a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                192
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                192
+            ]
+        },
+        "InceptionV1/InceptionV1/MaxPool_3a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Conv2d_2c_3x3/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_0/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_0/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_3a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_3a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_3a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                16
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_3/MaxPool_0a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_3a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_0/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_0/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                16
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                16
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_3/Conv2d_0b_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_0/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/concat"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                16
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                16
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                16
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                16,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_3/Conv2d_0b_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/concat"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/concat"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3b/concat"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3b/concat": {
+            "type": "Concat",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_0/Conv2d_0a_1x1/Relu",
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_1/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_2/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_3b/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_0/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_0/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_3/MaxPool_0a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_0/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_0/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_3/Conv2d_0b_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_0/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/concat"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_3/Conv2d_0b_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/concat"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/concat"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_3c/concat"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_3c/concat": {
+            "type": "Concat",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_0/Conv2d_0a_1x1/Relu",
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_1/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_2/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_3c/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/MaxPool_4a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                480
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/MaxPool_4a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_3c/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_0/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                480
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                480
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_0/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_4a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                480
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                480,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_4a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                480
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                480,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_4a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                16
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                480
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                480,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_3/MaxPool_0a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_4a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                480
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                480
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_0/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_0/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                16
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                16
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_3/Conv2d_0b_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                480
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                480,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_0/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                16
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                16
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                208
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                208
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                48
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                16
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                16,
+                48
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_3/Conv2d_0b_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                208
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                208
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                48
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                48
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                208
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                208
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4b/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                48
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                48
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4b/concat": {
+            "type": "Concat",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_0/Conv2d_0a_1x1/Relu",
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_1/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_2/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_4b/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_0/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_0/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                112
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                112
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                24
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_3/MaxPool_0a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_0/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_0/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                112
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                112
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                24
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                24
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_3/Conv2d_0b_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_0/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                112
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                112
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                24
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                24
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                224
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                112
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                112,
+                224
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                24
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                24,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_3/Conv2d_0b_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                224
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                224
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                224
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                224
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4c/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4c/concat": {
+            "type": "Concat",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_0/Conv2d_0a_1x1/Relu",
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_1/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_2/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_4c/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_0/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_0/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                24
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_3/MaxPool_0a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4c/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_0/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_0/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                24
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                24
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_3/Conv2d_0b_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_0/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                24
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                24
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                24
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                24,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_3/Conv2d_0b_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4d/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4d/concat": {
+            "type": "Concat",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_0/Conv2d_0a_1x1/Relu",
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_1/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_2/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_4d/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_0/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_0/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                112
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                112
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                144
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                144
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                32
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_3/MaxPool_0a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4d/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_0/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_0/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                112
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                112
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                144
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                144
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                32
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_3/Conv2d_0b_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_0/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                112
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                112
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                144
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                144
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                32
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                288
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                144
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                144,
+                288
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_3/Conv2d_0b_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                288
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                288
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                288
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                288
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4e/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4e/concat": {
+            "type": "Concat",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_0/Conv2d_0a_1x1/Relu",
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_1/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_2/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_4e/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_0/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                528
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                112
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_0/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                528
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                528,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                528
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                528,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                32
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                528
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                528,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_3/MaxPool_0a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4e/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                528
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                528
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_0/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_0/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                32
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_3/Conv2d_0b_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                528
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                528,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_0/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                32
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                320
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                160,
+                320
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_3/Conv2d_0b_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                320
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                320
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                320
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                320
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_4f/concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_4f/concat": {
+            "type": "Concat",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_0/Conv2d_0a_1x1/Relu",
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_1/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_2/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_4f/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/MaxPool_5a_2x2/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                832
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "InceptionV1/InceptionV1/MaxPool_5a_2x2/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_4f/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_0/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_0/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_5a_2x2/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                256
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                832,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_5a_2x2/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                832,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_5a_2x2/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                32
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                832,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_3/MaxPool_0a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/MaxPool_5a_2x2/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_0/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_0/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                256
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                256
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                32
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_3/Conv2d_0b_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                832,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_0/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/concat"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                256
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                256
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                32
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                32
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                160,
+                320
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_3/Conv2d_0b_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/concat"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                320
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/concat"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                320
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5b/concat"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5b/concat": {
+            "type": "Concat",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_0/Conv2d_0a_1x1/Relu",
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_1/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_2/Conv2d_0a_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_5b/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_0/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0a_1x1/Conv2D",
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                256
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_0/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                384
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                832,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                832,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0a_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                48
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                832,
+                48
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_3/MaxPool_0a_3x3/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5b/concat"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_0/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_0/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                384
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                384
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0a_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                48
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                48
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_3/Conv2d_0b_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_3/MaxPool_0a_3x3/MaxPool"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                832
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                832,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_0/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_0/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/concat"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                384
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                384
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0a_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0a_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                48
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                48
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_3/Conv2d_0b_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                384
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0b_3x3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0a_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                48
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                48,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_3/Conv2d_0b_1x1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_3/Conv2d_0b_1x1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/concat"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                384
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                384
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0b_3x3/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0b_3x3/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/concat"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                384
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                384
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0b_3x3/Relu": {
+            "type": "Relu",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0b_3x3/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "InceptionV1/InceptionV1/Mixed_5c/concat"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                128
+            ]
+        },
+        "InceptionV1/InceptionV1/Mixed_5c/concat": {
+            "type": "Concat",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_0/Conv2d_0a_1x1/Relu",
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_1/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_2/Conv2d_0b_3x3/Relu",
+                "InceptionV1/InceptionV1/Mixed_5c/Branch_3/Conv2d_0b_1x1/Relu"
+            ],
+            "children": [
+                "InceptionV1/Logits/AvgPool_0a_7x7/AvgPool"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                384
+            ]
+        },
+        "InceptionV1/Logits/AvgPool_0a_7x7/AvgPool": {
+            "type": "Pool",
+            "parents": [
+                "InceptionV1/InceptionV1/Mixed_5c/concat"
+            ],
+            "children": [
+                "InceptionV1/Logits/Conv2d_0c_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                7,
+                7,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "InceptionV1/Logits/Conv2d_0c_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "InceptionV1/Logits/AvgPool_0a_7x7/AvgPool"
+            ],
+            "children": [
+                "InceptionV1/Logits/SpatialSqueeze"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                1001
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "InceptionV1/Logits/SpatialSqueeze": {
+            "type": "Squeeze",
+            "parents": [
+                "InceptionV1/Logits/Conv2d_0c_1x1/Conv2D"
+            ],
+            "children": [
+                "InceptionV1/Logits/Predictions/Reshape",
+                "InceptionV1/Logits/Predictions/Shape"
+            ],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                1001
+            ]
+        },
+        "InceptionV1/Logits/Predictions/Reshape": {
+            "type": "Reshape",
+            "parents": [
+                "InceptionV1/Logits/SpatialSqueeze"
+            ],
+            "children": [
+                "InceptionV1/Logits/Predictions/Softmax"
+            ],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1001
+            ]
+        },
+        "InceptionV1/Logits/Predictions/Shape": {
+            "type": "Shape",
+            "parents": [
+                "InceptionV1/Logits/SpatialSqueeze"
+            ],
+            "children": [],
+            "output_shape": [
+                2
+            ],
+            "input_shape": [
+                -1,
+                1001
+            ]
+        },
+        "InceptionV1/Logits/Predictions/Softmax": {
+            "type": "Softmax",
+            "parents": [
+                "InceptionV1/Logits/Predictions/Reshape"
+            ],
+            "children": [
+                "InceptionV1/Logits/Predictions/Reshape_1"
+            ],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1001
+            ]
+        },
+        "InceptionV1/Logits/Predictions/Reshape_1": {
+            "type": "Reshape",
+            "parents": [
+                "InceptionV1/Logits/Predictions/Softmax"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1001
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

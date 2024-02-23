@@ -1,0 +1,5327 @@
+{
+    "name": "cf_inceptionv2",
+    "layers": {
+        "data": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "conv1/7x7_s2"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ]
+        },
+        "conv1/7x7_s2": {
+            "type": "Conv",
+            "parents": [
+                "data"
+            ],
+            "children": [
+                "conv1/7x7_s2/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                3,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "conv1/7x7_s2/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "conv1/7x7_s2"
+            ],
+            "children": [
+                "pool1/3x3_s2"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "pool1/3x3_s2": {
+            "type": "Pool",
+            "parents": [
+                "conv1/7x7_s2/bn/sc/relu"
+            ],
+            "children": [
+                "conv2/3x3_reduce"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "conv2/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "pool1/3x3_s2"
+            ],
+            "children": [
+                "conv2/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "conv2/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "conv2/3x3_reduce"
+            ],
+            "children": [
+                "conv2/3x3"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "conv2/3x3": {
+            "type": "Conv",
+            "parents": [
+                "conv2/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "conv2/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                192
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv2/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "conv2/3x3"
+            ],
+            "children": [
+                "pool2/3x3_s2"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                192
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                192
+            ]
+        },
+        "pool2/3x3_s2": {
+            "type": "Pool",
+            "parents": [
+                "conv2/3x3/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3a/pool",
+                "inception_3a/3x3_reduce",
+                "inception_3a/double3x3_reduce",
+                "inception_3a/1x1"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "inception_3a/pool": {
+            "type": "Pool",
+            "parents": [
+                "pool2/3x3_s2"
+            ],
+            "children": [
+                "inception_3a/pool_proj"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "inception_3a/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "pool2/3x3_s2"
+            ],
+            "children": [
+                "inception_3a/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_3a/double3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "pool2/3x3_s2"
+            ],
+            "children": [
+                "inception_3a/double3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_3a/1x1": {
+            "type": "Conv",
+            "parents": [
+                "pool2/3x3_s2"
+            ],
+            "children": [
+                "inception_3a/1x1/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_3a/pool_proj": {
+            "type": "Conv",
+            "parents": [
+                "inception_3a/pool"
+            ],
+            "children": [
+                "inception_3a/pool_proj/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_3a/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3a/3x3_reduce"
+            ],
+            "children": [
+                "inception_3a/3x3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3a/double3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3a/double3x3_reduce"
+            ],
+            "children": [
+                "inception_3a/double3x3a"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3a/1x1/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3a/1x1"
+            ],
+            "children": [
+                "inception_3a/output"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3a/pool_proj/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3a/pool_proj"
+            ],
+            "children": [
+                "inception_3a/output"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "inception_3a/3x3": {
+            "type": "Conv",
+            "parents": [
+                "inception_3a/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3a/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_3a/double3x3a": {
+            "type": "Conv",
+            "parents": [
+                "inception_3a/double3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3a/double3x3a/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_3a/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3a/3x3"
+            ],
+            "children": [
+                "inception_3a/output"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3a/double3x3a/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3a/double3x3a"
+            ],
+            "children": [
+                "inception_3a/double3x3b"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ]
+        },
+        "inception_3a/double3x3b": {
+            "type": "Conv",
+            "parents": [
+                "inception_3a/double3x3a/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3a/double3x3b/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_3a/double3x3b/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3a/double3x3b"
+            ],
+            "children": [
+                "inception_3a/output"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ]
+        },
+        "inception_3a/output": {
+            "type": "Concat",
+            "parents": [
+                "inception_3a/1x1/bn/sc/relu",
+                "inception_3a/3x3/bn/sc/relu",
+                "inception_3a/double3x3b/bn/sc/relu",
+                "inception_3a/pool_proj/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3b/double3x3_reduce",
+                "inception_3b/3x3_reduce",
+                "inception_3b/pool",
+                "inception_3b/1x1"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3b/double3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_3a/output"
+            ],
+            "children": [
+                "inception_3b/double3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_3b/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_3a/output"
+            ],
+            "children": [
+                "inception_3b/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_3b/pool": {
+            "type": "Pool",
+            "parents": [
+                "inception_3a/output"
+            ],
+            "children": [
+                "inception_3b/pool_proj"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "inception_3b/1x1": {
+            "type": "Conv",
+            "parents": [
+                "inception_3a/output"
+            ],
+            "children": [
+                "inception_3b/1x1/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_3b/double3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3b/double3x3_reduce"
+            ],
+            "children": [
+                "inception_3b/double3x3a"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3b/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3b/3x3_reduce"
+            ],
+            "children": [
+                "inception_3b/3x3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3b/pool_proj": {
+            "type": "Conv",
+            "parents": [
+                "inception_3b/pool"
+            ],
+            "children": [
+                "inception_3b/pool_proj/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_3b/1x1/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3b/1x1"
+            ],
+            "children": [
+                "inception_3b/output"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3b/double3x3a": {
+            "type": "Conv",
+            "parents": [
+                "inception_3b/double3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3b/double3x3a/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_3b/3x3": {
+            "type": "Conv",
+            "parents": [
+                "inception_3b/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3b/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_3b/pool_proj/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3b/pool_proj"
+            ],
+            "children": [
+                "inception_3b/output"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3b/double3x3a/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3b/double3x3a"
+            ],
+            "children": [
+                "inception_3b/double3x3b"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ]
+        },
+        "inception_3b/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3b/3x3"
+            ],
+            "children": [
+                "inception_3b/output"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ]
+        },
+        "inception_3b/double3x3b": {
+            "type": "Conv",
+            "parents": [
+                "inception_3b/double3x3a/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3b/double3x3b/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_3b/double3x3b/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3b/double3x3b"
+            ],
+            "children": [
+                "inception_3b/output"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ]
+        },
+        "inception_3b/output": {
+            "type": "Concat",
+            "parents": [
+                "inception_3b/1x1/bn/sc/relu",
+                "inception_3b/3x3/bn/sc/relu",
+                "inception_3b/double3x3b/bn/sc/relu",
+                "inception_3b/pool_proj/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3c/pool",
+                "inception_3c/double3x3_reduce",
+                "inception_3c/3x3_reduce"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                320
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3c/pool": {
+            "type": "Pool",
+            "parents": [
+                "inception_3b/output"
+            ],
+            "children": [
+                "inception_3c/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                320
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                320
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "inception_3c/double3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_3b/output"
+            ],
+            "children": [
+                "inception_3c/double3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                320
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                320,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_3c/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_3b/output"
+            ],
+            "children": [
+                "inception_3c/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                320
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                320,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_3c/double3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3c/double3x3_reduce"
+            ],
+            "children": [
+                "inception_3c/double3x3a"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "inception_3c/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3c/3x3_reduce"
+            ],
+            "children": [
+                "inception_3c/3x3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "inception_3c/double3x3a": {
+            "type": "Conv",
+            "parents": [
+                "inception_3c/double3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3c/double3x3a/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_3c/3x3": {
+            "type": "Conv",
+            "parents": [
+                "inception_3c/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3c/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                160
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_3c/double3x3a/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3c/double3x3a"
+            ],
+            "children": [
+                "inception_3c/double3x3b"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ]
+        },
+        "inception_3c/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3c/3x3"
+            ],
+            "children": [
+                "inception_3c/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "inception_3c/double3x3b": {
+            "type": "Conv",
+            "parents": [
+                "inception_3c/double3x3a/bn/sc/relu"
+            ],
+            "children": [
+                "inception_3c/double3x3b/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                96
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_3c/double3x3b/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_3c/double3x3b"
+            ],
+            "children": [
+                "inception_3c/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "inception_3c/output": {
+            "type": "Concat",
+            "parents": [
+                "inception_3c/3x3/bn/sc/relu",
+                "inception_3c/double3x3b/bn/sc/relu",
+                "inception_3c/pool"
+            ],
+            "children": [
+                "inception_4a/3x3_reduce",
+                "inception_4a/double3x3_reduce",
+                "inception_4a/1x1",
+                "inception_4a/pool"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "inception_4a/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_3c/output"
+            ],
+            "children": [
+                "inception_4a/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4a/double3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_3c/output"
+            ],
+            "children": [
+                "inception_4a/double3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4a/1x1": {
+            "type": "Conv",
+            "parents": [
+                "inception_3c/output"
+            ],
+            "children": [
+                "inception_4a/1x1/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                224
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                224
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4a/pool": {
+            "type": "Pool",
+            "parents": [
+                "inception_3c/output"
+            ],
+            "children": [
+                "inception_4a/pool_proj"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "inception_4a/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4a/3x3_reduce"
+            ],
+            "children": [
+                "inception_4a/3x3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "inception_4a/double3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4a/double3x3_reduce"
+            ],
+            "children": [
+                "inception_4a/double3x3a"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "inception_4a/1x1/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4a/1x1"
+            ],
+            "children": [
+                "inception_4a/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                224
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                224
+            ]
+        },
+        "inception_4a/pool_proj": {
+            "type": "Conv",
+            "parents": [
+                "inception_4a/pool"
+            ],
+            "children": [
+                "inception_4a/pool_proj/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4a/3x3": {
+            "type": "Conv",
+            "parents": [
+                "inception_4a/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4a/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4a/double3x3a": {
+            "type": "Conv",
+            "parents": [
+                "inception_4a/double3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4a/double3x3a/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4a/pool_proj/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4a/pool_proj"
+            ],
+            "children": [
+                "inception_4a/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4a/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4a/3x3"
+            ],
+            "children": [
+                "inception_4a/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "inception_4a/double3x3a/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4a/double3x3a"
+            ],
+            "children": [
+                "inception_4a/double3x3b"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4a/double3x3b": {
+            "type": "Conv",
+            "parents": [
+                "inception_4a/double3x3a/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4a/double3x3b/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4a/double3x3b/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4a/double3x3b"
+            ],
+            "children": [
+                "inception_4a/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4a/output": {
+            "type": "Concat",
+            "parents": [
+                "inception_4a/1x1/bn/sc/relu",
+                "inception_4a/3x3/bn/sc/relu",
+                "inception_4a/double3x3b/bn/sc/relu",
+                "inception_4a/pool_proj/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4b/1x1",
+                "inception_4b/pool",
+                "inception_4b/double3x3_reduce",
+                "inception_4b/3x3_reduce"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                224
+            ]
+        },
+        "inception_4b/1x1": {
+            "type": "Conv",
+            "parents": [
+                "inception_4a/output"
+            ],
+            "children": [
+                "inception_4b/1x1/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4b/pool": {
+            "type": "Pool",
+            "parents": [
+                "inception_4a/output"
+            ],
+            "children": [
+                "inception_4b/pool_proj"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "inception_4b/double3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_4a/output"
+            ],
+            "children": [
+                "inception_4b/double3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4b/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_4a/output"
+            ],
+            "children": [
+                "inception_4b/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4b/1x1/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4b/1x1"
+            ],
+            "children": [
+                "inception_4b/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "inception_4b/pool_proj": {
+            "type": "Conv",
+            "parents": [
+                "inception_4b/pool"
+            ],
+            "children": [
+                "inception_4b/pool_proj/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4b/double3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4b/double3x3_reduce"
+            ],
+            "children": [
+                "inception_4b/double3x3a"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "inception_4b/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4b/3x3_reduce"
+            ],
+            "children": [
+                "inception_4b/3x3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "inception_4b/pool_proj/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4b/pool_proj"
+            ],
+            "children": [
+                "inception_4b/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4b/double3x3a": {
+            "type": "Conv",
+            "parents": [
+                "inception_4b/double3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4b/double3x3a/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4b/3x3": {
+            "type": "Conv",
+            "parents": [
+                "inception_4b/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4b/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4b/double3x3a/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4b/double3x3a"
+            ],
+            "children": [
+                "inception_4b/double3x3b"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4b/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4b/3x3"
+            ],
+            "children": [
+                "inception_4b/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4b/double3x3b": {
+            "type": "Conv",
+            "parents": [
+                "inception_4b/double3x3a/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4b/double3x3b/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4b/double3x3b/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4b/double3x3b"
+            ],
+            "children": [
+                "inception_4b/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4b/output": {
+            "type": "Concat",
+            "parents": [
+                "inception_4b/1x1/bn/sc/relu",
+                "inception_4b/3x3/bn/sc/relu",
+                "inception_4b/double3x3b/bn/sc/relu",
+                "inception_4b/pool_proj/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4c/double3x3_reduce",
+                "inception_4c/3x3_reduce",
+                "inception_4c/1x1",
+                "inception_4c/pool"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "inception_4c/double3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_4b/output"
+            ],
+            "children": [
+                "inception_4c/double3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4c/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_4b/output"
+            ],
+            "children": [
+                "inception_4c/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4c/1x1": {
+            "type": "Conv",
+            "parents": [
+                "inception_4b/output"
+            ],
+            "children": [
+                "inception_4c/1x1/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4c/pool": {
+            "type": "Pool",
+            "parents": [
+                "inception_4b/output"
+            ],
+            "children": [
+                "inception_4c/pool_proj"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "inception_4c/double3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4c/double3x3_reduce"
+            ],
+            "children": [
+                "inception_4c/double3x3a"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4c/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4c/3x3_reduce"
+            ],
+            "children": [
+                "inception_4c/3x3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4c/1x1/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4c/1x1"
+            ],
+            "children": [
+                "inception_4c/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "inception_4c/pool_proj": {
+            "type": "Conv",
+            "parents": [
+                "inception_4c/pool"
+            ],
+            "children": [
+                "inception_4c/pool_proj/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4c/double3x3a": {
+            "type": "Conv",
+            "parents": [
+                "inception_4c/double3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4c/double3x3a/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4c/3x3": {
+            "type": "Conv",
+            "parents": [
+                "inception_4c/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4c/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4c/pool_proj/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4c/pool_proj"
+            ],
+            "children": [
+                "inception_4c/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "inception_4c/double3x3a/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4c/double3x3a"
+            ],
+            "children": [
+                "inception_4c/double3x3b"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "inception_4c/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4c/3x3"
+            ],
+            "children": [
+                "inception_4c/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "inception_4c/double3x3b": {
+            "type": "Conv",
+            "parents": [
+                "inception_4c/double3x3a/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4c/double3x3b/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                160,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4c/double3x3b/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4c/double3x3b"
+            ],
+            "children": [
+                "inception_4c/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "inception_4c/output": {
+            "type": "Concat",
+            "parents": [
+                "inception_4c/1x1/bn/sc/relu",
+                "inception_4c/3x3/bn/sc/relu",
+                "inception_4c/double3x3b/bn/sc/relu",
+                "inception_4c/pool_proj/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4d/3x3_reduce",
+                "inception_4d/double3x3_reduce",
+                "inception_4d/pool",
+                "inception_4d/1x1"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "inception_4d/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_4c/output"
+            ],
+            "children": [
+                "inception_4d/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4d/double3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_4c/output"
+            ],
+            "children": [
+                "inception_4d/double3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4d/pool": {
+            "type": "Pool",
+            "parents": [
+                "inception_4c/output"
+            ],
+            "children": [
+                "inception_4d/pool_proj"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "inception_4d/1x1": {
+            "type": "Conv",
+            "parents": [
+                "inception_4c/output"
+            ],
+            "children": [
+                "inception_4d/1x1/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4d/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4d/3x3_reduce"
+            ],
+            "children": [
+                "inception_4d/3x3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4d/double3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4d/double3x3_reduce"
+            ],
+            "children": [
+                "inception_4d/double3x3a"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ]
+        },
+        "inception_4d/pool_proj": {
+            "type": "Conv",
+            "parents": [
+                "inception_4d/pool"
+            ],
+            "children": [
+                "inception_4d/pool_proj/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4d/1x1/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4d/1x1"
+            ],
+            "children": [
+                "inception_4d/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "inception_4d/3x3": {
+            "type": "Conv",
+            "parents": [
+                "inception_4d/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4d/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4d/double3x3a": {
+            "type": "Conv",
+            "parents": [
+                "inception_4d/double3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4d/double3x3a/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                160
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                160,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4d/pool_proj/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4d/pool_proj"
+            ],
+            "children": [
+                "inception_4d/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "inception_4d/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4d/3x3"
+            ],
+            "children": [
+                "inception_4d/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "inception_4d/double3x3a/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4d/double3x3a"
+            ],
+            "children": [
+                "inception_4d/double3x3b"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "inception_4d/double3x3b": {
+            "type": "Conv",
+            "parents": [
+                "inception_4d/double3x3a/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4d/double3x3b/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4d/double3x3b/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4d/double3x3b"
+            ],
+            "children": [
+                "inception_4d/output"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "inception_4d/output": {
+            "type": "Concat",
+            "parents": [
+                "inception_4d/1x1/bn/sc/relu",
+                "inception_4d/3x3/bn/sc/relu",
+                "inception_4d/double3x3b/bn/sc/relu",
+                "inception_4d/pool_proj/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4e/double3x3_reduce",
+                "inception_4e/3x3_reduce",
+                "inception_4e/pool"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "inception_4e/double3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_4d/output"
+            ],
+            "children": [
+                "inception_4e/double3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4e/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_4d/output"
+            ],
+            "children": [
+                "inception_4e/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_4e/pool": {
+            "type": "Pool",
+            "parents": [
+                "inception_4d/output"
+            ],
+            "children": [
+                "inception_4e/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "inception_4e/double3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4e/double3x3_reduce"
+            ],
+            "children": [
+                "inception_4e/double3x3a"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "inception_4e/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4e/3x3_reduce"
+            ],
+            "children": [
+                "inception_4e/3x3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ]
+        },
+        "inception_4e/double3x3a": {
+            "type": "Conv",
+            "parents": [
+                "inception_4e/double3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4e/double3x3a/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4e/3x3": {
+            "type": "Conv",
+            "parents": [
+                "inception_4e/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4e/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                192
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4e/double3x3a/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4e/double3x3a"
+            ],
+            "children": [
+                "inception_4e/double3x3b"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "inception_4e/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4e/3x3"
+            ],
+            "children": [
+                "inception_4e/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ]
+        },
+        "inception_4e/double3x3b": {
+            "type": "Conv",
+            "parents": [
+                "inception_4e/double3x3a/bn/sc/relu"
+            ],
+            "children": [
+                "inception_4e/double3x3b/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_4e/double3x3b/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_4e/double3x3b"
+            ],
+            "children": [
+                "inception_4e/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                256
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                256
+            ]
+        },
+        "inception_4e/output": {
+            "type": "Concat",
+            "parents": [
+                "inception_4e/3x3/bn/sc/relu",
+                "inception_4e/double3x3b/bn/sc/relu",
+                "inception_4e/pool"
+            ],
+            "children": [
+                "inception_5a/double3x3_reduce",
+                "inception_5a/3x3_reduce",
+                "inception_5a/1x1",
+                "inception_5a/pool"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ]
+        },
+        "inception_5a/double3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_4e/output"
+            ],
+            "children": [
+                "inception_5a/double3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_5a/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_4e/output"
+            ],
+            "children": [
+                "inception_5a/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_5a/1x1": {
+            "type": "Conv",
+            "parents": [
+                "inception_4e/output"
+            ],
+            "children": [
+                "inception_5a/1x1/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                352
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                352
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_5a/pool": {
+            "type": "Pool",
+            "parents": [
+                "inception_4e/output"
+            ],
+            "children": [
+                "inception_5a/pool_proj"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "inception_5a/double3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5a/double3x3_reduce"
+            ],
+            "children": [
+                "inception_5a/double3x3a"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ]
+        },
+        "inception_5a/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5a/3x3_reduce"
+            ],
+            "children": [
+                "inception_5a/3x3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ]
+        },
+        "inception_5a/1x1/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5a/1x1"
+            ],
+            "children": [
+                "inception_5a/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                352
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                352
+            ]
+        },
+        "inception_5a/pool_proj": {
+            "type": "Conv",
+            "parents": [
+                "inception_5a/pool"
+            ],
+            "children": [
+                "inception_5a/pool_proj/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_5a/double3x3a": {
+            "type": "Conv",
+            "parents": [
+                "inception_5a/double3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_5a/double3x3a/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                224
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                160,
+                224
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_5a/3x3": {
+            "type": "Conv",
+            "parents": [
+                "inception_5a/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_5a/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                320
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_5a/pool_proj/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5a/pool_proj"
+            ],
+            "children": [
+                "inception_5a/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                128
+            ]
+        },
+        "inception_5a/double3x3a/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5a/double3x3a"
+            ],
+            "children": [
+                "inception_5a/double3x3b"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                224
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                224
+            ]
+        },
+        "inception_5a/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5a/3x3"
+            ],
+            "children": [
+                "inception_5a/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                320
+            ]
+        },
+        "inception_5a/double3x3b": {
+            "type": "Conv",
+            "parents": [
+                "inception_5a/double3x3a/bn/sc/relu"
+            ],
+            "children": [
+                "inception_5a/double3x3b/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                224
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                224
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                224,
+                224
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_5a/double3x3b/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5a/double3x3b"
+            ],
+            "children": [
+                "inception_5a/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                224
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                224
+            ]
+        },
+        "inception_5a/output": {
+            "type": "Concat",
+            "parents": [
+                "inception_5a/1x1/bn/sc/relu",
+                "inception_5a/3x3/bn/sc/relu",
+                "inception_5a/double3x3b/bn/sc/relu",
+                "inception_5a/pool_proj/bn/sc/relu"
+            ],
+            "children": [
+                "inception_5b/3x3_reduce",
+                "inception_5b/pool",
+                "inception_5b/1x1",
+                "inception_5b/double3x3_reduce"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                352
+            ]
+        },
+        "inception_5b/3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_5a/output"
+            ],
+            "children": [
+                "inception_5b/3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_5b/pool": {
+            "type": "Pool",
+            "parents": [
+                "inception_5a/output"
+            ],
+            "children": [
+                "inception_5b/pool_proj"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "inception_5b/1x1": {
+            "type": "Conv",
+            "parents": [
+                "inception_5a/output"
+            ],
+            "children": [
+                "inception_5b/1x1/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                352
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                352
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_5b/double3x3_reduce": {
+            "type": "Conv",
+            "parents": [
+                "inception_5a/output"
+            ],
+            "children": [
+                "inception_5b/double3x3_reduce/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_5b/3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5b/3x3_reduce"
+            ],
+            "children": [
+                "inception_5b/3x3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ]
+        },
+        "inception_5b/pool_proj": {
+            "type": "Conv",
+            "parents": [
+                "inception_5b/pool"
+            ],
+            "children": [
+                "inception_5b/pool_proj/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "inception_5b/1x1/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5b/1x1"
+            ],
+            "children": [
+                "inception_5b/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                352
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                352
+            ]
+        },
+        "inception_5b/double3x3_reduce/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5b/double3x3_reduce"
+            ],
+            "children": [
+                "inception_5b/double3x3a"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ]
+        },
+        "inception_5b/3x3": {
+            "type": "Conv",
+            "parents": [
+                "inception_5b/3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_5b/3x3/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                320
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_5b/pool_proj/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5b/pool_proj"
+            ],
+            "children": [
+                "inception_5b/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                128
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                128
+            ]
+        },
+        "inception_5b/double3x3a": {
+            "type": "Conv",
+            "parents": [
+                "inception_5b/double3x3_reduce/bn/sc/relu"
+            ],
+            "children": [
+                "inception_5b/double3x3a/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                224
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                224
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_5b/3x3/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5b/3x3"
+            ],
+            "children": [
+                "inception_5b/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                320
+            ]
+        },
+        "inception_5b/double3x3a/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5b/double3x3a"
+            ],
+            "children": [
+                "inception_5b/double3x3b"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                224
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                224
+            ]
+        },
+        "inception_5b/double3x3b": {
+            "type": "Conv",
+            "parents": [
+                "inception_5b/double3x3a/bn/sc/relu"
+            ],
+            "children": [
+                "inception_5b/double3x3b/bn/sc/relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                224
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                224
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                224,
+                224
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "inception_5b/double3x3b/bn/sc/relu": {
+            "type": "Relu",
+            "parents": [
+                "inception_5b/double3x3b"
+            ],
+            "children": [
+                "inception_5b/output"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                224
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                224
+            ]
+        },
+        "inception_5b/output": {
+            "type": "Concat",
+            "parents": [
+                "inception_5b/1x1/bn/sc/relu",
+                "inception_5b/3x3/bn/sc/relu",
+                "inception_5b/double3x3b/bn/sc/relu",
+                "inception_5b/pool_proj/bn/sc/relu"
+            ],
+            "children": [
+                "pool5/7x7_s1"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                352
+            ]
+        },
+        "pool5/7x7_s1": {
+            "type": "Pool",
+            "parents": [
+                "inception_5b/output"
+            ],
+            "children": [
+                "loss3/classifier_0"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                7,
+                7,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "loss3/classifier_0": {
+            "type": "Flatten",
+            "parents": [
+                "pool5/7x7_s1"
+            ],
+            "children": [
+                "loss3/classifier_1"
+            ],
+            "output_shape": [
+                -1,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                1024
+            ]
+        },
+        "loss3/classifier_1": {
+            "type": "FullyConnected",
+            "parents": [
+                "loss3/classifier_0"
+            ],
+            "children": [
+                "loss3/loss"
+            ],
+            "output_shape": [
+                -1,
+                1000
+            ],
+            "input_shape": [
+                -1,
+                1024
+            ]
+        },
+        "loss3/loss": {
+            "type": "Softmax",
+            "parents": [
+                "loss3/classifier_1"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1000
+            ],
+            "input_shape": [
+                -1,
+                1000
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

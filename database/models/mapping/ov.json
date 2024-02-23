@@ -1,0 +1,84 @@
+{
+    "name": "ncs2_opt",
+    "ConvBatch": {
+        "name": "ConvBatch",
+        "prim_type": "Conv",
+        "sec_type": "BatchNorm",
+        "out_type": "Conv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+    "DepthwiseConvBatch": {
+        "name": "DepthwiseConvBatch",
+        "prim_type": "DepthwiseConv",
+        "sec_type": "BatchNorm",
+        "out_type": "DepthwiseConv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+    "DepthwiseConvRelu": {
+        "name": "DepthwiseConvRelu",
+        "prim_type": "DepthwiseConv",
+        "sec_type": "Relu",
+        "out_type": "DepthwiseConv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+    "DepthwiseConvRelu6": {
+        "name": "DepthwiseConvRelu6",
+        "prim_type": "DepthwiseConv",
+        "sec_type": "Relu6",
+        "out_type": "DepthwiseConv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+    "ConvRelu": {
+		 "name": "ConvRelu",
+		 "prim_type": "Conv",
+		 "sec_type": "Relu",
+		 "out_type": "Conv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+	},
+    "ConvRelu6": {
+        "name": "ConvRelu6",
+        "prim_type": "Conv",
+        "sec_type": "Relu6",
+        "out_type": "Conv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+     "ConvLeakyRelu": {
+        "name": "ConvLeakyRelu",
+        "prim_type": "Conv",
+        "sec_type": "LeakyRelu",
+        "out_type": "Conv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+    "ConvPool": {
+		"name": "ConvPool",
+		"prim_type": "Conv",
+		"sec_type": "Pool",
+		"out_type": "ConvPool",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+	},
+	"Softplus": {
+        "name": "Softplus",
+        "prim_type": "Softplus",
+        "sec_type": null,
+        "out_type": ["Exp","Power","Log"],
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    }
+}

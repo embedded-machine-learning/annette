@@ -1,0 +1,30 @@
+{
+    "name": "fully-connected",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "fully-connected1"
+            ],
+            "output_shape": [
+                "batch_size", "channels"
+            ]
+        },
+        "fully-connected1": {
+            "type": "MatMul",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                "filters"
+            ],
+            "input_shape": [
+                -1,
+                -1
+            ]
+        }
+    }
+}

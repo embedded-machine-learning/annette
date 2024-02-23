@@ -1,0 +1,4519 @@
+{
+    "name": "mobile100",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "Conv1_pad/Pad"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ]
+        },
+        "Conv1_pad/Pad": {
+            "type": "Pad",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "Conv1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                225,
+                225,
+                3
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Conv1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "Conv1_pad/Pad"
+            ],
+            "children": [
+                "bn_Conv1/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                225,
+                225,
+                3
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                32
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "bn_Conv1/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "Conv1/Conv2D"
+            ],
+            "children": [
+                "Conv1_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ]
+        },
+        "Conv1_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "bn_Conv1/FusedBatchNormV3"
+            ],
+            "children": [
+                "expanded_conv_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ]
+        },
+        "expanded_conv_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "Conv1_relu/Relu6"
+            ],
+            "children": [
+                "expanded_conv_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "expanded_conv_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "expanded_conv_depthwise/depthwise"
+            ],
+            "children": [
+                "expanded_conv_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ]
+        },
+        "expanded_conv_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "expanded_conv_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "expanded_conv_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ]
+        },
+        "expanded_conv_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "expanded_conv_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "expanded_conv_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                16
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "expanded_conv_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "expanded_conv_project/Conv2D"
+            ],
+            "children": [
+                "block_1_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                16
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                16
+            ]
+        },
+        "block_1_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "expanded_conv_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_1_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                96
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                16
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                16,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_1_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_1_expand/Conv2D"
+            ],
+            "children": [
+                "block_1_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                96
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                96
+            ]
+        },
+        "block_1_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_1_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_1_pad/Pad"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                96
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                96
+            ]
+        },
+        "block_1_pad/Pad": {
+            "type": "Pad",
+            "parents": [
+                "block_1_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_1_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                113,
+                113,
+                96
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                96
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_1_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_1_pad/Pad"
+            ],
+            "children": [
+                "block_1_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                96
+            ],
+            "input_shape": [
+                -1,
+                113,
+                113,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_1_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_1_depthwise/depthwise"
+            ],
+            "children": [
+                "block_1_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                96
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                96
+            ]
+        },
+        "block_1_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_1_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_1_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                96
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                96
+            ]
+        },
+        "block_1_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_1_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_1_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                96
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_1_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_1_project/Conv2D"
+            ],
+            "children": [
+                "block_2_expand/Conv2D",
+                "block_2_add/add"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                24
+            ]
+        },
+        "block_2_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_1_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_2_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                24,
+                144
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_2_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_2_expand/Conv2D"
+            ],
+            "children": [
+                "block_2_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ]
+        },
+        "block_2_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_2_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_2_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ]
+        },
+        "block_2_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_2_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_2_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                144,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_2_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_2_depthwise/depthwise"
+            ],
+            "children": [
+                "block_2_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ]
+        },
+        "block_2_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_2_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_2_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ]
+        },
+        "block_2_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_2_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_2_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                144,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_2_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_2_project/Conv2D"
+            ],
+            "children": [
+                "block_2_add/add"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                24
+            ]
+        },
+        "block_2_add/add": {
+            "type": "Add",
+            "parents": [
+                "block_1_project_BN/FusedBatchNormV3",
+                "block_2_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_3_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                24
+            ]
+        },
+        "block_3_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_2_add/add"
+            ],
+            "children": [
+                "block_3_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                24,
+                144
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_3_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_3_expand/Conv2D"
+            ],
+            "children": [
+                "block_3_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ]
+        },
+        "block_3_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_3_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_3_pad/Pad"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ]
+        },
+        "block_3_pad/Pad": {
+            "type": "Pad",
+            "parents": [
+                "block_3_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_3_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                57,
+                57,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_3_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_3_pad/Pad"
+            ],
+            "children": [
+                "block_3_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                144
+            ],
+            "input_shape": [
+                -1,
+                57,
+                57,
+                144
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                144,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_3_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_3_depthwise/depthwise"
+            ],
+            "children": [
+                "block_3_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                144
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                144
+            ]
+        },
+        "block_3_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_3_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_3_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                144
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                144
+            ]
+        },
+        "block_3_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_3_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_3_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                144
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                144,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_3_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_3_project/Conv2D"
+            ],
+            "children": [
+                "block_4_expand/Conv2D",
+                "block_4_add/add"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "block_4_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_3_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_4_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_4_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_4_expand/Conv2D"
+            ],
+            "children": [
+                "block_4_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "block_4_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_4_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_4_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "block_4_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_4_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_4_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_4_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_4_depthwise/depthwise"
+            ],
+            "children": [
+                "block_4_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "block_4_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_4_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_4_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "block_4_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_4_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_4_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_4_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_4_project/Conv2D"
+            ],
+            "children": [
+                "block_4_add/add"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "block_4_add/add": {
+            "type": "Add",
+            "parents": [
+                "block_3_project_BN/FusedBatchNormV3",
+                "block_4_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_5_expand/Conv2D",
+                "block_5_add/add"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "block_5_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_4_add/add"
+            ],
+            "children": [
+                "block_5_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_5_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_5_expand/Conv2D"
+            ],
+            "children": [
+                "block_5_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "block_5_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_5_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_5_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "block_5_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_5_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_5_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_5_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_5_depthwise/depthwise"
+            ],
+            "children": [
+                "block_5_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "block_5_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_5_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_5_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "block_5_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_5_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_5_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_5_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_5_project/Conv2D"
+            ],
+            "children": [
+                "block_5_add/add"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "block_5_add/add": {
+            "type": "Add",
+            "parents": [
+                "block_4_add/add",
+                "block_5_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_6_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "block_6_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_5_add/add"
+            ],
+            "children": [
+                "block_6_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_6_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_6_expand/Conv2D"
+            ],
+            "children": [
+                "block_6_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "block_6_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_6_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_6_pad/Pad"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "block_6_pad/Pad": {
+            "type": "Pad",
+            "parents": [
+                "block_6_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_6_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                29,
+                29,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_6_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_6_pad/Pad"
+            ],
+            "children": [
+                "block_6_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                29,
+                29,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_6_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_6_depthwise/depthwise"
+            ],
+            "children": [
+                "block_6_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "block_6_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_6_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_6_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "block_6_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_6_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_6_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_6_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_6_project/Conv2D"
+            ],
+            "children": [
+                "block_7_expand/Conv2D",
+                "block_7_add/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "block_7_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_6_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_7_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_7_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_7_expand/Conv2D"
+            ],
+            "children": [
+                "block_7_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_7_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_7_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_7_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_7_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_7_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_7_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                384,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_7_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_7_depthwise/depthwise"
+            ],
+            "children": [
+                "block_7_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_7_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_7_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_7_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_7_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_7_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_7_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_7_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_7_project/Conv2D"
+            ],
+            "children": [
+                "block_7_add/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "block_7_add/add": {
+            "type": "Add",
+            "parents": [
+                "block_6_project_BN/FusedBatchNormV3",
+                "block_7_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_8_expand/Conv2D",
+                "block_8_add/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "block_8_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_7_add/add"
+            ],
+            "children": [
+                "block_8_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_8_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_8_expand/Conv2D"
+            ],
+            "children": [
+                "block_8_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_8_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_8_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_8_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_8_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_8_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_8_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                384,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_8_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_8_depthwise/depthwise"
+            ],
+            "children": [
+                "block_8_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_8_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_8_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_8_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_8_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_8_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_8_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_8_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_8_project/Conv2D"
+            ],
+            "children": [
+                "block_8_add/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "block_8_add/add": {
+            "type": "Add",
+            "parents": [
+                "block_7_add/add",
+                "block_8_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_9_expand/Conv2D",
+                "block_9_add/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "block_9_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_8_add/add"
+            ],
+            "children": [
+                "block_9_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_9_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_9_expand/Conv2D"
+            ],
+            "children": [
+                "block_9_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_9_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_9_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_9_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_9_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_9_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_9_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                384,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_9_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_9_depthwise/depthwise"
+            ],
+            "children": [
+                "block_9_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_9_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_9_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_9_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_9_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_9_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_9_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_9_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_9_project/Conv2D"
+            ],
+            "children": [
+                "block_9_add/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "block_9_add/add": {
+            "type": "Add",
+            "parents": [
+                "block_8_add/add",
+                "block_9_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_10_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "block_10_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_9_add/add"
+            ],
+            "children": [
+                "block_10_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_10_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_10_expand/Conv2D"
+            ],
+            "children": [
+                "block_10_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_10_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_10_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_10_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_10_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_10_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_10_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                384,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_10_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_10_depthwise/depthwise"
+            ],
+            "children": [
+                "block_10_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_10_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_10_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_10_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "block_10_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_10_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_10_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_10_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_10_project/Conv2D"
+            ],
+            "children": [
+                "block_11_expand/Conv2D",
+                "block_11_add/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "block_11_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_10_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_11_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                576
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_11_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_11_expand/Conv2D"
+            ],
+            "children": [
+                "block_11_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "block_11_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_11_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_11_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "block_11_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_11_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_11_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                576,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_11_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_11_depthwise/depthwise"
+            ],
+            "children": [
+                "block_11_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "block_11_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_11_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_11_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "block_11_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_11_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_11_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_11_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_11_project/Conv2D"
+            ],
+            "children": [
+                "block_11_add/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "block_11_add/add": {
+            "type": "Add",
+            "parents": [
+                "block_10_project_BN/FusedBatchNormV3",
+                "block_11_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_12_expand/Conv2D",
+                "block_12_add/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "block_12_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_11_add/add"
+            ],
+            "children": [
+                "block_12_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                576
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_12_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_12_expand/Conv2D"
+            ],
+            "children": [
+                "block_12_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "block_12_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_12_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_12_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "block_12_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_12_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_12_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                576,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_12_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_12_depthwise/depthwise"
+            ],
+            "children": [
+                "block_12_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "block_12_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_12_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_12_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "block_12_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_12_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_12_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_12_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_12_project/Conv2D"
+            ],
+            "children": [
+                "block_12_add/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "block_12_add/add": {
+            "type": "Add",
+            "parents": [
+                "block_11_add/add",
+                "block_12_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_13_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "block_13_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_12_add/add"
+            ],
+            "children": [
+                "block_13_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                576
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_13_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_13_expand/Conv2D"
+            ],
+            "children": [
+                "block_13_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "block_13_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_13_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_13_pad/Pad"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "block_13_pad/Pad": {
+            "type": "Pad",
+            "parents": [
+                "block_13_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_13_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                15,
+                15,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_13_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_13_pad/Pad"
+            ],
+            "children": [
+                "block_13_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                576
+            ],
+            "input_shape": [
+                -1,
+                15,
+                15,
+                576
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                576,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_13_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_13_depthwise/depthwise"
+            ],
+            "children": [
+                "block_13_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                576
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                576
+            ]
+        },
+        "block_13_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_13_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_13_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                576
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                576
+            ]
+        },
+        "block_13_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_13_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_13_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_13_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_13_project/Conv2D"
+            ],
+            "children": [
+                "block_14_expand/Conv2D",
+                "block_14_add/add"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ]
+        },
+        "block_14_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_13_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_14_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                160,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_14_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_14_expand/Conv2D"
+            ],
+            "children": [
+                "block_14_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_14_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_14_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_14_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_14_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_14_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_14_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                960,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_14_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_14_depthwise/depthwise"
+            ],
+            "children": [
+                "block_14_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_14_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_14_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_14_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_14_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_14_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_14_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                960,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_14_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_14_project/Conv2D"
+            ],
+            "children": [
+                "block_14_add/add"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ]
+        },
+        "block_14_add/add": {
+            "type": "Add",
+            "parents": [
+                "block_13_project_BN/FusedBatchNormV3",
+                "block_14_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_15_expand/Conv2D",
+                "block_15_add/add"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ]
+        },
+        "block_15_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_14_add/add"
+            ],
+            "children": [
+                "block_15_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                160,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_15_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_15_expand/Conv2D"
+            ],
+            "children": [
+                "block_15_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_15_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_15_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_15_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_15_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_15_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_15_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                960,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_15_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_15_depthwise/depthwise"
+            ],
+            "children": [
+                "block_15_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_15_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_15_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_15_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_15_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_15_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_15_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                960,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_15_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_15_project/Conv2D"
+            ],
+            "children": [
+                "block_15_add/add"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ]
+        },
+        "block_15_add/add": {
+            "type": "Add",
+            "parents": [
+                "block_14_add/add",
+                "block_15_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_16_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ]
+        },
+        "block_16_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_15_add/add"
+            ],
+            "children": [
+                "block_16_expand_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                160,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_16_expand_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_16_expand/Conv2D"
+            ],
+            "children": [
+                "block_16_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_16_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_16_expand_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_16_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_16_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "block_16_expand_relu/Relu6"
+            ],
+            "children": [
+                "block_16_depthwise_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                960,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "block_16_depthwise_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_16_depthwise/depthwise"
+            ],
+            "children": [
+                "block_16_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_16_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "block_16_depthwise_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "block_16_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "block_16_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_16_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "block_16_project_BN/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                960,
+                320
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "block_16_project_BN/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "block_16_project/Conv2D"
+            ],
+            "children": [
+                "Conv_1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                320
+            ]
+        },
+        "Conv_1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "block_16_project_BN/FusedBatchNormV3"
+            ],
+            "children": [
+                "Conv_1_bn/FusedBatchNormV3"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                320,
+                1280
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Conv_1_bn/FusedBatchNormV3": {
+            "type": "BatchNorm",
+            "parents": [
+                "Conv_1/Conv2D"
+            ],
+            "children": [
+                "out_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1280
+            ]
+        },
+        "out_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "Conv_1_bn/FusedBatchNormV3"
+            ],
+            "children": [
+                "global_average_pooling2d/Mean"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1280
+            ]
+        },
+        "global_average_pooling2d/Mean": {
+            "type": "ReduceMean",
+            "parents": [
+                "out_relu/Relu6"
+            ],
+            "children": [
+                "Logits/MatMul"
+            ],
+            "output_shape": [
+                -1,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1280
+            ]
+        },
+        "Logits/MatMul": {
+            "type": "FullyConnected",
+            "parents": [
+                "global_average_pooling2d/Mean"
+            ],
+            "children": [
+                "Logits/Softmax"
+            ],
+            "output_shape": [
+                -1,
+                1000
+            ],
+            "input_shape": [
+                -1,
+                1280
+            ]
+        },
+        "Logits/Softmax": {
+            "type": "Softmax",
+            "parents": [
+                "Logits/MatMul"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                1000
+            ],
+            "input_shape": [
+                -1,
+                1000
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

@@ -1,0 +1,8662 @@
+{
+  "node": [
+    {
+      "name": "Placeholder",
+      "op": "DataInput",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "shape": {
+            "dim": [
+              {
+                "size": "-1"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Conv1_pad/Pad",
+      "op": "Pad",
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "225"
+                  },
+                  {
+                    "size": "225"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "Placeholder"
+      ]
+    },
+    {
+      "name": "Conv1/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "3",
+              "16"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "225",
+              "225",
+              "3"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "Conv1_pad/Pad"
+      ]
+    },
+    {
+      "name": "bn_Conv1/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "Conv1/Conv2D"
+      ]
+    },
+    {
+      "name": "Conv1_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "bn_Conv1/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "expanded_conv_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "16",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "Conv1_relu/Relu6"
+      ]
+    },
+    {
+      "name": "expanded_conv_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "expanded_conv_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "expanded_conv_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "expanded_conv_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "expanded_conv_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "16",
+              "8"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "8"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "112",
+              "112",
+              "16"
+            ]
+          }
+        }
+      },
+      "input": [
+        "expanded_conv_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "expanded_conv_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "8"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "expanded_conv_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_1_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "8",
+              "48"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "112",
+              "112",
+              "8"
+            ]
+          }
+        }
+      },
+      "input": [
+        "expanded_conv_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_1_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_1_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_1_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_1_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_1_pad/Pad",
+      "op": "Pad",
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "113"
+                  },
+                  {
+                    "size": "113"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_1_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_1_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "48",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      },
+      "input": [
+        "block_1_pad/Pad"
+      ]
+    },
+    {
+      "name": "block_1_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_1_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_1_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_1_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_1_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "48",
+              "16"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "48"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_1_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_1_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_1_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_2_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "16",
+              "96"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "16"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_1_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_2_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_2_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_2_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_2_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_2_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "96",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_2_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_2_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_2_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_2_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_2_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_2_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "96",
+              "16"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "96"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_2_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_2_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_2_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_2_add/add",
+      "op": "Add",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_1_project_BN/FusedBatchNormV3",
+        "block_2_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_3_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "16",
+              "96"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "16"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_2_add/add"
+      ]
+    },
+    {
+      "name": "block_3_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_3_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_3_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_3_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_3_pad/Pad",
+      "op": "Pad",
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "57"
+                  },
+                  {
+                    "size": "57"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_3_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_3_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "96",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      },
+      "input": [
+        "block_3_pad/Pad"
+      ]
+    },
+    {
+      "name": "block_3_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_3_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_3_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_3_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_3_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "96",
+              "16"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "96"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_3_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_3_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_3_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_4_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "16",
+              "96"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "16"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_3_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_4_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_4_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_4_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_4_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_4_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "96",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_4_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_4_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_4_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_4_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_4_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_4_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "96",
+              "16"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "96"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_4_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_4_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_4_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_4_add/add",
+      "op": "Add",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_3_project_BN/FusedBatchNormV3",
+        "block_4_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_5_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "16",
+              "96"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "16"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_4_add/add"
+      ]
+    },
+    {
+      "name": "block_5_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_5_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_5_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_5_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_5_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "96",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_5_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_5_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_5_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_5_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_5_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_5_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "96",
+              "16"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "96"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_5_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_5_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_5_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_5_add/add",
+      "op": "Add",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_4_add/add",
+        "block_5_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_6_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "16",
+              "96"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "16"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_5_add/add"
+      ]
+    },
+    {
+      "name": "block_6_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_6_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_6_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_6_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_6_pad/Pad",
+      "op": "Pad",
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "29"
+                  },
+                  {
+                    "size": "29"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_6_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_6_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "96",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      },
+      "input": [
+        "block_6_pad/Pad"
+      ]
+    },
+    {
+      "name": "block_6_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_6_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_6_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_6_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_6_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "96",
+              "32"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "96"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_6_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_6_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_6_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_7_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "32",
+              "192"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "32"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_6_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_7_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_7_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_7_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_7_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_7_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "192",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_7_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_7_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_7_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_7_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_7_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_7_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "192",
+              "32"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "192"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_7_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_7_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_7_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_7_add/add",
+      "op": "Add",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_6_project_BN/FusedBatchNormV3",
+        "block_7_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_8_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "32",
+              "192"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "32"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_7_add/add"
+      ]
+    },
+    {
+      "name": "block_8_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_8_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_8_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_8_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_8_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "192",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_8_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_8_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_8_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_8_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_8_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_8_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "192",
+              "32"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "192"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_8_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_8_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_8_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_8_add/add",
+      "op": "Add",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_7_add/add",
+        "block_8_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_9_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "32",
+              "192"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "32"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_8_add/add"
+      ]
+    },
+    {
+      "name": "block_9_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_9_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_9_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_9_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_9_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "192",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_9_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_9_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_9_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_9_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_9_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_9_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "192",
+              "32"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "192"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_9_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_9_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_9_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_9_add/add",
+      "op": "Add",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_8_add/add",
+        "block_9_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_10_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "32",
+              "192"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "32"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_9_add/add"
+      ]
+    },
+    {
+      "name": "block_10_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_10_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_10_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_10_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_10_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "192",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_10_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_10_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_10_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_10_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_10_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_10_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "192",
+              "48"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "192"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_10_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_10_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_10_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_11_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "48",
+              "288"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "48"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_10_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_11_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_11_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_11_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_11_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_11_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "288",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_11_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_11_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_11_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_11_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_11_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_11_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "288",
+              "48"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "288"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_11_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_11_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_11_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_11_add/add",
+      "op": "Add",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_10_project_BN/FusedBatchNormV3",
+        "block_11_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_12_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "48",
+              "288"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "48"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_11_add/add"
+      ]
+    },
+    {
+      "name": "block_12_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_12_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_12_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_12_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_12_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "288",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_12_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_12_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_12_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_12_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_12_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_12_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "288",
+              "48"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "288"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_12_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_12_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_12_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_12_add/add",
+      "op": "Add",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "48"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_11_add/add",
+        "block_12_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_13_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "48",
+              "288"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "48"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_12_add/add"
+      ]
+    },
+    {
+      "name": "block_13_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_13_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_13_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_13_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_13_pad/Pad",
+      "op": "Pad",
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "15"
+                  },
+                  {
+                    "size": "15"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_13_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_13_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "288",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      },
+      "input": [
+        "block_13_pad/Pad"
+      ]
+    },
+    {
+      "name": "block_13_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_13_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_13_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "288"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_13_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_13_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "288",
+              "80"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "80"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "288"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_13_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_13_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "80"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_13_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_14_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "80",
+              "480"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "80"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_13_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_14_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_14_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_14_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_14_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_14_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "480",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_14_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_14_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_14_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_14_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_14_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_14_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "480",
+              "80"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "80"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "480"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_14_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_14_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "80"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_14_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_14_add/add",
+      "op": "Add",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "80"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_13_project_BN/FusedBatchNormV3",
+        "block_14_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_15_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "80",
+              "480"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "80"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_14_add/add"
+      ]
+    },
+    {
+      "name": "block_15_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_15_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_15_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_15_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_15_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "480",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_15_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_15_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_15_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_15_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_15_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_15_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "480",
+              "80"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "80"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "480"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_15_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_15_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "80"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_15_project/Conv2D"
+      ]
+    },
+    {
+      "name": "block_15_add/add",
+      "op": "Add",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "80"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_14_add/add",
+        "block_15_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_16_expand/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "80",
+              "480"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "80"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_15_add/add"
+      ]
+    },
+    {
+      "name": "block_16_expand_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_16_expand/Conv2D"
+      ]
+    },
+    {
+      "name": "block_16_expand_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_16_expand_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_16_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "480",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      },
+      "input": [
+        "block_16_expand_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_16_depthwise_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_16_depthwise/depthwise"
+      ]
+    },
+    {
+      "name": "block_16_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "480"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "block_16_depthwise_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "block_16_project/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "480",
+              "160"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "160"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "480"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_16_depthwise_relu/Relu6"
+      ]
+    },
+    {
+      "name": "block_16_project_BN/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "160"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "block_16_project/Conv2D"
+      ]
+    },
+    {
+      "name": "Conv_1/Conv2D",
+      "op": "Conv",
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "160",
+              "1280"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "1280"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "160"
+            ]
+          }
+        }
+      },
+      "input": [
+        "block_16_project_BN/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "Conv_1_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "attr": {
+        "epsilon": {
+          "f": 0.0010000000474974513
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "1280"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      },
+      "input": [
+        "Conv_1/Conv2D"
+      ]
+    },
+    {
+      "name": "out_relu/Relu6",
+      "op": "Relu6",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "1280"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "Conv_1_bn/FusedBatchNormV3"
+      ]
+    },
+    {
+      "name": "global_average_pooling2d/Mean",
+      "op": "ReduceMean",
+      "attr": {
+        "keepdims": {
+          "b": false
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1280"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "axes": {
+          "list": {
+            "i": [
+              "1",
+              "2"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      },
+      "input": [
+        "out_relu/Relu6"
+      ]
+    },
+    {
+      "name": "Logits/MatMul",
+      "op": "FullyConnected",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              },
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "units": {
+          "i": "1000"
+        }
+      },
+      "input": [
+        "global_average_pooling2d/Mean"
+      ]
+    },
+    {
+      "name": "Logits/Softmax",
+      "op": "Softmax",
+      "attr": {
+        "dim": {
+          "i": "1"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "1000"
+            ]
+          }
+        }
+      },
+      "input": [
+        "Logits/MatMul"
+      ]
+    }
+  ]
+}

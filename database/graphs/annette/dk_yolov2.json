@@ -1,0 +1,1727 @@
+{
+    "name": "dk_yolov2",
+    "layers": {
+        "data": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "layer0-conv"
+            ],
+            "output_shape": [
+                -1,
+                448,
+                448,
+                3
+            ]
+        },
+        "layer0-conv": {
+            "type": "Conv",
+            "parents": [
+                "data"
+            ],
+            "children": [
+                "layer0-act"
+            ],
+            "output_shape": [
+                -1,
+                448,
+                448,
+                32
+            ],
+            "input_shape": [
+                -1,
+                448,
+                448,
+                3
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer0-act": {
+            "type": "Relu",
+            "parents": [
+                "layer0-conv"
+            ],
+            "children": [
+                "layer1-maxpool"
+            ],
+            "output_shape": [
+                -1,
+                448,
+                448,
+                32
+            ],
+            "input_shape": [
+                -1,
+                448,
+                448,
+                32
+            ]
+        },
+        "layer1-maxpool": {
+            "type": "Pool",
+            "parents": [
+                "layer0-act"
+            ],
+            "children": [
+                "layer2-conv"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                32
+            ],
+            "input_shape": [
+                -1,
+                448,
+                448,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "layer2-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer1-maxpool"
+            ],
+            "children": [
+                "layer2-act"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer2-act": {
+            "type": "Relu",
+            "parents": [
+                "layer2-conv"
+            ],
+            "children": [
+                "layer3-maxpool"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                64
+            ]
+        },
+        "layer3-maxpool": {
+            "type": "Pool",
+            "parents": [
+                "layer2-act"
+            ],
+            "children": [
+                "layer4-conv"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "layer4-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer3-maxpool"
+            ],
+            "children": [
+                "layer4-act"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer4-act": {
+            "type": "Relu",
+            "parents": [
+                "layer4-conv"
+            ],
+            "children": [
+                "layer5-conv"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                128
+            ]
+        },
+        "layer5-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer4-act"
+            ],
+            "children": [
+                "layer5-act"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer5-act": {
+            "type": "Relu",
+            "parents": [
+                "layer5-conv"
+            ],
+            "children": [
+                "layer6-conv"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "layer6-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer5-act"
+            ],
+            "children": [
+                "layer6-act"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer6-act": {
+            "type": "Relu",
+            "parents": [
+                "layer6-conv"
+            ],
+            "children": [
+                "layer7-maxpool"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                128
+            ]
+        },
+        "layer7-maxpool": {
+            "type": "Pool",
+            "parents": [
+                "layer6-act"
+            ],
+            "children": [
+                "layer8-conv"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "layer8-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer7-maxpool"
+            ],
+            "children": [
+                "layer8-act"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer8-act": {
+            "type": "Relu",
+            "parents": [
+                "layer8-conv"
+            ],
+            "children": [
+                "layer9-conv"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ]
+        },
+        "layer9-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer8-act"
+            ],
+            "children": [
+                "layer9-act"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer9-act": {
+            "type": "Relu",
+            "parents": [
+                "layer9-conv"
+            ],
+            "children": [
+                "layer10-conv"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ]
+        },
+        "layer10-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer9-act"
+            ],
+            "children": [
+                "layer10-act"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer10-act": {
+            "type": "Relu",
+            "parents": [
+                "layer10-conv"
+            ],
+            "children": [
+                "layer11-maxpool"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ]
+        },
+        "layer11-maxpool": {
+            "type": "Pool",
+            "parents": [
+                "layer10-act"
+            ],
+            "children": [
+                "layer12-conv"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "layer12-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer11-maxpool"
+            ],
+            "children": [
+                "layer12-act"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer12-act": {
+            "type": "Relu",
+            "parents": [
+                "layer12-conv"
+            ],
+            "children": [
+                "layer13-conv"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ]
+        },
+        "layer13-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer12-act"
+            ],
+            "children": [
+                "layer13-act"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer13-act": {
+            "type": "Relu",
+            "parents": [
+                "layer13-conv"
+            ],
+            "children": [
+                "layer14-conv"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ]
+        },
+        "layer14-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer13-act"
+            ],
+            "children": [
+                "layer14-act"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer14-act": {
+            "type": "Relu",
+            "parents": [
+                "layer14-conv"
+            ],
+            "children": [
+                "layer15-conv"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ]
+        },
+        "layer15-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer14-act"
+            ],
+            "children": [
+                "layer15-act"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer15-act": {
+            "type": "Relu",
+            "parents": [
+                "layer15-conv"
+            ],
+            "children": [
+                "layer16-conv"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ]
+        },
+        "layer16-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer15-act"
+            ],
+            "children": [
+                "layer16-act"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer16-act": {
+            "type": "Relu",
+            "parents": [
+                "layer16-conv"
+            ],
+            "children": [
+                "layer17-maxpool",
+                "layer26-conv"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ]
+        },
+        "layer17-maxpool": {
+            "type": "Pool",
+            "parents": [
+                "layer16-act"
+            ],
+            "children": [
+                "layer18-conv"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "layer26-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer16-act"
+            ],
+            "children": [
+                "layer26-act"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer18-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer17-maxpool"
+            ],
+            "children": [
+                "layer18-act"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer26-act": {
+            "type": "Relu",
+            "parents": [
+                "layer26-conv"
+            ],
+            "children": [
+                "layer27-reorg"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ]
+        },
+        "layer18-act": {
+            "type": "Relu",
+            "parents": [
+                "layer18-conv"
+            ],
+            "children": [
+                "layer19-conv"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ]
+        },
+        "layer27-reorg": {
+            "type": "DataInput",
+            "parents": [
+                "layer26-act"
+            ],
+            "children": [
+                "layer28-concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "layer19-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer18-act"
+            ],
+            "children": [
+                "layer19-act"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer19-act": {
+            "type": "Relu",
+            "parents": [
+                "layer19-conv"
+            ],
+            "children": [
+                "layer20-conv"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "layer20-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer19-act"
+            ],
+            "children": [
+                "layer20-act"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer20-act": {
+            "type": "Relu",
+            "parents": [
+                "layer20-conv"
+            ],
+            "children": [
+                "layer21-conv"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ]
+        },
+        "layer21-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer20-act"
+            ],
+            "children": [
+                "layer21-act"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "layer21-act": {
+            "type": "Relu",
+            "parents": [
+                "layer21-conv"
+            ],
+            "children": [
+                "layer22-conv"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "layer22-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer21-act"
+            ],
+            "children": [
+                "layer22-act"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer22-act": {
+            "type": "Relu",
+            "parents": [
+                "layer22-conv"
+            ],
+            "children": [
+                "layer23-conv"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ]
+        },
+        "layer23-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer22-act"
+            ],
+            "children": [
+                "layer23-act"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                1024,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer23-act": {
+            "type": "Relu",
+            "parents": [
+                "layer23-conv"
+            ],
+            "children": [
+                "layer24-conv"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ]
+        },
+        "layer24-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer23-act"
+            ],
+            "children": [
+                "layer24-act"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                1024,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer24-act": {
+            "type": "Relu",
+            "parents": [
+                "layer24-conv"
+            ],
+            "children": [
+                "layer28-concat"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ]
+        },
+        "layer28-concat": {
+            "type": "Concat",
+            "parents": [
+                "layer27-reorg",
+                "layer24-act"
+            ],
+            "children": [
+                "layer29-conv"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "layer29-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer28-concat"
+            ],
+            "children": [
+                "layer29-act"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1280
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                1280,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "layer29-act": {
+            "type": "Relu",
+            "parents": [
+                "layer29-conv"
+            ],
+            "children": [
+                "layer30-conv"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ]
+        },
+        "layer30-conv": {
+            "type": "Conv",
+            "parents": [
+                "layer29-act"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                125
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                125
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

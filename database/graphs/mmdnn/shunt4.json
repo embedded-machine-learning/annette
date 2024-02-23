@@ -1,0 +1,4570 @@
+{
+  "node": [
+    {
+      "name": "Placeholder",
+      "op": "DataInput",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "shape": {
+            "dim": [
+              {
+                "size": "-1"
+              },
+              {
+                "size": "32"
+              },
+              {
+                "size": "32"
+              },
+              {
+                "size": "3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "x",
+      "op": "DataInput",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "shape": {
+            "dim": [
+              {
+                "size": "-1"
+              },
+              {
+                "size": "32"
+              },
+              {
+                "size": "32"
+              },
+              {
+                "size": "3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_Conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "Placeholder"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "3",
+              "32"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "3"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_Conv_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_Conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_Conv_relu/Relu6"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "32",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_depthwise/depthwise"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "32",
+              "16"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "16"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "32"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_1_expand/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_project/Conv2D"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "16"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "16",
+              "96"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_1_expand_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_1_expand/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_1_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_1_expand_relu/Relu6"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "96",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_1_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_1_depthwise/depthwise"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_1_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_1_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "24"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "96",
+              "24"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "96"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_2_expand/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_1_project/Conv2D"
+      ],
+      "attr": {
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "144"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "24",
+              "144"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "24"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_2_expand_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_2_expand/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "144"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_2_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_2_expand_relu/Relu6"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "144",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "144"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_2_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_2_depthwise/depthwise"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "144"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_2_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_2_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "24"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "144",
+              "24"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "144"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_2_add/add",
+      "op": "Add",
+      "input": [
+        "mobilenetv2/final_expanded_conv_2_project/Conv2D",
+        "mobilenetv2/final_expanded_conv_1_project/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "24"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_3_expand/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_2_add/add"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "24",
+              "144"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "144"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "24"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_3_expand_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_3_expand/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "144"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_3_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "mobilenetv2/final_expanded_conv_3_expand_relu/Relu6"
+      ],
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "33"
+                  },
+                  {
+                    "size": "33"
+                  },
+                  {
+                    "size": "144"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_3_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_3_pad/Pad"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "144",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "144"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_3_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_3_depthwise/depthwise"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "144"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_3_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_3_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "144",
+              "32"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "144"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_4_expand/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_3_project/Conv2D"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "32",
+              "192"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "32"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_4_expand_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_4_expand/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_4_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_4_expand_relu/Relu6"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "192",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_4_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_4_depthwise/depthwise"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_4_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_4_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "192",
+              "32"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "192"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_4_add/add",
+      "op": "Add",
+      "input": [
+        "mobilenetv2/final_expanded_conv_4_project/Conv2D",
+        "mobilenetv2/final_expanded_conv_3_project/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_5_expand/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_4_add/add"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "32",
+              "192"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "32"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_5_expand_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_5_expand/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_5_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_5_expand_relu/Relu6"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "192",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_5_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_5_depthwise/depthwise"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_5_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_5_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "192",
+              "32"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "192"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_5_add/add",
+      "op": "Add",
+      "input": [
+        "mobilenetv2/final_expanded_conv_5_project/Conv2D",
+        "mobilenetv2/final_expanded_conv_4_add/add"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_6_expand/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_5_add/add"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "32",
+              "192"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "32"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_6_expand_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_6_expand/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_6_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "mobilenetv2/final_expanded_conv_6_expand_relu/Relu6"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "17"
+                  },
+                  {
+                    "size": "17"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_6_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_6_pad/Pad"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "192",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_6_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_6_depthwise/depthwise"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "192"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_6_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_6_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "8",
+              "8",
+              "192"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "192",
+              "64"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/conv2d/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_6_project/Conv2D"
+      ],
+      "attr": {
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "128"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "8",
+              "8",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/re_lu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/conv2d/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/depthwise_conv2d/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/re_lu/Relu6"
+      ],
+      "attr": {
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/re_lu_1/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/depthwise_conv2d/depthwise"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/conv2d_1/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/re_lu_1/Relu6"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "96"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "128",
+              "96"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "8",
+              "8",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_13_expand/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/conv2d_1/Conv2D"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "8",
+              "8",
+              "96"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "576"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "96",
+              "576"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_13_expand_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_13_expand/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "8"
+                  },
+                  {
+                    "size": "576"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_13_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "mobilenetv2/final_expanded_conv_13_expand_relu/Relu6"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "9"
+                  },
+                  {
+                    "size": "9"
+                  },
+                  {
+                    "size": "576"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_13_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_13_pad/Pad"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "576",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "576"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_13_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_13_depthwise/depthwise"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "576"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_13_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_13_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "160"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "4",
+              "4",
+              "576"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "576",
+              "160"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_14_expand/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_13_project/Conv2D"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "4",
+              "4",
+              "160"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "160",
+              "960"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_14_expand_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_14_expand/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_14_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_14_expand_relu/Relu6"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "960",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_14_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_14_depthwise/depthwise"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_14_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_14_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "960",
+              "160"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "160"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "4",
+              "4",
+              "960"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_14_add/add",
+      "op": "Add",
+      "input": [
+        "mobilenetv2/final_expanded_conv_14_project/Conv2D",
+        "mobilenetv2/final_expanded_conv_13_project/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "160"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_15_expand/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_14_add/add"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "160",
+              "960"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "4",
+              "4",
+              "160"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_15_expand_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_15_expand/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_15_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_15_expand_relu/Relu6"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "960",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_15_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_15_depthwise/depthwise"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_15_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_15_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "160"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "4",
+              "4",
+              "960"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "960",
+              "160"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_15_add/add",
+      "op": "Add",
+      "input": [
+        "mobilenetv2/final_expanded_conv_15_project/Conv2D",
+        "mobilenetv2/final_expanded_conv_14_add/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "160"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_16_expand/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_15_add/add"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "4",
+              "4",
+              "160"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "160",
+              "960"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_16_expand_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_16_expand/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_16_depthwise/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_16_expand_relu/Relu6"
+      ],
+      "attr": {
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "960",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_16_depthwise_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_expanded_conv_16_depthwise/depthwise"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "960"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_expanded_conv_16_project/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_16_depthwise_relu/Relu6"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "960",
+              "320"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "4",
+              "4",
+              "960"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "320"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_Conv_1/Conv2D",
+      "op": "Conv",
+      "input": [
+        "mobilenetv2/final_expanded_conv_16_project/Conv2D"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "1280"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "4",
+              "4",
+              "320"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "320",
+              "1280"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_out_relu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "mobilenetv2/final_Conv_1/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "4"
+                  },
+                  {
+                    "size": "1280"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_global_average_pooling2d/Mean",
+      "op": "ReduceMean",
+      "input": [
+        "mobilenetv2/final_out_relu/Relu6"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1280"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "keepdims": {
+          "b": false
+        },
+        "axes": {
+          "list": {
+            "i": [
+              "1",
+              "2"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_dense/MatMul",
+      "op": "FullyConnected",
+      "input": [
+        "mobilenetv2/final_global_average_pooling2d/Mean"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "units": {
+          "i": "10"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "10"
+                  }
+                ]
+              },
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "10"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mobilenetv2/final_activation/Softmax",
+      "op": "Softmax",
+      "input": [
+        "mobilenetv2/final_dense/MatMul"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "10"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "10"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dim": {
+          "i": "1"
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,2352 @@
+{
+    "name": "tf_resnet18",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "resnet_v1_18/Pad"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ]
+        },
+        "resnet_v1_18/Pad": {
+            "type": "Pad",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "resnet_v1_18/conv1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                230,
+                230,
+                3
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "resnet_v1_18/conv1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/Pad"
+            ],
+            "children": [
+                "resnet_v1_18/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                230,
+                230,
+                3
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                3,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "resnet_v1_18/conv1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/conv1/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/conv1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "resnet_v1_18/conv1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/pool1/MaxPool"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "resnet_v1_18/pool1/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "resnet_v1_18/conv1/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/shortcut/Conv2D",
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/shortcut/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/pool1/MaxPool"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/pool1/MaxPool"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/shortcut/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ]
+        },
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/conv2/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/conv2/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/conv1/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/conv2/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ]
+        },
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/add": {
+            "type": "Add",
+            "parents": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/Relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ]
+        },
+        "resnet_v1_18/block1/unit_1/bottleneck_v2/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/add"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/Conv2D",
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ]
+        },
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/conv2/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/conv2/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/conv1/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/conv2/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ]
+        },
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/add": {
+            "type": "Add",
+            "parents": [
+                "resnet_v1_18/block1/unit_1/bottleneck_v2/Relu",
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/Relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ]
+        },
+        "resnet_v1_18/block1/unit_2/bottleneck_v2/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/add"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/shortcut/Conv2D",
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ]
+        },
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/shortcut/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                512
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block1/unit_2/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/shortcut/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                512
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                512
+            ]
+        },
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ]
+        },
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/conv2/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ]
+        },
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/conv2/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/conv1/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                512
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/conv2/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                512
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                512
+            ]
+        },
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/add": {
+            "type": "Add",
+            "parents": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/Relu"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                512
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                512
+            ]
+        },
+        "resnet_v1_18/block2/unit_1/bottleneck_v2/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/add"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/shortcut/MaxPool",
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/Pad"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                512
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                512
+            ]
+        },
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/shortcut/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/Pad": {
+            "type": "Pad",
+            "parents": [
+                "resnet_v1_18/block2/unit_1/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                58,
+                58,
+                512
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                512
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/Pad"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                58,
+                58,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/conv2/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/conv2/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/conv1/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/conv2/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ]
+        },
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/add": {
+            "type": "Add",
+            "parents": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/shortcut/MaxPool",
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ]
+        },
+        "resnet_v1_18/block2/unit_2/bottleneck_v2/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/add"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/shortcut/Conv2D",
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ]
+        },
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/shortcut/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block2/unit_2/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/shortcut/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ]
+        },
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ]
+        },
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/conv2/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ]
+        },
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/conv2/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/conv1/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/conv2/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ]
+        },
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/add": {
+            "type": "Add",
+            "parents": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/Relu"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ]
+        },
+        "resnet_v1_18/block3/unit_1/bottleneck_v2/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/add"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/shortcut/MaxPool",
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/Pad"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ]
+        },
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/shortcut/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/Pad": {
+            "type": "Pad",
+            "parents": [
+                "resnet_v1_18/block3/unit_1/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                30,
+                30,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                1024
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/Pad"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                30,
+                30,
+                1024
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                1024,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/conv2/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/conv2/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/conv1/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/conv2/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ]
+        },
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/add": {
+            "type": "Add",
+            "parents": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/shortcut/MaxPool",
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ]
+        },
+        "resnet_v1_18/block3/unit_2/bottleneck_v2/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/add"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/shortcut/Conv2D",
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ]
+        },
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/shortcut/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                2048
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block3/unit_2/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1024
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                1024,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/shortcut/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ]
+        },
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/conv2/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/conv2/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/conv1/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                2048
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/conv2/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ]
+        },
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/add": {
+            "type": "Add",
+            "parents": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/shortcut/BatchNorm/FusedBatchNorm",
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/Relu"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ]
+        },
+        "resnet_v1_18/block4/unit_1/bottleneck_v2/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/add"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/shortcut/MaxPool",
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/Pad"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ]
+        },
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/shortcut/MaxPool": {
+            "type": "Pool",
+            "parents": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/Pad": {
+            "type": "Pad",
+            "parents": [
+                "resnet_v1_18/block4/unit_1/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                2048
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/Pad"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                2048
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                2048,
+                512
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/conv2/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/conv2/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/conv1/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                2048
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/conv2/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/add"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                2048
+            ]
+        },
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/add": {
+            "type": "Add",
+            "parents": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/shortcut/MaxPool",
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/conv2/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/Relu"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                2048
+            ]
+        },
+        "resnet_v1_18/block4/unit_2/bottleneck_v2/Relu": {
+            "type": "Relu",
+            "parents": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/add"
+            ],
+            "children": [
+                "resnet_v1_18/pool5"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                2048
+            ]
+        },
+        "resnet_v1_18/pool5": {
+            "type": "ReduceMean",
+            "parents": [
+                "resnet_v1_18/block4/unit_2/bottleneck_v2/Relu"
+            ],
+            "children": [
+                "resnet_v1_18/logits/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                2048
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                2048
+            ]
+        },
+        "resnet_v1_18/logits/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "resnet_v1_18/pool5"
+            ],
+            "children": [
+                "resnet_v1_18/SpatialSqueeze"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                2048
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                2048,
+                1001
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "resnet_v1_18/SpatialSqueeze": {
+            "type": "Squeeze",
+            "parents": [
+                "resnet_v1_18/logits/Conv2D"
+            ],
+            "children": [
+                "resnet_v1_18/predictions/Reshape",
+                "resnet_v1_18/predictions/Shape"
+            ],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                1001
+            ]
+        },
+        "resnet_v1_18/predictions/Reshape": {
+            "type": "Reshape",
+            "parents": [
+                "resnet_v1_18/SpatialSqueeze"
+            ],
+            "children": [
+                "resnet_v1_18/predictions/Softmax"
+            ],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1001
+            ]
+        },
+        "resnet_v1_18/predictions/Shape": {
+            "type": "Shape",
+            "parents": [
+                "resnet_v1_18/SpatialSqueeze"
+            ],
+            "children": [],
+            "output_shape": [
+                2
+            ],
+            "input_shape": [
+                -1,
+                1001
+            ]
+        },
+        "resnet_v1_18/predictions/Softmax": {
+            "type": "Softmax",
+            "parents": [
+                "resnet_v1_18/predictions/Reshape"
+            ],
+            "children": [
+                "resnet_v1_18/predictions/Reshape_1"
+            ],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1001
+            ]
+        },
+        "resnet_v1_18/predictions/Reshape_1": {
+            "type": "Reshape",
+            "parents": [
+                "resnet_v1_18/predictions/Softmax"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1001
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

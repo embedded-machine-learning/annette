@@ -1,0 +1,1526 @@
+{
+    "name": "reid",
+    "layers": {
+        "data": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "ConvNd_1"
+            ],
+            "output_shape": [
+                -1,
+                160,
+                80,
+                3
+            ]
+        },
+        "ConvNd_1": {
+            "type": "Conv",
+            "parents": [
+                "data"
+            ],
+            "children": [
+                "Threshold_1"
+            ],
+            "output_shape": [
+                -1,
+                80,
+                40,
+                64
+            ],
+            "input_shape": [
+                -1,
+                160,
+                80,
+                3
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                3,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ]
+        },
+        "Threshold_1": {
+            "type": "Relu",
+            "parents": [
+                "ConvNd_1"
+            ],
+            "children": [
+                "MaxPool2d_1"
+            ],
+            "output_shape": [
+                -1,
+                80,
+                40,
+                64
+            ],
+            "input_shape": [
+                -1,
+                80,
+                40,
+                64
+            ]
+        },
+        "MaxPool2d_1": {
+            "type": "Pool",
+            "parents": [
+                "Threshold_1"
+            ],
+            "children": [
+                "Add_1",
+                "ConvNd_2"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                80,
+                40,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "ConvNd_2": {
+            "type": "Conv",
+            "parents": [
+                "MaxPool2d_1"
+            ],
+            "children": [
+                "Threshold_2"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Threshold_2": {
+            "type": "Relu",
+            "parents": [
+                "ConvNd_2"
+            ],
+            "children": [
+                "ConvNd_3"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ]
+        },
+        "ConvNd_3": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_2"
+            ],
+            "children": [
+                "Add_1"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Add_1": {
+            "type": "Add",
+            "parents": [
+                "ConvNd_3",
+                "MaxPool2d_1"
+            ],
+            "children": [
+                "Threshold_3"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ]
+        },
+        "Threshold_3": {
+            "type": "Relu",
+            "parents": [
+                "Add_1"
+            ],
+            "children": [
+                "ConvNd_4",
+                "Add_2"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ]
+        },
+        "ConvNd_4": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_3"
+            ],
+            "children": [
+                "Threshold_4"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Threshold_4": {
+            "type": "Relu",
+            "parents": [
+                "ConvNd_4"
+            ],
+            "children": [
+                "ConvNd_5"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ]
+        },
+        "ConvNd_5": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_4"
+            ],
+            "children": [
+                "Add_2"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Add_2": {
+            "type": "Add",
+            "parents": [
+                "ConvNd_5",
+                "Threshold_3"
+            ],
+            "children": [
+                "Threshold_5"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ]
+        },
+        "Threshold_5": {
+            "type": "Relu",
+            "parents": [
+                "Add_2"
+            ],
+            "children": [
+                "ConvNd_8",
+                "ConvNd_6"
+            ],
+            "output_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ]
+        },
+        "ConvNd_8": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_5"
+            ],
+            "children": [
+                "Add_3"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "ConvNd_6": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_5"
+            ],
+            "children": [
+                "Threshold_6"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                40,
+                20,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Threshold_6": {
+            "type": "Relu",
+            "parents": [
+                "ConvNd_6"
+            ],
+            "children": [
+                "ConvNd_7"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ]
+        },
+        "ConvNd_7": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_6"
+            ],
+            "children": [
+                "Add_3"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Add_3": {
+            "type": "Add",
+            "parents": [
+                "ConvNd_7",
+                "ConvNd_8"
+            ],
+            "children": [
+                "Threshold_7"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ]
+        },
+        "Threshold_7": {
+            "type": "Relu",
+            "parents": [
+                "Add_3"
+            ],
+            "children": [
+                "Add_4",
+                "ConvNd_9"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ]
+        },
+        "ConvNd_9": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_7"
+            ],
+            "children": [
+                "Threshold_8"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Threshold_8": {
+            "type": "Relu",
+            "parents": [
+                "ConvNd_9"
+            ],
+            "children": [
+                "ConvNd_10"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ]
+        },
+        "ConvNd_10": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_8"
+            ],
+            "children": [
+                "Add_4"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Add_4": {
+            "type": "Add",
+            "parents": [
+                "ConvNd_10",
+                "Threshold_7"
+            ],
+            "children": [
+                "Threshold_9"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ]
+        },
+        "Threshold_9": {
+            "type": "Relu",
+            "parents": [
+                "Add_4"
+            ],
+            "children": [
+                "ConvNd_11",
+                "ConvNd_13"
+            ],
+            "output_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ]
+        },
+        "ConvNd_11": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_9"
+            ],
+            "children": [
+                "Threshold_10"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "ConvNd_13": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_9"
+            ],
+            "children": [
+                "Add_5"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                20,
+                10,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "Threshold_10": {
+            "type": "Relu",
+            "parents": [
+                "ConvNd_11"
+            ],
+            "children": [
+                "ConvNd_12"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ]
+        },
+        "ConvNd_12": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_10"
+            ],
+            "children": [
+                "Add_5"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Add_5": {
+            "type": "Add",
+            "parents": [
+                "ConvNd_12",
+                "ConvNd_13"
+            ],
+            "children": [
+                "Threshold_11"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ]
+        },
+        "Threshold_11": {
+            "type": "Relu",
+            "parents": [
+                "Add_5"
+            ],
+            "children": [
+                "ConvNd_14",
+                "Add_6"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ]
+        },
+        "ConvNd_14": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_11"
+            ],
+            "children": [
+                "Threshold_12"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Threshold_12": {
+            "type": "Relu",
+            "parents": [
+                "ConvNd_14"
+            ],
+            "children": [
+                "ConvNd_15"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ]
+        },
+        "ConvNd_15": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_12"
+            ],
+            "children": [
+                "Add_6"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Add_6": {
+            "type": "Add",
+            "parents": [
+                "ConvNd_15",
+                "Threshold_11"
+            ],
+            "children": [
+                "Threshold_13"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ]
+        },
+        "Threshold_13": {
+            "type": "Relu",
+            "parents": [
+                "Add_6"
+            ],
+            "children": [
+                "ConvNd_16",
+                "ConvNd_18"
+            ],
+            "output_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ]
+        },
+        "ConvNd_16": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_13"
+            ],
+            "children": [
+                "Threshold_14"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                2,
+                0
+            ]
+        },
+        "ConvNd_18": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_13"
+            ],
+            "children": [
+                "Add_7"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                10,
+                5,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        "Threshold_14": {
+            "type": "Relu",
+            "parents": [
+                "ConvNd_16"
+            ],
+            "children": [
+                "ConvNd_17"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                5,
+                3,
+                512
+            ]
+        },
+        "ConvNd_17": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_14"
+            ],
+            "children": [
+                "Add_7"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Add_7": {
+            "type": "Add",
+            "parents": [
+                "ConvNd_17",
+                "ConvNd_18"
+            ],
+            "children": [
+                "Threshold_15"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                5,
+                3,
+                512
+            ]
+        },
+        "Threshold_15": {
+            "type": "Relu",
+            "parents": [
+                "Add_7"
+            ],
+            "children": [
+                "ConvNd_19",
+                "Add_8"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                5,
+                3,
+                512
+            ]
+        },
+        "ConvNd_19": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_15"
+            ],
+            "children": [
+                "Threshold_16"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Threshold_16": {
+            "type": "Relu",
+            "parents": [
+                "ConvNd_19"
+            ],
+            "children": [
+                "ConvNd_20"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                5,
+                3,
+                512
+            ]
+        },
+        "ConvNd_20": {
+            "type": "Conv",
+            "parents": [
+                "Threshold_16"
+            ],
+            "children": [
+                "Add_8"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "Add_8": {
+            "type": "Add",
+            "parents": [
+                "ConvNd_20",
+                "Threshold_15"
+            ],
+            "children": [
+                "Threshold_17"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                5,
+                3,
+                512
+            ]
+        },
+        "Threshold_17": {
+            "type": "Relu",
+            "parents": [
+                "Add_8"
+            ],
+            "children": [
+                "AvgPool2d_1"
+            ],
+            "output_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "input_shape": [
+                -1,
+                5,
+                3,
+                512
+            ]
+        },
+        "AvgPool2d_1": {
+            "type": "Pool",
+            "parents": [
+                "Threshold_17"
+            ],
+            "children": [
+                "View_1"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                512
+            ],
+            "input_shape": [
+                -1,
+                5,
+                3,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                5,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                5,
+                3,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "View_1": {
+            "type": "Flatten",
+            "parents": [
+                "AvgPool2d_1"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                512
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                512
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

@@ -1,0 +1,2516 @@
+{
+    "node": [
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "512",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res5a_branch2a_relu"
+            ],
+            "name": "res5a_branch2b",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res4a_branch2a_relu"
+            ],
+            "name": "res4a_branch2b",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "128",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res3a_relu"
+            ],
+            "name": "res3b_branch2a",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res4a_branch1",
+                "res4a_branch2b"
+            ],
+            "name": "res4a",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "pool1"
+            ],
+            "name": "res2a_branch2a",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res4b_branch2a_relu"
+            ],
+            "name": "res4b_branch2b",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "64",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "pool1"
+            ],
+            "name": "res2a_branch1",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res5a"
+            ],
+            "name": "res5a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res3a_branch2a"
+            ],
+            "name": "res3a_branch2a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res4b"
+            ],
+            "name": "res4b_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res4b_branch2a"
+            ],
+            "name": "res4b_branch2a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "3",
+                            "3",
+                            "1"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "pooling_type": {
+                    "s": "TUFY"
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "conv1_relu"
+            ],
+            "name": "pool1",
+            "op": "Pool"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "128",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res3b_relu"
+            ],
+            "name": "res4a_branch1",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "224"
+                                    },
+                                    {
+                                        "size": "224"
+                                    },
+                                    {
+                                        "size": "3"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "shape": {
+                    "shape": {
+                        "dim": [
+                            {
+                                "size": "-1"
+                            },
+                            {
+                                "size": "224"
+                            },
+                            {
+                                "size": "224"
+                            },
+                            {
+                                "size": "3"
+                            }
+                        ]
+                    }
+                }
+            },
+            "name": "data",
+            "op": "DataInput"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res2a"
+            ],
+            "name": "res2a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res5a_branch1",
+                "res5a_branch2b"
+            ],
+            "name": "res5a",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res5a_branch2a"
+            ],
+            "name": "res5a_branch2a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "7",
+                            "7",
+                            "3",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "3",
+                            "3",
+                            "0",
+                            "0",
+                            "3",
+                            "3",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "data"
+            ],
+            "name": "conv1",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res4a_relu"
+            ],
+            "name": "res4b_branch2a",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "1"
+                                    },
+                                    {
+                                        "size": "1"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "7",
+                            "7",
+                            "1"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "pooling_type": {
+                    "s": "QVZH"
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res5b_relu"
+            ],
+            "name": "pool5",
+            "op": "Pool"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res5a_relu",
+                "res5b_branch2b"
+            ],
+            "name": "res5b",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res2a_branch2a_relu"
+            ],
+            "name": "res2a_branch2b",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "512",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res5a_relu"
+            ],
+            "name": "res5b_branch2a",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res4a_branch2a"
+            ],
+            "name": "res4a_branch2a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "128",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res3b_relu"
+            ],
+            "name": "res4a_branch2a",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res5b_branch2a"
+            ],
+            "name": "res5b_branch2a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res2b_branch2a_relu"
+            ],
+            "name": "res2b_branch2b",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res4b_relu"
+            ],
+            "name": "res5a_branch2a",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res4a"
+            ],
+            "name": "res4a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "1000"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "units": {
+                    "i": "1000"
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "fc1000_0"
+            ],
+            "name": "fc1000_1",
+            "op": "FullyConnected"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res2a_branch1",
+                "res2a_branch2b"
+            ],
+            "name": "res2a",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "128",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res3b_branch2a_relu"
+            ],
+            "name": "res3b_branch2b",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "512",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res5b_branch2a_relu"
+            ],
+            "name": "res5b_branch2b",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res2b"
+            ],
+            "name": "res2b_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res3a_branch1",
+                "res3a_branch2b"
+            ],
+            "name": "res3a",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res3b_branch2a"
+            ],
+            "name": "res3b_branch2a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res2b_branch2a"
+            ],
+            "name": "res2b_branch2a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res4a_relu",
+                "res4b_branch2b"
+            ],
+            "name": "res4b",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "256",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res4b_relu"
+            ],
+            "name": "res5a_branch1",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res3b"
+            ],
+            "name": "res3b_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res2a_relu"
+            ],
+            "name": "res2b_branch2a",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res2a_relu",
+                "res2b_branch2b"
+            ],
+            "name": "res2b",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res2b_relu"
+            ],
+            "name": "res3a_branch2a",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "7"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res5b"
+            ],
+            "name": "res5b_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "64",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res2b_relu"
+            ],
+            "name": "res3a_branch1",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res2a_branch2a"
+            ],
+            "name": "res2a_branch2a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "pool5"
+            ],
+            "name": "fc1000_0",
+            "op": "Flatten"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res3a"
+            ],
+            "name": "res3a_relu",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "128",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "res3a_branch2a_relu"
+            ],
+            "name": "res3a_branch2b",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "res3a_relu",
+                "res3b_branch2b"
+            ],
+            "name": "res3b",
+            "op": "Add"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "conv1"
+            ],
+            "name": "conv1_relu",
+            "op": "Relu"
+        }
+    ]
+}

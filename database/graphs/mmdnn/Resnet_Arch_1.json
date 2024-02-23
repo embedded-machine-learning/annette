@@ -1,0 +1,7901 @@
+{
+  "node": [
+    {
+      "name": "Placeholder",
+      "op": "DataInput",
+      "attr": {
+        "shape": {
+          "shape": {
+            "dim": [
+              {
+                "size": "-1"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "3"
+              }
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "x",
+      "op": "DataInput",
+      "attr": {
+        "shape": {
+          "shape": {
+            "dim": [
+              {
+                "size": "-1"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "224"
+              },
+              {
+                "size": "3"
+              }
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "224"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv1_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "Placeholder"
+      ],
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "230"
+                  },
+                  {
+                    "size": "230"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "3",
+              "3",
+              "0",
+              "0",
+              "3",
+              "3",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv1_pad/Pad"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "7",
+              "7",
+              "3",
+              "64"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "112"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "230",
+              "230",
+              "3"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_pool1_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv1_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "114"
+                  },
+                  {
+                    "size": "114"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_pool1_pool/MaxPool",
+      "op": "Pool",
+      "input": [
+        "resnet50v2/final_pool1_pad/Pad"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "3",
+              "3",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block1_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_pool1_pool/MaxPool"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block1_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv2_block1_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block1_0_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv2_block1_preact_relu/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "256"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block1_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv2_block1_preact_relu/Relu"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block1_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv2_block1_1_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block1_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv2_block1_1_relu/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "58"
+                  },
+                  {
+                    "size": "58"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block1_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv2_block1_2_pad/Pad"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "58",
+              "58",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block1_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv2_block1_2_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block1_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv2_block1_2_relu/Relu"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "256"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block1_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_conv2_block1_0_conv/Conv2D",
+        "resnet50v2/final_conv2_block1_3_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block2_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv2_block1_out/add"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block2_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv2_block2_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "256"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block2_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv2_block2_preact_relu/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "256"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block2_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv2_block2_1_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block2_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv2_block2_1_relu/Relu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "58"
+                  },
+                  {
+                    "size": "58"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block2_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv2_block2_2_pad/Pad"
+      ],
+      "attr": {
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "58",
+              "58",
+              "64"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block2_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv2_block2_2_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block2_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv2_block2_2_relu/Relu"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "256"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block2_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_conv2_block1_out/add",
+        "resnet50v2/final_conv2_block2_3_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_max_pooling2d/MaxPool",
+      "op": "Pool",
+      "input": [
+        "resnet50v2/final_conv2_block2_out/add"
+      ],
+      "attr": {
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block3_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv2_block2_out/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block3_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv2_block3_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "256"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block3_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv2_block3_preact_relu/Relu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "64"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "256"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block3_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv2_block3_1_conv/Conv2D"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "56",
+              "56",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "56"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block3_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv2_block3_1_relu/Relu"
+      ],
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "58"
+                  },
+                  {
+                    "size": "58"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block3_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv2_block3_2_pad/Pad"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "58",
+              "58",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block3_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv2_block3_2_conv/Conv2D"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block3_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv2_block3_2_relu/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "64"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "256"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv2_block3_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_max_pooling2d/MaxPool",
+        "resnet50v2/final_conv2_block3_3_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block1_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv2_block3_out/add"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block1_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block1_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "256"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block1_0_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block1_preact_relu/Relu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "512"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "256"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block1_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block1_preact_relu/Relu"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "256"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block1_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block1_1_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block1_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv3_block1_1_relu/Relu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "30"
+                  },
+                  {
+                    "size": "30"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block1_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block1_2_pad/Pad"
+      ],
+      "attr": {
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "128"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "30",
+              "30",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block1_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block1_2_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block1_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block1_2_relu/Relu"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "128",
+              "512"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block1_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_conv3_block1_0_conv/Conv2D",
+        "resnet50v2/final_conv3_block1_3_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block2_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv3_block1_out/add"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block2_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block2_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "512"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block2_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block2_preact_relu/Relu"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "512"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block2_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block2_1_conv/Conv2D"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block2_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv3_block2_1_relu/Relu"
+      ],
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "30"
+                  },
+                  {
+                    "size": "30"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block2_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block2_2_pad/Pad"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "30",
+              "30",
+              "128"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block2_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block2_2_conv/Conv2D"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block2_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block2_2_relu/Relu"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "128",
+              "512"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block2_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_conv3_block1_out/add",
+        "resnet50v2/final_conv3_block2_3_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block3_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv3_block2_out/add"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block3_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block3_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "512"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block3_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block3_preact_relu/Relu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "128"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "512"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block3_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block3_1_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block3_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv3_block3_1_relu/Relu"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "30"
+                  },
+                  {
+                    "size": "30"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block3_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block3_2_pad/Pad"
+      ],
+      "attr": {
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "128"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "30",
+              "30",
+              "128"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block3_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block3_2_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block3_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block3_2_relu/Relu"
+      ],
+      "attr": {
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "128",
+              "512"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block3_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_conv3_block2_out/add",
+        "resnet50v2/final_conv3_block3_3_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_max_pooling2d_1/MaxPool",
+      "op": "Pool",
+      "input": [
+        "resnet50v2/final_conv3_block3_out/add"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block4_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv3_block3_out/add"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block4_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block4_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "512"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block4_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block4_preact_relu/Relu"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "512"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "128"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block4_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block4_1_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "28"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "28",
+              "28",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block4_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv3_block4_1_relu/Relu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "30"
+                  },
+                  {
+                    "size": "30"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block4_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block4_2_pad/Pad"
+      ],
+      "attr": {
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "30",
+              "30",
+              "128"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block4_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv3_block4_2_conv/Conv2D"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block4_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv3_block4_2_relu/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "128",
+              "512"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "128"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv3_block4_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_max_pooling2d_1/MaxPool",
+        "resnet50v2/final_conv3_block4_3_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block1_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv3_block4_out/add"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block1_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv4_block1_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "512"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block1_0_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv4_block1_preact_relu/Relu"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "1024"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "512"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block1_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv4_block1_preact_relu/Relu"
+      ],
+      "attr": {
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "512"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "256"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block1_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv4_block1_1_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "256"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block1_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv4_block1_1_relu/Relu"
+      ],
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block1_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv4_block1_2_pad/Pad"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "256"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "256"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block1_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv4_block1_2_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "256"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block1_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv4_block1_2_relu/Relu"
+      ],
+      "attr": {
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "1024"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "256"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block1_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_conv4_block1_0_conv/Conv2D",
+        "resnet50v2/final_conv4_block1_3_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/shunt_conv2d/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv4_block1_out/add"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "1024"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1024",
+              "128"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/shunt_re_lu/Relu6",
+      "op": "Relu6",
+      "input": [
+        "resnet50v2/shunt_conv2d/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/shunt_depthwise_conv2d/depthwise",
+      "op": "DepthwiseConv",
+      "input": [
+        "resnet50v2/shunt_re_lu/Relu6"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/shunt_re_lu_1/Relu6",
+      "op": "Relu6",
+      "input": [
+        "resnet50v2/shunt_depthwise_conv2d/depthwise"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/shunt_conv2d_1/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/shunt_re_lu_1/Relu6"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "128",
+              "1024"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "128"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_max_pooling2d_2/MaxPool",
+      "op": "Pool",
+      "input": [
+        "resnet50v2/shunt_conv2d_1/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block6_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/shunt_conv2d_1/Conv2D"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block6_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv4_block6_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "1024"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block6_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv4_block6_preact_relu/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1024",
+              "256"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "1024"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block6_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv4_block6_1_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "14"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "14",
+              "14",
+              "256"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block6_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv4_block6_1_relu/Relu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block6_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv4_block6_2_pad/Pad"
+      ],
+      "attr": {
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "256"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "256"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block6_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv4_block6_2_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "256"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block6_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv4_block6_2_relu/Relu"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "256"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "1024"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv4_block6_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_max_pooling2d_2/MaxPool",
+        "resnet50v2/final_conv4_block6_3_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block1_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv4_block6_out/add"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block1_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv5_block1_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "1024"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "1024"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block1_0_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv5_block1_preact_relu/Relu"
+      ],
+      "attr": {
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "1024"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1024",
+              "2048"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block1_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv5_block1_preact_relu/Relu"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1024",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "1024"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block1_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv5_block1_1_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block1_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv5_block1_1_relu/Relu"
+      ],
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "9"
+                  },
+                  {
+                    "size": "9"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block1_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv5_block1_2_pad/Pad"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "512"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "9",
+              "9",
+              "512"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block1_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv5_block1_2_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block1_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv5_block1_2_relu/Relu"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "2048"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block1_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_conv5_block1_0_conv/Conv2D",
+        "resnet50v2/final_conv5_block1_3_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block2_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv5_block1_out/add"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block2_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv5_block2_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "2048"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block2_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv5_block2_preact_relu/Relu"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "2048",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "2048"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block2_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv5_block2_1_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block2_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv5_block2_1_relu/Relu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "9"
+                  },
+                  {
+                    "size": "9"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block2_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv5_block2_2_pad/Pad"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "9",
+              "9",
+              "512"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "512"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block2_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv5_block2_2_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block2_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv5_block2_2_relu/Relu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "2048"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block2_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_conv5_block1_out/add",
+        "resnet50v2/final_conv5_block2_3_conv/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block3_preact_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv5_block2_out/add"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "scale": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block3_preact_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv5_block3_preact_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "2048"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block3_1_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv5_block3_preact_relu/Relu"
+      ],
+      "attr": {
+        "use_bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "2048",
+              "512"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "2048"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block3_1_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv5_block3_1_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block3_2_pad/Pad",
+      "op": "Pad",
+      "input": [
+        "resnet50v2/final_conv5_block3_1_relu/Relu"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "9"
+                  },
+                  {
+                    "size": "9"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block3_2_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv5_block3_2_pad/Pad"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "9",
+              "9",
+              "512"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "use_bias": {
+          "b": true
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block3_2_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_conv5_block3_2_conv/Conv2D"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block3_3_conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "resnet50v2/final_conv5_block3_2_relu/Relu"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "512"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "2048"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_conv5_block3_out/add",
+      "op": "Add",
+      "input": [
+        "resnet50v2/final_conv5_block2_out/add",
+        "resnet50v2/final_conv5_block3_3_conv/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_post_bn/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "resnet50v2/final_conv5_block3_out/add"
+      ],
+      "attr": {
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_post_relu/Relu",
+      "op": "Relu",
+      "input": [
+        "resnet50v2/final_post_bn/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "7",
+              "7",
+              "2048"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "7"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_avg_pool/Mean",
+      "op": "ReduceMean",
+      "input": [
+        "resnet50v2/final_post_relu/Relu"
+      ],
+      "attr": {
+        "axes": {
+          "list": {
+            "i": [
+              "1",
+              "2"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "2048"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "keepdims": {
+          "b": false
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_predictions/MatMul",
+      "op": "FullyConnected",
+      "input": [
+        "resnet50v2/final_avg_pool/Mean"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "units": {
+          "i": "1000"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              },
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "resnet50v2/final_softmax/Softmax",
+      "op": "Softmax",
+      "input": [
+        "resnet50v2/final_predictions/MatMul"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "1000"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "1000"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "dim": {
+          "i": "1"
+        }
+      }
+    }
+  ]
+}

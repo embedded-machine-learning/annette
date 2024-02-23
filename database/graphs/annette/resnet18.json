@@ -1,0 +1,2101 @@
+{
+    "name": "resnet18",
+    "layers": {
+        "input": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "node123"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ]
+        },
+        "node123": {
+            "type": "Conv",
+            "parents": [
+                "input"
+            ],
+            "children": [
+                "node124"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "kernel_shape": [
+                7,
+                7,
+                3,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                3,
+                3,
+                0,
+                0,
+                3,
+                3,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node124": {
+            "type": "BatchNorm",
+            "parents": [
+                "node123"
+            ],
+            "children": [
+                "node125"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "node125": {
+            "type": "Relu",
+            "parents": [
+                "node124"
+            ],
+            "children": [
+                "node126"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "node126": {
+            "type": "Pool",
+            "parents": [
+                "node125"
+            ],
+            "children": [
+                "node127",
+                "node132"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX",
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node127": {
+            "type": "Conv",
+            "parents": [
+                "node126"
+            ],
+            "children": [
+                "node128"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node128": {
+            "type": "BatchNorm",
+            "parents": [
+                "node127"
+            ],
+            "children": [
+                "node129"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "node129": {
+            "type": "Relu",
+            "parents": [
+                "node128"
+            ],
+            "children": [
+                "node130"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "node130": {
+            "type": "Conv",
+            "parents": [
+                "node129"
+            ],
+            "children": [
+                "node131"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node131": {
+            "type": "BatchNorm",
+            "parents": [
+                "node130"
+            ],
+            "children": [
+                "node132"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "node132": {
+            "type": "Add",
+            "parents": [
+                "node131",
+                "node126"
+            ],
+            "children": [
+                "node133"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "node133": {
+            "type": "Relu",
+            "parents": [
+                "node132"
+            ],
+            "children": [
+                "node134",
+                "node139"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "node134": {
+            "type": "Conv",
+            "parents": [
+                "node133"
+            ],
+            "children": [
+                "node135"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node135": {
+            "type": "BatchNorm",
+            "parents": [
+                "node134"
+            ],
+            "children": [
+                "node136"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "node136": {
+            "type": "Relu",
+            "parents": [
+                "node135"
+            ],
+            "children": [
+                "node137"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "node137": {
+            "type": "Conv",
+            "parents": [
+                "node136"
+            ],
+            "children": [
+                "node138"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node138": {
+            "type": "BatchNorm",
+            "parents": [
+                "node137"
+            ],
+            "children": [
+                "node139"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "node139": {
+            "type": "Add",
+            "parents": [
+                "node138",
+                "node133"
+            ],
+            "children": [
+                "node140"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "node140": {
+            "type": "Relu",
+            "parents": [
+                "node139"
+            ],
+            "children": [
+                "node141",
+                "node146"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "node141": {
+            "type": "Conv",
+            "parents": [
+                "node140"
+            ],
+            "children": [
+                "node142"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node146": {
+            "type": "Conv",
+            "parents": [
+                "node140"
+            ],
+            "children": [
+                "node147"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node142": {
+            "type": "BatchNorm",
+            "parents": [
+                "node141"
+            ],
+            "children": [
+                "node143"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node147": {
+            "type": "BatchNorm",
+            "parents": [
+                "node146"
+            ],
+            "children": [
+                "node148"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node143": {
+            "type": "Relu",
+            "parents": [
+                "node142"
+            ],
+            "children": [
+                "node144"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node144": {
+            "type": "Conv",
+            "parents": [
+                "node143"
+            ],
+            "children": [
+                "node145"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node145": {
+            "type": "BatchNorm",
+            "parents": [
+                "node144"
+            ],
+            "children": [
+                "node148"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node148": {
+            "type": "Add",
+            "parents": [
+                "node145",
+                "node147"
+            ],
+            "children": [
+                "node149"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node149": {
+            "type": "Relu",
+            "parents": [
+                "node148"
+            ],
+            "children": [
+                "node150",
+                "node155"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node150": {
+            "type": "Conv",
+            "parents": [
+                "node149"
+            ],
+            "children": [
+                "node151"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node151": {
+            "type": "BatchNorm",
+            "parents": [
+                "node150"
+            ],
+            "children": [
+                "node152"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node152": {
+            "type": "Relu",
+            "parents": [
+                "node151"
+            ],
+            "children": [
+                "node153"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node153": {
+            "type": "Conv",
+            "parents": [
+                "node152"
+            ],
+            "children": [
+                "node154"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node154": {
+            "type": "BatchNorm",
+            "parents": [
+                "node153"
+            ],
+            "children": [
+                "node155"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node155": {
+            "type": "Add",
+            "parents": [
+                "node154",
+                "node149"
+            ],
+            "children": [
+                "node156"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node156": {
+            "type": "Relu",
+            "parents": [
+                "node155"
+            ],
+            "children": [
+                "node157",
+                "node162"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "node157": {
+            "type": "Conv",
+            "parents": [
+                "node156"
+            ],
+            "children": [
+                "node158"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node162": {
+            "type": "Conv",
+            "parents": [
+                "node156"
+            ],
+            "children": [
+                "node163"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node158": {
+            "type": "BatchNorm",
+            "parents": [
+                "node157"
+            ],
+            "children": [
+                "node159"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node163": {
+            "type": "BatchNorm",
+            "parents": [
+                "node162"
+            ],
+            "children": [
+                "node164"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node159": {
+            "type": "Relu",
+            "parents": [
+                "node158"
+            ],
+            "children": [
+                "node160"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node160": {
+            "type": "Conv",
+            "parents": [
+                "node159"
+            ],
+            "children": [
+                "node161"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node161": {
+            "type": "BatchNorm",
+            "parents": [
+                "node160"
+            ],
+            "children": [
+                "node164"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node164": {
+            "type": "Add",
+            "parents": [
+                "node161",
+                "node163"
+            ],
+            "children": [
+                "node165"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node165": {
+            "type": "Relu",
+            "parents": [
+                "node164"
+            ],
+            "children": [
+                "node166",
+                "node171"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node166": {
+            "type": "Conv",
+            "parents": [
+                "node165"
+            ],
+            "children": [
+                "node167"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node167": {
+            "type": "BatchNorm",
+            "parents": [
+                "node166"
+            ],
+            "children": [
+                "node168"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node168": {
+            "type": "Relu",
+            "parents": [
+                "node167"
+            ],
+            "children": [
+                "node169"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node169": {
+            "type": "Conv",
+            "parents": [
+                "node168"
+            ],
+            "children": [
+                "node170"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node170": {
+            "type": "BatchNorm",
+            "parents": [
+                "node169"
+            ],
+            "children": [
+                "node171"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node171": {
+            "type": "Add",
+            "parents": [
+                "node170",
+                "node165"
+            ],
+            "children": [
+                "node172"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node172": {
+            "type": "Relu",
+            "parents": [
+                "node171"
+            ],
+            "children": [
+                "node173",
+                "node178"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "node173": {
+            "type": "Conv",
+            "parents": [
+                "node172"
+            ],
+            "children": [
+                "node174"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node178": {
+            "type": "Conv",
+            "parents": [
+                "node172"
+            ],
+            "children": [
+                "node179"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node174": {
+            "type": "BatchNorm",
+            "parents": [
+                "node173"
+            ],
+            "children": [
+                "node175"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node179": {
+            "type": "BatchNorm",
+            "parents": [
+                "node178"
+            ],
+            "children": [
+                "node180"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node175": {
+            "type": "Relu",
+            "parents": [
+                "node174"
+            ],
+            "children": [
+                "node176"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node176": {
+            "type": "Conv",
+            "parents": [
+                "node175"
+            ],
+            "children": [
+                "node177"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node177": {
+            "type": "BatchNorm",
+            "parents": [
+                "node176"
+            ],
+            "children": [
+                "node180"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node180": {
+            "type": "Add",
+            "parents": [
+                "node177",
+                "node179"
+            ],
+            "children": [
+                "node181"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node181": {
+            "type": "Relu",
+            "parents": [
+                "node180"
+            ],
+            "children": [
+                "node182",
+                "node187"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node182": {
+            "type": "Conv",
+            "parents": [
+                "node181"
+            ],
+            "children": [
+                "node183"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node183": {
+            "type": "BatchNorm",
+            "parents": [
+                "node182"
+            ],
+            "children": [
+                "node184"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node184": {
+            "type": "Relu",
+            "parents": [
+                "node183"
+            ],
+            "children": [
+                "node185"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node185": {
+            "type": "Conv",
+            "parents": [
+                "node184"
+            ],
+            "children": [
+                "node186"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node186": {
+            "type": "BatchNorm",
+            "parents": [
+                "node185"
+            ],
+            "children": [
+                "node187"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node187": {
+            "type": "Add",
+            "parents": [
+                "node186",
+                "node181"
+            ],
+            "children": [
+                "node188"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node188": {
+            "type": "Relu",
+            "parents": [
+                "node187"
+            ],
+            "children": [
+                "node189"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "node189": {
+            "type": "Pool",
+            "parents": [
+                "node188"
+            ],
+            "children": [
+                "node190"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                7,
+                7,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "AVG",
+            "dilations": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "node190": {
+            "type": "Flatten",
+            "parents": [
+                "node189"
+            ],
+            "children": [
+                "node191"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                512
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                512
+            ]
+        },
+        "node191": {
+            "type": "FullyConnected",
+            "parents": [
+                "node190"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1000
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                512
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

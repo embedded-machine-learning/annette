@@ -1,0 +1,1288 @@
+{
+    "name": "vgg16-7",
+    "layers": {
+        "data": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "vgg0_conv0_fwd"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "left_parents": 0
+        },
+        "vgg0_conv0_fwd": {
+            "type": "Conv",
+            "parents": [
+                "data"
+            ],
+            "children": [
+                "vgg0_relu0_fwd"
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                64
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu0_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv0_fwd"
+            ],
+            "children": [
+                "vgg0_conv1_fwd"
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "left_parents": 0
+        },
+        "vgg0_conv1_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_relu0_fwd"
+            ],
+            "children": [
+                "vgg0_relu1_fwd"
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu1_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv1_fwd"
+            ],
+            "children": [
+                "vgg0_pool0_fwd"
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "left_parents": 0
+        },
+        "vgg0_pool0_fwd": {
+            "type": "Pool",
+            "parents": [
+                "vgg0_relu1_fwd"
+            ],
+            "children": [
+                "vgg0_conv2_fwd"
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "pooling_type": "MAX",
+            "left_parents": 0
+        },
+        "vgg0_conv2_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_pool0_fwd"
+            ],
+            "children": [
+                "vgg0_relu2_fwd"
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu2_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv2_fwd"
+            ],
+            "children": [
+                "vgg0_conv3_fwd"
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "left_parents": 0
+        },
+        "vgg0_conv3_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_relu2_fwd"
+            ],
+            "children": [
+                "vgg0_relu3_fwd"
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu3_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv3_fwd"
+            ],
+            "children": [
+                "vgg0_pool1_fwd"
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "left_parents": 0
+        },
+        "vgg0_pool1_fwd": {
+            "type": "Pool",
+            "parents": [
+                "vgg0_relu3_fwd"
+            ],
+            "children": [
+                "vgg0_conv4_fwd"
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "pooling_type": "MAX",
+            "left_parents": 0
+        },
+        "vgg0_conv4_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_pool1_fwd"
+            ],
+            "children": [
+                "vgg0_relu4_fwd"
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu4_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv4_fwd"
+            ],
+            "children": [
+                "vgg0_conv5_fwd"
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "left_parents": 0
+        },
+        "vgg0_conv5_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_relu4_fwd"
+            ],
+            "children": [
+                "vgg0_relu5_fwd"
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu5_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv5_fwd"
+            ],
+            "children": [
+                "vgg0_conv6_fwd"
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "left_parents": 0
+        },
+        "vgg0_conv6_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_relu5_fwd"
+            ],
+            "children": [
+                "vgg0_relu6_fwd"
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu6_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv6_fwd"
+            ],
+            "children": [
+                "vgg0_pool2_fwd"
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "left_parents": 0
+        },
+        "vgg0_pool2_fwd": {
+            "type": "Pool",
+            "parents": [
+                "vgg0_relu6_fwd"
+            ],
+            "children": [
+                "vgg0_conv7_fwd"
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "pooling_type": "MAX",
+            "left_parents": 0
+        },
+        "vgg0_conv7_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_pool2_fwd"
+            ],
+            "children": [
+                "vgg0_relu7_fwd"
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu7_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv7_fwd"
+            ],
+            "children": [
+                "vgg0_conv8_fwd"
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_conv8_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_relu7_fwd"
+            ],
+            "children": [
+                "vgg0_relu8_fwd"
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu8_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv8_fwd"
+            ],
+            "children": [
+                "vgg0_conv9_fwd"
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_conv9_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_relu8_fwd"
+            ],
+            "children": [
+                "vgg0_relu9_fwd"
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu9_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv9_fwd"
+            ],
+            "children": [
+                "vgg0_pool3_fwd"
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_pool3_fwd": {
+            "type": "Pool",
+            "parents": [
+                "vgg0_relu9_fwd"
+            ],
+            "children": [
+                "vgg0_conv10_fwd"
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                512
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "pooling_type": "MAX",
+            "left_parents": 0
+        },
+        "vgg0_conv10_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_pool3_fwd"
+            ],
+            "children": [
+                "vgg0_relu10_fwd"
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu10_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv10_fwd"
+            ],
+            "children": [
+                "vgg0_conv11_fwd"
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_conv11_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_relu10_fwd"
+            ],
+            "children": [
+                "vgg0_relu11_fwd"
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu11_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv11_fwd"
+            ],
+            "children": [
+                "vgg0_conv12_fwd"
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_conv12_fwd": {
+            "type": "Conv",
+            "parents": [
+                "vgg0_relu11_fwd"
+            ],
+            "children": [
+                "vgg0_relu12_fwd"
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                512
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_relu12_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_conv12_fwd"
+            ],
+            "children": [
+                "vgg0_pool4_fwd"
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "left_parents": 0
+        },
+        "vgg0_pool4_fwd": {
+            "type": "Pool",
+            "parents": [
+                "vgg0_relu12_fwd"
+            ],
+            "children": [
+                "flatten_60"
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "pooling_type": "MAX",
+            "left_parents": 0
+        },
+        "flatten_60": {
+            "type": "Flatten",
+            "parents": [
+                "vgg0_pool4_fwd"
+            ],
+            "children": [
+                "vgg0_dense0_fwd"
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "output_shape": [
+                -1,
+                25088
+            ],
+            "left_parents": 0
+        },
+        "vgg0_dense0_fwd": {
+            "type": "FullyConnected",
+            "parents": [
+                "flatten_60"
+            ],
+            "children": [
+                "vgg0_dense0_relu_fwd"
+            ],
+            "input_shape": [
+                -1,
+                25088
+            ],
+            "output_shape": [
+                -1,
+                4096
+            ],
+            "left_parents": 0
+        },
+        "vgg0_dense0_relu_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_dense0_fwd"
+            ],
+            "children": [
+                "vgg0_dropout0_fwd"
+            ],
+            "input_shape": [
+                -1,
+                4096
+            ],
+            "output_shape": [
+                -1,
+                4096
+            ],
+            "left_parents": 0
+        },
+        "vgg0_dropout0_fwd": {
+            "type": "Dropout",
+            "parents": [
+                "vgg0_dense0_relu_fwd"
+            ],
+            "children": [
+                "flatten_65"
+            ],
+            "input_shape": [
+                -1,
+                4096
+            ],
+            "output_shape": [
+                -1,
+                4096
+            ],
+            "left_parents": 0
+        },
+        "flatten_65": {
+            "type": "Flatten",
+            "parents": [
+                "vgg0_dropout0_fwd"
+            ],
+            "children": [
+                "vgg0_dense1_fwd"
+            ],
+            "input_shape": [
+                -1,
+                4096
+            ],
+            "output_shape": [
+                -1,
+                4096
+            ],
+            "left_parents": 0
+        },
+        "vgg0_dense1_fwd": {
+            "type": "FullyConnected",
+            "parents": [
+                "flatten_65"
+            ],
+            "children": [
+                "vgg0_dense1_relu_fwd"
+            ],
+            "input_shape": [
+                -1,
+                4096
+            ],
+            "output_shape": [
+                -1,
+                4096
+            ],
+            "left_parents": 0
+        },
+        "vgg0_dense1_relu_fwd": {
+            "type": "Relu",
+            "parents": [
+                "vgg0_dense1_fwd"
+            ],
+            "children": [
+                "vgg0_dropout1_fwd"
+            ],
+            "input_shape": [
+                -1,
+                4096
+            ],
+            "output_shape": [
+                -1,
+                4096
+            ],
+            "left_parents": 0
+        },
+        "vgg0_dropout1_fwd": {
+            "type": "Dropout",
+            "parents": [
+                "vgg0_dense1_relu_fwd"
+            ],
+            "children": [
+                "flatten_70"
+            ],
+            "input_shape": [
+                -1,
+                4096
+            ],
+            "output_shape": [
+                -1,
+                4096
+            ],
+            "left_parents": 0
+        },
+        "flatten_70": {
+            "type": "Flatten",
+            "parents": [
+                "vgg0_dropout1_fwd"
+            ],
+            "children": [
+                "vgg0_dense2_fwd"
+            ],
+            "input_shape": [
+                -1,
+                4096
+            ],
+            "output_shape": [
+                -1,
+                4096
+            ],
+            "left_parents": 0
+        },
+        "vgg0_dense2_fwd": {
+            "type": "FullyConnected",
+            "parents": [
+                "flatten_70"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                4096
+            ],
+            "output_shape": [
+                -1,
+                1000
+            ],
+            "left_parents": 0
+        }
+    },
+    "input_layers": [
+        "data"
+    ],
+    "output_layers": [
+        "vgg0_dense2_fwd"
+    ]
+}

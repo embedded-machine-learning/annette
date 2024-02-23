@@ -1,0 +1,2823 @@
+{
+    "name": "cf_ssdtraffic",
+    "layers": {
+        "data": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "conv6_2_mbox_priorbox",
+                "fc7_mbox_priorbox",
+                "conv8_2_mbox_priorbox",
+                "conv9_2_mbox_priorbox",
+                "conv1_1",
+                "conv7_2_mbox_priorbox",
+                "conv4_3_norm_mbox_priorbox"
+            ],
+            "output_shape": [
+                -1,
+                360,
+                480,
+                3
+            ]
+        },
+        "conv1_1": {
+            "type": "Conv",
+            "parents": [
+                "data"
+            ],
+            "children": [
+                "relu1_1"
+            ],
+            "output_shape": [
+                -1,
+                360,
+                480,
+                14
+            ],
+            "input_shape": [
+                -1,
+                360,
+                480,
+                3
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                14
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu1_1": {
+            "type": "Relu",
+            "parents": [
+                "conv1_1"
+            ],
+            "children": [
+                "conv1_2"
+            ],
+            "output_shape": [
+                -1,
+                360,
+                480,
+                14
+            ],
+            "input_shape": [
+                -1,
+                360,
+                480,
+                14
+            ]
+        },
+        "conv1_2": {
+            "type": "Conv",
+            "parents": [
+                "relu1_1"
+            ],
+            "children": [
+                "relu1_2"
+            ],
+            "output_shape": [
+                -1,
+                360,
+                480,
+                30
+            ],
+            "input_shape": [
+                -1,
+                360,
+                480,
+                14
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                14,
+                30
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu1_2": {
+            "type": "Relu",
+            "parents": [
+                "conv1_2"
+            ],
+            "children": [
+                "pool1"
+            ],
+            "output_shape": [
+                -1,
+                360,
+                480,
+                30
+            ],
+            "input_shape": [
+                -1,
+                360,
+                480,
+                30
+            ]
+        },
+        "pool1": {
+            "type": "Pool",
+            "parents": [
+                "relu1_2"
+            ],
+            "children": [
+                "conv2_1"
+            ],
+            "output_shape": [
+                -1,
+                180,
+                240,
+                30
+            ],
+            "input_shape": [
+                -1,
+                360,
+                480,
+                30
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "conv2_1": {
+            "type": "Conv",
+            "parents": [
+                "pool1"
+            ],
+            "children": [
+                "relu2_1"
+            ],
+            "output_shape": [
+                -1,
+                180,
+                240,
+                44
+            ],
+            "input_shape": [
+                -1,
+                180,
+                240,
+                30
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                30,
+                44
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu2_1": {
+            "type": "Relu",
+            "parents": [
+                "conv2_1"
+            ],
+            "children": [
+                "conv2_2"
+            ],
+            "output_shape": [
+                -1,
+                180,
+                240,
+                44
+            ],
+            "input_shape": [
+                -1,
+                180,
+                240,
+                44
+            ]
+        },
+        "conv2_2": {
+            "type": "Conv",
+            "parents": [
+                "relu2_1"
+            ],
+            "children": [
+                "relu2_2"
+            ],
+            "output_shape": [
+                -1,
+                180,
+                240,
+                50
+            ],
+            "input_shape": [
+                -1,
+                180,
+                240,
+                44
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                44,
+                50
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu2_2": {
+            "type": "Relu",
+            "parents": [
+                "conv2_2"
+            ],
+            "children": [
+                "pool2"
+            ],
+            "output_shape": [
+                -1,
+                180,
+                240,
+                50
+            ],
+            "input_shape": [
+                -1,
+                180,
+                240,
+                50
+            ]
+        },
+        "pool2": {
+            "type": "Pool",
+            "parents": [
+                "relu2_2"
+            ],
+            "children": [
+                "conv3_1"
+            ],
+            "output_shape": [
+                -1,
+                90,
+                120,
+                50
+            ],
+            "input_shape": [
+                -1,
+                180,
+                240,
+                50
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "conv3_1": {
+            "type": "Conv",
+            "parents": [
+                "pool2"
+            ],
+            "children": [
+                "relu3_1"
+            ],
+            "output_shape": [
+                -1,
+                90,
+                120,
+                68
+            ],
+            "input_shape": [
+                -1,
+                90,
+                120,
+                50
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                50,
+                68
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu3_1": {
+            "type": "Relu",
+            "parents": [
+                "conv3_1"
+            ],
+            "children": [
+                "conv3_2"
+            ],
+            "output_shape": [
+                -1,
+                90,
+                120,
+                68
+            ],
+            "input_shape": [
+                -1,
+                90,
+                120,
+                68
+            ]
+        },
+        "conv3_2": {
+            "type": "Conv",
+            "parents": [
+                "relu3_1"
+            ],
+            "children": [
+                "relu3_2"
+            ],
+            "output_shape": [
+                -1,
+                90,
+                120,
+                54
+            ],
+            "input_shape": [
+                -1,
+                90,
+                120,
+                68
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                68,
+                54
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu3_2": {
+            "type": "Relu",
+            "parents": [
+                "conv3_2"
+            ],
+            "children": [
+                "conv3_3"
+            ],
+            "output_shape": [
+                -1,
+                90,
+                120,
+                54
+            ],
+            "input_shape": [
+                -1,
+                90,
+                120,
+                54
+            ]
+        },
+        "conv3_3": {
+            "type": "Conv",
+            "parents": [
+                "relu3_2"
+            ],
+            "children": [
+                "relu3_3"
+            ],
+            "output_shape": [
+                -1,
+                90,
+                120,
+                108
+            ],
+            "input_shape": [
+                -1,
+                90,
+                120,
+                54
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                54,
+                108
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu3_3": {
+            "type": "Relu",
+            "parents": [
+                "conv3_3"
+            ],
+            "children": [
+                "pool3"
+            ],
+            "output_shape": [
+                -1,
+                90,
+                120,
+                108
+            ],
+            "input_shape": [
+                -1,
+                90,
+                120,
+                108
+            ]
+        },
+        "pool3": {
+            "type": "Pool",
+            "parents": [
+                "relu3_3"
+            ],
+            "children": [
+                "conv4_1"
+            ],
+            "output_shape": [
+                -1,
+                45,
+                60,
+                108
+            ],
+            "input_shape": [
+                -1,
+                90,
+                120,
+                108
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "conv4_1": {
+            "type": "Conv",
+            "parents": [
+                "pool3"
+            ],
+            "children": [
+                "relu4_1"
+            ],
+            "output_shape": [
+                -1,
+                45,
+                60,
+                248
+            ],
+            "input_shape": [
+                -1,
+                45,
+                60,
+                108
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                108,
+                248
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu4_1": {
+            "type": "Relu",
+            "parents": [
+                "conv4_1"
+            ],
+            "children": [
+                "conv4_2"
+            ],
+            "output_shape": [
+                -1,
+                45,
+                60,
+                248
+            ],
+            "input_shape": [
+                -1,
+                45,
+                60,
+                248
+            ]
+        },
+        "conv4_2": {
+            "type": "Conv",
+            "parents": [
+                "relu4_1"
+            ],
+            "children": [
+                "relu4_2"
+            ],
+            "output_shape": [
+                -1,
+                45,
+                60,
+                190
+            ],
+            "input_shape": [
+                -1,
+                45,
+                60,
+                248
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                248,
+                190
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu4_2": {
+            "type": "Relu",
+            "parents": [
+                "conv4_2"
+            ],
+            "children": [
+                "conv4_3"
+            ],
+            "output_shape": [
+                -1,
+                45,
+                60,
+                190
+            ],
+            "input_shape": [
+                -1,
+                45,
+                60,
+                190
+            ]
+        },
+        "conv4_3": {
+            "type": "Conv",
+            "parents": [
+                "relu4_2"
+            ],
+            "children": [
+                "relu4_3"
+            ],
+            "output_shape": [
+                -1,
+                45,
+                60,
+                110
+            ],
+            "input_shape": [
+                -1,
+                45,
+                60,
+                190
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                190,
+                110
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu4_3": {
+            "type": "Relu",
+            "parents": [
+                "conv4_3"
+            ],
+            "children": [
+                "conv4_3_norm_mbox_conf",
+                "pool4",
+                "conv4_3_norm_mbox_loc",
+                "conv4_3_norm_mbox_priorbox"
+            ],
+            "output_shape": [
+                -1,
+                45,
+                60,
+                110
+            ],
+            "input_shape": [
+                -1,
+                45,
+                60,
+                110
+            ]
+        },
+        "conv4_3_norm_mbox_conf": {
+            "type": "Conv",
+            "parents": [
+                "relu4_3"
+            ],
+            "children": [
+                "conv4_3_norm_mbox_conf_perm"
+            ],
+            "output_shape": [
+                -1,
+                45,
+                60,
+                32
+            ],
+            "input_shape": [
+                -1,
+                45,
+                60,
+                110
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                110,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "pool4": {
+            "type": "Pool",
+            "parents": [
+                "relu4_3"
+            ],
+            "children": [
+                "conv5_1"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                110
+            ],
+            "input_shape": [
+                -1,
+                45,
+                60,
+                110
+            ],
+            "kernel_shape": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "conv4_3_norm_mbox_loc": {
+            "type": "Conv",
+            "parents": [
+                "relu4_3"
+            ],
+            "children": [
+                "conv4_3_norm_mbox_loc_perm"
+            ],
+            "output_shape": [
+                -1,
+                45,
+                60,
+                32
+            ],
+            "input_shape": [
+                -1,
+                45,
+                60,
+                110
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                110,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv4_3_norm_mbox_priorbox": {
+            "type": "DataInput",
+            "parents": [
+                "relu4_3",
+                "data"
+            ],
+            "children": [
+                "mbox_priorbox"
+            ],
+            "output_shape": [
+                -1,
+                86400,
+                1,
+                2
+            ]
+        },
+        "conv4_3_norm_mbox_conf_perm": {
+            "type": "DataInput",
+            "parents": [
+                "conv4_3_norm_mbox_conf"
+            ],
+            "children": [
+                "conv4_3_norm_mbox_conf_flat"
+            ],
+            "output_shape": [
+                -1,
+                60,
+                32,
+                45
+            ]
+        },
+        "conv5_1": {
+            "type": "Conv",
+            "parents": [
+                "pool4"
+            ],
+            "children": [
+                "relu5_1"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                110
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                110,
+                2
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv4_3_norm_mbox_loc_perm": {
+            "type": "DataInput",
+            "parents": [
+                "conv4_3_norm_mbox_loc"
+            ],
+            "children": [
+                "conv4_3_norm_mbox_loc_flat"
+            ],
+            "output_shape": [
+                -1,
+                60,
+                32,
+                45
+            ]
+        },
+        "conv4_3_norm_mbox_conf_flat": {
+            "type": "Flatten",
+            "parents": [
+                "conv4_3_norm_mbox_conf_perm"
+            ],
+            "children": [
+                "mbox_conf"
+            ],
+            "output_shape": [
+                -1,
+                86400
+            ],
+            "input_shape": [
+                -1,
+                60,
+                32,
+                45
+            ]
+        },
+        "relu5_1": {
+            "type": "Relu",
+            "parents": [
+                "conv5_1"
+            ],
+            "children": [
+                "conv5_2"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                2
+            ]
+        },
+        "conv4_3_norm_mbox_loc_flat": {
+            "type": "Flatten",
+            "parents": [
+                "conv4_3_norm_mbox_loc_perm"
+            ],
+            "children": [
+                "mbox_loc"
+            ],
+            "output_shape": [
+                -1,
+                86400
+            ],
+            "input_shape": [
+                -1,
+                60,
+                32,
+                45
+            ]
+        },
+        "conv5_2": {
+            "type": "Conv",
+            "parents": [
+                "relu5_1"
+            ],
+            "children": [
+                "relu5_2"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                2,
+                2
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu5_2": {
+            "type": "Relu",
+            "parents": [
+                "conv5_2"
+            ],
+            "children": [
+                "conv5_3"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                2
+            ]
+        },
+        "conv5_3": {
+            "type": "Conv",
+            "parents": [
+                "relu5_2"
+            ],
+            "children": [
+                "relu5_3"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                2,
+                2
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu5_3": {
+            "type": "Relu",
+            "parents": [
+                "conv5_3"
+            ],
+            "children": [
+                "pool5"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                2
+            ]
+        },
+        "pool5": {
+            "type": "Pool",
+            "parents": [
+                "relu5_3"
+            ],
+            "children": [
+                "fc6"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "MAX"
+        },
+        "fc6": {
+            "type": "Conv",
+            "parents": [
+                "pool5"
+            ],
+            "children": [
+                "relu6"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                2,
+                2
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "relu6": {
+            "type": "Relu",
+            "parents": [
+                "fc6"
+            ],
+            "children": [
+                "fc7"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                2
+            ]
+        },
+        "fc7": {
+            "type": "Conv",
+            "parents": [
+                "relu6"
+            ],
+            "children": [
+                "relu7"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                32
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                2
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                2,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "relu7": {
+            "type": "Relu",
+            "parents": [
+                "fc7"
+            ],
+            "children": [
+                "fc7_mbox_priorbox",
+                "fc7_mbox_loc",
+                "fc7_mbox_conf",
+                "conv6_1"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                32
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                32
+            ]
+        },
+        "fc7_mbox_priorbox": {
+            "type": "DataInput",
+            "parents": [
+                "relu7",
+                "data"
+            ],
+            "children": [
+                "mbox_priorbox"
+            ],
+            "output_shape": [
+                -1,
+                16560,
+                1,
+                2
+            ]
+        },
+        "fc7_mbox_loc": {
+            "type": "Conv",
+            "parents": [
+                "relu7"
+            ],
+            "children": [
+                "fc7_mbox_loc_perm"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                24
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "fc7_mbox_conf": {
+            "type": "Conv",
+            "parents": [
+                "relu7"
+            ],
+            "children": [
+                "fc7_mbox_conf_perm"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                24
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv6_1": {
+            "type": "Conv",
+            "parents": [
+                "relu7"
+            ],
+            "children": [
+                "conv6_1_relu"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                6
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                6
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "fc7_mbox_loc_perm": {
+            "type": "DataInput",
+            "parents": [
+                "fc7_mbox_loc"
+            ],
+            "children": [
+                "fc7_mbox_loc_flat"
+            ],
+            "output_shape": [
+                -1,
+                30,
+                24,
+                23
+            ]
+        },
+        "fc7_mbox_conf_perm": {
+            "type": "DataInput",
+            "parents": [
+                "fc7_mbox_conf"
+            ],
+            "children": [
+                "fc7_mbox_conf_flat"
+            ],
+            "output_shape": [
+                -1,
+                30,
+                24,
+                23
+            ]
+        },
+        "conv6_1_relu": {
+            "type": "Relu",
+            "parents": [
+                "conv6_1"
+            ],
+            "children": [
+                "conv6_2"
+            ],
+            "output_shape": [
+                -1,
+                23,
+                30,
+                6
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                6
+            ]
+        },
+        "fc7_mbox_loc_flat": {
+            "type": "Flatten",
+            "parents": [
+                "fc7_mbox_loc_perm"
+            ],
+            "children": [
+                "mbox_loc"
+            ],
+            "output_shape": [
+                -1,
+                16560
+            ],
+            "input_shape": [
+                -1,
+                30,
+                24,
+                23
+            ]
+        },
+        "fc7_mbox_conf_flat": {
+            "type": "Flatten",
+            "parents": [
+                "fc7_mbox_conf_perm"
+            ],
+            "children": [
+                "mbox_conf"
+            ],
+            "output_shape": [
+                -1,
+                16560
+            ],
+            "input_shape": [
+                -1,
+                30,
+                24,
+                23
+            ]
+        },
+        "conv6_2": {
+            "type": "Conv",
+            "parents": [
+                "conv6_1_relu"
+            ],
+            "children": [
+                "conv6_2_relu"
+            ],
+            "output_shape": [
+                -1,
+                12,
+                15,
+                84
+            ],
+            "input_shape": [
+                -1,
+                23,
+                30,
+                6
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                6,
+                84
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                2,
+                1,
+                0
+            ]
+        },
+        "conv6_2_relu": {
+            "type": "Relu",
+            "parents": [
+                "conv6_2"
+            ],
+            "children": [
+                "conv6_2_mbox_priorbox",
+                "conv6_2_mbox_conf",
+                "conv7_1",
+                "conv6_2_mbox_loc"
+            ],
+            "output_shape": [
+                -1,
+                12,
+                15,
+                84
+            ],
+            "input_shape": [
+                -1,
+                12,
+                15,
+                84
+            ]
+        },
+        "conv6_2_mbox_priorbox": {
+            "type": "DataInput",
+            "parents": [
+                "conv6_2_relu",
+                "data"
+            ],
+            "children": [
+                "mbox_priorbox"
+            ],
+            "output_shape": [
+                -1,
+                4320,
+                1,
+                2
+            ]
+        },
+        "conv6_2_mbox_conf": {
+            "type": "Conv",
+            "parents": [
+                "conv6_2_relu"
+            ],
+            "children": [
+                "conv6_2_mbox_conf_perm"
+            ],
+            "output_shape": [
+                -1,
+                12,
+                15,
+                24
+            ],
+            "input_shape": [
+                -1,
+                12,
+                15,
+                84
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                84,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv7_1": {
+            "type": "Conv",
+            "parents": [
+                "conv6_2_relu"
+            ],
+            "children": [
+                "conv7_1_relu"
+            ],
+            "output_shape": [
+                -1,
+                12,
+                15,
+                8
+            ],
+            "input_shape": [
+                -1,
+                12,
+                15,
+                84
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                84,
+                8
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "conv6_2_mbox_loc": {
+            "type": "Conv",
+            "parents": [
+                "conv6_2_relu"
+            ],
+            "children": [
+                "conv6_2_mbox_loc_perm"
+            ],
+            "output_shape": [
+                -1,
+                12,
+                15,
+                24
+            ],
+            "input_shape": [
+                -1,
+                12,
+                15,
+                84
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                84,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv6_2_mbox_conf_perm": {
+            "type": "DataInput",
+            "parents": [
+                "conv6_2_mbox_conf"
+            ],
+            "children": [
+                "conv6_2_mbox_conf_flat"
+            ],
+            "output_shape": [
+                -1,
+                15,
+                24,
+                12
+            ]
+        },
+        "conv7_1_relu": {
+            "type": "Relu",
+            "parents": [
+                "conv7_1"
+            ],
+            "children": [
+                "conv7_2"
+            ],
+            "output_shape": [
+                -1,
+                12,
+                15,
+                8
+            ],
+            "input_shape": [
+                -1,
+                12,
+                15,
+                8
+            ]
+        },
+        "conv6_2_mbox_loc_perm": {
+            "type": "DataInput",
+            "parents": [
+                "conv6_2_mbox_loc"
+            ],
+            "children": [
+                "conv6_2_mbox_loc_flat"
+            ],
+            "output_shape": [
+                -1,
+                15,
+                24,
+                12
+            ]
+        },
+        "conv6_2_mbox_conf_flat": {
+            "type": "Flatten",
+            "parents": [
+                "conv6_2_mbox_conf_perm"
+            ],
+            "children": [
+                "mbox_conf"
+            ],
+            "output_shape": [
+                -1,
+                4320
+            ],
+            "input_shape": [
+                -1,
+                15,
+                24,
+                12
+            ]
+        },
+        "conv7_2": {
+            "type": "Conv",
+            "parents": [
+                "conv7_1_relu"
+            ],
+            "children": [
+                "conv7_2_relu"
+            ],
+            "output_shape": [
+                -1,
+                6,
+                8,
+                8
+            ],
+            "input_shape": [
+                -1,
+                12,
+                15,
+                8
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                8,
+                8
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                2,
+                0
+            ]
+        },
+        "conv6_2_mbox_loc_flat": {
+            "type": "Flatten",
+            "parents": [
+                "conv6_2_mbox_loc_perm"
+            ],
+            "children": [
+                "mbox_loc"
+            ],
+            "output_shape": [
+                -1,
+                4320
+            ],
+            "input_shape": [
+                -1,
+                15,
+                24,
+                12
+            ]
+        },
+        "conv7_2_relu": {
+            "type": "Relu",
+            "parents": [
+                "conv7_2"
+            ],
+            "children": [
+                "conv7_2_mbox_loc",
+                "conv7_2_mbox_conf",
+                "conv8_1",
+                "conv7_2_mbox_priorbox"
+            ],
+            "output_shape": [
+                -1,
+                6,
+                8,
+                8
+            ],
+            "input_shape": [
+                -1,
+                6,
+                8,
+                8
+            ]
+        },
+        "conv7_2_mbox_loc": {
+            "type": "Conv",
+            "parents": [
+                "conv7_2_relu"
+            ],
+            "children": [
+                "conv7_2_mbox_loc_perm"
+            ],
+            "output_shape": [
+                -1,
+                6,
+                8,
+                24
+            ],
+            "input_shape": [
+                -1,
+                6,
+                8,
+                8
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                8,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv7_2_mbox_conf": {
+            "type": "Conv",
+            "parents": [
+                "conv7_2_relu"
+            ],
+            "children": [
+                "conv7_2_mbox_conf_perm"
+            ],
+            "output_shape": [
+                -1,
+                6,
+                8,
+                24
+            ],
+            "input_shape": [
+                -1,
+                6,
+                8,
+                8
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                8,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv8_1": {
+            "type": "Conv",
+            "parents": [
+                "conv7_2_relu"
+            ],
+            "children": [
+                "conv8_1_relu"
+            ],
+            "output_shape": [
+                -1,
+                6,
+                8,
+                2
+            ],
+            "input_shape": [
+                -1,
+                6,
+                8,
+                8
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                8,
+                2
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "conv7_2_mbox_priorbox": {
+            "type": "DataInput",
+            "parents": [
+                "conv7_2_relu",
+                "data"
+            ],
+            "children": [
+                "mbox_priorbox"
+            ],
+            "output_shape": [
+                -1,
+                1152,
+                1,
+                2
+            ]
+        },
+        "conv7_2_mbox_loc_perm": {
+            "type": "DataInput",
+            "parents": [
+                "conv7_2_mbox_loc"
+            ],
+            "children": [
+                "conv7_2_mbox_loc_flat"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                24,
+                6
+            ]
+        },
+        "conv7_2_mbox_conf_perm": {
+            "type": "DataInput",
+            "parents": [
+                "conv7_2_mbox_conf"
+            ],
+            "children": [
+                "conv7_2_mbox_conf_flat"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                24,
+                6
+            ]
+        },
+        "conv8_1_relu": {
+            "type": "Relu",
+            "parents": [
+                "conv8_1"
+            ],
+            "children": [
+                "conv8_2"
+            ],
+            "output_shape": [
+                -1,
+                6,
+                8,
+                2
+            ],
+            "input_shape": [
+                -1,
+                6,
+                8,
+                2
+            ]
+        },
+        "conv7_2_mbox_loc_flat": {
+            "type": "Flatten",
+            "parents": [
+                "conv7_2_mbox_loc_perm"
+            ],
+            "children": [
+                "mbox_loc"
+            ],
+            "output_shape": [
+                -1,
+                1152
+            ],
+            "input_shape": [
+                -1,
+                8,
+                24,
+                6
+            ]
+        },
+        "conv7_2_mbox_conf_flat": {
+            "type": "Flatten",
+            "parents": [
+                "conv7_2_mbox_conf_perm"
+            ],
+            "children": [
+                "mbox_conf"
+            ],
+            "output_shape": [
+                -1,
+                1152
+            ],
+            "input_shape": [
+                -1,
+                8,
+                24,
+                6
+            ]
+        },
+        "conv8_2": {
+            "type": "Conv",
+            "parents": [
+                "conv8_1_relu"
+            ],
+            "children": [
+                "conv8_2_relu"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                6,
+                32
+            ],
+            "input_shape": [
+                -1,
+                6,
+                8,
+                2
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                2,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "conv8_2_relu": {
+            "type": "Relu",
+            "parents": [
+                "conv8_2"
+            ],
+            "children": [
+                "conv8_2_mbox_priorbox",
+                "conv8_2_mbox_conf",
+                "conv9_1",
+                "conv8_2_mbox_loc"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                6,
+                32
+            ],
+            "input_shape": [
+                -1,
+                4,
+                6,
+                32
+            ]
+        },
+        "conv8_2_mbox_priorbox": {
+            "type": "DataInput",
+            "parents": [
+                "conv8_2_relu",
+                "data"
+            ],
+            "children": [
+                "mbox_priorbox"
+            ],
+            "output_shape": [
+                -1,
+                384,
+                1,
+                2
+            ]
+        },
+        "conv8_2_mbox_conf": {
+            "type": "Conv",
+            "parents": [
+                "conv8_2_relu"
+            ],
+            "children": [
+                "conv8_2_mbox_conf_perm"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                6,
+                16
+            ],
+            "input_shape": [
+                -1,
+                4,
+                6,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv9_1": {
+            "type": "Conv",
+            "parents": [
+                "conv8_2_relu"
+            ],
+            "children": [
+                "conv9_1_relu"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                6,
+                2
+            ],
+            "input_shape": [
+                -1,
+                4,
+                6,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                2
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "conv8_2_mbox_loc": {
+            "type": "Conv",
+            "parents": [
+                "conv8_2_relu"
+            ],
+            "children": [
+                "conv8_2_mbox_loc_perm"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                6,
+                16
+            ],
+            "input_shape": [
+                -1,
+                4,
+                6,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv8_2_mbox_conf_perm": {
+            "type": "DataInput",
+            "parents": [
+                "conv8_2_mbox_conf"
+            ],
+            "children": [
+                "conv8_2_mbox_conf_flat"
+            ],
+            "output_shape": [
+                -1,
+                6,
+                16,
+                4
+            ]
+        },
+        "conv9_1_relu": {
+            "type": "Relu",
+            "parents": [
+                "conv9_1"
+            ],
+            "children": [
+                "conv9_2"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                6,
+                2
+            ],
+            "input_shape": [
+                -1,
+                4,
+                6,
+                2
+            ]
+        },
+        "conv8_2_mbox_loc_perm": {
+            "type": "DataInput",
+            "parents": [
+                "conv8_2_mbox_loc"
+            ],
+            "children": [
+                "conv8_2_mbox_loc_flat"
+            ],
+            "output_shape": [
+                -1,
+                6,
+                16,
+                4
+            ]
+        },
+        "conv8_2_mbox_conf_flat": {
+            "type": "Flatten",
+            "parents": [
+                "conv8_2_mbox_conf_perm"
+            ],
+            "children": [
+                "mbox_conf"
+            ],
+            "output_shape": [
+                -1,
+                384
+            ],
+            "input_shape": [
+                -1,
+                6,
+                16,
+                4
+            ]
+        },
+        "conv9_2": {
+            "type": "Conv",
+            "parents": [
+                "conv9_1_relu"
+            ],
+            "children": [
+                "conv9_2_relu"
+            ],
+            "output_shape": [
+                -1,
+                2,
+                4,
+                6
+            ],
+            "input_shape": [
+                -1,
+                4,
+                6,
+                2
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                2,
+                6
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "conv8_2_mbox_loc_flat": {
+            "type": "Flatten",
+            "parents": [
+                "conv8_2_mbox_loc_perm"
+            ],
+            "children": [
+                "mbox_loc"
+            ],
+            "output_shape": [
+                -1,
+                384
+            ],
+            "input_shape": [
+                -1,
+                6,
+                16,
+                4
+            ]
+        },
+        "conv9_2_relu": {
+            "type": "Relu",
+            "parents": [
+                "conv9_2"
+            ],
+            "children": [
+                "conv9_2_mbox_conf",
+                "conv9_2_mbox_priorbox",
+                "conv9_2_mbox_loc"
+            ],
+            "output_shape": [
+                -1,
+                2,
+                4,
+                6
+            ],
+            "input_shape": [
+                -1,
+                2,
+                4,
+                6
+            ]
+        },
+        "conv9_2_mbox_conf": {
+            "type": "Conv",
+            "parents": [
+                "conv9_2_relu"
+            ],
+            "children": [
+                "conv9_2_mbox_conf_perm"
+            ],
+            "output_shape": [
+                -1,
+                2,
+                4,
+                16
+            ],
+            "input_shape": [
+                -1,
+                2,
+                4,
+                6
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                6,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv9_2_mbox_priorbox": {
+            "type": "DataInput",
+            "parents": [
+                "conv9_2_relu",
+                "data"
+            ],
+            "children": [
+                "mbox_priorbox"
+            ],
+            "output_shape": [
+                -1,
+                128,
+                1,
+                2
+            ]
+        },
+        "conv9_2_mbox_loc": {
+            "type": "Conv",
+            "parents": [
+                "conv9_2_relu"
+            ],
+            "children": [
+                "conv9_2_mbox_loc_perm"
+            ],
+            "output_shape": [
+                -1,
+                2,
+                4,
+                16
+            ],
+            "input_shape": [
+                -1,
+                2,
+                4,
+                6
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                6,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "conv9_2_mbox_conf_perm": {
+            "type": "DataInput",
+            "parents": [
+                "conv9_2_mbox_conf"
+            ],
+            "children": [
+                "conv9_2_mbox_conf_flat"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                16,
+                2
+            ]
+        },
+        "mbox_priorbox": {
+            "type": "Concat",
+            "parents": [
+                "conv4_3_norm_mbox_priorbox",
+                "fc7_mbox_priorbox",
+                "conv6_2_mbox_priorbox",
+                "conv7_2_mbox_priorbox",
+                "conv8_2_mbox_priorbox",
+                "conv9_2_mbox_priorbox"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                108944,
+                1,
+                2
+            ],
+            "input_shape": [
+                -1,
+                86400,
+                1,
+                2
+            ]
+        },
+        "conv9_2_mbox_loc_perm": {
+            "type": "DataInput",
+            "parents": [
+                "conv9_2_mbox_loc"
+            ],
+            "children": [
+                "conv9_2_mbox_loc_flat"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                16,
+                2
+            ]
+        },
+        "conv9_2_mbox_conf_flat": {
+            "type": "Flatten",
+            "parents": [
+                "conv9_2_mbox_conf_perm"
+            ],
+            "children": [
+                "mbox_conf"
+            ],
+            "output_shape": [
+                -1,
+                128
+            ],
+            "input_shape": [
+                -1,
+                4,
+                16,
+                2
+            ]
+        },
+        "conv9_2_mbox_loc_flat": {
+            "type": "Flatten",
+            "parents": [
+                "conv9_2_mbox_loc_perm"
+            ],
+            "children": [
+                "mbox_loc"
+            ],
+            "output_shape": [
+                -1,
+                128
+            ],
+            "input_shape": [
+                -1,
+                4,
+                16,
+                2
+            ]
+        },
+        "mbox_conf": {
+            "type": "Concat",
+            "parents": [
+                "conv4_3_norm_mbox_conf_flat",
+                "fc7_mbox_conf_flat",
+                "conv6_2_mbox_conf_flat",
+                "conv7_2_mbox_conf_flat",
+                "conv8_2_mbox_conf_flat",
+                "conv9_2_mbox_conf_flat"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                108944
+            ],
+            "input_shape": [
+                -1,
+                86400
+            ]
+        },
+        "mbox_loc": {
+            "type": "Concat",
+            "parents": [
+                "conv4_3_norm_mbox_loc_flat",
+                "fc7_mbox_loc_flat",
+                "conv6_2_mbox_loc_flat",
+                "conv7_2_mbox_loc_flat",
+                "conv8_2_mbox_loc_flat",
+                "conv9_2_mbox_loc_flat"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                108944
+            ],
+            "input_shape": [
+                -1,
+                86400
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

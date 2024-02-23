@@ -1,0 +1,4535 @@
+{
+  "node": [
+    {
+      "name": "Placeholder",
+      "op": "DataInput",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "512"
+                  },
+                  {
+                    "size": "512"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "shape": {
+            "dim": [
+              {
+                "size": "-1"
+              },
+              {
+                "size": "512"
+              },
+              {
+                "size": "512"
+              },
+              {
+                "size": "3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "inputs",
+      "op": "DataInput",
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "512"
+                  },
+                  {
+                    "size": "512"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "shape": {
+            "dim": [
+              {
+                "size": "-1"
+              },
+              {
+                "size": "512"
+              },
+              {
+                "size": "512"
+              },
+              {
+                "size": "3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/truediv",
+      "op": "RealDiv",
+      "input": [
+        "Placeholder",
+        "detector/truediv/y"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "512"
+                  },
+                  {
+                    "size": "512"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Pad",
+      "op": "Pad",
+      "input": [
+        "detector/truediv"
+      ],
+      "attr": {
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "514"
+                  },
+                  {
+                    "size": "514"
+                  },
+                  {
+                    "size": "3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Pad"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "3",
+              "32"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "256"
+                  },
+                  {
+                    "size": "256"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "514",
+              "514",
+              "3"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv/Conv2D"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "256"
+                  },
+                  {
+                    "size": "256"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "256"
+                  },
+                  {
+                    "size": "256"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "256",
+              "256",
+              "32"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Pad_1",
+      "op": "Pad",
+      "input": [
+        "detector/yolo-v4-tiny/Conv/LeakyRelu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "258"
+                  },
+                  {
+                    "size": "258"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "mode": {
+          "s": "Y29uc3RhbnQ="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_1/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Pad_1"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "258",
+              "258",
+              "32"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "32",
+              "64"
+            ]
+          }
+        },
+        "padding": {
+          "s": "VkFMSUQ="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_1/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_1/Conv2D"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_1/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_1/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "128",
+              "128",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_2/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_1/LeakyRelu"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "128",
+              "128",
+              "64"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_2/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_2/Conv2D"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_2/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_2/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "128",
+              "128",
+              "64"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/strided_slice",
+      "op": "Slice",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_2/LeakyRelu"
+      ],
+      "attr": {
+        "begin_mask": {
+          "i": "7"
+        },
+        "ends": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "starts": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "32"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "end_mask": {
+          "i": "15"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_3/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/strided_slice"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "128",
+              "128",
+              "32"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "32",
+              "32"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_3/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_3/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "bias": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_3/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_3/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "128",
+              "128",
+              "32"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_4/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_3/LeakyRelu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "32",
+              "32"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "128",
+              "128",
+              "32"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_4/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_4/Conv2D"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_4/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_4/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "128",
+              "128",
+              "32"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/concat",
+      "op": "Concat",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_4/LeakyRelu",
+        "detector/yolo-v4-tiny/Conv_3/LeakyRelu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "axis": {
+          "i": "3"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_5/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/concat"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "128",
+              "128",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_5/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_5/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_5/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_5/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "128",
+              "128",
+              "64"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/concat_1",
+      "op": "Concat",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_2/LeakyRelu",
+        "detector/yolo-v4-tiny/Conv_5/LeakyRelu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "axis": {
+          "i": "3"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/pool2/MaxPool",
+      "op": "Pool",
+      "input": [
+        "detector/yolo-v4-tiny/concat_1"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_6/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/pool2/MaxPool"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "128"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "64",
+              "64",
+              "128"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_6/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_6/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_6/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_6/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "64",
+              "64",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/strided_slice_1",
+      "op": "Slice",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_6/LeakyRelu"
+      ],
+      "attr": {
+        "starts": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "64"
+            ]
+          }
+        },
+        "end_mask": {
+          "i": "15"
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "ends": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "begin_mask": {
+          "i": "7"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_7/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/strided_slice_1"
+      ],
+      "attr": {
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "64",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_7/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_7/Conv2D"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_7/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_7/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "64",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_8/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_7/LeakyRelu"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "64",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_8/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_8/Conv2D"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "scale": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_8/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_8/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "64",
+              "64",
+              "64"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/concat_2",
+      "op": "Concat",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_8/LeakyRelu",
+        "detector/yolo-v4-tiny/Conv_7/LeakyRelu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "axis": {
+          "i": "3"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_9/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/concat_2"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "128",
+              "128"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "64",
+              "64",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_9/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_9/Conv2D"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "bias": {
+          "b": true
+        },
+        "scale": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_9/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_9/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "64",
+              "64",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/concat_3",
+      "op": "Concat",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_6/LeakyRelu",
+        "detector/yolo-v4-tiny/Conv_9/LeakyRelu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "axis": {
+          "i": "3"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "64"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/pool2_1/MaxPool",
+      "op": "Pool",
+      "input": [
+        "detector/yolo-v4-tiny/concat_3"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_10/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/pool2_1/MaxPool"
+      ],
+      "attr": {
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "256"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "256"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_10/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_10/Conv2D"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_10/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_10/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "256"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/strided_slice_2",
+      "op": "Slice",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_10/LeakyRelu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "begin_mask": {
+          "i": "7"
+        },
+        "starts": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "128"
+            ]
+          }
+        },
+        "ends": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "end_mask": {
+          "i": "15"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_11/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/strided_slice_2"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "128"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_11/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_11/Conv2D"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_11/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_11/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_12/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_11/LeakyRelu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "128"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "128",
+              "128"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_12/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_12/Conv2D"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_12/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_12/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/concat_4",
+      "op": "Concat",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_12/LeakyRelu",
+        "detector/yolo-v4-tiny/Conv_11/LeakyRelu"
+      ],
+      "attr": {
+        "axis": {
+          "i": "3"
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_13/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/concat_4"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "256"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "256"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_13/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_13/Conv2D"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_13/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_13/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "256"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/concat_5",
+      "op": "Concat",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_10/LeakyRelu",
+        "detector/yolo-v4-tiny/Conv_13/LeakyRelu"
+      ],
+      "attr": {
+        "axis": {
+          "i": "3"
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/pool2_2/MaxPool",
+      "op": "Pool",
+      "input": [
+        "detector/yolo-v4-tiny/concat_5"
+      ],
+      "attr": {
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "2",
+              "2",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "auto_pad": {
+          "s": "VkFMSUQ="
+        },
+        "pooling_type": {
+          "s": "TUFY"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_14/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/pool2_2/MaxPool"
+      ],
+      "attr": {
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "512",
+              "512"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "512"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_14/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_14/Conv2D"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_14/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_14/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "512"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_15/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_14/LeakyRelu"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "512"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "256"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_15/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_15/Conv2D"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "bias": {
+          "b": true
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_15/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_15/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "256"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_16/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_15/LeakyRelu"
+      ],
+      "attr": {
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "256",
+              "512"
+            ]
+          }
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "256"
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_18/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_15/LeakyRelu"
+      ],
+      "attr": {
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "256"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "128"
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_16/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_16/Conv2D"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_18/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_18/Conv2D"
+      ],
+      "attr": {
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "scale": {
+          "b": true
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_16/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_16/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "512"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "512"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_18/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_18/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "128"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_17/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_16/LeakyRelu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "16"
+                  },
+                  {
+                    "size": "255"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "512"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "512",
+              "255"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/ResizeNearestNeighbor",
+      "op": "ResizeNearestNeighbor",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_18/LeakyRelu",
+        "detector/yolo-v4-tiny/ResizeNearestNeighbor/size"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "16",
+              "16",
+              "128"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "size": {
+          "list": {
+            "i": [
+              "2"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/concat_9",
+      "op": "Concat",
+      "input": [
+        "detector/yolo-v4-tiny/ResizeNearestNeighbor",
+        "detector/yolo-v4-tiny/Conv_13/LeakyRelu"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "384"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "axis": {
+          "i": "3"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_19/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/concat_9"
+      ],
+      "attr": {
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "1",
+              "1",
+              "0",
+              "0",
+              "1",
+              "1",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "3",
+              "3",
+              "384",
+              "256"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "384"
+            ]
+          }
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_19/BatchNorm/FusedBatchNormV3",
+      "op": "BatchNorm",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_19/Conv2D"
+      ],
+      "attr": {
+        "scale": {
+          "b": true
+        },
+        "epsilon": {
+          "f": 1.001e-05
+        },
+        "bias": {
+          "b": true
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_19/LeakyRelu",
+      "op": "LeakyRelu",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_19/BatchNorm/FusedBatchNormV3"
+      ],
+      "attr": {
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "256"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "detector/yolo-v4-tiny/Conv_20/Conv2D",
+      "op": "Conv",
+      "input": [
+        "detector/yolo-v4-tiny/Conv_19/LeakyRelu"
+      ],
+      "attr": {
+        "_output_shapes": {
+          "list": {
+            "shape": [
+              {
+                "dim": [
+                  {
+                    "size": "-1"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "32"
+                  },
+                  {
+                    "size": "255"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "auto_pad": {
+          "s": "U0FNRV9MT1dFUg=="
+        },
+        "data_format": {
+          "s": "TkhXQw=="
+        },
+        "dtype": {
+          "type": "DT_FLOAT32"
+        },
+        "pads": {
+          "list": {
+            "i": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "kernel_shape": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "256",
+              "255"
+            ]
+          }
+        },
+        "padding": {
+          "s": "U0FNRQ=="
+        },
+        "strides": {
+          "list": {
+            "i": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        },
+        "shape": {
+          "list": {
+            "i": [
+              "-1",
+              "32",
+              "32",
+              "256"
+            ]
+          }
+        },
+        "use_bias": {
+          "b": true
+        }
+      }
+    }
+  ]
+}

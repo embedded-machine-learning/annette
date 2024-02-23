@@ -1,0 +1,90 @@
+{
+    "name": "dnndk-ref_roofline",
+	"Input": {
+        "name": "Input",
+        "layer_type": "Input",
+        "est_type": "roofline",
+        "op_s": 0,
+        "bandwidth": 0,
+        "architecture": {
+			"bit_act": 8,
+			"bit_weights": 8
+		}
+    },
+    "Conv": {
+		"name": "Conv",
+		"layer_type": "Conv",
+		"op_s": 1173488332240.4373,
+		"bandwidth": 15109525179.712227,
+		"architecture": {
+			"bit_act": 8,
+			"bit_weights": 8,
+			"f_par": 16.0,
+			"c_par": 16.0,
+			"h_par": 8.0,
+			"f_alpha": 0.881308,
+			"c_alpha": 1.0,
+			"h_alpha": 0.485896
+		},
+		"est_type": "refined_roofline",
+		"poly": null
+	},
+    "ConvTranspose": {
+		"name": "ConvTranspose",
+		"layer_type": "ConvTranspose",
+		"op_s": 2173488332240.4373,
+		"bandwidth": 4109525179.712227,
+		"architecture": {
+			"bit_act": 8,
+			"bit_weights": 8
+		},
+		"est_type": "roofline",
+		"poly": null
+	},
+    "Pool": {
+		"architecture": {
+			"bit_act": 8,
+			"bit_weights": 8
+		},
+        "name": "Pool",
+        "layer_type": "Pool",
+        "est_type": "roofline",
+		"bandwidth": 15109525179.51176,
+		"op_s": 27348833224.4373
+    },
+    "ConvPool": {
+		"name": "ConvPool",
+		"layer_type": "ConvPool",
+		"op_s": 1173488332240.4373,
+		"bandwidth": 15109525179.712227,
+		"architecture": {
+			"bit_act": 8,
+			"bit_weights": 8,
+			"f_par": 16.0,
+			"c_par": 16.0,
+			"h_par": 8.0,
+			"f_alpha": 0.881308,
+			"c_alpha": 1.0,
+			"h_alpha": 0.485896
+		},
+		"est_type": "refined_roofline",
+		"poly": null
+	},
+    "bandwidth": 15109525179.712227,
+    "op_s": 1173488332240.4373,
+    "architecture": null,
+    "Base": {
+        "name": "Base",
+        "layer_type": "Base",
+        "est_type": "roofline",
+		"bandwidth": 15109525179.712227,
+		"op_s": 1173488332240.4373
+    },
+    "FullyConnected": {
+        "name": "FullyConnected",
+        "layer_type": "FullyConnected",
+        "est_type": "roofline",
+		"bandwidth": 5109525179.51176,
+		"op_s": 173488332240.4373
+    }
+}

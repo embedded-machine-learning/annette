@@ -1,0 +1,2566 @@
+{
+    "name": "shunt1",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "mobilenetv2/final_Conv/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                3
+            ]
+        },
+        "mobilenetv2/final_Conv/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "mobilenetv2/final_Conv_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                32
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                3
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_Conv_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_Conv/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                32
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                32
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_Conv_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                32
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                32
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                32
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_1_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                16
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_1_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_project/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_1_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                96
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                16
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                16,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_1_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_1_expand/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_1_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                96
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                96
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_1_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_1_expand_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_1_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                96
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_1_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_1_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_1_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                96
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                96
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_1_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_1_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_2_expand/Conv2D",
+                "mobilenetv2/final_expanded_conv_2_add/add"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                24
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                96
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_2_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_1_project/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_2_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                144
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                24
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                24,
+                144
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_2_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_2_expand/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_2_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                144
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                144
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_2_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_2_expand_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_2_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                144
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                144
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                144,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_2_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_2_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_2_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                144
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                144
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_2_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_2_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_2_add/add"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                24
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                144
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                144,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_2_add/add": {
+            "type": "Add",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_2_project/Conv2D",
+                "mobilenetv2/final_expanded_conv_1_project/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_3_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                24
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                24
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_3_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_2_add/add"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_3_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                144
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                24
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                24,
+                144
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_3_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_3_expand/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_3_pad/Pad"
+            ],
+            "output_shape": [
+                -1,
+                32,
+                32,
+                144
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                144
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_3_pad/Pad": {
+            "type": "Pad",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_3_expand_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_3_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                33,
+                33,
+                144
+            ],
+            "input_shape": [
+                -1,
+                32,
+                32,
+                144
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_3_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_3_pad/Pad"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_3_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                144
+            ],
+            "input_shape": [
+                -1,
+                33,
+                33,
+                144
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                144,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_3_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_3_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_3_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                144
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                144
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_3_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_3_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_4_expand/Conv2D",
+                "mobilenetv2/final_expanded_conv_4_add/add"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                32
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                144
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                144,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_4_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_3_project/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_4_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_4_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_4_expand/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_4_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                192
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_4_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_4_expand_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_4_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_4_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_4_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_4_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                192
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_4_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_4_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_4_add/add"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                32
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_4_add/add": {
+            "type": "Add",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_4_project/Conv2D",
+                "mobilenetv2/final_expanded_conv_3_project/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_5_expand/Conv2D",
+                "mobilenetv2/final_expanded_conv_5_add/add"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                32
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                32
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_5_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_4_add/add"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_5_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_5_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_5_expand/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_5_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                192
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_5_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_5_expand_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_5_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_5_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_5_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_5_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                192
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_5_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_5_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_5_add/add"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                32
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_5_add/add": {
+            "type": "Add",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_5_project/Conv2D",
+                "mobilenetv2/final_expanded_conv_4_add/add"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_6_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                32
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                32
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_6_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_5_add/add"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_6_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_6_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_6_expand/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_6_pad/Pad"
+            ],
+            "output_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                192
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_6_pad/Pad": {
+            "type": "Pad",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_6_expand_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_6_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                17,
+                17,
+                192
+            ],
+            "input_shape": [
+                -1,
+                16,
+                16,
+                192
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_6_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_6_pad/Pad"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_6_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "input_shape": [
+                -1,
+                17,
+                17,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_6_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_6_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_6_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                192
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_6_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_6_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/shunt_conv_1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                64
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/shunt_conv_1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_6_project/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/shunt_relu_1/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/shunt_relu_1/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/shunt_conv_1/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/shunt_depth_conv_1/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                192
+            ]
+        },
+        "mobilenetv2/shunt_depth_conv_1/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/shunt_relu_1/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/shunt_relu_2/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/shunt_relu_2/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/shunt_depth_conv_1/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/shunt_conv_2/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                192
+            ]
+        },
+        "mobilenetv2/shunt_conv_2/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/shunt_relu_2/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/shunt_conv_3/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                64
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/shunt_conv_3/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/shunt_conv_2/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/shunt_relu_3/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/shunt_relu_3/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/shunt_conv_3/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/shunt_depth_conv_2/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                192
+            ]
+        },
+        "mobilenetv2/shunt_depth_conv_2/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/shunt_relu_3/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/shunt_relu_4/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/shunt_relu_4/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/shunt_depth_conv_2/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/shunt_conv_4/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                192
+            ]
+        },
+        "mobilenetv2/shunt_conv_4/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/shunt_relu_4/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_13_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                96
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_13_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/shunt_conv_4/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_13_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                576
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                96
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                576
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_13_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_13_expand/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_13_pad/Pad"
+            ],
+            "output_shape": [
+                -1,
+                8,
+                8,
+                576
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                576
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_13_pad/Pad": {
+            "type": "Pad",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_13_expand_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_13_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                9,
+                9,
+                576
+            ],
+            "input_shape": [
+                -1,
+                8,
+                8,
+                576
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_13_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_13_pad/Pad"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_13_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                576
+            ],
+            "input_shape": [
+                -1,
+                9,
+                9,
+                576
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                576,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_13_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_13_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_13_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                576
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                576
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_13_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_13_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_14_expand/Conv2D",
+                "mobilenetv2/final_expanded_conv_14_add/add"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                160
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_14_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_13_project/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_14_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                160
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                160,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_14_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_14_expand/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_14_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_14_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_14_expand_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_14_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                960,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_14_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_14_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_14_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_14_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_14_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_14_add/add"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                160
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                960,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_14_add/add": {
+            "type": "Add",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_14_project/Conv2D",
+                "mobilenetv2/final_expanded_conv_13_project/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_15_expand/Conv2D",
+                "mobilenetv2/final_expanded_conv_15_add/add"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                160
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                160
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_15_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_14_add/add"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_15_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                160
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                160,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_15_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_15_expand/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_15_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_15_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_15_expand_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_15_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                960,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_15_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_15_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_15_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_15_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_15_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_15_add/add"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                160
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                960,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_15_add/add": {
+            "type": "Add",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_15_project/Conv2D",
+                "mobilenetv2/final_expanded_conv_14_add/add"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_16_expand/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                160
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                160
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_16_expand/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_15_add/add"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_16_expand_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                160
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                160,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_16_expand_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_16_expand/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_16_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_16_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_16_expand_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_16_depthwise_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                960,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_16_depthwise_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_16_depthwise/depthwise"
+            ],
+            "children": [
+                "mobilenetv2/final_expanded_conv_16_project/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ]
+        },
+        "mobilenetv2/final_expanded_conv_16_project/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_16_depthwise_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_Conv_1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                320
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                960
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                960,
+                320
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_Conv_1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "mobilenetv2/final_expanded_conv_16_project/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_out_relu/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                320
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                320,
+                1280
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "mobilenetv2/final_out_relu/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "mobilenetv2/final_Conv_1/Conv2D"
+            ],
+            "children": [
+                "mobilenetv2/final_global_average_pooling2d/Mean"
+            ],
+            "output_shape": [
+                -1,
+                4,
+                4,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                1280
+            ]
+        },
+        "mobilenetv2/final_global_average_pooling2d/Mean": {
+            "type": "ReduceMean",
+            "parents": [
+                "mobilenetv2/final_out_relu/Relu6"
+            ],
+            "children": [
+                "mobilenetv2/final_dense/MatMul"
+            ],
+            "output_shape": [
+                -1,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                4,
+                4,
+                1280
+            ]
+        },
+        "mobilenetv2/final_dense/MatMul": {
+            "type": "FullyConnected",
+            "parents": [
+                "mobilenetv2/final_global_average_pooling2d/Mean"
+            ],
+            "children": [
+                "mobilenetv2/final_activation/Softmax"
+            ],
+            "output_shape": [
+                -1,
+                10
+            ],
+            "input_shape": [
+                -1,
+                1280
+            ]
+        },
+        "mobilenetv2/final_activation/Softmax": {
+            "type": "Softmax",
+            "parents": [
+                "mobilenetv2/final_dense/MatMul"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                10
+            ],
+            "input_shape": [
+                -1,
+                10
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

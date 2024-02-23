@@ -1,0 +1,2789 @@
+{
+    "node": [
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer23-conv"
+            ],
+            "name": "layer23-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer6-conv"
+            ],
+            "name": "layer6-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "128",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer4-act"
+            ],
+            "name": "layer5-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "1024",
+                            "1024"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer22-act"
+            ],
+            "name": "layer23-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "448"
+                                    },
+                                    {
+                                        "size": "448"
+                                    },
+                                    {
+                                        "size": "32"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "3",
+                            "32"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "data"
+            ],
+            "name": "layer0-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "224"
+                                    },
+                                    {
+                                        "size": "224"
+                                    },
+                                    {
+                                        "size": "32"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "pooling_type": {
+                    "s": "TUFY"
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer0-act"
+            ],
+            "name": "layer1-maxpool",
+            "op": "Pool"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "224"
+                                    },
+                                    {
+                                        "size": "224"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer2-conv"
+            ],
+            "name": "layer2-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer10-conv"
+            ],
+            "name": "layer10-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer15-conv"
+            ],
+            "name": "layer15-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "512",
+                            "1024"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer21-act"
+            ],
+            "name": "layer22-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "128",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer9-act"
+            ],
+            "name": "layer10-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "pooling_type": {
+                    "s": "TUFY"
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer6-act"
+            ],
+            "name": "layer7-maxpool",
+            "op": "Pool"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer13-act"
+            ],
+            "name": "layer14-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer19-conv"
+            ],
+            "name": "layer19-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer4-conv"
+            ],
+            "name": "layer4-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "448"
+                                    },
+                                    {
+                                        "size": "448"
+                                    },
+                                    {
+                                        "size": "32"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer0-conv"
+            ],
+            "name": "layer0-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "shape": {
+                    "shape": {
+                        "dim": [
+                            {
+                                "size": "-1"
+                            },
+                            {
+                                "size": "14"
+                            },
+                            {
+                                "size": "14"
+                            },
+                            {
+                                "size": "256"
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer26-act"
+            ],
+            "name": "layer27-reorg",
+            "op": "DataInput"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "pooling_type": {
+                    "s": "TUFY"
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer2-act"
+            ],
+            "name": "layer3-maxpool",
+            "op": "Pool"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "448"
+                                    },
+                                    {
+                                        "size": "448"
+                                    },
+                                    {
+                                        "size": "3"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "shape": {
+                    "shape": {
+                        "dim": [
+                            {
+                                "size": "-1"
+                            },
+                            {
+                                "size": "448"
+                            },
+                            {
+                                "size": "448"
+                            },
+                            {
+                                "size": "3"
+                            }
+                        ]
+                    }
+                }
+            },
+            "name": "data",
+            "op": "DataInput"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer29-conv"
+            ],
+            "name": "layer29-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer26-conv"
+            ],
+            "name": "layer26-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "512",
+                            "1024"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer17-maxpool"
+            ],
+            "name": "layer18-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer20-conv"
+            ],
+            "name": "layer20-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer24-conv"
+            ],
+            "name": "layer24-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "125"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1024",
+                            "125"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer29-act"
+            ],
+            "name": "layer30-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "1280",
+                            "1024"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer28-concat"
+            ],
+            "name": "layer29-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer9-conv"
+            ],
+            "name": "layer9-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1024",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer18-act"
+            ],
+            "name": "layer19-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer11-maxpool"
+            ],
+            "name": "layer12-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer14-conv"
+            ],
+            "name": "layer14-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer5-act"
+            ],
+            "name": "layer6-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "256",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer8-act"
+            ],
+            "name": "layer9-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "pooling_type": {
+                    "s": "TUFY"
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer16-act"
+            ],
+            "name": "layer17-maxpool",
+            "op": "Pool"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "256",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer15-act"
+            ],
+            "name": "layer16-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "512",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer14-act"
+            ],
+            "name": "layer15-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "1024",
+                            "1024"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer23-act"
+            ],
+            "name": "layer24-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "pooling_type": {
+                    "s": "TUFY"
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "2",
+                            "2",
+                            "1"
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer10-act"
+            ],
+            "name": "layer11-maxpool",
+            "op": "Pool"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer12-conv"
+            ],
+            "name": "layer12-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "512",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer12-act"
+            ],
+            "name": "layer13-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "512",
+                            "1024"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer19-act"
+            ],
+            "name": "layer20-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer13-conv"
+            ],
+            "name": "layer13-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer8-conv"
+            ],
+            "name": "layer8-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer22-conv"
+            ],
+            "name": "layer22-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1280"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "axis": {
+                    "i": "3"
+                }
+            },
+            "input": [
+                "layer27-reorg",
+                "layer24-act"
+            ],
+            "name": "layer28-concat",
+            "op": "Concat"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer21-conv"
+            ],
+            "name": "layer21-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer16-conv"
+            ],
+            "name": "layer16-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "128"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "64",
+                            "128"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer3-maxpool"
+            ],
+            "name": "layer4-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "224"
+                                    },
+                                    {
+                                        "size": "224"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "32",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer1-maxpool"
+            ],
+            "name": "layer2-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "112"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer5-conv"
+            ],
+            "name": "layer5-act",
+            "op": "Relu"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "56"
+                                    },
+                                    {
+                                        "size": "256"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "3",
+                            "3",
+                            "128",
+                            "256"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "1",
+                            "1",
+                            "0",
+                            "0",
+                            "1",
+                            "1",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer7-maxpool"
+            ],
+            "name": "layer8-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "28"
+                                    },
+                                    {
+                                        "size": "64"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "512",
+                            "64"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer16-act"
+            ],
+            "name": "layer26-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "512"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "group": {
+                    "i": "1"
+                },
+                "kernel_shape": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1024",
+                            "512"
+                        ]
+                    }
+                },
+                "pads": {
+                    "list": {
+                        "i": [
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        ]
+                    }
+                },
+                "strides": {
+                    "list": {
+                        "i": [
+                            "1",
+                            "1",
+                            "1",
+                            "1"
+                        ]
+                    }
+                },
+                "use_bias": {
+                    "b": true
+                }
+            },
+            "input": [
+                "layer20-act"
+            ],
+            "name": "layer21-conv",
+            "op": "Conv"
+        },
+        {
+            "attr": {
+                "_output_shapes": {
+                    "list": {
+                        "shape": [
+                            {
+                                "dim": [
+                                    {
+                                        "size": "-1"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "14"
+                                    },
+                                    {
+                                        "size": "1024"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "input": [
+                "layer18-conv"
+            ],
+            "name": "layer18-act",
+            "op": "Relu"
+        }
+    ]
+}

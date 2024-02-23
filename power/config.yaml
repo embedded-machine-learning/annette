@@ -1,0 +1,319 @@
+hardware:
+        gap8:
+                Rshunt: 0.1
+                Uref: 2.8
+                thresh: 0.3
+                tau: 3
+                mean: 11
+                median: 11
+                downsample: 100
+                niter: 100
+                remove_last: 1
+                max_peaks: 50
+                min_peaks: 30
+                pause: 10       #ms
+                width: 10       #ms
+                rate: 500      #kHz
+        imx8-cpu:
+                Rshunt: 0.1
+                Uref: 5.0
+                thresh: 3.8
+                #thresh: 3.8
+                tau: 1
+                mean: 31
+                median: 31
+                downsample: 100
+                niter: 20
+                remove_last: 0
+                max_peaks: 20
+                min_peaks: 10
+                pause: 800       #ms
+                width: 5       #ms
+                rate: 500      #kHz
+        imx8:
+                Rshunt: 0.1
+                Uref: 5.0
+                #thresh: 3.4
+                thresh: 3.8
+                tau: 150
+                mean: 31
+                median: 31
+                downsample: 100
+                niter: 10
+                remove_last: 0
+                max_peaks: 10
+                min_peaks: 8
+                pause: 10       #ms
+                width: 5       #ms
+                rate: 500      #kHz
+                start_bench: 15000
+        edgetpu_std:
+                Rshunt: 0.1
+                Uref: 5.0
+                thresh: 1.1
+                tau: 1
+                mean: 31
+                median: 31
+                downsample: 100
+                niter: 4
+                pause: 5       #ms
+                remove_last: 0
+                max_peaks: 3
+                min_peaks: 1
+                width: 0.5       #ms
+                rate: 500      #kHz
+        ncs2:
+                Rshunt: 0.1
+                Uref: 5.0
+                thresh: 1.4
+                tau: 1
+                mean: 31
+                median: 31
+                downsample: 100
+                niter: 100
+                pause: 2       #ms
+                remove_last: 5
+                max_peaks: 99
+                min_peaks: 30
+                width: 2       #ms
+                rate: 500      #kHz
+        xavier-fp32:
+                Rshunt: 0.1
+                Uref: 20.0
+                thresh: 1.4
+                tau: 1
+                mean: 31
+                median: 31
+                downsample: 100
+                niter: 1000
+                pause: 2       #ms
+                remove_last: 5
+                max_peaks: 999
+                min_peaks: 300
+                width: 2       #ms
+                rate: 250      #kHz
+        xavier-fp16:
+                Rshunt: 0.1
+                Uref: 20.0
+                thresh: 1.4
+                tau: 1
+                mean: 31
+                median: 31
+                downsample: 100
+                niter: 1000
+                pause: 2       #ms
+                remove_last: 5
+                max_peaks: 999
+                min_peaks: 300
+                width: 2       #ms
+                rate: 250      #kHz
+        xavier-int8:
+                Rshunt: 0.1
+                Uref: 20.0
+                thresh: 1.4
+                tau: 1
+                mean: 31
+                median: 31
+                downsample: 100
+                niter: 1000
+                pause: 2       #ms
+                remove_last: 5
+                max_peaks: 999
+                min_peaks: 300
+                width: 2       #ms
+                rate: 250      #kHz
+
+network:
+        mobilenetv2-7-sim:
+                imx8: 
+                        layers: 99
+                        time: 10
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/{network}_destruct_{layer}.dat 
+                        thresh: 3.2
+                        thresh2: 3.4 # 3.4
+                        extend: 0.02
+                        smoothed: 11
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+                        max_peaks: 100
+                        min_peaks: 90
+                        pause: 10       #ms
+                        width: 1       #ms
+                        tau: 150
+                        rate: 500      #kHz
+                ncs2:
+                        layers: 99
+                        time: 28
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/{hardware}/destruct/{network}_destruct_{layer}.dat
+                        thresh2: 1.1
+                        extend: 2
+                        smoothed: 11 
+                        diverge_smoothing: 50
+                        alignment_smoothing: 20
+                edgetpu_std:
+                        layers: 99
+                        time: 3.5
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/edgetpu_std/destruct/{network}{layer}_edgetpu_std.dat
+                        thresh2: 1.05
+                        extend: 0.02
+                        smoothed: 11
+                        diverge_smoothing: 10
+                        alignment_smoothing: 20
+        testnet:
+                gap8: 
+                        layers: 1
+                        time: 5
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/gap8/destruct/{network}_{layer}.dat 
+                        thresh2: 0.35
+                        extend: 0.02
+                        smoothed: 21
+                        diverge_smoothing: 1
+                        alignment_smoothing: 1
+
+        cf_reid:
+                imx8: 
+                        layers: 99
+                        time: 10
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/{network}_destruct_{layer}.dat 
+                        thresh2: 3.5 # 3.4
+                        extend: 0.02
+                        smoothed: 21
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+
+        old_mobilenet:
+                edgetpu_std:
+                        Rshunt: 0.1
+                        Uref: 5.0
+                        thresh: 1.1
+                        tau: 1
+                        mean: 31
+                        median: 31
+                        downsample: 100
+                        niter: 4
+                        pause: 5       #ms
+                        remove_last: 0
+                        max_peaks: 3
+                        min_peaks: 1
+                        width: 0.5       #ms
+                        rate: 500      #kHz
+        yolov3-tiny:
+                gop: 5.6
+                mpar: 8.845
+                imx8-cpu: 
+                        layers: 1
+                        time: 783
+                        # file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/net.dat 
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/{hardware}/{network}.dat 
+                        thresh2: 3.5 # 3.4
+                        extend: 0.02
+                        smoothed: 11
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+                        start: 7
+                        exact_time: 758.5
+                imx8: 
+                        layers: 1
+                        time: 15
+                        # file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/net.dat 
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/{hardware}/{network}.dat 
+                        thresh2: 3.2 # 3.4
+                        extend: 0.02
+                        smoothed: 11
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+                        start: 4.6
+                        exact_time: 9.727
+                        max_peaks: 100
+                        min_peaks: 30
+                        # detailed
+                        # Rshunt: 0.1
+                        # Uref: 2.8
+                        # thresh: 0.3
+                        # tau: 3
+                        # mean: 11
+                        # median: 11
+                        # downsample: 100
+                        niter: 100
+                        # remove_last: 1
+                        # max_peaks: 50
+                        # min_peaks: 30
+                        # pause: 10       #ms
+                        # width: 10       #ms
+                        # rate: 500      #kHz
+        yolov3:
+                gop: 65.8
+                mpar: 61.6
+                imx8: 
+                        layers: 1
+                        time: 8000
+                        # file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/net.dat 
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/{hardware}/{network}.dat 
+                        thresh2: 3.5 # 3.4
+                        extend: 0.02
+                        smoothed: 11
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+                        start: 96.7
+                        exact_time: 8995.95
+                        pause: 90       #ms
+                imx8-cpu: 
+                        layers: 1
+                        time: 7706.57
+                        # file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/net.dat 
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/{hardware}/{network}.dat 
+                        thresh2: 3.5 # 3.4
+                        extend: 0.02
+                        smoothed: 11
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+                        start: 605.7
+                        exact_time: 7706.57
+                        niter: 6
+                        remove_last: 0
+                        max_peaks: 5
+                        min_peaks: 4
+                        pause: 800       #ms
+                        width: 70       #ms
+                        tau: 1
+        xavier_mobilenetv2:
+                gop: 65.8
+                mpar: 61.6
+                xavier-fp32: 
+                        layers: 1
+                        time: 4
+                        # file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/imx8/destruct/net.dat 
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/power/data/xavier_mobilenetv2/mob-fp32.dat 
+                        thresh2: 3.5 # 3.4
+                        extend: 0.02
+                        smoothed: 11
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+                        start: 96.7
+                        exact_time: 3.36
+        mobilenetv2:
+                gop: 0.6
+                mpar: 3.4
+                imx8: 
+                        layers: 1
+                        time: 10
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/{hardware}/{network}.dat 
+                        thresh2: 3.5 # 3.4
+                        extend: 0.02
+                        smoothed: 11
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+                        start: 59.9
+                        exact_time: 10.3
+                imx8-cpu: 
+                        layers: 1
+                        time: 100
+                        file: /home/mwess/tmp_tut_merge/SoC_EML_ANNETTE/database/benchmarks/{hardware}/{network}.dat 
+                        thresh2: 3.5 # 3.4
+                        extend: 0.02
+                        smoothed: 11
+                        diverge_smoothing: 10
+                        alignment_smoothing: 1
+                        start: 3.5
+                        exact_time: 119.7
+                        pause: 90       #ms

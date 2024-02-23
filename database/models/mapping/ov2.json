@@ -1,0 +1,106 @@
+{
+    "name": "ncs2_opt",
+    "ConvBatch": {
+        "name": "ConvBatch",
+        "prim_type": "Conv",
+        "sec_type": "BatchNorm",
+        "out_type": "Conv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+    "DepthwiseConvBatch": {
+        "name": "DepthwiseConvBatch",
+        "prim_type": "DepthwiseConv",
+        "sec_type": "BatchNorm",
+        "out_type": "DepthwiseConv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+    "DepthwiseConvRelu": {
+        "name": "DepthwiseConvRelu",
+        "prim_type": "DepthwiseConv",
+        "sec_type": "Relu",
+        "out_type": "DepthwiseConv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+    "DepthwiseConvRelu6": {
+        "name": "DepthwiseConvRelu6",
+        "prim_type": "DepthwiseConv",
+        "sec_type": "Relu6",
+        "out_type": "DepthwiseConv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+    "ConvRelu":
+		{"conv_dict": {"0": {"name": "num_ops", "layer": "primary"},
+		  "1": {"name": "num_inputs", "layer": "primary"},
+		  "2": {"name": "num_outputs", "layer": "primary"},
+		  "3": {"name": "input_shape", "i": 1, "layer": "primary"},
+		  "4": {"name": "input_shape", "i": 2, "layer": "primary"},
+		  "5": {"name": "input_shape", "i": 3, "layer": "primary"},
+		  "6": {"name": "output_shape", "i": 3, "layer": "primary"},
+		  "7": {"name": "kernel_shape", "i": 0, "layer": "primary"},
+		  "8": {"name": "kernel_shape", "i": 1, "layer": "primary"},
+		  "9": {"name": "num_weights", "layer": "primary"}},
+		 "name": "ConvRelu",
+		 "prim_type": "Conv",
+		 "sec_type": "Relu",
+		 "out_type": "Conv",
+		 "est_model": "models/mapping/ov2-stat/convrelu.sav"
+	},
+    "ConvRelu6": {
+        "name": "ConvRelu6",
+        "prim_type": "Conv",
+        "sec_type": "Relu6",
+        "out_type": "Conv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+     "ConvLeakyRelu": {
+        "name": "ConvLeakyRelu",
+        "prim_type": "Conv",
+        "sec_type": "LeakyRelu",
+        "out_type": "Conv",
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    },
+    "ConvPool": {"conv_dict": {"0": {"name": "num_ops", "layer": "primary"},
+	  "1": {"name": "num_inputs", "layer": "primary"},
+	  "2": {"name": "num_outputs", "layer": "primary"},
+	  "3": {"name": "input_shape", "i": 1, "layer": "primary"},
+	  "4": {"name": "input_shape", "i": 2, "layer": "primary"},
+	  "5": {"name": "input_shape", "i": 3, "layer": "primary"},
+	  "6": {"name": "output_shape", "i": 3, "layer": "primary"},
+	  "7": {"name": "kernel_shape", "i": 0, "layer": "primary"},
+	  "8": {"name": "kernel_shape", "i": 1, "layer": "primary"},
+	  "9": {"name": "num_weights", "layer": "primary"}},
+	 "name": "ConvPool",
+	 "prim_type": "Conv",
+	 "sec_type": "Pool",
+	 "out_type": "ConvPool",
+	 "fuse_cond": {"primary": {},
+	  "secondary": {"1": {"name": "kernel_shape",
+		"i": 1,
+		"cond": "==",
+		"val": "2"},
+	   "2": {"name": "kernel_shape", "i": 2, "cond": "==", "val": "2"},
+	   "3": {"name": "pooling_type", "cond": "==", "val": "MAX"}}},
+	 "est_model": "models/mapping/ov2-stat/convpool.sav"
+	},
+	"Softplus": {
+        "name": "Softplus",
+        "prim_type": "Softplus",
+        "sec_type": null,
+        "out_type": ["Exp","Power","Log"],
+        "est_model": null,
+        "conv_dict": null,
+        "fuse_cond": null
+    }
+}

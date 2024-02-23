@@ -1,0 +1,3106 @@
+{
+    "name": "cf_mobilenetv2",
+    "layers": {
+        "data": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "263"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ]
+        },
+        "263": {
+            "type": "Conv",
+            "parents": [
+                "data"
+            ],
+            "children": [
+                "265"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                32
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "265": {
+            "type": "DataInput",
+            "parents": [
+                "263"
+            ],
+            "children": [
+                "266"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ]
+        },
+        "266": {
+            "type": "Conv",
+            "parents": [
+                "265"
+            ],
+            "children": [
+                "268"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "268": {
+            "type": "DataInput",
+            "parents": [
+                "266"
+            ],
+            "children": [
+                "269"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ]
+        },
+        "269": {
+            "type": "Conv",
+            "parents": [
+                "268"
+            ],
+            "children": [
+                "271"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                16
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "271": {
+            "type": "Conv",
+            "parents": [
+                "269"
+            ],
+            "children": [
+                "273"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                96
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                16
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                16,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "273": {
+            "type": "DataInput",
+            "parents": [
+                "271"
+            ],
+            "children": [
+                "274"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                96
+            ]
+        },
+        "274": {
+            "type": "Conv",
+            "parents": [
+                "273"
+            ],
+            "children": [
+                "276"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                96
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                96
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                96,
+                96
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "276": {
+            "type": "DataInput",
+            "parents": [
+                "274"
+            ],
+            "children": [
+                "277"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                96
+            ]
+        },
+        "277": {
+            "type": "Conv",
+            "parents": [
+                "276"
+            ],
+            "children": [
+                "279",
+                "287"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                96
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "279": {
+            "type": "Conv",
+            "parents": [
+                "277"
+            ],
+            "children": [
+                "281"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                24,
+                144
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "281": {
+            "type": "DataInput",
+            "parents": [
+                "279"
+            ],
+            "children": [
+                "282"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ]
+        },
+        "282": {
+            "type": "Conv",
+            "parents": [
+                "281"
+            ],
+            "children": [
+                "284"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                144,
+                144
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "284": {
+            "type": "DataInput",
+            "parents": [
+                "282"
+            ],
+            "children": [
+                "285"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ]
+        },
+        "285": {
+            "type": "Conv",
+            "parents": [
+                "284"
+            ],
+            "children": [
+                "287"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                144,
+                24
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "287": {
+            "type": "Add",
+            "parents": [
+                "277",
+                "285"
+            ],
+            "children": [
+                "288"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                24
+            ]
+        },
+        "288": {
+            "type": "Conv",
+            "parents": [
+                "287"
+            ],
+            "children": [
+                "290"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                24
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                24,
+                144
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "290": {
+            "type": "DataInput",
+            "parents": [
+                "288"
+            ],
+            "children": [
+                "291"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                144
+            ]
+        },
+        "291": {
+            "type": "Conv",
+            "parents": [
+                "290"
+            ],
+            "children": [
+                "293"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                144
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                144
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                144,
+                144
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "293": {
+            "type": "DataInput",
+            "parents": [
+                "291"
+            ],
+            "children": [
+                "294"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                144
+            ]
+        },
+        "294": {
+            "type": "Conv",
+            "parents": [
+                "293"
+            ],
+            "children": [
+                "304",
+                "296"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                144
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                144,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "296": {
+            "type": "Conv",
+            "parents": [
+                "294"
+            ],
+            "children": [
+                "298"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "298": {
+            "type": "DataInput",
+            "parents": [
+                "296"
+            ],
+            "children": [
+                "299"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "299": {
+            "type": "Conv",
+            "parents": [
+                "298"
+            ],
+            "children": [
+                "301"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "301": {
+            "type": "DataInput",
+            "parents": [
+                "299"
+            ],
+            "children": [
+                "302"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "302": {
+            "type": "Conv",
+            "parents": [
+                "301"
+            ],
+            "children": [
+                "304"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "304": {
+            "type": "Add",
+            "parents": [
+                "294",
+                "302"
+            ],
+            "children": [
+                "305",
+                "313"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "305": {
+            "type": "Conv",
+            "parents": [
+                "304"
+            ],
+            "children": [
+                "307"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "307": {
+            "type": "DataInput",
+            "parents": [
+                "305"
+            ],
+            "children": [
+                "308"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "308": {
+            "type": "Conv",
+            "parents": [
+                "307"
+            ],
+            "children": [
+                "310"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "310": {
+            "type": "DataInput",
+            "parents": [
+                "308"
+            ],
+            "children": [
+                "311"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "311": {
+            "type": "Conv",
+            "parents": [
+                "310"
+            ],
+            "children": [
+                "313"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "313": {
+            "type": "Add",
+            "parents": [
+                "304",
+                "311"
+            ],
+            "children": [
+                "314"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "314": {
+            "type": "Conv",
+            "parents": [
+                "313"
+            ],
+            "children": [
+                "316"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "316": {
+            "type": "DataInput",
+            "parents": [
+                "314"
+            ],
+            "children": [
+                "317"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                192
+            ]
+        },
+        "317": {
+            "type": "Conv",
+            "parents": [
+                "316"
+            ],
+            "children": [
+                "319"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                192
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                192,
+                192
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "319": {
+            "type": "DataInput",
+            "parents": [
+                "317"
+            ],
+            "children": [
+                "320"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "320": {
+            "type": "Conv",
+            "parents": [
+                "319"
+            ],
+            "children": [
+                "322",
+                "330"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "322": {
+            "type": "Conv",
+            "parents": [
+                "320"
+            ],
+            "children": [
+                "324"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "324": {
+            "type": "DataInput",
+            "parents": [
+                "322"
+            ],
+            "children": [
+                "325"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "325": {
+            "type": "Conv",
+            "parents": [
+                "324"
+            ],
+            "children": [
+                "327"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                384,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "327": {
+            "type": "DataInput",
+            "parents": [
+                "325"
+            ],
+            "children": [
+                "328"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "328": {
+            "type": "Conv",
+            "parents": [
+                "327"
+            ],
+            "children": [
+                "330"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "330": {
+            "type": "Add",
+            "parents": [
+                "320",
+                "328"
+            ],
+            "children": [
+                "339",
+                "331"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "331": {
+            "type": "Conv",
+            "parents": [
+                "330"
+            ],
+            "children": [
+                "333"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "333": {
+            "type": "DataInput",
+            "parents": [
+                "331"
+            ],
+            "children": [
+                "334"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "334": {
+            "type": "Conv",
+            "parents": [
+                "333"
+            ],
+            "children": [
+                "336"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                384,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "336": {
+            "type": "DataInput",
+            "parents": [
+                "334"
+            ],
+            "children": [
+                "337"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "337": {
+            "type": "Conv",
+            "parents": [
+                "336"
+            ],
+            "children": [
+                "339"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "339": {
+            "type": "Add",
+            "parents": [
+                "330",
+                "337"
+            ],
+            "children": [
+                "348",
+                "340"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "340": {
+            "type": "Conv",
+            "parents": [
+                "339"
+            ],
+            "children": [
+                "342"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "342": {
+            "type": "DataInput",
+            "parents": [
+                "340"
+            ],
+            "children": [
+                "343"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "343": {
+            "type": "Conv",
+            "parents": [
+                "342"
+            ],
+            "children": [
+                "345"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                384,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "345": {
+            "type": "DataInput",
+            "parents": [
+                "343"
+            ],
+            "children": [
+                "346"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "346": {
+            "type": "Conv",
+            "parents": [
+                "345"
+            ],
+            "children": [
+                "348"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "348": {
+            "type": "Add",
+            "parents": [
+                "339",
+                "346"
+            ],
+            "children": [
+                "349"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "349": {
+            "type": "Conv",
+            "parents": [
+                "348"
+            ],
+            "children": [
+                "351"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "351": {
+            "type": "DataInput",
+            "parents": [
+                "349"
+            ],
+            "children": [
+                "352"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "352": {
+            "type": "Conv",
+            "parents": [
+                "351"
+            ],
+            "children": [
+                "354"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                384,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "354": {
+            "type": "DataInput",
+            "parents": [
+                "352"
+            ],
+            "children": [
+                "355"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                384
+            ]
+        },
+        "355": {
+            "type": "Conv",
+            "parents": [
+                "354"
+            ],
+            "children": [
+                "365",
+                "357"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                384
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "357": {
+            "type": "Conv",
+            "parents": [
+                "355"
+            ],
+            "children": [
+                "359"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                576
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "359": {
+            "type": "DataInput",
+            "parents": [
+                "357"
+            ],
+            "children": [
+                "360"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "360": {
+            "type": "Conv",
+            "parents": [
+                "359"
+            ],
+            "children": [
+                "362"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                576,
+                576
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "362": {
+            "type": "DataInput",
+            "parents": [
+                "360"
+            ],
+            "children": [
+                "363"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "363": {
+            "type": "Conv",
+            "parents": [
+                "362"
+            ],
+            "children": [
+                "365"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "365": {
+            "type": "Add",
+            "parents": [
+                "355",
+                "363"
+            ],
+            "children": [
+                "366",
+                "374"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "366": {
+            "type": "Conv",
+            "parents": [
+                "365"
+            ],
+            "children": [
+                "368"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                576
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "368": {
+            "type": "DataInput",
+            "parents": [
+                "366"
+            ],
+            "children": [
+                "369"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "369": {
+            "type": "Conv",
+            "parents": [
+                "368"
+            ],
+            "children": [
+                "371"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                576,
+                576
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "371": {
+            "type": "DataInput",
+            "parents": [
+                "369"
+            ],
+            "children": [
+                "372"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "372": {
+            "type": "Conv",
+            "parents": [
+                "371"
+            ],
+            "children": [
+                "374"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "374": {
+            "type": "Add",
+            "parents": [
+                "365",
+                "372"
+            ],
+            "children": [
+                "375"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ]
+        },
+        "375": {
+            "type": "Conv",
+            "parents": [
+                "374"
+            ],
+            "children": [
+                "377"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                96
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                576
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "377": {
+            "type": "DataInput",
+            "parents": [
+                "375"
+            ],
+            "children": [
+                "378"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                576
+            ]
+        },
+        "378": {
+            "type": "Conv",
+            "parents": [
+                "377"
+            ],
+            "children": [
+                "380"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                576
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                576
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                576,
+                576
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "380": {
+            "type": "DataInput",
+            "parents": [
+                "378"
+            ],
+            "children": [
+                "381"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                576
+            ]
+        },
+        "381": {
+            "type": "Conv",
+            "parents": [
+                "380"
+            ],
+            "children": [
+                "391",
+                "383"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                576
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                576,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "383": {
+            "type": "Conv",
+            "parents": [
+                "381"
+            ],
+            "children": [
+                "385"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                160,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "385": {
+            "type": "DataInput",
+            "parents": [
+                "383"
+            ],
+            "children": [
+                "386"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "386": {
+            "type": "Conv",
+            "parents": [
+                "385"
+            ],
+            "children": [
+                "388"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                960,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "388": {
+            "type": "DataInput",
+            "parents": [
+                "386"
+            ],
+            "children": [
+                "389"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "389": {
+            "type": "Conv",
+            "parents": [
+                "388"
+            ],
+            "children": [
+                "391"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                960,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "391": {
+            "type": "Add",
+            "parents": [
+                "381",
+                "389"
+            ],
+            "children": [
+                "392",
+                "400"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ]
+        },
+        "392": {
+            "type": "Conv",
+            "parents": [
+                "391"
+            ],
+            "children": [
+                "394"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                160,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "394": {
+            "type": "DataInput",
+            "parents": [
+                "392"
+            ],
+            "children": [
+                "395"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "395": {
+            "type": "Conv",
+            "parents": [
+                "394"
+            ],
+            "children": [
+                "397"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                960,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "397": {
+            "type": "DataInput",
+            "parents": [
+                "395"
+            ],
+            "children": [
+                "398"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "398": {
+            "type": "Conv",
+            "parents": [
+                "397"
+            ],
+            "children": [
+                "400"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                960,
+                160
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "400": {
+            "type": "Add",
+            "parents": [
+                "391",
+                "398"
+            ],
+            "children": [
+                "401"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ]
+        },
+        "401": {
+            "type": "Conv",
+            "parents": [
+                "400"
+            ],
+            "children": [
+                "403"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                160
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                160,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "403": {
+            "type": "DataInput",
+            "parents": [
+                "401"
+            ],
+            "children": [
+                "404"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "404": {
+            "type": "Conv",
+            "parents": [
+                "403"
+            ],
+            "children": [
+                "406"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                960,
+                960
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "406": {
+            "type": "DataInput",
+            "parents": [
+                "404"
+            ],
+            "children": [
+                "407"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                960
+            ]
+        },
+        "407": {
+            "type": "Conv",
+            "parents": [
+                "406"
+            ],
+            "children": [
+                "409"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                960
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                960,
+                320
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "409": {
+            "type": "Conv",
+            "parents": [
+                "407"
+            ],
+            "children": [
+                "411"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                320
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                320,
+                1280
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "411": {
+            "type": "DataInput",
+            "parents": [
+                "409"
+            ],
+            "children": [
+                "412"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1280
+            ]
+        },
+        "412": {
+            "type": "Pool",
+            "parents": [
+                "411"
+            ],
+            "children": [
+                "414"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1280
+            ],
+            "kernel_shape": [
+                1,
+                7,
+                7,
+                1
+            ],
+            "strides": [
+                1,
+                7,
+                7,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "414": {
+            "type": "Flatten",
+            "parents": [
+                "412"
+            ],
+            "children": [
+                "417_0"
+            ],
+            "output_shape": [
+                -1,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                1280
+            ]
+        },
+        "417_0": {
+            "type": "Flatten",
+            "parents": [
+                "414"
+            ],
+            "children": [
+                "417_1"
+            ],
+            "output_shape": [
+                -1,
+                1280
+            ],
+            "input_shape": [
+                -1,
+                1280
+            ]
+        },
+        "417_1": {
+            "type": "FullyConnected",
+            "parents": [
+                "417_0"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                1000
+            ],
+            "input_shape": [
+                -1,
+                1280
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}

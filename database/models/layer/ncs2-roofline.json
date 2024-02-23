@@ -1,0 +1,134 @@
+{
+    "name": "ncs2-roofline",
+    "op_s": 319543476297.0,
+    "bandwidth": 5679437699.0,
+    "architecture": {
+        "f_par": 32,
+        "c_par": 4,
+        "h_par": 8,
+        "f_alpha": 0,
+        "c_alpha": 0,
+        "h_alpha": 0
+    },
+    "Base": {
+        "name": "Mixed",
+        "layer_type": "Base",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+	"Exp": {
+        "name": "Mixed",
+        "layer_type": "Exp",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 2679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+	"Log": {
+        "name": "Mixed",
+        "layer_type": "Log",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 2679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+    "Add": {
+        "name": "Mixed",
+        "layer_type": "Add",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+    "Tanh": {
+        "name": "Mixed",
+        "layer_type": "Tanh",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 1279437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+    "Log": {
+        "name": "Mixed",
+        "layer_type": "Log",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 3279437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+    "Pool": {
+        "name": "Mixed",
+        "layer_type": "Pool",
+        "est_type": "roofline",
+        "op_s": 5954347629.0,
+        "bandwidth": 579437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+	"DepthwiseConv": {
+        "name": "Mixed",
+        "layer_type": "DepthwiseConv",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+	"FullyConnected": {
+        "name": "Mixed",
+        "layer_type": "FullyConnected",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+    "Conv": {
+        "name": "Mixed",
+        "layer_type": "Conv",
+        "est_type": "roofline",
+        "op_s": 319543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    },
+    "ConvTranspose": {
+        "name": "Mixed",
+        "layer_type": "ConvTranspose",
+        "est_type": "roofline",
+        "op_s": 100543476297.0,
+        "bandwidth": 5679437699.0,
+        "architecture": {
+			"bit_act": 16,
+			"bit_weights": 16
+		}
+    }
+}
