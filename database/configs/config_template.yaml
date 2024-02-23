@@ -1,0 +1,49 @@
+---
+openvino:
+    ssh_ip: 
+    ssh_key: # path to key
+    ssh_user: 
+    port: 
+    tflite_model: # name of the tflite model
+    model_path: # path to the dir of the model
+    save_dir: 
+    niter: # number of iterations
+    threads: 1
+    bench_file: 
+    ssh: True
+    print: True
+    interpreter: True
+    pyarmnn: False
+    sleep: 0.0 # time to sleep between inferences in seconds
+onnxrt:
+    ssh_ip: 
+    ssh_key: # path to key
+    ssh_user: 
+    port: 
+    tflite_model: # name of the tflite model
+    model_path: # path to the dir of the model
+    save_dir: 
+    niter: # number of iterations
+    threads: 1
+    bench_file: 
+    ssh: True
+    print: True
+    interpreter: True
+    pyarmnn: False
+    sleep: 0.0 # time to sleep between inferences in seconds
+tf_basic:
+    ssh_ip: ''
+    ssh_key: '' # path to key
+    ssh_user: ''
+    port: '' 
+    tflite_model: '' # name of the tflite model
+    model_path: '' # path to the dir of the model
+    save_dir: 
+    niter: # number of iterations
+    threads: 1
+    bench_file: 
+    ssh: False 
+    print: True
+    interpreter: True
+    pyarmnn: False
+    sleep: 0.0 # time to sleep between inferences in seconds
