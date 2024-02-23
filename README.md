@@ -6,6 +6,8 @@
 
 Implementation of the ANNETTE Estimation Module <a href="https://ieeexplore.ieee.org/abstract/document/9306831/" target="_blank">Link to Paper</a>
 
+ANNETTE (Accurate Neural Network Execution Time Estimation) is a framework designed to predict the execution time of Deep Neural Networks (DNNs) on hardware accelerators using a stacked modeling approach. It creates accurate estimations by combining mapping models and layer-wise estimation models derived from benchmarks. This allows for efficient design space exploration and hardware-specific neural architecture search, offering a significant tool for developers to estimate performance without extensive testing on actual hardware. The methodology demonstrates high accuracy and fidelity in predictions, making it a valuable asset for optimizing neural network deployment on diverse hardware platforms.
+
 Cite: 
 
 `M. Wess, M. Ivanov, C. Unger, A. Nookala, A. Wendt and A. Jantsch, "ANNETTE: Accurate Neural Network Execution Time Estimation With Stacked Models," in IEEE Access, vol. 9, pp. 3545-3556, 2021, doi: 10.1109/ACCESS.2020.3047259.`
@@ -16,19 +18,16 @@ Cite:
 recommended install:
 - `git clone https://github.com/embedded-machine-learning/annette.git`
 - `cd annette`
+- recommended: `python -m venv .venv2 && source .venv2/bin/activate`
 - `pip install -r requirements.txt`
 - `pip install -e .`
 - `wget https://github.com/embedded-machine-learning/annette/releases/download/v0.1/models.zip`
 - `unzip -o models.zip -d database`
 
-
 # Usage
 * mmtoir to export to MMDNN format (here you might need to install tensorflow or pytorch)
 * ANNETTE only needs the .pb-file, you can savely remove the .npy-weightfile
-
-## MMDNN to ANNETTE
-* use `annette_m2a [network-file/network-name]` to convert from mmdnn to annette format. Output is stored in `database/graphs/annette/[network].json`
-* Either copy the file to `database/graphs/mmdnn/[network].pb` and use only the `network-name` oder give the full Path
+* `annette_o2a` lets you convert .onnx models to the annette format
 
 ## Estimation
 `annette_estimate [network-name] [mapping-model] [layer-model]`
@@ -38,6 +37,11 @@ recommended install:
 * Python functions return the total execution time in [ms] and a pandas dataframe with the layer-wise results
 * Example visualization with plotly (`notebooks/sample_estimation.ipynb`)
 <img src='_img/result.png'></img>
+
+
+## MMDNN to ANNETTE
+* use `annette_m2a [network-file/network-name]` to convert from mmdnn to annette format. Output is stored in `database/graphs/annette/[network].json`
+* Either copy the file to `database/graphs/mmdnn/[network].pb` and use only the `network-name` oder give the full Path
 
 ## Examples
 
