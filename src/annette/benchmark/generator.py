@@ -364,7 +364,9 @@ class Graph_generator():
             net_file = save_path
         else:
             net_file = get_database('graphs','tf',self.graph.model_spec['name']+".pb")
-        #print(net_file)
+        # check if path exists
+        if not os.path.exists(os.path.dirname(net_file)):
+            os.makedirs(os.path.dirname(net_file))
         with open(os.path.join(net_file), 'wb') as f:
             graph_string = (frozen_graph_def.SerializeToString())
             f.write(graph_string)

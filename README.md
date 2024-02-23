@@ -38,6 +38,9 @@ recommended install:
 * Example visualization with plotly (`notebooks/sample_estimation.ipynb`)
 <img src='_img/result.png'></img>
 
+## Benchmarking
+* openvino example in `runs\run_openvino.py` (install openvino with `pip install openvino`)
+* results stored to `database\benchmarks`
 
 ## MMDNN to ANNETTE
 * use `annette_m2a [network-file/network-name]` to convert from mmdnn to annette format. Output is stored in `database/graphs/annette/[network].json`
