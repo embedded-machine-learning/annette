@@ -16,7 +16,7 @@ Cite:
 * Tested with python >=3.6
 
 recommended install:
-- `git clone https://github.com/embedded-machine-learning/annette.git`
+- `git clone --recurse-submodules https://github.com/embedded-machine-learning/annette.git`
 - `cd annette`
 - recommended: `python -m venv .venv2 && source .venv2/bin/activate`
 - `pip install -r requirements.txt`
