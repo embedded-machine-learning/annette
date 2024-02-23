@@ -10,7 +10,14 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np 
 import pandas as pd
-from powerutils import measurement, processing
+try:
+    from powerutils import measurement, processing
+    POWERUTILS = True
+except Exception as e:
+    print(e)
+    print("Could not import powerutils, power measurement will not work")
+    POWERUTILS = False
+    pass
 import pickle
 
 import annette.benchmark.generator as generator
@@ -150,6 +157,7 @@ class Graph_matcher():
 
             report_file = self.run_network(hardware, execute, execute_kwargs)
             if report_file is False:
+                print("this")
                 return False
 
             report = parse(report_file)
@@ -195,6 +203,9 @@ class Graph_matcher():
                   execute_kwargs={}):
         self.bench_name = hardware+'_'+self.config_name
         config_len = len(self.gen.config)
+        self.total_df = deepcopy(self.gen.config)
+        self.total_df['time(ms)'] = np.nan
+
         assert (start >= config_len,
                 f"Selected starting number {start} \
                 larger than config length {config_len}")
@@ -209,12 +220,23 @@ class Graph_matcher():
                                    'current.txt'), 'r') as outfile:
                 start = int(outfile.read()) 
             # load self.df
+        except Exception as e:
+            logging.debug(e)
+            start = 0
+            pass
+        try:
             with open(get_database('benchmarks', self.bench_name, self.network,
                                    'df.p'), 'rb') as outfile:
                 self.df = pickle.load(outfile)
         except Exception as e:
             logging.debug(e)
-            start = 0
+            pass
+        try:
+            with open(get_database('benchmarks', self.bench_name, self.network,
+                                   'total.pkl'), 'rb') as outfile:
+                self.total_df = pickle.load(outfile)
+        except Exception as e:
+            logging.debug(e)
             pass
 
         for i in range(start, end):
@@ -234,11 +256,17 @@ class Graph_matcher():
 
             report_file = self.run_network(hardware, execute, execute_kwargs)
             if report_file is False:
+                continue
                 break
 
             report = parse(report_file)
             # print(report)
+            # apply median to report['time(ms)'] for each row since it is a list
+            report['time(ms)'] = report['time(ms)'].apply(lambda x: np.min(x))
             duration = np.sum(report['time(ms)'])
+            self.total_df.at[i, 'time(ms)'] = duration
+            print(self.total_df)
+
             # total_result = processing.extract_power_profile(pm.dat_filename, pm.data_dir, duration, sample_rate = rate)
 
             # if power measurement is not available, use dummy data
@@ -246,28 +274,32 @@ class Graph_matcher():
 
             # print(type(report))
             result = report
+
+            try:
+                os.makedirs(get_database(
+                    'benchmarks', self.bench_name, self.network))
+            except Exception as e:
+                logging.debug(e)
+                pass
+            # Store total time
+            with open(get_database('benchmarks', self.bench_name, self.network, 'total.pkl'), 'wb') as outfile:
+                pickle.dump(self.total_df, outfile)
+            # store current counter config
+            with open(get_database('benchmarks', self.bench_name, self.network, 'current.txt'), 'w') as outfile:
+                # store value of counter
+                outfile.write(str(i))
+
             if self.match is not None:
                 self.match_and_add(self.gen.graph, result)
                 if i % store == 0 and i > store-1 or i <= config_len-1:
                     # print(i)
-
-                    try:
-                        os.makedirs(get_database(
-                            'benchmarks', self.bench_name, self.network))
-                    except Exception as e:
-                        logging.debug(e)
-                        pass
-                    # store selfx.df
+                    # store self.df
                     with open(get_database('benchmarks', self.bench_name, self.network, 'df.p'), 'wb') as outfile:
                         pickle.dump(self.df, outfile)
                     for key, v in self.df_out.items():
                         v.to_pickle(get_database(
                             'benchmarks', self.bench_name, self.network, key+'.p'))
                     
-                    # store current counter config
-                    with open(get_database('benchmarks', self.bench_name, self.network, 'current.txt'), 'w') as outfile:
-                        # store value of counter
-                        outfile.write(str(i))
 
         return result
 
@@ -445,31 +477,32 @@ def measure_annette_network(optimize, execute, parse, network, hardware):
         'benchmarks', 'tmp', 'benchmark_average_counters_report.csv')
     report = parse(test_report)
     duration = np.sum(report['time(ms)'])
-    result = processing.unite_latency_power_meas(
-        report, power_file, power_dir, sample_rate=rate, vis=vis, padding=200)
-    print(result)
-    print(len(result[1]))
+    if POWERUTILS is True:
+        result = processing.unite_latency_power_meas(
+            report, power_file, power_dir, sample_rate=rate, vis=vis, padding=200)
+        print(result)
+        print(len(result[1]))
 
-    if True:
-        x = np.arange(len(result[1])) / rate
-        plt.figure()
-        plt.rcParams["figure.figsize"] = (8, 2.5)
-        plt.plot(x, result[1], label='Power profile')
-        n = 0
-        print(report['time(ms)'])
-        for xc in np.cumsum(result[0]['time(ms)']):
-            if n == 0:
-                plt.axvline(x=xc, c='red', label='Layer transitions')
-                n = 1
-            else:
-                plt.axvline(x=xc, c='red')
-        # plt.axvline(x=dur/10, c='blue', label='Layer transitions')
+        if True:
+            x = np.arange(len(result[1])) / rate
+            plt.figure()
+            plt.rcParams["figure.figsize"] = (8, 2.5)
+            plt.plot(x, result[1], label='Power profile')
+            n = 0
+            print(report['time(ms)'])
+            for xc in np.cumsum(result[0]['time(ms)']):
+                if n == 0:
+                    plt.axvline(x=xc, c='red', label='Layer transitions')
+                    n = 1
+                else:
+                    plt.axvline(x=xc, c='red')
+            # plt.axvline(x=dur/10, c='blue', label='Layer transitions')
 
-        plt.xlabel("Time [ms]")
-        plt.ylabel("Power [W]")
+            plt.xlabel("Time [ms]")
+            plt.ylabel("Power [W]")
 
-        plt.legend()
-        plt.show()
+            plt.legend()
+            plt.show()
 
 
 def measure_network(optimize, execute, parse, network, framework="tf"):
@@ -495,31 +528,32 @@ def measure_network(optimize, execute, parse, network, framework="tf"):
         'benchmarks', 'tmp', 'benchmark_average_counters_report.csv')
     report = parse(test_report)
     duration = np.sum(report['time(ms)'])
-    result = processing.unite_latency_power_meas(
-        report, power_file+'.dat', power_dir, sample_rate=rate, vis=vis, padding=100)
-    print(result)
-    print(len(result[1]))
+    if POWERUTILS is True:
+        result = processing.unite_latency_power_meas(
+            report, power_file+'.dat', power_dir, sample_rate=rate, vis=vis, padding=100)
+        print(result)
+        print(len(result[1]))
 
-    if True:
-        x = np.arange(len(result[1])) / rate
-        plt.figure()
-        plt.rcParams["figure.figsize"] = (8, 2.5)
-        plt.plot(x, result[1], label='Power profile')
-        n = 0
-        print(report['time(ms)'])
-        for xc in np.cumsum(result[0]['time(ms)']):
-            if n == 0:
-                plt.axvline(x=xc, c='red', label='Layer transitions')
-                n = 1
-            else:
-                plt.axvline(x=xc, c='red')
-        # plt.axvline(x=dur/10, c='blue', label='Layer transitions')
+        if True:
+            x = np.arange(len(result[1])) / rate
+            plt.figure()
+            plt.rcParams["figure.figsize"] = (8, 2.5)
+            plt.plot(x, result[1], label='Power profile')
+            n = 0
+            print(report['time(ms)'])
+            for xc in np.cumsum(result[0]['time(ms)']):
+                if n == 0:
+                    plt.axvline(x=xc, c='red', label='Layer transitions')
+                    n = 1
+                else:
+                    plt.axvline(x=xc, c='red')
+            # plt.axvline(x=dur/10, c='blue', label='Layer transitions')
 
-        plt.xlabel("Time [ms]")
-        plt.ylabel("Power [W]")
+            plt.xlabel("Time [ms]")
+            plt.ylabel("Power [W]")
 
-        plt.legend()
-        plt.show()
+            plt.legend()
+            plt.show()
 
 
 def measure_destruct_annette_network(optimize, execute, parse, network, config=None, hardware='ncs2', power=False, rate=500, port=5, execute_kwargs={}):
@@ -562,7 +596,7 @@ def measure_destruct_annette_network(optimize, execute, parse, network, config=N
             report_dir = execute(**kwargs)
             kwargs['report_file'] = report_dir
 
-        if power is True:
+        if power is True and POWERUTILS is True:
             print('start power measurement')
             print(f'{dir_str}, {net_destruct}')
             pm = measurement.power_measurement(
@@ -599,7 +633,7 @@ def measure_destruct_annette_network(optimize, execute, parse, network, config=N
             print(f"KWARGS = {execute_kwargs}")
             report_file = execute(**execute_kwargs)
             print("done")
-        if power is True:
+        if power is True and POWERUTILS is True:
             pm.end_gather(True)  # power data aquisation end
 
         if select == -1:
@@ -621,7 +655,7 @@ def measure_destruct_annette_tflite(optimize, execute, parse, network, config=No
     rem_layers = []
     durations = []
     meas_durations = []
-    if power is True:
+    if power is True and POWERUTILS is True:
         get_database('benchmarks', hardware, 'destruct').mkdir(
             parents=True, exist_ok=True)
         dir_path = get_database('benchmarks', hardware)
@@ -650,7 +684,7 @@ def measure_destruct_annette_tflite(optimize, execute, parse, network, config=No
         execute_kwargs = {"tflite_model": net_destruct, "model_path": get_database('graphs', 'tf'), "save_dir": get_database(
             'benchmarks', 'tmp'), 'niter': niter, 'print_bool': False, 'sleep_time': 0.1}
         # start power measurement
-        if power is True:
+        if power is True and POWERUTILS is True:
             print('start power measurement')
             print(f'{dir_str}, {net_destruct}')
             pm = measurement.power_measurement(
@@ -659,7 +693,7 @@ def measure_destruct_annette_tflite(optimize, execute, parse, network, config=No
             pm.start_gather(pm_kwargs)  # power data aquisation
 
         test_report = execute(**execute_kwargs)
-        if power is True:
+        if power is True and POWERUTILS is True:
             pm.end_gather(True)  # power data aquisation end
 
         print(test_report)
