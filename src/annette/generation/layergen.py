@@ -268,7 +268,6 @@ class LayerModelGen():
             y = self.data[y_val].values.reshape(-1,1)
             y_t = self.data_t[y_val].values.reshape(-1,1)
 
-        print(X.shape, y.shape)
         X = X.astype(np.float32)
         X_t = X_t.astype(np.float32)
 
@@ -280,10 +279,10 @@ class LayerModelGen():
         #X_unique, idx = np.unique(X, return_index=True, axis=0)
         X_unique, idx = np.unique(X_t, return_index=True, axis=0)
         print(X_unique.shape, idx.shape)
+        print(X.shape)
         # select and keep dimensions
         #y_unique = y[idx,:].reshape(-1,1)
-        y_unique = y_t[idx,:].reshape(-1,1)
-        print(X_unique.shape, y_unique.shape)
+        y_unique = y[idx,:].reshape(-1,1)
         
         def get_indices(all, unique):
             indices = []
@@ -295,22 +294,32 @@ class LayerModelGen():
 
         if not test_size:
             test_size = 0.05
-        X_train, X_test, y_train, y_test = train_test_split(X_unique, y_unique, test_size=test_size, random_state=42)
+
+        mult = X.shape[0]//X_unique.shape[0]
+        print("Multiples of unique rows in train data: ", mult)
+        k = 25
+        k_corr = k
+
+        X_mean = X[(mult-1)//2::mult]
+        y_mean = y[(mult-1)//2::mult]
+        y_int = np.abs(y[0::mult] - y[(mult-1)//2::mult])
+
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
         X_prop_train, X_cal, y_prop_train, y_cal = train_test_split(X_train, y_train, test_size=0.3)
         # get indices of train and cal data
-        X_train_indices = get_indices(X, X_train)
-        X_cal_indices = get_indices(X, X_cal)
-        X_test_indices = get_indices(X, X_test)
+        #X_train_indices = get_indices(X, X_train)
+        #X_cal_indices = get_indices(X, X_cal)
+        #X_test_indices = get_indices(X, X_test)
         
-        print("Multiples of unique rows in train data: ", X.shape[0]//X_unique.shape[0])
-        k = 25
-        k_corr = k*(X.shape[0]//X_unique.shape[0])
 
         # get data for train and cal
-        X_train = X[X_train_indices]; y_train = y[X_train_indices]
-        X_cal = X[X_cal_indices]; y_cal = y[X_cal_indices]
-        X_test = X[X_test_indices]; y_test = y[X_test_indices]
-        print(X_train.shape, y_train.shape)
+        #X_train = X[X_train_indices]; y_train = y[X_train_indices]
+        #X_cal = X[X_cal_indices]; y_cal = y[X_cal_indices]
+        #X_test = X[X_test_indices]; y_test = y[X_test_indices]
+        X_train = X_mean
+        y_train = y_mean
+        print(X_train.shape, y_train.shape, y_int.shape)
         print(X_cal.shape, y_cal.shape)
         print(X_test.shape, y_test.shape)
 
@@ -350,7 +359,10 @@ class LayerModelGen():
         #self.regressor_std.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
         y_train_oob = self.regressor_learner.oob_prediction_
         #y_std_train_oob = self.regressor_std_learner.oob_prediction_
-        residuals_train = y_train - y_train_oob
+        residuals_train = (y_train - y_train_oob) #+ y_int
+        print(residuals_train.shape)
+        residuals_train = (y_train - y_train_oob) + y_int.reshape(-1)
+        print(residuals_train.shape)
         #residuals_std_train = y_train - y_std_train_oob
 
         self.difficulty['diff'].fit(X=X_train[:, :], scaler=True, k=k_corr)
@@ -515,11 +527,14 @@ class LayerModelGen():
             return False
         else:
             data['time(ms)'] = data['time(ms)'].apply(lambda x: np.mean(np.array(x, dtype=np.float32)))
+            # if data['time(ms')] is smaller than 0 set it to 1e-6
+            data['time(ms)'] = data['time(ms)'].apply(lambda x: 1e-6 if x <= 0 else x)
         if self.layer_type == "Conv":
             data['num_ops'] = data['k_height']*data['k_width']*data['height']*data['width']*data['channels']*data['filters']*2/data['k_stride']/data['k_stride']
             data['num_inputs'] = data['height']*data['width']*data['channels']
             data['num_outputs'] = data['height']*data['width']*data['filters']/data['k_stride']/data['k_stride']
             data['num_weights'] = data['k_height']*data['k_width']*data['filters']*data['channels']
+            data['s/ops'] = data['time(ms)']/1e3/data['num_ops'] 
             data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
             print(f"Arguments for layer type {self.layer_type} computed!")
             return True
@@ -528,12 +543,14 @@ class LayerModelGen():
             data['num_inputs'] = data['height']*data['width']*data['channels']
             data['num_outputs'] = data['height']*data['width']*data['filters']/data['k_stride']/data['k_stride']
             data['num_weights'] = data['k_height']*data['k_width']*data['channels']
+            data['s/ops'] = data['time(ms)']/1e3/data['num_ops'] 
             data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
             print(f"Arguments for layer type {self.layer_type} computed!")
             return True
         if self.layer_type == "Mul":
             data['num_inputs'] = data['height']*data['width']*data['channels']
             data['num_outputs'] = data['height']*data['width']*data['filters']
+            data['s/ops'] = data['time(ms)']/1e3/data['num_ops'] 
             data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
             print(f"Arguments for layer type {self.layer_type} computed!")
             return True

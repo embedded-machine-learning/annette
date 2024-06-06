@@ -276,7 +276,7 @@ class Graph_matcher():
         if hardware in ['rpi4', 'imx93', 'imx8', 'gap9']:
             file_format = 'tflite'
             file_folder = 'tf'
-        elif hardware in ['xavier']:
+        elif hardware in ['xavier', 'orin']:
             file_format = 'onnx'
             file_folder = 'onnx'
         else:

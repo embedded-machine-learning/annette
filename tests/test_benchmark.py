@@ -6,7 +6,7 @@ import logging
 import os
 import json
 
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 from annette.graph import MMGraph
 from annette.graph import AnnetteGraph
@@ -28,12 +28,12 @@ def test_annette_to_model(network="cf_reid"):
     generator.generate_tf_model(annette_graph)
     assert True
 
-def test_annette_to_model_from_config(network="cf_reid"):
+def test_annette_to_model_from_config(network="cf_reid", framework="tf"):
 
     gen = generator.Graph_generator(network)
     print(gen.__dict__)
     gen.add_configfile("dummy.csv")
-    gen.generate_graph_from_config(0)
+    gen.generate_graph_from_config(0,framework=framework)
 
     assert True
 
@@ -88,9 +88,9 @@ def test_annette_to_destruct(network="mobilenetv2-7-sim"):
 
 def main():
     print("Main")
-    network = "annette_bench_conv_max"
+    network = "efficientnet_b1_Opset16"
     #test_annette_to_model(network)
-    model = test_annette_to_model_from_config(network)
+    model = test_annette_to_model_from_config(network,framework="tf")
     #test_matcher(network)
     #test_compute_dims(network)
     #test_annette_to_destruct('cf_reid')
