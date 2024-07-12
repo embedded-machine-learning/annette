@@ -16,7 +16,7 @@ Cite:
 * Tested with python >=3.6
 
 recommended install:
-- `git clone https://github.com/embedded-machine-learning/annette.git`
+- `git clone --recurse-submodules https://github.com/embedded-machine-learning/annette.git`
 - `cd annette`
 - recommended: `python -m venv .venv && source .venv/bin/activate`
 - `pip install -r requirements.txt`
@@ -39,8 +39,8 @@ recommended install:
 <img src='_img/result.png'></img>
 
 ## Benchmarking
-* openvino example in `runs\run_openvino.py` (install openvino with `pip install openvino`)
-* results stored to `database\benchmarks`
+* openvino example in `runs/run_openvino.py` (install openvino with `pip install openvino`)
+* results stored to `database/benchmarks`
 
 ## MMDNN to ANNETTE
 * use `annette_m2a [network-file/network-name]` to convert from mmdnn to annette format. Output is stored in `database/graphs/annette/[network].json`
