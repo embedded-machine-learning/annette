@@ -1,0 +1,2 @@
+width,height,channels,filters,k_size,stride,dilation,batch_size
+96,48,48,32,5,1,1,1
