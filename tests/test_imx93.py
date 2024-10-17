@@ -11,7 +11,7 @@ sys.path.append("./")
 
 #_DATABASE_ROOT = pathlib.Path().resolve()
 
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 
 __author__ = "Matthias Wess"
@@ -172,17 +172,29 @@ def main():
     #         config='dummy.csv', start=0, end=10, vis=False)
     #test_all(network='annette_bench_conv',
     #         config='mini.csv', start=0, end=10, vis=False)
-    #test_all(network='yolov8n',
+    test_all(network='resnet50',
+             config='dummy.csv', start=0, end=10, vis=False)
+    test_all(network='resnet101',
+             config='dummy.csv', start=0, end=10, vis=False)
+    test_all(network='resnet152',
+             config='dummy.csv', start=0, end=10, vis=False)
+    #test_all(network='yolov8n-cls-sim',
     #         config='dummy.csv', start=0, end=10, vis=False)
-    #test_all(network='deeplabv3_mobilenet_v3_large-sim',
+    #test_all(network='input',
     #         config='dummy.csv', start=0, end=10, vis=False)
-    #exit()
+    exit()
     #test_all(network='deeplabv3_mobilenet_v3_large-sim',
     #         config='dummy.csv', start=0, end=10, vis=False)
     #test_all(network='annette_bench_conv_padding_in',
     #         config='config_v7_2.csv', start=0, end=10, vis=False)
     #test_all(network='annette_bench_conv_padding_out',
     #         config='config_v7_2.csv', start=0, end=10, vis=False)
+    test_all(network='annette_bench_conv',
+             config='config_sweep_padded1.csv', start=0, end=10, vis=False)
+    test_all(network='annette_bench_conv_padded1',
+             config='config_sweep_padded1.csv', start=0, end=10, vis=False)
+    test_all(network='annette_bench_conv_padding1',
+             config='config_sweep_padding1.csv', start=0, end=10, vis=False)
     test_all(network='annette_bench_conv_padding',
              config='config_v7_2.csv', start=0, end=10, vis=False)
     #test_all(network='annette_bench_conv_3',c8sho#C

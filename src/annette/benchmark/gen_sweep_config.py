@@ -1,6 +1,28 @@
 import numpy as np
 import pandas as pd
 
+def gen_config_padding(param_range=256, fixed_val=64):
+    config_points = []
+    params = {'filters'}
+
+    for p in params:
+        other_params = params - {p}
+        for i in range(1, param_range+1):
+            dp = {}
+            dp[p] = i
+            for o in other_params:
+                dp[o] = fixed_val
+            dp['height'] = 64
+            dp['width'] = 64
+            dp['channels'] = 1
+            dp['k_size'] = 3
+            dp['stride'] = 1
+            dp['dilation'] = 1
+            dp['batch_size'] = 1
+            config_points.append(dp)
+
+    return config_points
+
 def gen_config_conv2d(param_range=256, fixed_val=128):
     config_points = []
     params = {'width', 'height', 'channels', 'filters'}
@@ -81,9 +103,10 @@ def gen_config_pool(param_range=256, fixed_val=128):
 
 
 if __name__ == '__main__':
-    CONF_FILENAME = 'conv2d_finesweep.csv'
+    CONF_FILENAME = 'config_sweep_padding1.csv'
 
-    conf_points = gen_config_conv2d(256, 32)
+    conf_points = gen_config_padding(256, 64)
+    # conf_points = gen_config_conv2d(256, 32)
     # conf_points = gen_config_fc(256, 128)
     # conf_points = gen_config_pool(256, 128)
     # conf_points = gen_config_dwconv2d(256, 128)

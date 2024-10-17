@@ -3,20 +3,75 @@ import logging
 import torch
 import torch.nn as nn
 
+class Clip(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, a):
+        return torch.clamp(a, min=0, max=6)
+
+class Sqrt(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, a):
+        return torch.sqrt(a)
+
+class Div(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, a, b=3):
+        return torch.div(a, b)
+
+class Pow(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, a, b=3):
+        return torch.pow(a, b)
 
 class Add(nn.Module):
     def __init__(self):
         super().__init__()
 
-    def forward(self, a, b):
+    def forward(self, a, b=3):
         return torch.add(a, b)
-    
+
+class Permute(nn.Module):
+    def __init__(self, layer_info):
+        super().__init__()
+        self.perm = layer_info['perm']
+
+    def forward(self, a):
+        print(self.perm)
+        print(a.shape)
+        x = torch.permute(a, self.perm)
+        print(x.shape)
+        return x
+
+class ReduceMean(nn.Module):
+    def __init__(self, layer_info):
+        super().__init__()
+        # get outputshape
+        self.output_shape = layer_info['output_shape']
+        self.input_shape = layer_info['input_shape']
+        # compare which dimensions are reduced
+        num = len(self.input_shape) - len(self.output_shape)
+        self.keep = False
+        if num == 0:
+            self.axes = [i for i in range(len(self.input_shape)) if self.input_shape[i] != self.output_shape[i]]
+            self.keep = True
+
+    def forward(self, a):
+        return torch.mean(a, dim=self.axes, keepdim=self.keep)
 
 class Mul(nn.Module):
     def __init__(self):
         super().__init__()
 
-    def forward(self, a, b):
+    def forward(self, a, b=3):
+
         return torch.mul(a, b)
 
 
@@ -195,6 +250,18 @@ class TorchGraph(nn.Module):
                 self.nodes[layer_name] = nn.ReLU(inplace=False)
             elif layer_type == 'Add':
                 self.nodes[layer_name] = Add()
+            elif layer_type == 'Sub':
+                self.nodes[layer_name] = Add()
+            elif layer_type == 'Pow':
+                self.nodes[layer_name] = Pow()
+            elif layer_type == 'Sqrt':
+                self.nodes[layer_name] = Sqrt()
+            elif layer_type == 'Transpose':
+                self.nodes[layer_name] = Permute(layer_info)
+            elif layer_type == 'ReduceMean':
+                self.nodes[layer_name] = ReduceMean(layer_info)
+            elif layer_type == 'Clip':
+                self.nodes[layer_name] = Clip()
             elif layer_type in ['FullyConnected', 'MatMul']:
                 self.nodes[layer_name] = nn.Linear(layer_info['input_shape'][1], layer_info['output_shape'][1])
             elif layer_type == 'Flatten':
@@ -232,11 +299,16 @@ class TorchGraph(nn.Module):
                 self.nodes[layer_name] = nn.Identity()
             elif layer_type == 'Sigmoid':
                 self.nodes[layer_name] = nn.Sigmoid()
+            elif layer_type == 'Div':
+                self.nodes[layer_name] = Div()
             elif layer_type == 'Mul':
                 self.nodes[layer_name] = Mul()
+            elif layer_type == 'Clip':
+                self.nodes[layer_name] = nn.Identity()
             elif layer_type == 'Resize':
                 self.nodes[layer_name] = Resize(tuple(layer_info['output_shape'][1:3][::-1]))
             else:
+                print(layer_info)
                 raise NotImplementedError(f'Operation of type {layer_type} is not supported!')
 
             self.parent_nodes[layer_name] = []
@@ -249,6 +321,9 @@ class TorchGraph(nn.Module):
         for node_name, operation in self.nodes.items():
             parents = self.parent_nodes[node_name]
             op_inputs = [outputs[o] if o != 'inp' else input for o in parents]
+            print(node_name)
             outputs[node_name] = operation(*op_inputs)
+        
+        print("done")
         
         return tuple([outputs[o] for o in outputs if o in self.output_layers])

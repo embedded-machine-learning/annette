@@ -4,7 +4,7 @@ import json
 import logging
 import multiprocessing
 import os
-from copy import deepcopy 
+from copy import deepcopy
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -218,7 +218,7 @@ class Graph_matcher():
         try:
             with open(get_database('benchmarks', self.bench_name, self.network,
                                    'current.txt'), 'r') as outfile:
-                start = int(outfile.read()) 
+                start = int(outfile.read())
             # load self.df
         except Exception as e:
             logging.debug(e)
@@ -243,7 +243,6 @@ class Graph_matcher():
             print('-'*60)
             print('Running Config %i of %i' % (i, end))
             print('-'*60)
-            
             file_format, file_folder = self.generate_file_names(hardware)
             self.gen.generate_graph_from_config(i, format=file_format, framework=self.framework)
             test_net = get_database('graphs', file_folder, self.network+f'.{file_format}')
@@ -258,6 +257,17 @@ class Graph_matcher():
             if report_file is False:
                 continue
                 break
+
+            # copy report to benchmark folder
+            try:
+                os.makedirs(get_database('benchmarks', self.bench_name, self.network, 'per_layer'), exist_ok=True)
+            except Exception as e:
+                logging.debug(e)
+                pass
+
+            profile_file = Path(report_file).with_name(Path(report_file).stem + "_profile.csv")
+
+            os.system(f"cp {Path(profile_file)} {Path(get_database('benchmarks', self.bench_name, self.network, 'per_layer'), str(i)+'.csv')}")
 
             report = parse(report_file)
             # print(report)
@@ -299,7 +309,10 @@ class Graph_matcher():
                     for key, v in self.df_out.items():
                         v.to_pickle(get_database(
                             'benchmarks', self.bench_name, self.network, key+'.p'))
-                    
+                    # store current counter config
+                    with open(get_database('benchmarks', self.bench_name, self.network, 'current.txt'), 'w') as outfile:
+                        # store value of counter
+                        outfile.write(str(i))
 
         return result
 
@@ -308,12 +321,12 @@ class Graph_matcher():
         if hardware in ['rpi4', 'imx93', 'imx8', 'gap9']:
             file_format = 'tflite'
             file_folder = 'tf'
-        elif hardware in ['xavier']:
+        elif hardware in ['xavier', 'orin', 'ipc127e', 'ipc520a']:
             file_format = 'onnx'
             file_folder = 'onnx'
         else:
-            file_format = 'pb'
-            file_folder = 'tf'
+            file_format = 'onnx'
+            file_folder = 'onnx'
         return file_format, file_folder
 
     def match_and_add(self, graph, report):
@@ -333,7 +346,6 @@ class Graph_matcher():
                     r_name = self.match[l_name]['name']
                 if 'name2' in self.match[l_name].keys():
                     r2_name = self.match[l_name]['name2']
-            
             if r_name in report['name'].to_numpy(dtype=str):
                 report_name = r_name
                 self.gen.graph.model_spec['layers'][l_name]['report_name'] = report_name

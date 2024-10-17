@@ -154,73 +154,93 @@ class BaseLayer(object):
                 self.layer['time_ms'] = self.layer['num_ops'] / result[0] * 1e3
         else:
             logging.error('Layer type does not have est_dict or est_model!')
-
+        y_hat_test = result
         if hasattr(self, 'est_dict') and hasattr(self, 'diff_model'):
             if self.diff_model is None:
                 logging.error('No difficulty model defined!')
                 return self.layer['time_ms']
             else:
                 vector = self.build_vector(self.est_dict)
-                sigmas = self.diff_model.apply(vector)
+                sigmas = self.diff_model['diff'].apply(vector)
+                sigmas2 = self.diff_model['diff2'].apply(vector)
                 r = np.arange(0.95, 0.04, -0.05)
-                self.layer['difficulty'] = [0]*(len(r)*2+1)
+                self.layer['difficulty1'] = [0]*(len(r)*2+1)
+                self.layer['difficulty3'] = [0]*(len(r)*2+1)
                 for i, a in enumerate(r):
 
                     if self.y_val == 's/ops':
-                        ints = self.est_model.predict_int(vector, sigmas=sigmas, #y_min=0,
-                                                      confidence=a)[0]
-                        self.layer['difficulty'][i] = self.layer['num_ops'] * ints[0] / 1e6
-                        self.layer['difficulty'][len(r)*2-i] = self.layer['num_ops'] * ints[1] / 1e6
+                        ints = self.diff_model['reg'].predict(y_hat_test,
+                                                        sigmas=sigmas,
+                                                        confidence=a)[0]
+                        ints2 = self.diff_model['reg2'].predict(y_hat_test*self.layer['num_ops'],
+                                                        sigmas=sigmas2,
+                                                        confidence=a)[0]
+                        self.layer['difficulty1'][i] = self.layer['num_ops'] * ints[0] / 1e6
+                        self.layer['difficulty1'][len(r)*2-i] = self.layer['num_ops'] * ints[1] / 1e6
+                        self.layer['difficulty3'][i] = ints2[0] / 1e6
+                        self.layer['difficulty3'][len(r)*2-i] = ints2[1] / 1e6
                     else:
-                        ints = self.est_model.predict_int(vector, sigmas=sigmas,
-                                                      y_min=result[0]/100, confidence=a)[0]
-                        self.layer['difficulty'][i] = self.layer['num_ops'] / ints[1] * 1e3
-                        self.layer['difficulty'][len(r)*2-i] = self.layer['num_ops'] / ints[0] * 1e3
-                self.layer['difficulty'][len(r)] = self.layer['time_ms']
+                        ints = self.diff_model['reg'].predict(y_hat_test,
+                                                        sigmas=sigmas,
+                                                        confidence=a)[0]
+                        ints2 = self.diff_model['reg2'].predict(y_hat_test*self.layer['num_ops'],
+                                                        sigmas=sigmas2,
+                                                        confidence=a)[0]
+                        self.layer['difficulty1'][i] = self.layer['num_ops'] / ints[1] * 1e3
+                        self.layer['difficulty1'][len(r)*2-i] = self.layer['num_ops'] / ints[0] * 1e3
+                        self.layer['difficulty3'][i] = 1 / ints2[1] * 1e3
+                        self.layer['difficulty3'][len(r)*2-i] = 1 / ints2[0] * 1e3
+                self.layer['difficulty1'][len(r)] = self.layer['time_ms']
+                self.layer['difficulty3'][len(r)] = self.layer['time_ms']
                 tmp = 0
-                for i in range(len(self.layer['difficulty'])-1,-1,-1):
+                for i in range(len(self.layer['difficulty1'])-1,-1,-1):
                     # if self.layer['difficulty'][i] is inf
-                    if self.layer['difficulty'][i] == np.inf:
-                        self.layer['difficulty'][i] = tmp
-                    tmp = self.layer['difficulty'][i]
+                    if self.layer['difficulty1'][i] == np.inf:
+                        self.layer['difficulty1'][i] = tmp
+                    tmp = self.layer['difficulty1'][i]
 
             if self.diff_model2 is None:
-                logging.error('No difficulty2 model defined!')
+                logging.error('No difficulty_std model defined!')
                 return self.layer['time_ms']
             else:
                 vector = self.build_vector(self.est_dict)
-                sigmas = self.diff_model2.apply(vector)
+                sigmas = self.diff_model2['diff'].apply(vector)
+                sigmas2 = self.diff_model2['diff2'].apply(vector)
                 r = np.arange(0.95, 0.04, -0.05)
                 self.layer['difficulty2'] = [0]*(len(r)*2+1)
-                self.layer['difficulty3'] = [0]*(len(r)*2+1)
+                self.layer['difficulty4'] = [0]*(len(r)*2+1)
                 for i, a in enumerate(r):
                     if self.y_val == 's/ops':
-                        ints = self.est_model2.predict_int(vector, sigmas=sigmas, #y_min=0, 
-                                                      confidence=a)[0]
+                        ints = self.diff_model2['reg'].predict(y_hat_test,
+                                                        sigmas=sigmas,
+                                                        confidence=a)[0]
+                        ints2 = self.diff_model2['reg2'].predict(y_hat_test*self.layer['num_ops'],
+                                                        sigmas=sigmas2,
+                                                        confidence=a)[0]
                         self.layer['difficulty2'][i] = self.layer['num_ops'] * ints[0] / 1e6
                         self.layer['difficulty2'][len(r)*2-i] = self.layer['num_ops'] * ints[1] / 1e6
+                        self.layer['difficulty4'][i] = ints2[0] / 1e6
+                        self.layer['difficulty4'][len(r)*2-i] = ints2[1] / 1e6
                     else:
-                        ints = self.est_model2.predict_int(vector, sigmas=sigmas,
-                                                      y_min=result[0]/100, confidence=a)[0]
+                        ints = self.diff_model2['reg'].predict(y_hat_test,
+                                                        sigmas=sigmas,
+                                                        confidence=a)[0]
+                        ints2 = self.diff_model2['reg2'].predict(y_hat_test*self.layer['num_ops'],
+                                                        sigmas=sigmas2,
+                                                        confidence=a)[0]
                         self.layer['difficulty2'][i] = self.layer['num_ops'] / ints[1] * 1e3
                         self.layer['difficulty2'][len(r)*2-i] = self.layer['num_ops'] / ints[0] * 1e3
+                        self.layer['difficulty4'][i] = 1 / ints2[1] * 1e3
+                        self.layer['difficulty4'][len(r)*2-i] = 1 / ints2[0] * 1e3
                 self.layer['difficulty2'][len(r)] = self.layer['time_ms']
+                self.layer['difficulty4'][len(r)] = self.layer['time_ms']
                 tmp = 0
                 for i in range(len(self.layer['difficulty2'])-1,-1,-1):
                     # if self.layer['difficulty'][i] is inf
                     if self.layer['difficulty2'][i] == np.inf:
                         self.layer['difficulty2'][i] = tmp
                     tmp = self.layer['difficulty2'][i]
-                self.layer['difficutlty3'] = self.layer['difficulty2']
-                # now select worst case from both models and store in difficulty3
-                for i in range(len(self.layer['difficulty'])):
-                    if i > int(len(self.layer['difficulty2'])/2):
-                        self.layer['difficulty3'][i] = np.max([self.layer['difficulty'][i], self.layer['difficulty2'][i]])
-                    else:
-                        self.layer['difficulty3'][i] = np.min([self.layer['difficulty'][i], self.layer['difficulty2'][i]])     
             
-        #print(self.layer['difficulty2'])
-        #print(self.est_model.__dict__)
         return self.layer['time_ms']
 
     def estimate_mixed(self):
@@ -259,12 +279,12 @@ class BaseLayer(object):
             self.diff_model = pickle.load(open(get_database(diff_model), 'rb'))
             self.desc['difficulty'] = diff_model
             try:
-                diff_model2 = diff_model.replace('.sav', '2.sav')
+                diff_model2 = diff_model.replace('.sav', '_std.sav')
                 self.diff_model2 = pickle.load(open(get_database(diff_model2), 'rb'))
-                self.desc['difficulty2'] = diff_model2
+                self.desc['difficulty_std'] = diff_model2
             except:
                 self.diff_model2 = None
-                self.desc['difficulty2'] = None
+                self.desc['difficulty_std'] = None
         else:
             self.diff_model = None
 

@@ -268,17 +268,21 @@ class LayerModelGen():
             y = self.data[y_val].values.reshape(-1,1)
             y_t = self.data_t[y_val].values.reshape(-1,1)
 
-        print(X.shape, y.shape)
         X = X.astype(np.float32)
         X_t = X_t.astype(np.float32)
+
+        #export X and y
+        np.save(get_database('benchmarks', 'tmp', 'X.npy'), X)
+        np.save(get_database('benchmarks', 'tmp', 'y.npy'), y)
+
         # find indices of rows with unique values
         #X_unique, idx = np.unique(X, return_index=True, axis=0)
         X_unique, idx = np.unique(X_t, return_index=True, axis=0)
         print(X_unique.shape, idx.shape)
+        print(X.shape)
         # select and keep dimensions
         #y_unique = y[idx,:].reshape(-1,1)
-        y_unique = y_t[idx,:].reshape(-1,1)
-        print(X_unique.shape, y_unique.shape)
+        y_unique = y[idx,:].reshape(-1,1)
         
         def get_indices(all, unique):
             indices = []
@@ -290,52 +294,109 @@ class LayerModelGen():
 
         if not test_size:
             test_size = 0.05
-        X_pre_train, X_test, y_pre_train, y_test = train_test_split(X_unique, y_unique, test_size=test_size, random_state=42)
-        X_train, X_cal, y_train, y_cal = train_test_split(X_pre_train, y_pre_train, test_size=0.3)
+
+        mult = X.shape[0]//X_unique.shape[0]
+        print("Multiples of unique rows in train data: ", mult)
+        k = 25
+        k_corr = k
+
+        X_mean = X[(mult-1)//2::mult]
+        y_mean = y[(mult-1)//2::mult]
+        y_int = np.abs(y[0::mult] - y[(mult-1)//2::mult])
+
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
+        X_prop_train, X_cal, y_prop_train, y_cal = train_test_split(X_train, y_train, test_size=0.3)
         # get indices of train and cal data
         #X_train_indices = get_indices(X, X_train)
-        X_cal_indices = get_indices(X, X_cal)
+        #X_cal_indices = get_indices(X, X_cal)
         #X_test_indices = get_indices(X, X_test)
         
+
         # get data for train and cal
         #X_train = X[X_train_indices]; y_train = y[X_train_indices]
-        X_cal = X[X_cal_indices]; y_cal = y[X_cal_indices]
+        #X_cal = X[X_cal_indices]; y_cal = y[X_cal_indices]
         #X_test = X[X_test_indices]; y_test = y[X_test_indices]
-        print(X_train.shape, y_train.shape)
+        X_train = X_mean
+        y_train = y_mean
+        print(X_train.shape, y_train.shape, y_int.shape)
         print(X_cal.shape, y_cal.shape)
         print(X_test.shape, y_test.shape)
 
 
         regressor = None
         if regressor is None:
-            self.regressor = WrapRegressor(RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=50, random_state=False, verbose=False, criterion='squared_error'))
-            self.regressor2 = WrapRegressor(RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=50, random_state=False, verbose=False, criterion='squared_error'))
+            self.regressor_learner = RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=500, random_state=False, verbose=False, criterion='squared_error', oob_score=True)
+            self.regressor = WrapRegressor(self.regressor_learner)
+            self.regressor_std_learner = RandomForestRegressor(min_samples_leaf=1, max_depth=None, n_estimators=500, random_state=False, verbose=False, criterion='squared_error', oob_score=True)
+            self.regressor_std = WrapRegressor(self.regressor_std_learner)
         else:
             self.regressor = copy.deepcopy(regressor)
-            self.regressor2 = copy.deepcopy(regressor)
+            self.regressor_std = copy.deepcopy(regressor)
 
         difficulty = None
         if difficulty is None:
-            self.difficulty = DifficultyEstimator()
-            self.difficulty2 = DifficultyEstimator()
+            self.difficulty = {}
+            self.difficulty_std = {}
+            self.difficulty['diff'] = DifficultyEstimator()
+            self.difficulty_std['diff'] = DifficultyEstimator()
+            self.difficulty['reg'] = ConformalRegressor()
+            self.difficulty_std['reg'] = ConformalRegressor()
+            self.difficulty['diff2'] = DifficultyEstimator()
+            self.difficulty_std['diff2'] = DifficultyEstimator()
+            self.difficulty['reg2'] = ConformalRegressor()
+            self.difficulty_std['reg2'] = ConformalRegressor()
         else:
             self.difficulty = difficulty
-            self.difficulty2 = copy.deepcopy(difficulty)
+            self.difficulty_std = copy.deepcopy(difficulty)
 
         y_train = y_train.reshape(-1)
         y_test = y_test.reshape(-1)
         y_cal = y_cal.reshape(-1)
 
+
         self.regressor.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
-        self.regressor2.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
-        self.difficulty2.fit(X_train[:, :], y_train[:])
-        self.difficulty.fit(X_train[:, :])
-        sigmas_cal = self.difficulty.apply(X_cal)
-        sigmas_cal2 = self.difficulty2.apply(X_cal)
-        self.regressor.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal)
-        self.regressor2.calibrate(X_cal[:, :], y_cal[:], sigmas=sigmas_cal2)
+        #self.regressor_std.fit(X_train[:, :], y_train[:]) # .score(X_test, y_test) #training the algorithm
+        y_train_oob = self.regressor_learner.oob_prediction_
+        #y_std_train_oob = self.regressor_std_learner.oob_prediction_
+        residuals_train = (y_train - y_train_oob) #+ y_int
+        print(residuals_train.shape)
+        residuals_train = (y_train - y_train_oob) + y_int.reshape(-1)
+        print(residuals_train.shape)
+        #residuals_std_train = y_train - y_std_train_oob
+
+        self.difficulty['diff'].fit(X=X_train[:, :], scaler=True, k=k_corr)
+        self.difficulty_std['diff'].fit(X=X_train[:, :], residuals=y_train[:], scaler=True, k=k_corr)
+        self.difficulty['diff2'].fit(X=X_train[:, :], scaler=True, k=k_corr)
+        self.difficulty_std['diff2'].fit(X=X_train[:, :], residuals=y_train[:]*X_train[:,0], scaler=True, k=k_corr)
+        sigmas_train = self.difficulty['diff'].apply(X_train)
+        sigmas_train_std = self.difficulty_std['diff'].apply(X_train)
+        sigmas_train2 = self.difficulty['diff2'].apply(X_train)
+        sigmas_train_std2 = self.difficulty_std['diff2'].apply(X_train)
+        self.difficulty['reg'].fit(residuals_train, sigmas=sigmas_train)
+        self.difficulty_std['reg'].fit(residuals_train, sigmas=sigmas_train_std)
+        self.difficulty['reg2'].fit(residuals_train*X_train[:,0], sigmas=sigmas_train2)
+        self.difficulty_std['reg2'].fit(residuals_train*X_train[:,0], sigmas=sigmas_train_std2)
         y_pred = self.regressor.predict(X_test)
-        y_pred2 = self.regressor.predict(X_test)
+        y_pred_std = self.regressor.predict(X_test)
+        sigmas_test = self.difficulty['diff'].apply(X_test)
+        sigmas_test_std = self.difficulty_std['diff'].apply(X_test)
+        sigmas_test2 = self.difficulty['diff2'].apply(X_test)
+        sigmas_test_std2 = self.difficulty_std['diff2'].apply(X_test)
+        y_pred_intervals = self.difficulty['reg'].predict(y_pred,
+                                                          sigmas=sigmas_test)    
+        y_pred_intervals_std = self.difficulty_std['reg'].predict(y_pred_std,
+                                                            sigmas=sigmas_test_std)
+        y_pred_intervals2 = self.difficulty['reg2'].predict(y_pred*X_test[:,0],
+                                                          sigmas=sigmas_test2)    
+        y_pred_intervals_std2 = self.difficulty_std['reg2'].predict(y_pred_std*X_test[:,0],
+                                                            sigmas=sigmas_test_std2)
+        # check percentage of points within 95% confidence interval
+        print(f'Percentage of points within 95% confidence interval: {np.mean((y_test >= y_pred_intervals[:,0]) & (y_test <= y_pred_intervals[:,1])) :.2%}')
+        print(f'Percentage of points within 95% confidence interval for std: {np.mean((y_test >= y_pred_intervals_std[:,0]) & (y_test <= y_pred_intervals_std[:,1])) :.2%}')
+        print(f'Percentage of points within 95% confidence interval: {np.mean((y_test*X_test[:,0] >= y_pred_intervals2[:,0]) & (y_test*X_test[:,0] <= y_pred_intervals2[:,1])) :.2%}')
+        print(f'Percentage of points within 95% confidence interval for std: {np.mean((y_test*X_test[:,0] >= y_pred_intervals_std2[:,0]) & (y_test*X_test[:,0] <= y_pred_intervals_std2[:,1])) :.2%}')
+        
         print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred)/1e9)
         print('R2 Score:', metrics.r2_score(y_test, y_pred))
         print('Mean Absolute Error Scaled:', metrics.mean_absolute_error(y_test, y_pred)/self.op_s)
@@ -377,7 +438,7 @@ class LayerModelGen():
         self.layer_dict['est_model'] = est_model
         est_model2 = est_model.replace('.sav', '2.sav')
         with open(est_model2, 'wb') as out_file:
-            pkl.dump(self.regressor2, out_file)
+            pkl.dump(self.regressor_std, out_file)
         self.layer_dict['est_model2'] = est_model2
         print("Estimator2 stored in "+est_model2+ "!\n")
         if self.difficulty is not None:
@@ -385,14 +446,14 @@ class LayerModelGen():
             with open(diff1, 'wb') as out_file:
                 pkl.dump(self.difficulty, out_file)
             print("Difficulty stored in "+diff1+ "!\n")
-            diff2 = est_model.replace('.sav', '_difficulty2.sav')
+            diff2 = est_model.replace('.sav', '_difficulty_std.sav')
             with open(diff2, 'wb') as out_file:
-                pkl.dump(self.difficulty2, out_file)
-            print("Difficulty2 stored in "+diff2+ "!\n")
+                pkl.dump(self.difficulty_std, out_file)
+            print("Difficulty_std stored in "+diff2+ "!\n")
             self.difficulty = diff1  
-            self.difficulty2 = diff2  
+            self.difficulty_std = diff2  
             self.layer_dict['difficulty'] = diff1
-            self.layer_dict['difficulty2'] = diff2
+            self.layer_dict['difficulty_std'] = diff2
         return True
   
     def trans_Conv(self):
@@ -466,11 +527,22 @@ class LayerModelGen():
             return False
         else:
             data['time(ms)'] = data['time(ms)'].apply(lambda x: np.mean(np.array(x, dtype=np.float32)))
+            # if data['time(ms')] is smaller than 0 set it to 1e-6
+            data['time(ms)'] = data['time(ms)'].apply(lambda x: 1e-6 if x <= 0 else x)
         if self.layer_type == "Conv":
+            # if k_stride is not available set it to 1
+            if 'k_stride' not in data.columns:
+                data['k_stride'] = 1
+            if 'k_height' not in data.columns:
+                data['k_height'] = data['k_size'] if 'k_size' in data.columns else (print("No kernel height available!") or False)
+            if 'k_width' not in data.columns:
+                data['k_width'] = data['k_size'] if 'k_size' in data.columns else (print("No kernel width available!") or False)
+
             data['num_ops'] = data['k_height']*data['k_width']*data['height']*data['width']*data['channels']*data['filters']*2/data['k_stride']/data['k_stride']
             data['num_inputs'] = data['height']*data['width']*data['channels']
             data['num_outputs'] = data['height']*data['width']*data['filters']/data['k_stride']/data['k_stride']
             data['num_weights'] = data['k_height']*data['k_width']*data['filters']*data['channels']
+            data['s/ops'] = data['time(ms)']/1e3/data['num_ops'] 
             data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
             print(f"Arguments for layer type {self.layer_type} computed!")
             return True
@@ -479,12 +551,14 @@ class LayerModelGen():
             data['num_inputs'] = data['height']*data['width']*data['channels']
             data['num_outputs'] = data['height']*data['width']*data['filters']/data['k_stride']/data['k_stride']
             data['num_weights'] = data['k_height']*data['k_width']*data['channels']
+            data['s/ops'] = data['time(ms)']/1e3/data['num_ops'] 
             data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
             print(f"Arguments for layer type {self.layer_type} computed!")
             return True
         if self.layer_type == "Mul":
             data['num_inputs'] = data['height']*data['width']*data['channels']
             data['num_outputs'] = data['height']*data['width']*data['filters']
+            data['s/ops'] = data['time(ms)']/1e3/data['num_ops'] 
             data['ops/s'] = data['num_ops']/(data['time(ms)']/1e3)
             print(f"Arguments for layer type {self.layer_type} computed!")
             return True

@@ -14,7 +14,7 @@ __copyright__ = "Christian Doppler Laboratory for Embedded Machine Learning"
 __license__ = "Apache 2.0"
 
 # set logging level to debug
-#logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 
 def test_ONNXGraph_to_annette(network="cf_resnet50", inputs=None):
@@ -44,6 +44,16 @@ def test_ONNXGraph_to_annette(network="cf_resnet50", inputs=None):
 
 def main():
     print("main")
+    conv_list = [
+        'convnext_tiny_sim',
+        'convnext_small',
+        'convnext_base',
+        'convnext_large',
+        'mobilenetv3_small',
+        'mobilenetv3_large'
+    ]
+    for n in conv_list:
+        test_ONNXGraph_to_annette(n, [])
     # test_ONNXGraph_to_annette('vgg16-7',['data'])
     test_ONNXGraph_to_annette('yolov8n-seg320-sim', [])
     #test_ONNXGraph_to_annette('yolov8n-sim', [])

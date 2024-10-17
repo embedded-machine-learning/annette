@@ -16,5 +16,5 @@ finally:
 _DATABASE_ROOT = Path(os.path.abspath(os.path.dirname(__file__)),'..','..')
 
 def get_database(*args):
-    print(args)
+    #print(args)
     return Path(_DATABASE_ROOT, 'database', *args)

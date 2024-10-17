@@ -167,10 +167,16 @@ class Graph_generator():
                     self.tf_graph[layer_n] = self.tf_gen_conv1d(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Relu":
                     self.tf_graph[layer_n] = self.tf_gen_relu(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Erf":
+                    self.tf_graph[layer_n] = self.tf_gen_erf(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Sub":
                     self.tf_graph[layer_n] = self.tf_gen_sub(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Add":
                     self.tf_graph[layer_n] = self.tf_gen_add(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Pow":
+                    self.tf_graph[layer_n] = self.tf_gen_pow(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "Sqrt":
+                    self.tf_graph[layer_n] = self.tf_gen_sqrt(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Mul":
                     self.tf_graph[layer_n] = self.tf_gen_mul(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Div":
@@ -179,6 +185,8 @@ class Graph_generator():
                     self.tf_graph[layer_n] = self.tf_gen_dwconv(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Pool":
                     self.tf_graph[layer_n] = self.tf_gen_pool(layer_attrs, layer_n)
+                elif layer_attrs['type'] == "ReduceMean":
+                    self.tf_graph[layer_n] = self.tf_gen_reducemean(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Pool1d":
                     self.tf_graph[layer_n] = self.tf_gen_pool1d(layer_attrs, layer_n)
                 elif layer_attrs['type'] == "Concat":
@@ -484,6 +492,27 @@ class Graph_generator():
             inp0 = self.tf_graph[inp_name0]
             return tf.add(inp0, tf.random.uniform(layer['input_shape']), name=name)
 
+    def tf_gen_pow(self, layer, name=None):
+        logging.debug("Generating Pow with dict: %s" % layer)
+        if len(layer['parents']) == 2:
+            inp_name0 = layer['parents'][0]
+            inp_name1 = layer['parents'][1]
+            # see which input in self.tf_graph.keys()
+            if inp_name0 in self.tf_graph.keys():
+                inp0 = self.tf_graph[inp_name0]
+            else:
+                inp0 = 1.0
+
+            if inp_name1 in self.tf_graph.keys():
+                inp1 = self.tf_graph[inp_name1]
+            else:
+                inp1 = 1.0
+            return tf.math.pow(inp0, inp1, name=name)
+        else:
+            inp_name0 = layer['parents'][0]
+            inp0 = self.tf_graph[inp_name0]
+            return tf.math.pow(inp0, 2, name=name)
+
     def tf_gen_div(self, layer, name=None):
         logging.debug("Generating Div with dict: %s" % layer)
         if len(layer['parents']) == 2:
@@ -536,6 +565,16 @@ class Graph_generator():
         inp = self.tf_graph[inp_name]
         return reduce_max(inp, name)
 
+    def tf_gen_reducemean(self, layer, name=None):
+        logging.debug("Generating ReduceMean with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        print(layer['output_shape'])
+        #compare input and output shape
+        axis = [i for i in range(len(layer['input_shape'])) if layer['input_shape'][i] != layer['output_shape'][i]]
+
+        return tf.math.reduce_mean(inp, axis=axis, keepdims=True, name=name)
+
     def tf_gen_reshape(self, layer, name=None):
         logging.debug("Generating Reshape with dict: %s" % layer)
         inp_name = layer['parents'][0]
@@ -555,6 +594,18 @@ class Graph_generator():
         inp_name = layer['parents'][0]
         inp = self.tf_graph[inp_name]
         return batch_norm(inp, name)
+
+    def tf_gen_sqrt(self, layer, name=None):
+        logging.debug("Generating Sqrt with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        return tf.math.sqrt(inp, name)
+
+    def tf_gen_erf(self, layer, name=None):
+        logging.debug("Generating Erf with dict: %s" % layer)
+        inp_name = layer['parents'][0]
+        inp = self.tf_graph[inp_name]
+        return tf.math.erf(inp, name)
 
     def tf_gen_relu(self, layer, name=None):
         logging.debug("Generating Relu with dict: %s" % layer)
@@ -608,7 +659,6 @@ class Graph_generator():
         inp = self.tf_graph[inp_name]
         print(layer['perm'])
         print(inp.shape)
-        exit()
         return tf.transpose(inp, perm=layer['perm'])
 
     def tf_gen_sigmoid(self, layer, name=None):
