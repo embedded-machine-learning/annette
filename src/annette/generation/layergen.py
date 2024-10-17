@@ -530,6 +530,14 @@ class LayerModelGen():
             # if data['time(ms')] is smaller than 0 set it to 1e-6
             data['time(ms)'] = data['time(ms)'].apply(lambda x: 1e-6 if x <= 0 else x)
         if self.layer_type == "Conv":
+            # if k_stride is not available set it to 1
+            if 'k_stride' not in data.columns:
+                data['k_stride'] = 1
+            if 'k_height' not in data.columns:
+                data['k_height'] = data['k_size'] if 'k_size' in data.columns else (print("No kernel height available!") or False)
+            if 'k_width' not in data.columns:
+                data['k_width'] = data['k_size'] if 'k_size' in data.columns else (print("No kernel width available!") or False)
+
             data['num_ops'] = data['k_height']*data['k_width']*data['height']*data['width']*data['channels']*data['filters']*2/data['k_stride']/data['k_stride']
             data['num_inputs'] = data['height']*data['width']*data['channels']
             data['num_outputs'] = data['height']*data['width']*data['filters']/data['k_stride']/data['k_stride']
