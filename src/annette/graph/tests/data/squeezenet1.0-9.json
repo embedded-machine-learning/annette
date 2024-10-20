@@ -1,0 +1,1944 @@
+{
+    "name": "squeezenet1.0-9",
+    "layers": {
+        "data_0": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ]
+        },
+        "conv1_1": {
+            "type": "Conv",
+            "parents": [
+                "data_0"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                64
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "conv1_2": {
+            "type": "Relu",
+            "parents": [
+                "conv1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "pool1_1": {
+            "type": "Pool",
+            "parents": [
+                "conv1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "pooling_type": "MAX"
+        },
+        "fire2/squeeze1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "pool1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                16
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                16
+            ]
+        },
+        "fire2/squeeze1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire2/squeeze1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                16
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                16
+            ]
+        },
+        "fire2/expand1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire2/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                16,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "fire2/expand1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire2/expand1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "fire2/expand3x3_1": {
+            "type": "Conv",
+            "parents": [
+                "fire2/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                16,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "fire2/expand3x3_2": {
+            "type": "Relu",
+            "parents": [
+                "fire2/expand3x3_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "fire2/concat_1": {
+            "type": "Concat",
+            "parents": [
+                "fire2/expand1x1_2",
+                "fire2/expand3x3_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "fire3/squeeze1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire2/concat_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                16
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                16
+            ]
+        },
+        "fire3/squeeze1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire3/squeeze1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                16
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                16
+            ]
+        },
+        "fire3/expand1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire3/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                16,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "fire3/expand1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire3/expand1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "fire3/expand3x3_1": {
+            "type": "Conv",
+            "parents": [
+                "fire3/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                16,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "fire3/expand3x3_2": {
+            "type": "Relu",
+            "parents": [
+                "fire3/expand3x3_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "fire3/concat_1": {
+            "type": "Concat",
+            "parents": [
+                "fire3/expand1x1_2",
+                "fire3/expand3x3_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "pool3_1": {
+            "type": "Pool",
+            "parents": [
+                "fire3/concat_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "pooling_type": "MAX"
+        },
+        "fire4/squeeze1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "pool3_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                32
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "fire4/squeeze1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire4/squeeze1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "fire4/expand1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire4/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "fire4/expand1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire4/expand1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "fire4/expand3x3_1": {
+            "type": "Conv",
+            "parents": [
+                "fire4/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "fire4/expand3x3_2": {
+            "type": "Relu",
+            "parents": [
+                "fire4/expand3x3_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "fire4/concat_1": {
+            "type": "Concat",
+            "parents": [
+                "fire4/expand1x1_2",
+                "fire4/expand3x3_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "fire5/squeeze1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire4/concat_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                32
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "fire5/squeeze1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire5/squeeze1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                32
+            ]
+        },
+        "fire5/expand1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire5/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "fire5/expand1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire5/expand1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "fire5/expand3x3_1": {
+            "type": "Conv",
+            "parents": [
+                "fire5/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "fire5/expand3x3_2": {
+            "type": "Relu",
+            "parents": [
+                "fire5/expand3x3_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "fire5/concat_1": {
+            "type": "Concat",
+            "parents": [
+                "fire5/expand1x1_2",
+                "fire5/expand3x3_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "pool5_1": {
+            "type": "Pool",
+            "parents": [
+                "fire5/concat_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                3,
+                3,
+                1
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "pooling_type": "MAX"
+        },
+        "fire6/squeeze1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "pool5_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                48
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                48
+            ]
+        },
+        "fire6/squeeze1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire6/squeeze1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                48
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                48
+            ]
+        },
+        "fire6/expand1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire6/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                48
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                48,
+                192
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "fire6/expand1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire6/expand1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "fire6/expand3x3_1": {
+            "type": "Conv",
+            "parents": [
+                "fire6/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                48
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                48,
+                192
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "fire6/expand3x3_2": {
+            "type": "Relu",
+            "parents": [
+                "fire6/expand3x3_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "fire6/concat_1": {
+            "type": "Concat",
+            "parents": [
+                "fire6/expand1x1_2",
+                "fire6/expand3x3_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "fire7/squeeze1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire6/concat_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                48
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                48
+            ]
+        },
+        "fire7/squeeze1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire7/squeeze1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                48
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                48
+            ]
+        },
+        "fire7/expand1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire7/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                48
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                48,
+                192
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "fire7/expand1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire7/expand1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "fire7/expand3x3_1": {
+            "type": "Conv",
+            "parents": [
+                "fire7/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                48
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                48,
+                192
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "fire7/expand3x3_2": {
+            "type": "Relu",
+            "parents": [
+                "fire7/expand3x3_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "fire7/concat_1": {
+            "type": "Concat",
+            "parents": [
+                "fire7/expand1x1_2",
+                "fire7/expand3x3_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                192
+            ]
+        },
+        "fire8/squeeze1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire7/concat_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                64
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "fire8/squeeze1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire8/squeeze1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "fire8/expand1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire8/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "fire8/expand1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire8/expand1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "fire8/expand3x3_1": {
+            "type": "Conv",
+            "parents": [
+                "fire8/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "fire8/expand3x3_2": {
+            "type": "Relu",
+            "parents": [
+                "fire8/expand3x3_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "fire8/concat_1": {
+            "type": "Concat",
+            "parents": [
+                "fire8/expand1x1_2",
+                "fire8/expand3x3_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "fire9/squeeze1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire8/concat_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                64
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "fire9/squeeze1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire9/squeeze1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                64
+            ]
+        },
+        "fire9/expand1x1_1": {
+            "type": "Conv",
+            "parents": [
+                "fire9/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "fire9/expand1x1_2": {
+            "type": "Relu",
+            "parents": [
+                "fire9/expand1x1_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "fire9/expand3x3_1": {
+            "type": "Conv",
+            "parents": [
+                "fire9/squeeze1x1_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "fire9/expand3x3_2": {
+            "type": "Relu",
+            "parents": [
+                "fire9/expand3x3_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "fire9/concat_1": {
+            "type": "Concat",
+            "parents": [
+                "fire9/expand1x1_2",
+                "fire9/expand3x3_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "fire9/concat_2": {
+            "type": "Dropout",
+            "parents": [
+                "fire9/concat_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "conv10_1": {
+            "type": "Conv",
+            "parents": [
+                "fire9/concat_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                1000
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1000
+            ]
+        },
+        "conv10_2": {
+            "type": "Relu",
+            "parents": [
+                "conv10_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1000
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                1000
+            ]
+        },
+        "pool10_1": {
+            "type": "Pool",
+            "parents": [
+                "conv10_2"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                1000
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                14,
+                14,
+                1
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1000
+            ],
+            "pooling_type": "AVG"
+        },
+        "softmaxout_1": {
+            "type": "Softmax",
+            "parents": [
+                "pool10_1"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                1000
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1000
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}
