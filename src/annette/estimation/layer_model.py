@@ -9,16 +9,34 @@ import time
 import numpy as np
 import pandas as pd
 from annette.estimation import layers
-from annette import get_database 
+
+from onnx import helper
 
 __author__ = "Matthias Wess"
 __copyright__ = "Christian Doppler Laboratory for Embedded Machine Learning"
 __license__ = "Apache 2.0"
 
+logger = logging.getLogger(__name__)
 
 class Layer_model():
     """Generates a Layer model that is used by the Estimation Tool.
     """
+
+    onnx_transformations = {
+        "Conv": {
+            "out_type": "DepthwiseConv",
+            "condition": {
+                "value1": {
+                    "name": "group"
+                },
+                "value2": {
+                    "name": "output_shape",
+                    "i": 3
+                },
+                "compare": "=="
+            }
+        }
+    }
 
     def __init__(self, name, op_s, bandwidth, architecture=None):
         """Initialize the layer.
@@ -92,6 +110,19 @@ class Layer_model():
 
         pass
 
+    def prepare_result_dataframe (self):
+        logging.info('[layer_model.py | prepare_result_dataframe()]: Start.')
+        result_pd = pd.DataFrame({"name": [], "type": [], "estimation_type": [], "time(ms)": []})
+        result_pd['num_ops'] = np.nan
+        result_pd['num_inputs'] = np.nan
+        result_pd['num_outputs'] = np.nan
+        result_pd['num_weights'] = np.nan
+        result_pd['difficulty1'] = np.nan
+        result_pd['difficulty2'] = np.nan
+        result_pd['difficulty3'] = np.nan
+        result_pd['difficulty4'] = np.nan
+        return result_pd
+
     def estimate_model(self, model):
         """estimate the model
 
@@ -106,15 +137,7 @@ class Layer_model():
         result = {}
         sum_result = 0
         # print(model.model_spec['layers'])
-        result_pd = pd.DataFrame({"name": [], "type": [], "time(ms)": []})
-        result_pd['num_ops'] = np.nan
-        result_pd['num_inputs'] = np.nan
-        result_pd['num_outputs'] = np.nan
-        result_pd['num_weights'] = np.nan
-        result_pd['difficulty1'] = np.nan
-        result_pd['difficulty2'] = np.nan
-        result_pd['difficulty3'] = np.nan
-        result_pd['difficulty4'] = np.nan
+        result_pd = self.prepare_result_dataframe()
 
         # Add info to layer stuff
         """Loop through Layers"""
@@ -156,7 +179,123 @@ class Layer_model():
                                              "difficulty1": diff, "difficulty2": diff2, "difficulty3": diff3, "difficulty4": diff4}
 
         end = time.time()
-        print("Layermodel executed in", end-start)
+        print("Layermodel executed in ", end-start)
+
+        return [sum_result, result, result_pd]
+
+    def estimate_model_onnx (self, onnx_model):
+        logger.debug('[estimate_model_onnx]: Start. onnx_model = %s' % str(onnx_model.network_name))
+        onnx_graph = onnx_model.get_node_graph()
+        result = {}
+        sum_result = 0
+        result_pd = self.prepare_result_dataframe()
+
+        time_start = time.time()
+
+        def try_read_node_attribute (node, argument):
+            logger.debug('[estimate_model_onnx]: Try to read the attribute. node.name = %s, argument = %s' % (str(node.name), str(argument)))
+            try:
+                result = helper.get_node_attr_value(node, argument)
+            except:
+                logger.info('[estimate_model_onnx]: Attribute could not be read. Falling back to the time_ms attribute. node.name = %s, argument = %s' % (str(node.name), str(argument)))
+                result = helper.get_node_attr_value(node, 'time_ms')
+            return result
+        
+        def perform_value_compare (compare, value1, value2):
+            logger.debug('[perform_value_compare]: Start. condition = %s, value1 = %s, value2 = %s' % (str(compare), str(value1), str(value2)))
+            # The following lines check, based on the condition (e.g., == or >), if the two values fulfill this condition.
+            if compare == "==" and str(value1) == str(value2):
+                return True
+            elif compare == ">" and float(value1) > float(value2):
+                return True
+            elif compare == "<" and float(value1) < float(value2):
+                return True
+            elif compare == ">=" and float(value1) >= float(value2):
+                return True
+            elif compare == "<=" and float(value1) <= float(value2):
+                return True
+            else:
+                return False
+            
+        def get_attribute_value_of_node (node_nums, condition):
+            attribute_value = node_nums[condition["name"]]
+            if 'i' in condition:
+                if int(condition['i']) <= (len(attribute_value) - 1):
+                    logger.debug('[get_attribute_value_of_node]: Getting the specified index of the attribute. condition[\'i\'] = %s, attribute_value = %s' % (str(condition['i']), str(attribute_value)))
+                    return attribute_value[int(condition['i'])]
+                else:
+                    logger.error('[get_attribute_value_of_node]: Provided index is out of bounds. Setting the attribute_value to 0. condition[\'i\'] = %s, attribute_value = %s' % (str(condition['i']), str(attribute_value)))
+                    return 0
+            else:
+                return attribute_value
+
+        def check_transformation_condition (node, transformation):
+            node_nums = onnx_model.compute_nums_for_node(node)
+            condition = transformation['condition']
+            if not (condition["value1"]["name"] in node_nums):
+                logger.warning('[check_transformation_condition]: Attribute does not exist on this node. condition["value1"]["name"] = %s, node_nums = %s' % (str(condition["value1"]["name"]), str(node_nums)))
+                return False
+            if not (condition["value2"]["name"] in node_nums):
+                logger.warning('[check_transformation_condition]: Attribute does not exist on this node. condition["value2"]["name"] = %s, node_nums = %s' % (str(condition["value2"]["name"]), str(node_nums)))
+                return False
+            value1 = get_attribute_value_of_node(node_nums, condition["value1"])
+            value2 = get_attribute_value_of_node(node_nums, condition["value2"])
+            compare_result = perform_value_compare(condition["compare"], value1, value2)
+            logger.debug('[check_transformation_condition]: Result has been evaluated. compare_result = %s' % str(compare_result))
+            return compare_result
+
+        for node in onnx_graph:
+            logger.debug('[estimate_model_onnx]: Processing node. node.name = %s' % str(node.name))
+            node_estimation = 0
+            input_shape = onnx_model.get_node_input_shape(node)
+            output_shape = onnx_model.get_node_output_shape(node)
+            attributes = onnx_model.get_node_attributes(node)
+            num_weights = onnx_model.get_number_of_node_weights(node)
+            num_operations = onnx_model.get_node_flops_by_name(node.name)
+
+            node_type = node.op_type
+            if (node_type in self.onnx_transformations) and (check_transformation_condition(node, self.onnx_transformations[node.op_type])):
+                node_type = self.onnx_transformations[node.op_type]['out_type']
+
+            if node_type in self.layer_dict:
+                logger.debug('[estimate_model_onnx]: Starting the estimation based on the %s class. node.name = %s' % (str(node_type), str(node.name)))
+                node_estimation = self.layer_dict[node_type].estimate_onnx(node, input_shape, output_shape, attributes, num_weights, num_operations)
+            else:
+                logger.debug('[estimate_model_onnx]: Starting the estimation based on the Base class. node.name = %s' % str(node.name))
+                node_estimation = self.layer_dict['Base'].estimate_onnx(node, input_shape, output_shape, attributes, num_weights, num_operations)
+
+            result[node.name] = node_estimation
+            sum_result = sum_result + node_estimation
+
+            node.attribute.append(helper.make_attribute('time_ms', node_estimation))
+
+            logger.debug('[estimate_model_onnx]: Finalized the estimation and saved the estimation to the node. node_estimation = %s, sum_result = %s' % (str(node_estimation), str(sum_result)))
+
+            gop = try_read_node_attribute(node, 'num_ops')
+            n_i = try_read_node_attribute(node, 'num_inputs')
+            n_o = try_read_node_attribute(node, 'num_outputs')
+            n_w = try_read_node_attribute(node, 'num_weights')
+            diff = try_read_node_attribute(node, 'difficulty1')
+            diff2 = try_read_node_attribute(node, 'difficulty2')
+            diff3 = try_read_node_attribute(node, 'difficulty3')
+            diff4 = try_read_node_attribute(node, 'difficulty4')
+
+            result_pd.loc[len(result_pd)] = {
+                "name": node.name,
+                "type": node.op_type,
+                "estimation_type": node_type,
+                "time(ms)": node_estimation,
+                "num_ops": gop,
+                "num_inputs": n_i,
+                "num_outputs": n_o,
+                "num_weights": n_w,
+                "difficulty1": diff,
+                "difficulty2": diff2,
+                "difficulty3": diff3,
+                "difficulty4": diff4
+            }
+        time_end = time.time()
+        print('Layermodel executed in ', time_end - time_start)
 
         return [sum_result, result, result_pd]
 
@@ -236,7 +375,6 @@ class Layer_model():
                 output_model.add_layer(layer['name'], layer['layer_type'], layer['est_type'], layer['op_s'], layer['bandwidth'],
                                        architecture=arc)
         return output_model
-
 
 def main():
     """main function that runs the main loop

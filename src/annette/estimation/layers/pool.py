@@ -16,7 +16,9 @@ class PoolLayer(BaseLayer):
     def compute_nums(layer):
         layer = BaseLayer.compute_nums(layer)
         # TODO: compute number of operations correctly
-        layer['num_ops'] = layer['num_outputs'] * reduce(lambda x, y: x*y, layer['kernel_shape'][1:]) * 2
+        # If it's already been set (in the case of an ONNX based estimation), we skip this calculation.
+        if layer['num_ops'] == 0:
+            layer['num_ops'] = layer['num_outputs'] * reduce(lambda x, y: x*y, layer['kernel_shape'][1:]) * 2
 
         return layer
 

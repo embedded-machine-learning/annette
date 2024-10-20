@@ -32,8 +32,14 @@ class ConvPoolLayer(BaseLayer):
     @staticmethod
     def compute_nums(layer):
         """Compute Num Parameters for Convolution Layer prediction"""
-
-        layer['num_weights'] = reduce(lambda x, y: x*y, layer['kernel_shape'])
+        # Since the ONNX format provides only 2-dimensional kernel-shapes, we expand the kernel-shape the similar way it's done in the ANNETTE format, to enable the difficulty estimation, based on a 4-dimensional kernel-shape.
+        if len(layer['kernel_shape']) == 2:
+            if layer['input_shape'] and layer['output_shape'] and (len(layer['input_shape']) == 4) and (len(layer['output_shape']) == 4):
+                layer['kernel_shape'].append(layer['input_shape'][3])
+                layer['kernel_shape'].append(layer['output_shape'][3])
+        # If it's already been set (in the case of an ONNX based estimation), we skip this calculation.
+        if layer['num_weights'] == 0:
+            layer['num_weights'] = reduce(lambda x, y: x*y, layer['kernel_shape'])
         layer['num_outputs'] = reduce(lambda x, y: x*y, layer['Pool']['output_shape'][1:])
         layer['num_inputs'] = reduce(lambda x, y: x*y, layer['output_shape'][1:3])*layer['kernel_shape'][2]*reduce(lambda x, y: x*y, layer['strides'][1:])
         logging.debug(reduce(lambda x, y: x*y, layer['output_shape'][1:3]))
@@ -41,9 +47,10 @@ class ConvPoolLayer(BaseLayer):
         logging.debug(reduce(lambda x, y: x*y, layer['strides'][1:]))
         logging.debug(layer['input_shape'])
 
-        layer['num_ops'] = (
-            layer['num_weights'] * layer['output_shape'][1] * layer['output_shape'][2]
-            )*2
+        if layer['num_ops'] == 0:
+            layer['num_ops'] = (
+                layer['num_weights'] * layer['output_shape'][1] * layer['output_shape'][2]
+                ) * 2
         
         return layer
 

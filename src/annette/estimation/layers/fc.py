@@ -16,8 +16,11 @@ class FullyConnectedLayer(BaseLayer):
     def compute_nums(layer):
         """Compute Num Parameters for Layer prediction"""
         layer = BaseLayer.compute_nums(layer)
-        layer['num_weights'] = layer['num_inputs'] * layer['num_outputs']
-        layer['num_ops'] = layer['num_weights'] * 2
+        # If it's already been set (in the case of an ONNX based estimation), we skip this calculation.
+        if layer['num_weights'] == 0:
+            layer['num_weights'] = layer['num_inputs'] * layer['num_outputs']
+        if layer['num_ops'] == 0:
+            layer['num_ops'] = layer['num_weights'] * 2
     
         return layer
 

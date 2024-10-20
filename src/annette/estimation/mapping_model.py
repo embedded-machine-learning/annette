@@ -10,14 +10,33 @@ from pprint import pprint
 import numpy as np
 import pandas as pd
 from annette.estimation import layers
-from annette import get_database 
+from annette import get_database
+
+from onnx import save_model
+from datetime import datetime
 
 __author__ = "Matthias Wess"
 __copyright__ = "Christian Doppler Laboratory for Embedded Machine Learning"
 __license__ = "Apache 2.0"
 
+logger = logging.getLogger(__name__)
 
 class Optimizer():
+    layer_classes = {
+        'Pool': layers.PoolLayer,
+        'Conv': layers.ConvLayer,
+        'ConvTranspose': layers.ConvTransposeLayer,
+        'ConvTranspose2d': layers.ConvTransposeLayer,
+        'Add': layers.AdditionLayer,
+        'Base': layers.BaseLayer,
+        'DataInput': layers.InputLayer,
+        'FullyConnected': layers.FullyConnectedLayer,
+        'ConvPool': layers.ConvPoolLayer,
+        'DepthwiseConv': layers.DepthwiseConvLayer,
+        'MatMul': layers.FullyConnectedLayer,
+        'DepthwiseSepConv': layers.DepthwiseSepConvLayer
+    }
+
     def __init__(self, name, prim_type, sec_type, out_type, est_model=None, conv_dict=None, fuse_cond=None):
         self.name = name
         self.prim_type = prim_type
@@ -26,21 +45,6 @@ class Optimizer():
         self.est_model = est_model
         self.conv_dict = conv_dict
         self.fuse_cond = fuse_cond
-
-        self.layer_classes = {
-            'Pool': layers.PoolLayer,
-            'Conv': layers.ConvLayer,
-            'ConvTranspose': layers.ConvTransposeLayer,
-            'ConvTranspose2d': layers.ConvTransposeLayer,
-            'Add': layers.AdditionLayer,
-            'Base': layers.BaseLayer,
-            'DataInput': layers.InputLayer,
-            'FullyConnected': layers.FullyConnectedLayer,
-            'ConvPool': layers.ConvPoolLayer,
-            'DepthwiseConv': layers.DepthwiseConvLayer,
-            'MatMul': layers.FullyConnectedLayer,
-            'DepthwiseSepConv': layers.DepthwiseSepConvLayer
-        }
 
         self.desc = self.gen_dict()
         if self.est_model and self.conv_dict:
@@ -265,6 +269,32 @@ class Mapping_model():
                 for layer in graph.topological_sort:
                     opt.apply_merge(graph, layer)
         print(graph.topological_sort)
+
+    def run_optimization_onnx (self, onnx_model, save_optimized_model):
+        # The whole method is similar to run_optimization, however it has been adopted for the ONNX format.
+        logger.debug('[run_optimization_onnx]: Start. onnx_model = %s' % str(onnx_model.network_name))
+        for key, optimizer in self.optimizers.items():
+            logger.debug('[run_optimization_onnx]: Processing optimizer. optimizer.name = %s' % str(optimizer.name))
+            if optimizer.sec_type is None:
+                if optimizer.out_type is None:
+                    for node in onnx_model.get_node_graph():
+                        if node.op_type == optimizer.prim_type:
+                            logger.debug('[run_optimization_onnx]: Node is affected by the remove-optimizer. node.name = %s, node.op_type = %s, optimizer.name = %s' % (str(node.name), str(node.op_type), str(optimizer.name)))
+                            onnx_model.modify_remove_node(node)
+                else:
+                    for node in onnx_model.get_node_graph():
+                        if node.op_type == optimizer.prim_type:
+                            logger.debug('[run_optimization_onnx]: Node is affected by the replace-optimizer. node.name = %s, node.op_type = %s, optimizer.name = %s' % (str(node.name), str(node.op_type), str(optimizer.name)))
+                            onnx_model.modify_split_node(node)
+            else:
+                for node in onnx_model.get_node_graph():
+                    if node.op_type == optimizer.prim_type:
+                        logger.debug('[run_optimization_onnx]: Node is affected by the merge-optimizer. node.name = %s, node.op_type = %s, optimizer.name = %s' % (str(node.name), str(node.op_type), str(optimizer.name)))
+                        onnx_model.modify_merge_node(node, optimizer)
+        # If the user wants to, the model can be saved to an ONNX file, to see the effects of the optimization. (e.g., to be used in netron.app)
+        if save_optimized_model == True:
+            logger.debug('[run_optimization_onnx]: The optimized ONNX model will be saved as an ONNX file. path = %s' % str(get_database('graphs', 'onnx', onnx_model.network_name + '_optimized_' + datetime.now().strftime('%Y-%m-%dT%H-%M') + '.onnx')))
+            save_model(onnx_model.onnx_model, get_database('graphs', 'onnx', onnx_model.network_name + '_optimized_' + datetime.now().strftime('%Y-%m-%dT%H-%M') + '.onnx'))
 
     def to_json(self, filename=None):
         """Store Mapping Estimator to json file"""

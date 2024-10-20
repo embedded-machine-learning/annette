@@ -8,9 +8,10 @@ from pathlib import Path
 from annette import __version__
 from annette.estimation.layer_model import Layer_model
 from annette.estimation.mapping_model import Mapping_model
-from annette.graph import AnnetteGraph, MMGraph
+from annette.graph import AnnetteGraph
+from annette.graph import ONNX
 from annette.utils import write_result
-from annette import get_database 
+from annette import get_database
 
 sys.path.append("./")
 
@@ -20,7 +21,12 @@ __license__ = "Apache 2.0"
 
 _logger = logging.getLogger(__name__)
 
-def estimate(args):
+def estimate (args):
+    if args.onnx:
+        return estimate_onnx(args)
+    return estimate_annette(args)
+
+def estimate_annette (args):
     """Estimate example function
 
     Args:
@@ -47,6 +53,33 @@ def estimate(args):
 
     return res[0], res[2]
 
+def estimate_onnx (args):
+    """
+    The estimate function for the onnx extension.
+
+    Args:
+      network name (str): network name 
+
+    Returns:
+      float: estimated time in ms
+    """
+    model = ONNX(args.network, get_database('graphs', 'onnx', args.network + '.onnx'), args.onnx_tool)
+
+    if args.mapping != "none":
+        opt = Mapping_model.from_json(
+            get_database('models', 'mapping', args.mapping + '.json'))
+        opt.run_optimization_onnx(model, args.save_optimized_model)
+
+    # LOAD MODELS
+    mod = Layer_model.from_json(
+        get_database('models', 'layer', args.layer + '.json'))
+    
+    # APPLY ESTIMATION
+    res = mod.estimate_model_onnx(model)
+    write_result(args.network, res, args.mapping,
+                args.layer, get_database('results'))
+    
+    return res[0], res[2]
 
 def parse_args(args):
     """Parse command line parameters
@@ -94,8 +127,23 @@ def parse_args(args):
         help="set loglevel to DEBUG",
         action="store_const",
         const=logging.DEBUG)
+    parser.add_argument(
+        "-o",
+        "--onnx",
+        dest="onnx",
+        help="whether to use the onnx estimation",
+        action="store_true")
+    parser.add_argument(
+        "--save_optimized_model",
+        dest="save_optimized_model",
+        help="whether to save the onnx model after optimization (before the estimation); output-path is database/graphs/onnx",
+        action="store_true")
+    parser.add_argument(
+        "--disable_onnx_tool",
+        dest="onnx_tool",
+        help="whether to disable the operation-calculation by onnx_tool",
+        action="store_false")
     return parser.parse_args(args)
-
 
 def setup_logging(loglevel):
     """Setup basic logging
@@ -107,9 +155,7 @@ def setup_logging(loglevel):
     logging.basicConfig(level=loglevel, stream=sys.stdout,
                         format=logformat, datefmt="%Y-%m-%d %H:%M:%S")
 
-
 def main(args):
-
     print(args)
     args = parse_args(args)
     print(args.__dict__)
@@ -122,10 +168,8 @@ def main(args):
 
     return total, layerwise
 
-
 def run():
     main(sys.argv[1:])
-
 
 if __name__ == "__main__":
     run()

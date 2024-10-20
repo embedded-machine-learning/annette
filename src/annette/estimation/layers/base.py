@@ -6,8 +6,10 @@ from functools import reduce
 from pprint import pprint
 
 import numpy as np
+from onnx import helper
 from annette import get_database
 
+logger = logging.getLogger(__name__)
 
 class BaseLayer(object):
     """BaseLayer estimation"""
@@ -40,8 +42,12 @@ class BaseLayer(object):
     def compute_nums(layer):
         """Compute Num Parameters for Base Layer prediction"""
         try:
-            layer['num_inputs'] = reduce(lambda x, y: x*y, layer['input_shape'][1:])
-            if type(layer['input_shape'][0]) == list:
+            if not type(layer['input_shape'][0]) == list:
+                # In case the node has only one input, we want to use this calculation method
+                # This case will apply to most nodes, hence why it's first in the if-statement.
+                layer['num_inputs'] = reduce(lambda x, y: x*y, layer['input_shape'][1:])
+            else:
+                # In case the node has multiple inputs, we want to use this calculation method
                 # Case: Multiple input tensors of same size (e.g. Concat layer)
                 layer['num_inputs'] = 2 * reduce(lambda x, y: x*y, layer['input_shape'][0][1:])
         except:
@@ -50,8 +56,11 @@ class BaseLayer(object):
             layer['num_outputs'] = reduce(lambda x, y: x*y, layer['output_shape'][1:])
         except:
             layer['num_outputs'] = 0
-        layer['num_ops'] = 0
-        layer['num_weights'] = 0
+        # It's possible with the ONNX estimation, that num_ops and num_weights are not set initially. In this case, initialize them as 0.
+        if not ('num_ops' in layer.keys()):
+            layer['num_ops'] = 0
+        if not ('num_weights' in layer.keys()):
+            layer['num_weights'] = 0
 
         return layer
 
@@ -115,12 +124,49 @@ class BaseLayer(object):
             r = self.estimate_roofline()
             return r
 
+    def save_parameters_to_node (self, node):
+        logger.debug('[estimate_onnx]: Start. node.name = %s' % str(node.name))
+        node.attribute.append(helper.make_attribute('num_ops', self.layer['num_ops']))
+        node.attribute.append(helper.make_attribute('num_inputs', self.layer['num_inputs']))
+        node.attribute.append(helper.make_attribute('num_outputs', self.layer['num_outputs']))
+        node.attribute.append(helper.make_attribute('num_weights', self.layer['num_weights']))
+        if ('difficulty' in self.layer):
+            node.attribute.append(helper.make_attribute('difficulty', self.layer['difficulty']))
+        if ('difficulty2' in self.layer):
+            node.attribute.append(helper.make_attribute('difficulty2', self.layer['difficulty2']))
+        if ('difficulty3' in self.layer):
+            node.attribute.append(helper.make_attribute('difficulty3', self.layer['difficulty3']))
+        if ('difficulty4' in self.layer):
+            node.attribute.append(helper.make_attribute('difficulty4', self.layer['difficulty4']))
+
+    def estimate_onnx (self, node, input_shape, output_shape, attributes, num_weights, num_operations):
+        logger.debug('[estimate_onnx]: Start. node.name = %s, input_shape = %s, output_shape = %s, num_weights = %s, num_operations = %s' % (str(node.name), str(input_shape), str(output_shape), str(num_weights), str(num_operations)))
+        self.node = node
+        self.layer['input_shape'] = input_shape
+        self.layer['output_shape'] = output_shape
+        self.layer['num_weights'] = num_weights
+        self.layer['num_ops'] = num_operations
+        for attribute in attributes:
+            logger.debug('[estimate_onnx]: Processing attribute. attribute = %s, attributes[attribute] = %s' % (str(attribute), str(attributes[attribute])))
+            self.layer[attribute] = attributes[attribute]
+        self.compute_parameters()
+        if hasattr(self, "estimate_" + self.estimation):
+            func = getattr(self, "estimate_" + self.estimation)
+            logger.debug('[estimate_onnx]: Starting the estimation of the node. node.name = %s, func = %s' % (str(node.name), str(func.__name__)))
+            r = func()
+        else:
+            logger.debug('[estimate_onnx]: Starting the estimation of the node. node.name = %s, self.estimation = %s' % (str(node.name), str(self.estimation)))
+            r = self.estimate_roofline()
+        self.save_parameters_to_node(node)
+        logger.debug('[estimate_onnx]: Estimation successful! Saved parameters to the node. r = %s, node = %s' % (str(r), str(node)))
+        return r
+
     def estimate_roofline(self):
         """Returns roofline estimated BaseLayer execution time (ms)"""
         self.layer['data_bytes'] = ((
-            (self.layer['num_outputs']+self.layer['num_inputs']) 
+            (self.layer['num_outputs'] + self.layer['num_inputs']) 
             * self.architecture['bit_act']
-            + self.layer['num_weights']*self.architecture['bit_weights'])
+            + self.layer['num_weights'] * self.architecture['bit_weights'])
             / 8)
         self.layer['data_roof'] = self.layer['data_bytes'] / self.bandwidth
         self.layer['op_roof'] = self.layer['num_ops'] / self.op_s
@@ -299,7 +345,8 @@ class BaseLayer(object):
         for k, v in in_vector.items():
             k_int = int(k)
             if isinstance(v, dict):
-                vector[0, k_int] = self.layer[v['name']][v['i']] 
+                if (v['name'] in self.layer) and (self.layer[v['name']] != None):
+                    vector[0, k_int] = self.layer[v['name']][v['i']]
                 if 'dec' in v.keys():
                     vector[0, k_int] = vector[0, k_int] - v['dec'] 
             elif isinstance(v, str):
