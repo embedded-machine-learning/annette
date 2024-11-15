@@ -335,6 +335,8 @@ class Layer_model():
         del layer_desc['op_s']
         del layer_desc['bandwidth']
         del layer_desc['architecture']
+        if 'hardware_description' in layer_desc:
+            del layer_desc['hardware_description']
         logging.debug(len(layer_desc))
         for l in layer_desc.items():
             # if l[0] in output_model.layer_classes:
