@@ -54,7 +54,13 @@
                             class="my-3"
                             justify="center"
                         >
-                            <span>Network: {{ estimationStore.network }} | Hardware Platform: {{ estimationStore.layerModel }} | Mapping Model: {{ estimationStore.mappingModel }}</span>
+                            <v-skeleton-loader
+                                :loading="estimationStore.loading"    
+                                type="text"
+                                class="d-flex justify-center"
+                            >
+                                <span>Network: {{ estimationStore.network }} | Hardware Platform: {{ estimationStore.layerModel }} | Mapping Model: {{ estimationStore.mappingModel }}</span>
+                            </v-skeleton-loader>
                         </v-row>
                     </v-col>
                 </v-row>
