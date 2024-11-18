@@ -221,7 +221,8 @@ class ONNX ():
             else:
                 schema_input = schema.inputs[i]
             # Since the ONNX model does not differentiate between regular inputs and weights / biases, we try to differentiate them by checking if a weight of this name exists and by checking the definition of the respective node-type.
-            if (not input_name in self.get_graph_weights()) and (schema_input.name.upper() != "W") and (schema_input.name.upper() != "B"):
+            # Since "Add" nodes have an input named "B", we need to skip the last check for nodes of this type.
+            if (not input_name in self.get_graph_weights()) and (schema_input.name.upper() != "W") and ((schema_input.name.upper() != "B") or (node.op_type == "Add")):
                 logger.debug('[get_node_inputs]: A regular input has been identified for the node. input_name = %s' % str(input_name))
                 regular_inputs.append(input_name)
         logger.debug('[get_node_inputs]: The regular inputs have been identified for the node. regular_inputs = %s' % str(regular_inputs))
