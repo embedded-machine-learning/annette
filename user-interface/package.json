@@ -18,6 +18,7 @@
     "pinia": "^2.2.5",
     "vue": "latest",
     "vue-chartjs": "^5.3.2",
+    "vue-mermaid-string": "^7.0.0",
     "vue-router": "latest"
   },
   "devDependencies": {

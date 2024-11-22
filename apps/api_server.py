@@ -7,6 +7,7 @@ from pathlib import Path
 
 from annette import get_database
 from annette.estimate import estimate_onnx
+from annette.graph import ONNX
 
 import json
 import csv
@@ -166,5 +167,22 @@ def upload_network_onnx_file():
         file.save(filepath)
         return 'Success!'
     else:
-        print('Ungültiges Dateiformat. Bitte laden Sie eine .onnx Datei hoch.')
         abort(500)
+
+@app.route('/network-graph')
+def get_network_graph ():
+    network_name = request.args.get('network')
+    if not network_name:
+        abort(500)
+    flowchart = 'flowchart TD\n'
+    onnx_file = get_database('graphs', 'onnx', network_name + '.onnx')
+    onnx_model = ONNX(network_name, onnx_file, False)
+    for node in onnx_model.get_node_graph():
+        regular_inputs = onnx_model.get_node_inputs(node)
+        for input in regular_inputs:
+            parents = onnx_model.get_node_parent_based_on_input_name(input)
+            for parent in parents:
+                flowchart += ('%s(%s) --> %s(%s)\n' % (parent.name, parent.op_type, node.name, node.op_type))
+        # Unfortunately, clicking on a node inside the graph does not work as of now. Issue: See also: https://github.com/dword-design/vue-mermaid-string/issues/197 and https://github.com/mermaid-js/mermaid/issues/4346
+        # flowchart += ('click %s\n' % (node.name))
+    return flowchart

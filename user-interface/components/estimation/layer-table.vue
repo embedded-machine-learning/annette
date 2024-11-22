@@ -5,7 +5,20 @@
         :items="formattedLayerResult"
         items-per-page="25"
         density="compact"
-        />
+        >
+            <template v-slot:item="{ item }">
+                <tr @click="clickedRow(item)" :class="{'selected-row': item.name === estimationStore.selectedNode}" style="cursor: pointer;">
+                    <td>{{ item.index }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.type }}</td>
+                    <td>{{ item['time(ms)'] }}</td>
+                    <td>{{ item.num_ops }}</td>
+                    <td>{{ item.num_inputs }}</td>
+                    <td>{{ item.num_outputs }}</td>
+                    <td>{{ item.num_weights }}</td>
+                </tr>
+            </template>
+        </v-data-table>
     </v-skeleton-loader>
 </template>
 
@@ -61,4 +74,18 @@ const formattedLayerResult = computed(() => {
     })
     return formattedOutput
 })
+
+const clickedRow = (item) => {
+    if (estimationStore.selectedNode !== item.name) {
+        estimationStore.selectedNode = item.name
+    } else {
+        estimationStore.selectedNode = null
+    }
+}
 </script>
+
+<style scoped>
+.selected-row {
+    background-color: #5188c2;
+}
+</style>
