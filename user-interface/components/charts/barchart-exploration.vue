@@ -91,7 +91,10 @@ const chartOptions = ref({
   maintainAspectRatio: false,
   scales: {
     x: {
-      text: 'Time (ms)',
+      title: {
+        display: true,
+        text: 'Time (ms)',
+      },
       type: 'logarithmic',
       ticks: {
         callback: function (value, index, ticks) {

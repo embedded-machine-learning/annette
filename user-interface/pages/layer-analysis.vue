@@ -38,7 +38,10 @@ const chartOptionsAverage = ref({
   maintainAspectRatio: false,
   scales: {
     x: {
-      text: 'Time (ms)',
+      title: {
+        display: true,
+        text: 'Time (ms)',
+      },
       type: 'logarithmic',
       ticks: {
         callback: function (value, index, ticks) {
@@ -64,7 +67,10 @@ const chartOptionsCount = ref({
   maintainAspectRatio: false,
   scales: {
     x: {
-      text: 'Time (ms)',
+      title: {
+        display: true,
+        text: 'Time (ms)',
+      },
       type: 'logarithmic',
       ticks: {
         callback: (value) => {

@@ -33,12 +33,21 @@ const chartData = computed(() => {
 const chartOptions = {
   scales: {
     y: {
-      text: 'Time (ms)',
+      title: {
+        display: true,
+        text: 'Time (ms)'
+      },
       type: 'logarithmic',
       ticks: {
         callback: function (value, index, ticks) {
           return value + ' ms'
         }
+      }
+    },
+    x: {
+      title: {
+        display: true,
+        text: 'Occurance in Results'
       }
     }
   },
