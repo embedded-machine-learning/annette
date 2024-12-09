@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from os import listdir, walk
 from os.path import isfile, join
 from pathlib import Path
+from datetime import datetime
 
 from annette import get_database
 from annette.estimate import estimate_onnx
@@ -155,10 +156,12 @@ def upload_network_onnx_file():
     if 'file' not in request.files:
         # No file provided
         abort(500)
+        return
     file = request.files['file']
     if file.filename == '':
         # Invalid filename
         abort(500)
+        return
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         filepath = join(app.config['UPLOAD_FOLDER'], filename)
@@ -174,6 +177,7 @@ def get_network_graph ():
     network_name = request.args.get('network')
     if not network_name:
         abort(500)
+        return
     flowchart = 'flowchart TD\n'
     onnx_file = get_database('graphs', 'onnx', network_name + '.onnx')
     onnx_model = ONNX(network_name, onnx_file, False)
@@ -186,3 +190,16 @@ def get_network_graph ():
         # Unfortunately, clicking on a node inside the graph does not work as of now. Issue: See also: https://github.com/dword-design/vue-mermaid-string/issues/197 and https://github.com/mermaid-js/mermaid/issues/4346
         # flowchart += ('click %s\n' % (node.name))
     return flowchart
+
+@app.route('/feedback', methods=['POST'])
+def save_feedback():
+    feedback = request.form.get('feedback')
+    if not feedback:
+        abort(500)
+        return
+    else:
+        date = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        feedback_file = open(get_database('feedback.txt'), 'a')
+        feedback_file.write('%s:\n%s\n\n' % (str(date), str(feedback)))
+        feedback_file.close()
+        return 'Success!'

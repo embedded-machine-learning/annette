@@ -18,6 +18,9 @@
                 <v-list-item-title v-text="item.title"></v-list-item-title>
             </v-list-item>
         </v-list>
+        <template v-slot:append>
+            <FeedbackDialog />
+        </template>
     </v-navigation-drawer>
 </template>
 
@@ -25,6 +28,7 @@
 import { ref } from 'vue'
 import AnnetteLogo from '../assets/annette-logo.png'
 import AnnetteBanner from '../assets/annette-banner.png'
+import FeedbackDialog from '../forms/feedback-dialog.vue'
 
 var logoImage = AnnetteLogo
 const menuItems = [
