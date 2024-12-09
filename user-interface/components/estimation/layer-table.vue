@@ -28,35 +28,43 @@ const estimationStore = useEstimationStore()
 const headers = [
     {
         title: "Index",
-        value: "index"
+        value: "index",
+        sortable: true
     },
     {
         title: "Name",
-        value: "name"
+        value: "name",
+        sortable: true
     },
     {
         title: "Type",
-        value: "type"
+        value: "type",
+        sortable: true
     },
     {
         title: "Time (ms)",
-        value: "time(ms)"
+        value: "time(ms)",
+        sortable: true
     },
     {
         title: "Number of Operations",
-        value: "num_ops"
+        value: "num_ops",
+        sortable: true
     },
     {
         title: "Number of Inputs",
-        value: "num_inputs"
+        value: "num_inputs",
+        sortable: true
     },
     {
         title: "Number of Outputs",
-        value: "num_outputs"
+        value: "num_outputs",
+        sortable: true
     },
     {
         title: "Number of Weights",
-        value: "num_weights"
+        value: "num_weights",
+        sortable: true
     }
 ]
 
