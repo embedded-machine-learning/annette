@@ -45,6 +45,10 @@ const chartOptions = {
   plugins: {
     tooltip: {
       callbacks: {
+        title: function (TooltipItem) {
+          const layerTypes = [...new Set(TooltipItem.map(i => i.dataset.label))]
+          return layerTypes.join(', ')
+        },
         label: function (TooltipItem) {
           return TooltipItem.raw.result + ': ' + TooltipItem.raw.y + ' ms'
         }
