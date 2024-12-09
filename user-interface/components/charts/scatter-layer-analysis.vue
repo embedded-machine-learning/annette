@@ -35,6 +35,11 @@ const chartOptions = {
     y: {
       text: 'Time (ms)',
       type: 'logarithmic',
+      ticks: {
+        callback: function (value, index, ticks) {
+          return value + ' ms'
+        }
+      }
     }
   },
   plugins: {
