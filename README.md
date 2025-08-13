@@ -3,119 +3,171 @@
 </div>
 
 ## Accurate Neural Network Execution Time Estimation
+Implementation of the ANNETTE Estimation Module [Link to Paper](https://ieeexplore.ieee.org/abstract/document/9306831/)
 
-Implementation of the ANNETTE Estimation Module <a href="https://ieeexplore.ieee.org/abstract/document/9306831/" target="_blank">Link to Paper</a>
+ANNETTE (Accurate Neural Network Execution Time Estimation) is a framework designed to predict the latency (execution time) of Deep Neural Networks (DNNs) on hardware accelerators using a stacked modeling approach. It creates accurate estimations by combining mapping models and layer-wise estimation models derived from benchmarks. This allows for efficient design space exploration and hardware-specific neural architecture search, offering a significant tool for developers to estimate performance without extensive testing on actual hardware. The methodology demonstrates high accuracy and fidelity in predictions, making it a valuable asset for optimizing neural network deployment on diverse hardware platforms.
 
-ANNETTE (Accurate Neural Network Execution Time Estimation) is a framework designed to predict the execution time of Deep Neural Networks (DNNs) on hardware accelerators using a stacked modeling approach. It creates accurate estimations by combining mapping models and layer-wise estimation models derived from benchmarks. This allows for efficient design space exploration and hardware-specific neural architecture search, offering a significant tool for developers to estimate performance without extensive testing on actual hardware. The methodology demonstrates high accuracy and fidelity in predictions, making it a valuable asset for optimizing neural network deployment on diverse hardware platforms.
-
-Cite: 
+Cite:
 
 `M. Wess, M. Ivanov, C. Unger, A. Nookala, A. Wendt and A. Jantsch, "ANNETTE: Accurate Neural Network Execution Time Estimation With Stacked Models," in IEEE Access, vol. 9, pp. 3545-3556, 2021, doi: 10.1109/ACCESS.2020.3047259.`
 
-# Install
-* Tested with python >=3.6
+---
+## 📋 Prerequisites
+Before installing ANNETTE, make sure your system meets the following requirements:
 
-recommended install:
-- `git clone --recurse-submodules https://github.com/embedded-machine-learning/annette.git`
-- `cd annette`
-- recommended: `python -m venv .venv2 && source .venv2/bin/activate`
-- `pip install -r requirements.txt`
-- `pip install -e .`
-- `wget https://github.com/embedded-machine-learning/annette/releases/download/v0.1/models.zip`
-- `unzip -o models.zip -d database`
+- **Operating System:** Debian 12 or newer
+- **CPU:** 2+ cores
+- **RAM:** 4+ GB
+- **Disk Space:** 40+ GB
+- **Internet connection**
+- **Root privileges**
 
-# Usage
-* mmtoir to export to MMDNN format (here you might need to install tensorflow or pytorch)
-* ANNETTE only needs the .pb-file, you can savely remove the .npy-weightfile
-* `annette_o2a` lets you convert .onnx models to the annette format
+---
+## 🔧 Installation
 
-## Estimation
-`annette_estimate [network-name] [mapping-model] [layer-model]`
+Run the following commands in your terminal to install ANNETTE and its dependencies:
 
-## Results
-* The results are store in `database/results/[layer-model]`
-* Python functions return the total execution time in [ms] and a pandas dataframe with the layer-wise results
-* Example visualization with plotly (`notebooks/sample_estimation.ipynb`)
-<img src='_img/result.png'></img>
+```bash
+apt update
 
-## Benchmarking
-* openvino example in `runs\run_openvino.py` (install openvino with `pip install openvino`)
-* results stored to `database\benchmarks`
+apt upgrade -y
 
-## MMDNN to ANNETTE
-* use `annette_m2a [network-file/network-name]` to convert from mmdnn to annette format. Output is stored in `database/graphs/annette/[network].json`
-* Either copy the file to `database/graphs/mmdnn/[network].pb` and use only the `network-name` oder give the full Path
+apt install python3-pip
 
-## Examples
+apt install python3.11-venv
 
-* Some example graphs are already stored in `database/graphs/annette`
-* Some example notebooks are found in `notebooks/`
-* Some model optimizer examples `ov` and `dnndk`
-* Some layer model exmaples `ncs2-roofline` and `dnndk-roofline`
-* For conversion and download MMDNN requires some of the frameworks such as pytorch, tensorflow
+apt install git
 
-### Simple examples (networks in `database/graphs/annette`)
+apt install zip
 
-```
-annette_m2a cf_resnet50 
-annette_estimate cf_resnet50 ov ncs2-roofline
-```
+apt install unzip
 
-### Pytorch Mnasnet0.5
-```
-mmdownload -f pytorch -n mnasnet0_5 -o database/graphs/pytorch/
-mmtoir -f pytorch -d database/graphs/mmdnn/mnasnet0_5 --inputShape 3,224,224 -n database/graphs/pytorch/imagenet_mnasnet0_5.pth
-annette_m2a mnasnet0_5
-annette_estimate mnasnet0_5 ov ncs2-roofline
-```
+cd /root
 
-### Pytorch Densenet121
-```
-mmdownload -f pytorch -n densenet121 -o database/graphs/pytorch/
-mmtoir -f pytorch -d database/graphs/mmdnn/densenet121 --inputShape 3,224,224 -n database/graphs/pytorch/imagenet_densenet121.pth
-annette_m2a densenet121 
-annette_estimate densenet121 ov ncs2-roofline
+git clone --recurse-submodules https://github.com/embedded-machine-learning/annette.git
+
+cd annette
+
+python3 -m venv .venv && source .venv/bin/activate
+
+pip install -r requirements.txt --no-cache-dir
+
+pip install -e .
+
+wget https://github.com/embedded-machine-learning/annette/releases/download/v0.2/models.zip
+
+unzip -o models.zip -d database
+
+wget https://github.com/embedded-machine-learning/annette/releases/download/v0.2/onnx.zip
+
+unzip -o onnx.zip -d database/graphs
+
+pip install mmdnn
+
+pip install --upgrade protobuf==3.20.3
+
+pip install crepes
+
+pip install scikit-learn==1.2.1
 ```
 
-### Pytorch Squeezenet1.0
-```
-mmdownload -f pytorch -n squeezenet1_0 -o database/graphs/pytorch/
-mmtoir -f pytorch -d database/graphs/mmdnn/squeezenet1_0 --inputShape 3,224,224 -n database/graphs/pytorch/imagenet_squeezenet1_0.pth
-annette_m2a squeezenet1_0 
-annette_estimate squeezenet1_0 ov ncs2-roofline
+---
+## 🚀 Usage
+
+### 1. Latency Estimation
+
+```bash
+annette_estimate [network-name] [mapping-model] [layer-model]
 ```
 
+**Parameters:**
+- **`network-name`** – Name of the network to estimate latency for.
+	- Without `-o`: File name from `/database/graphs/annette` (no extension).
+	- With `-o`: File name from `/database/graphs/onnx` (no extension).
+- **`mapping-model`** – JSON file from `/database/models/mapping` representing the device optimization simulation.
+- **`layer-model`** – JSON file from `/database/models/layer` representing the hardware model.
 
-### DeeplabV3 (https://github.com/tensorflow/models/blob/master/research/deeplab/g3doc/model_zoo.md)
-```
-mmtoir -f tensorflow -w database/graphs/tf/deeplabv3_mnv2_dm05_pascal.pb --inNodeName MobilenetV2/MobilenetV2/input --inputShape 513,513,3 --dstNodeName ArgMax -o database/graphs/mmdnn/deeplabv3
-annette_m2a deeplabv3 
-annette_estimate deeplabv3 ov ncs2-roofline
-```
+**Additional options:**
+- `-o` – Use ONNX models from `/database/graphs/onnx`.
+- `--version` – Show ANNETTE version.
+- `-v` / `-vv` – Increase verbosity of logs.
+- `--save_optimized_model` – Save optimized ONNX model to database for further analysis.
+- `--disable_onnx_tool` – Disable the `onnx-tool` utility (use with `-o`).
 
-### Mobilenetv1
-```
-mmdownload -f tensorflow -n mobilenet_v1_1.0_frozen -o database/graphs/tf/
-mmtoir -f tensorflow -w database/graphs/tf/mobilenet_v1_1.0_224/frozen_graph.pb --inNodeName input --inputShape 224,224,3 --dstNodeName MobilenetV1/Predictions/Softmax -o database/graphs/mmdnn/mobilenet_v1
-annette_m2a mobilenet_v1
-annette_estimate mobilenet_v1 ov ncs2-roofline
-```
+**Example:**
 
-### TinyYolov4
-```
-mmtoir -f tensorflow -w database/graphs/tf/darknet_yolov4_tiny_512_512_coco.pb --inNodeName inputs --inputShape 512,512,3 --dstNodeName detector/yolo-v4-tiny/Conv_17/BiasAdd detector/yolo-v4-tiny/Conv_20/BiasAdd -o database/graphs/mmdnn/darknet_yolov4_tiny_512_512_coco
-annette_m2a darknet_yolov4_tiny_512_512_coco
-annette_estimate darknet_yolov4_tiny_512_512_coco ov ncs2-roofline
+```bash
+annette_estimate yolov8l dnndk nvidia-jetson-xavier-nx
 ```
 
-### Yolov4
-```
-mmtoir -f tensorflow -w database/graphs/tf/darknet_yolov4_512_512_coco.pb --inNodeName inputs --inputShape 512,512,3 --dstNodeName detector/yolo-v4/Conv_1/BiasAdd detector/yolo-v4/Conv_9/BiasAdd detector/yolo-v4/Conv_17/BiasAdd -o database/graphs/mmdnn/darknet_yolov4_512_512_coco
-annette_m2a darknet_yolov4_512_512_coco
-annette_estimate darknet_yolov4_512_512_coco ov ncs2-roofline
+#### Results
+
+- The results are store in `database/results/[layer-model]`
+- Python functions return the total execution time in [ms] and a pandas dataframe with the layer-wise results
+- Example visualization with plotly (`notebooks/sample_estimation.ipynb`)
+  ![](https://github.com/embedded-machine-learning/annette/raw/benchmark/_img/result.png)
+
+### 2. Model Conversion
+#### MMDNN → ANNETTE format
+
+```bash
+annette_m2a [options]
 ```
 
+- `--version` – Show ANNETTE version.
+- `-n, --network` – Network from `/database/graphs/mmdnn` to convert.
+- `-i, --input` – Input list for conversion, e.g. `['data']`.
+- `-v` / `-vv` – Increase verbosity.
 
+#### ONNX → ANNETTE format
+
+```bash
+annette_o2a [options]
+```
+
+- `--version` – Show ANNETTE version.
+- `-n, --network` – Network from `/database/graphs/onnx` to convert.
+- `-i, --input` – Input list for conversion, e.g. `['data']`.
+- `-v` / `-vv` – Increase verbosity.
+
+### 3. Benchmarking
+
+- openvino example in `runs/run_openvino.py` (install openvino with `pip install openvino`)
+- results stored to `database/benchmarks`
+
+---
+## 💻 User Interface
+
+ANNETTE provides both an API and a browser-based UI.
+### Start API Server
+
+```bash
+cd apps
+
+flask --app api_server run
+```
+
+### Start Web UI
+
+```bash
+cd user-interface
+
+npm run dev
+```
+
+Once both are running, open **http://localhost:3000** in your browser.
+
+---
+## 🤝 Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for improvements or bug fixes.
+
+---
+## 📧 Contact
+
+For questions or support, please open a GitHub issue.
+
+---
 ## Note
-This project has been set up using PyScaffold 3.2.3. For details and usage
-information on PyScaffold see https://pyscaffold.org/.
+
+This project has been set up using PyScaffold 3.2.3. For details and usage information on PyScaffold see [https://pyscaffold.org/](https://pyscaffold.org/).
