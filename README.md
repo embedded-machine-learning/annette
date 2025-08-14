@@ -97,7 +97,13 @@ annette_estimate [network-name] [mapping-model] [layer-model]
 **Example:**
 
 ```bash
-annette_estimate yolov8l dnndk nvidia-jetson-xavier-nx
+annette_estimate yolov8l simple nvidia-jetson-xavier
+```
+
+**ONNX Example:**
+
+```bash
+annette_estimate yolov8l simple nvidia-jetson-xavier -o
 ```
 
 #### Results
@@ -107,19 +113,7 @@ annette_estimate yolov8l dnndk nvidia-jetson-xavier-nx
 - Example visualization with plotly (`notebooks/sample_estimation.ipynb`)
   ![](https://github.com/embedded-machine-learning/annette/raw/benchmark/_img/result.png)
 
-### 2. Model Conversion
-#### MMDNN → ANNETTE format
-
-```bash
-annette_m2a [options]
-```
-
-- `--version` – Show ANNETTE version.
-- `-n, --network` – Network from `/database/graphs/mmdnn` to convert.
-- `-i, --input` – Input list for conversion, e.g. `['data']`.
-- `-v` / `-vv` – Increase verbosity.
-
-#### ONNX → ANNETTE format
+### 2. Model Conversion ONNX → ANNETTE format
 
 ```bash
 annette_o2a [options]
@@ -129,11 +123,6 @@ annette_o2a [options]
 - `-n, --network` – Network from `/database/graphs/onnx` to convert.
 - `-i, --input` – Input list for conversion, e.g. `['data']`.
 - `-v` / `-vv` – Increase verbosity.
-
-### 3. Benchmarking
-
-- openvino example in `runs/run_openvino.py` (install openvino with `pip install openvino`)
-- results stored to `database/benchmarks`
 
 ---
 ## 💻 User Interface
