@@ -1,0 +1,7455 @@
+{
+    "name": "yolov8s-sim",
+    "layers": {
+        "images": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "model0convConv_output_0"
+            ],
+            "output_shape": [
+                -1,
+                640,
+                640,
+                3
+            ],
+            "left_parents": 0
+        },
+        "model0convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "images"
+            ],
+            "children": [
+                "model0actSigmoid_output_0",
+                "model0actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                640,
+                640,
+                3
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                32
+            ],
+            "output_shape": [
+                -1,
+                320,
+                320,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model0actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model0convConv_output_0"
+            ],
+            "children": [
+                "model0actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                320,
+                320,
+                32
+            ],
+            "output_shape": [
+                -1,
+                320,
+                320,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model0actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model0convConv_output_0",
+                "model0actSigmoid_output_0"
+            ],
+            "children": [
+                "model1convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    32,
+                    320,
+                    320
+                ],
+                [
+                    -1,
+                    32,
+                    320,
+                    320
+                ]
+            ],
+            "output_shape": [
+                -1,
+                320,
+                320,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model0actMul_output_0"
+            ],
+            "children": [
+                "model1actSigmoid_output_0",
+                "model1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                320,
+                320,
+                32
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                64
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model1convConv_output_0"
+            ],
+            "children": [
+                "model1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model1convConv_output_0",
+                "model1actSigmoid_output_0"
+            ],
+            "children": [
+                "model2cv1convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    160,
+                    160
+                ],
+                [
+                    -1,
+                    64,
+                    160,
+                    160
+                ]
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model2cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model1actMul_output_0"
+            ],
+            "children": [
+                "model2cv1actSigmoid_output_0",
+                "model2cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model2cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model2cv1convConv_output_0"
+            ],
+            "children": [
+                "model2cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model2cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model2cv1convConv_output_0",
+                "model2cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model2Split_output_0",
+                "model2Split_output_1"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    160,
+                    160
+                ],
+                [
+                    -1,
+                    64,
+                    160,
+                    160
+                ]
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model2Split_output_0": {
+            "type": "Split",
+            "parents": [
+                "model2cv1actMul_output_0"
+            ],
+            "children": [
+                "model2Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model2Split_output_1": {
+            "type": "Split",
+            "parents": [
+                "model2cv1actMul_output_0"
+            ],
+            "children": [
+                "model2m0cv1convConv_output_0",
+                "model2m0Add_output_0",
+                "model2Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model2m0cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model2Split_output_1"
+            ],
+            "children": [
+                "model2m0cv1actSigmoid_output_0",
+                "model2m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                32
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model2m0cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model2m0cv1convConv_output_0"
+            ],
+            "children": [
+                "model2m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model2m0cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model2m0cv1convConv_output_0",
+                "model2m0cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model2m0cv2convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    32,
+                    160,
+                    160
+                ],
+                [
+                    -1,
+                    32,
+                    160,
+                    160
+                ]
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model2m0cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model2m0cv1actMul_output_0"
+            ],
+            "children": [
+                "model2m0cv2actSigmoid_output_0",
+                "model2m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                32
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model2m0cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model2m0cv2convConv_output_0"
+            ],
+            "children": [
+                "model2m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model2m0cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model2m0cv2convConv_output_0",
+                "model2m0cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model2m0Add_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    32,
+                    160,
+                    160
+                ],
+                [
+                    -1,
+                    32,
+                    160,
+                    160
+                ]
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model2m0Add_output_0": {
+            "type": "Add",
+            "parents": [
+                "model2Split_output_1",
+                "model2m0cv2actMul_output_0"
+            ],
+            "children": [
+                "model2Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "left_parents": 0
+        },
+        "model2Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model2Split_output_0",
+                "model2Split_output_1",
+                "model2m0Add_output_0"
+            ],
+            "children": [
+                "model2cv2convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                32
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                96
+            ],
+            "left_parents": 0
+        },
+        "model2cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model2Concat_output_0"
+            ],
+            "children": [
+                "model2cv2actSigmoid_output_0",
+                "model2cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                96
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                96,
+                64
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model2cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model2cv2convConv_output_0"
+            ],
+            "children": [
+                "model2cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model2cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model2cv2convConv_output_0",
+                "model2cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model3convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    160,
+                    160
+                ],
+                [
+                    -1,
+                    64,
+                    160,
+                    160
+                ]
+            ],
+            "output_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model3convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model2cv2actMul_output_0"
+            ],
+            "children": [
+                "model3actSigmoid_output_0",
+                "model3actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                160,
+                160,
+                64
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model3actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model3convConv_output_0"
+            ],
+            "children": [
+                "model3actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model3actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model3convConv_output_0",
+                "model3actSigmoid_output_0"
+            ],
+            "children": [
+                "model4cv1convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model4cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model3actMul_output_0"
+            ],
+            "children": [
+                "model4cv1actSigmoid_output_0",
+                "model4cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model4cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model4cv1convConv_output_0"
+            ],
+            "children": [
+                "model4cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model4cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model4cv1convConv_output_0",
+                "model4cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model4Split_output_0",
+                "model4Split_output_1"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model4Split_output_0": {
+            "type": "Split",
+            "parents": [
+                "model4cv1actMul_output_0"
+            ],
+            "children": [
+                "model4Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4Split_output_1": {
+            "type": "Split",
+            "parents": [
+                "model4cv1actMul_output_0"
+            ],
+            "children": [
+                "model4m0cv1convConv_output_0",
+                "model4m0Add_output_0",
+                "model4Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m0cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model4Split_output_1"
+            ],
+            "children": [
+                "model4m0cv1actSigmoid_output_0",
+                "model4m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m0cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model4m0cv1convConv_output_0"
+            ],
+            "children": [
+                "model4m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m0cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model4m0cv1convConv_output_0",
+                "model4m0cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model4m0cv2convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m0cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model4m0cv1actMul_output_0"
+            ],
+            "children": [
+                "model4m0cv2actSigmoid_output_0",
+                "model4m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m0cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model4m0cv2convConv_output_0"
+            ],
+            "children": [
+                "model4m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m0cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model4m0cv2convConv_output_0",
+                "model4m0cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model4m0Add_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m0Add_output_0": {
+            "type": "Add",
+            "parents": [
+                "model4Split_output_1",
+                "model4m0cv2actMul_output_0"
+            ],
+            "children": [
+                "model4m1cv1convConv_output_0",
+                "model4m1Add_output_0",
+                "model4Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m1cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model4m0Add_output_0"
+            ],
+            "children": [
+                "model4m1cv1actSigmoid_output_0",
+                "model4m1cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m1cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model4m1cv1convConv_output_0"
+            ],
+            "children": [
+                "model4m1cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m1cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model4m1cv1convConv_output_0",
+                "model4m1cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model4m1cv2convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m1cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model4m1cv1actMul_output_0"
+            ],
+            "children": [
+                "model4m1cv2actSigmoid_output_0",
+                "model4m1cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m1cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model4m1cv2convConv_output_0"
+            ],
+            "children": [
+                "model4m1cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m1cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model4m1cv2convConv_output_0",
+                "model4m1cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model4m1Add_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4m1Add_output_0": {
+            "type": "Add",
+            "parents": [
+                "model4m0Add_output_0",
+                "model4m1cv2actMul_output_0"
+            ],
+            "children": [
+                "model4Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model4Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model4Split_output_0",
+                "model4Split_output_1",
+                "model4m0Add_output_0",
+                "model4m1Add_output_0"
+            ],
+            "children": [
+                "model4cv2convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model4cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model4Concat_output_0"
+            ],
+            "children": [
+                "model4cv2actSigmoid_output_0",
+                "model4cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model4cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model4cv2convConv_output_0"
+            ],
+            "children": [
+                "model4cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model4cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model4cv2convConv_output_0",
+                "model4cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model5convConv_output_0",
+                "model14Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model5convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model4cv2actMul_output_0"
+            ],
+            "children": [
+                "model5actSigmoid_output_0",
+                "model5actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model5actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model5convConv_output_0"
+            ],
+            "children": [
+                "model5actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model5actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model5convConv_output_0",
+                "model5actSigmoid_output_0"
+            ],
+            "children": [
+                "model6cv1convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model6cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model5actMul_output_0"
+            ],
+            "children": [
+                "model6cv1actSigmoid_output_0",
+                "model6cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model6cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model6cv1convConv_output_0"
+            ],
+            "children": [
+                "model6cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model6cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model6cv1convConv_output_0",
+                "model6cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model6Split_output_0",
+                "model6Split_output_1"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model6Split_output_0": {
+            "type": "Split",
+            "parents": [
+                "model6cv1actMul_output_0"
+            ],
+            "children": [
+                "model6Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6Split_output_1": {
+            "type": "Split",
+            "parents": [
+                "model6cv1actMul_output_0"
+            ],
+            "children": [
+                "model6m0cv1convConv_output_0",
+                "model6m0Add_output_0",
+                "model6Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m0cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model6Split_output_1"
+            ],
+            "children": [
+                "model6m0cv1actSigmoid_output_0",
+                "model6m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m0cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model6m0cv1convConv_output_0"
+            ],
+            "children": [
+                "model6m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m0cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model6m0cv1convConv_output_0",
+                "model6m0cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model6m0cv2convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m0cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model6m0cv1actMul_output_0"
+            ],
+            "children": [
+                "model6m0cv2actSigmoid_output_0",
+                "model6m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m0cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model6m0cv2convConv_output_0"
+            ],
+            "children": [
+                "model6m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m0cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model6m0cv2convConv_output_0",
+                "model6m0cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model6m0Add_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m0Add_output_0": {
+            "type": "Add",
+            "parents": [
+                "model6Split_output_1",
+                "model6m0cv2actMul_output_0"
+            ],
+            "children": [
+                "model6m1cv1convConv_output_0",
+                "model6m1Add_output_0",
+                "model6Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m1cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model6m0Add_output_0"
+            ],
+            "children": [
+                "model6m1cv1actSigmoid_output_0",
+                "model6m1cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m1cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model6m1cv1convConv_output_0"
+            ],
+            "children": [
+                "model6m1cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m1cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model6m1cv1convConv_output_0",
+                "model6m1cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model6m1cv2convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m1cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model6m1cv1actMul_output_0"
+            ],
+            "children": [
+                "model6m1cv2actSigmoid_output_0",
+                "model6m1cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m1cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model6m1cv2convConv_output_0"
+            ],
+            "children": [
+                "model6m1cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m1cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model6m1cv2convConv_output_0",
+                "model6m1cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model6m1Add_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6m1Add_output_0": {
+            "type": "Add",
+            "parents": [
+                "model6m0Add_output_0",
+                "model6m1cv2actMul_output_0"
+            ],
+            "children": [
+                "model6Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model6Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model6Split_output_0",
+                "model6Split_output_1",
+                "model6m0Add_output_0",
+                "model6m1Add_output_0"
+            ],
+            "children": [
+                "model6cv2convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model6cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model6Concat_output_0"
+            ],
+            "children": [
+                "model6cv2actSigmoid_output_0",
+                "model6cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model6cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model6cv2convConv_output_0"
+            ],
+            "children": [
+                "model6cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model6cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model6cv2convConv_output_0",
+                "model6cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model7convConv_output_0",
+                "model11Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model7convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model6cv2actMul_output_0"
+            ],
+            "children": [
+                "model7actSigmoid_output_0",
+                "model7actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model7actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model7convConv_output_0"
+            ],
+            "children": [
+                "model7actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model7actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model7convConv_output_0",
+                "model7actSigmoid_output_0"
+            ],
+            "children": [
+                "model8cv1convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model8cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model7actMul_output_0"
+            ],
+            "children": [
+                "model8cv1actSigmoid_output_0",
+                "model8cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model8cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model8cv1convConv_output_0"
+            ],
+            "children": [
+                "model8cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model8cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model8cv1convConv_output_0",
+                "model8cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model8Split_output_0",
+                "model8Split_output_1"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model8Split_output_0": {
+            "type": "Split",
+            "parents": [
+                "model8cv1actMul_output_0"
+            ],
+            "children": [
+                "model8Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model8Split_output_1": {
+            "type": "Split",
+            "parents": [
+                "model8cv1actMul_output_0"
+            ],
+            "children": [
+                "model8m0cv1convConv_output_0",
+                "model8m0Add_output_0",
+                "model8Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model8m0cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model8Split_output_1"
+            ],
+            "children": [
+                "model8m0cv1actSigmoid_output_0",
+                "model8m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model8m0cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model8m0cv1convConv_output_0"
+            ],
+            "children": [
+                "model8m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model8m0cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model8m0cv1convConv_output_0",
+                "model8m0cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model8m0cv2convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model8m0cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model8m0cv1actMul_output_0"
+            ],
+            "children": [
+                "model8m0cv2actSigmoid_output_0",
+                "model8m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model8m0cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model8m0cv2convConv_output_0"
+            ],
+            "children": [
+                "model8m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model8m0cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model8m0cv2convConv_output_0",
+                "model8m0cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model8m0Add_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model8m0Add_output_0": {
+            "type": "Add",
+            "parents": [
+                "model8Split_output_1",
+                "model8m0cv2actMul_output_0"
+            ],
+            "children": [
+                "model8Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model8Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model8Split_output_0",
+                "model8Split_output_1",
+                "model8m0Add_output_0"
+            ],
+            "children": [
+                "model8cv2convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                768
+            ],
+            "left_parents": 0
+        },
+        "model8cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model8Concat_output_0"
+            ],
+            "children": [
+                "model8cv2actSigmoid_output_0",
+                "model8cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                768
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                768,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model8cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model8cv2convConv_output_0"
+            ],
+            "children": [
+                "model8cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model8cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model8cv2convConv_output_0",
+                "model8cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model9cv1convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model9cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model8cv2actMul_output_0"
+            ],
+            "children": [
+                "model9cv1actSigmoid_output_0",
+                "model9cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model9cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model9cv1convConv_output_0"
+            ],
+            "children": [
+                "model9cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model9cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model9cv1convConv_output_0",
+                "model9cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model9mMaxPool_output_0",
+                "model9Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model9mMaxPool_output_0": {
+            "type": "Pool",
+            "parents": [
+                "model9cv1actMul_output_0"
+            ],
+            "children": [
+                "model9m_1MaxPool_output_0",
+                "model9Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                5,
+                5,
+                1
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "pooling_type": "MAX",
+            "left_parents": 0
+        },
+        "model9m_1MaxPool_output_0": {
+            "type": "Pool",
+            "parents": [
+                "model9mMaxPool_output_0"
+            ],
+            "children": [
+                "model9m_2MaxPool_output_0",
+                "model9Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                5,
+                5,
+                1
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "pooling_type": "MAX",
+            "left_parents": 0
+        },
+        "model9m_2MaxPool_output_0": {
+            "type": "Pool",
+            "parents": [
+                "model9m_1MaxPool_output_0"
+            ],
+            "children": [
+                "model9Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                5,
+                5,
+                1
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "pooling_type": "MAX",
+            "left_parents": 0
+        },
+        "model9Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model9cv1actMul_output_0",
+                "model9mMaxPool_output_0",
+                "model9m_1MaxPool_output_0",
+                "model9m_2MaxPool_output_0"
+            ],
+            "children": [
+                "model9cv2convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                1024
+            ],
+            "left_parents": 0
+        },
+        "model9cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model9Concat_output_0"
+            ],
+            "children": [
+                "model9cv2actSigmoid_output_0",
+                "model9cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model9cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model9cv2convConv_output_0"
+            ],
+            "children": [
+                "model9cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model9cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model9cv2convConv_output_0",
+                "model9cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model10Resize_output_0",
+                "model20Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model10Resize_output_0": {
+            "type": "Resize",
+            "parents": [
+                "model9cv2actMul_output_0"
+            ],
+            "children": [
+                "model11Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model11Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model10Resize_output_0",
+                "model6cv2actMul_output_0"
+            ],
+            "children": [
+                "model12cv1convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                512
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                768
+            ],
+            "left_parents": 0
+        },
+        "model12cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model11Concat_output_0"
+            ],
+            "children": [
+                "model12cv1actSigmoid_output_0",
+                "model12cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                768
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                768,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model12cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model12cv1convConv_output_0"
+            ],
+            "children": [
+                "model12cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model12cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model12cv1convConv_output_0",
+                "model12cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model12Split_output_0",
+                "model12Split_output_1"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model12Split_output_0": {
+            "type": "Split",
+            "parents": [
+                "model12cv1actMul_output_0"
+            ],
+            "children": [
+                "model12Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model12Split_output_1": {
+            "type": "Split",
+            "parents": [
+                "model12cv1actMul_output_0"
+            ],
+            "children": [
+                "model12m0cv1convConv_output_0",
+                "model12Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model12m0cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model12Split_output_1"
+            ],
+            "children": [
+                "model12m0cv1actSigmoid_output_0",
+                "model12m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model12m0cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model12m0cv1convConv_output_0"
+            ],
+            "children": [
+                "model12m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model12m0cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model12m0cv1convConv_output_0",
+                "model12m0cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model12m0cv2convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model12m0cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model12m0cv1actMul_output_0"
+            ],
+            "children": [
+                "model12m0cv2actSigmoid_output_0",
+                "model12m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model12m0cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model12m0cv2convConv_output_0"
+            ],
+            "children": [
+                "model12m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model12m0cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model12m0cv2convConv_output_0",
+                "model12m0cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model12Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model12Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model12Split_output_0",
+                "model12Split_output_1",
+                "model12m0cv2actMul_output_0"
+            ],
+            "children": [
+                "model12cv2convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                384
+            ],
+            "left_parents": 0
+        },
+        "model12cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model12Concat_output_0"
+            ],
+            "children": [
+                "model12cv2actSigmoid_output_0",
+                "model12cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model12cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model12cv2convConv_output_0"
+            ],
+            "children": [
+                "model12cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model12cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model12cv2convConv_output_0",
+                "model12cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model13Resize_output_0",
+                "model17Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model13Resize_output_0": {
+            "type": "Resize",
+            "parents": [
+                "model12cv2actMul_output_0"
+            ],
+            "children": [
+                "model14Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model14Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model13Resize_output_0",
+                "model4cv2actMul_output_0"
+            ],
+            "children": [
+                "model15cv1convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                256
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                384
+            ],
+            "left_parents": 0
+        },
+        "model15cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model14Concat_output_0"
+            ],
+            "children": [
+                "model15cv1actSigmoid_output_0",
+                "model15cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model15cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model15cv1convConv_output_0"
+            ],
+            "children": [
+                "model15cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model15cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model15cv1convConv_output_0",
+                "model15cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model15Split_output_0",
+                "model15Split_output_1"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model15Split_output_0": {
+            "type": "Split",
+            "parents": [
+                "model15cv1actMul_output_0"
+            ],
+            "children": [
+                "model15Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model15Split_output_1": {
+            "type": "Split",
+            "parents": [
+                "model15cv1actMul_output_0"
+            ],
+            "children": [
+                "model15m0cv1convConv_output_0",
+                "model15Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model15m0cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model15Split_output_1"
+            ],
+            "children": [
+                "model15m0cv1actSigmoid_output_0",
+                "model15m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model15m0cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model15m0cv1convConv_output_0"
+            ],
+            "children": [
+                "model15m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model15m0cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model15m0cv1convConv_output_0",
+                "model15m0cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model15m0cv2convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model15m0cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model15m0cv1actMul_output_0"
+            ],
+            "children": [
+                "model15m0cv2actSigmoid_output_0",
+                "model15m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model15m0cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model15m0cv2convConv_output_0"
+            ],
+            "children": [
+                "model15m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model15m0cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model15m0cv2convConv_output_0",
+                "model15m0cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model15Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model15Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model15Split_output_0",
+                "model15Split_output_1",
+                "model15m0cv2actMul_output_0"
+            ],
+            "children": [
+                "model15cv2convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                192
+            ],
+            "left_parents": 0
+        },
+        "model15cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model15Concat_output_0"
+            ],
+            "children": [
+                "model15cv2actSigmoid_output_0",
+                "model15cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                192
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                192,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model15cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model15cv2convConv_output_0"
+            ],
+            "children": [
+                "model15cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model15cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model15cv2convConv_output_0",
+                "model15cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model16convConv_output_0",
+                "model22cv20cv200convConv_output_0",
+                "model22cv30cv300convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model16convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model15cv2actMul_output_0"
+            ],
+            "children": [
+                "model16actSigmoid_output_0",
+                "model16actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model16actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model16convConv_output_0"
+            ],
+            "children": [
+                "model16actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model16actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model16convConv_output_0",
+                "model16actSigmoid_output_0"
+            ],
+            "children": [
+                "model17Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model17Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model16actMul_output_0",
+                "model12cv2actMul_output_0"
+            ],
+            "children": [
+                "model18cv1convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                384
+            ],
+            "left_parents": 0
+        },
+        "model18cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model17Concat_output_0"
+            ],
+            "children": [
+                "model18cv1actSigmoid_output_0",
+                "model18cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model18cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model18cv1convConv_output_0"
+            ],
+            "children": [
+                "model18cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model18cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model18cv1convConv_output_0",
+                "model18cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model18Split_output_0",
+                "model18Split_output_1"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model18Split_output_0": {
+            "type": "Split",
+            "parents": [
+                "model18cv1actMul_output_0"
+            ],
+            "children": [
+                "model18Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model18Split_output_1": {
+            "type": "Split",
+            "parents": [
+                "model18cv1actMul_output_0"
+            ],
+            "children": [
+                "model18m0cv1convConv_output_0",
+                "model18Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model18m0cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model18Split_output_1"
+            ],
+            "children": [
+                "model18m0cv1actSigmoid_output_0",
+                "model18m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model18m0cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model18m0cv1convConv_output_0"
+            ],
+            "children": [
+                "model18m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model18m0cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model18m0cv1convConv_output_0",
+                "model18m0cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model18m0cv2convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model18m0cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model18m0cv1actMul_output_0"
+            ],
+            "children": [
+                "model18m0cv2actSigmoid_output_0",
+                "model18m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model18m0cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model18m0cv2convConv_output_0"
+            ],
+            "children": [
+                "model18m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model18m0cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model18m0cv2convConv_output_0",
+                "model18m0cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model18Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model18Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model18Split_output_0",
+                "model18Split_output_1",
+                "model18m0cv2actMul_output_0"
+            ],
+            "children": [
+                "model18cv2convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                384
+            ],
+            "left_parents": 0
+        },
+        "model18cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model18Concat_output_0"
+            ],
+            "children": [
+                "model18cv2actSigmoid_output_0",
+                "model18cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                384
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                384,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model18cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model18cv2convConv_output_0"
+            ],
+            "children": [
+                "model18cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model18cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model18cv2convConv_output_0",
+                "model18cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model19convConv_output_0",
+                "model22cv21cv210convConv_output_0",
+                "model22cv31cv310convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    256,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model19convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model18cv2actMul_output_0"
+            ],
+            "children": [
+                "model19actSigmoid_output_0",
+                "model19actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model19actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model19convConv_output_0"
+            ],
+            "children": [
+                "model19actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model19actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model19convConv_output_0",
+                "model19actSigmoid_output_0"
+            ],
+            "children": [
+                "model20Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model20Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model19actMul_output_0",
+                "model9cv2actMul_output_0"
+            ],
+            "children": [
+                "model21cv1convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                768
+            ],
+            "left_parents": 0
+        },
+        "model21cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model20Concat_output_0"
+            ],
+            "children": [
+                "model21cv1actSigmoid_output_0",
+                "model21cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                768
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                768,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model21cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model21cv1convConv_output_0"
+            ],
+            "children": [
+                "model21cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model21cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model21cv1convConv_output_0",
+                "model21cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model21Split_output_0",
+                "model21Split_output_1"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model21Split_output_0": {
+            "type": "Split",
+            "parents": [
+                "model21cv1actMul_output_0"
+            ],
+            "children": [
+                "model21Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model21Split_output_1": {
+            "type": "Split",
+            "parents": [
+                "model21cv1actMul_output_0"
+            ],
+            "children": [
+                "model21m0cv1convConv_output_0",
+                "model21Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model21m0cv1convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model21Split_output_1"
+            ],
+            "children": [
+                "model21m0cv1actSigmoid_output_0",
+                "model21m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model21m0cv1actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model21m0cv1convConv_output_0"
+            ],
+            "children": [
+                "model21m0cv1actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model21m0cv1actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model21m0cv1convConv_output_0",
+                "model21m0cv1actSigmoid_output_0"
+            ],
+            "children": [
+                "model21m0cv2convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model21m0cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model21m0cv1actMul_output_0"
+            ],
+            "children": [
+                "model21m0cv2actSigmoid_output_0",
+                "model21m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model21m0cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model21m0cv2convConv_output_0"
+            ],
+            "children": [
+                "model21m0cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model21m0cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model21m0cv2convConv_output_0",
+                "model21m0cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model21Concat_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    256,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "left_parents": 0
+        },
+        "model21Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model21Split_output_0",
+                "model21Split_output_1",
+                "model21m0cv2actMul_output_0"
+            ],
+            "children": [
+                "model21cv2convConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                256
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                768
+            ],
+            "left_parents": 0
+        },
+        "model21cv2convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model21Concat_output_0"
+            ],
+            "children": [
+                "model21cv2actSigmoid_output_0",
+                "model21cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                768
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                768,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model21cv2actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model21cv2convConv_output_0"
+            ],
+            "children": [
+                "model21cv2actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model21cv2actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model21cv2convConv_output_0",
+                "model21cv2actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv22cv220convConv_output_0",
+                "model22cv32cv320convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    512,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "left_parents": 0
+        },
+        "model22cv20cv200convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model15cv2actMul_output_0"
+            ],
+            "children": [
+                "model22cv20cv200actSigmoid_output_0",
+                "model22cv20cv200actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv20cv200actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv20cv200convConv_output_0"
+            ],
+            "children": [
+                "model22cv20cv200actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv20cv200actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv20cv200convConv_output_0",
+                "model22cv20cv200actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv20cv201convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv20cv201convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv20cv200actMul_output_0"
+            ],
+            "children": [
+                "model22cv20cv201actSigmoid_output_0",
+                "model22cv20cv201actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv20cv201actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv20cv201convConv_output_0"
+            ],
+            "children": [
+                "model22cv20cv201actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv20cv201actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv20cv201convConv_output_0",
+                "model22cv20cv201actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv20cv202Conv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    64,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv20cv202Conv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv20cv201actMul_output_0"
+            ],
+            "children": [
+                "model22Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv30cv300convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model15cv2actMul_output_0"
+            ],
+            "children": [
+                "model22cv30cv300actSigmoid_output_0",
+                "model22cv30cv300actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv30cv300actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv30cv300convConv_output_0"
+            ],
+            "children": [
+                "model22cv30cv300actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv30cv300actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv30cv300convConv_output_0",
+                "model22cv30cv300actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv30cv301convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv30cv301convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv30cv300actMul_output_0"
+            ],
+            "children": [
+                "model22cv30cv301actSigmoid_output_0",
+                "model22cv30cv301actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv30cv301actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv30cv301convConv_output_0"
+            ],
+            "children": [
+                "model22cv30cv301actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv30cv301actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv30cv301convConv_output_0",
+                "model22cv30cv301actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv30cv302Conv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ],
+                [
+                    -1,
+                    128,
+                    80,
+                    80
+                ]
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv30cv302Conv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv30cv301actMul_output_0"
+            ],
+            "children": [
+                "model22Concat_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                80
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                80
+            ],
+            "left_parents": 0
+        },
+        "model22Concat_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model22cv20cv202Conv_output_0",
+                "model22cv30cv302Conv_output_0"
+            ],
+            "children": [
+                "model22Reshape_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                64
+            ],
+            "output_shape": [
+                -1,
+                80,
+                80,
+                144
+            ],
+            "left_parents": 0
+        },
+        "model22cv21cv210convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model18cv2actMul_output_0"
+            ],
+            "children": [
+                "model22cv21cv210actSigmoid_output_0",
+                "model22cv21cv210actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                64
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv21cv210actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv21cv210convConv_output_0"
+            ],
+            "children": [
+                "model22cv21cv210actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv21cv210actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv21cv210convConv_output_0",
+                "model22cv21cv210actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv21cv211convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    64,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv21cv211convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv21cv210actMul_output_0"
+            ],
+            "children": [
+                "model22cv21cv211actSigmoid_output_0",
+                "model22cv21cv211actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv21cv211actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv21cv211convConv_output_0"
+            ],
+            "children": [
+                "model22cv21cv211actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv21cv211actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv21cv211convConv_output_0",
+                "model22cv21cv211actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv21cv212Conv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    64,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv21cv212Conv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv21cv211actMul_output_0"
+            ],
+            "children": [
+                "model22Concat_1_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv31cv310convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model18cv2actMul_output_0"
+            ],
+            "children": [
+                "model22cv31cv310actSigmoid_output_0",
+                "model22cv31cv310actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv31cv310actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv31cv310convConv_output_0"
+            ],
+            "children": [
+                "model22cv31cv310actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv31cv310actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv31cv310convConv_output_0",
+                "model22cv31cv310actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv31cv311convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv31cv311convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv31cv310actMul_output_0"
+            ],
+            "children": [
+                "model22cv31cv311actSigmoid_output_0",
+                "model22cv31cv311actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv31cv311actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv31cv311convConv_output_0"
+            ],
+            "children": [
+                "model22cv31cv311actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv31cv311actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv31cv311convConv_output_0",
+                "model22cv31cv311actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv31cv312Conv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ],
+                [
+                    -1,
+                    128,
+                    40,
+                    40
+                ]
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv31cv312Conv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv31cv311actMul_output_0"
+            ],
+            "children": [
+                "model22Concat_1_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                80
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                80
+            ],
+            "left_parents": 0
+        },
+        "model22Concat_1_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model22cv21cv212Conv_output_0",
+                "model22cv31cv312Conv_output_0"
+            ],
+            "children": [
+                "model22Reshape_1_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                64
+            ],
+            "output_shape": [
+                -1,
+                40,
+                40,
+                144
+            ],
+            "left_parents": 0
+        },
+        "model22cv22cv220convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model21cv2actMul_output_0"
+            ],
+            "children": [
+                "model22cv22cv220actSigmoid_output_0",
+                "model22cv22cv220actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                64
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv22cv220actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv22cv220convConv_output_0"
+            ],
+            "children": [
+                "model22cv22cv220actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv22cv220actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv22cv220convConv_output_0",
+                "model22cv22cv220actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv22cv221convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    64,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv22cv221convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv22cv220actMul_output_0"
+            ],
+            "children": [
+                "model22cv22cv221actSigmoid_output_0",
+                "model22cv22cv221actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv22cv221actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv22cv221convConv_output_0"
+            ],
+            "children": [
+                "model22cv22cv221actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv22cv221actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv22cv221convConv_output_0",
+                "model22cv22cv221actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv22cv222Conv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    64,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    64,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv22cv222Conv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv22cv221actMul_output_0"
+            ],
+            "children": [
+                "model22Concat_2_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                64
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "left_parents": 0
+        },
+        "model22cv32cv320convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model21cv2actMul_output_0"
+            ],
+            "children": [
+                "model22cv32cv320actSigmoid_output_0",
+                "model22cv32cv320actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                128
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv32cv320actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv32cv320convConv_output_0"
+            ],
+            "children": [
+                "model22cv32cv320actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                128
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv32cv320actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv32cv320convConv_output_0",
+                "model22cv32cv320actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv32cv321convConv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    128,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv32cv321convConv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv32cv320actMul_output_0"
+            ],
+            "children": [
+                "model22cv32cv321actSigmoid_output_0",
+                "model22cv32cv321actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                128
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv32cv321actSigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22cv32cv321convConv_output_0"
+            ],
+            "children": [
+                "model22cv32cv321actMul_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                128
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv32cv321actMul_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22cv32cv321convConv_output_0",
+                "model22cv32cv321actSigmoid_output_0"
+            ],
+            "children": [
+                "model22cv32cv322Conv_output_0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    128,
+                    20,
+                    20
+                ],
+                [
+                    -1,
+                    128,
+                    20,
+                    20
+                ]
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                128
+            ],
+            "left_parents": 0
+        },
+        "model22cv32cv322Conv_output_0": {
+            "type": "Conv",
+            "parents": [
+                "model22cv32cv321actMul_output_0"
+            ],
+            "children": [
+                "model22Concat_2_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                80
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                80
+            ],
+            "left_parents": 0
+        },
+        "model22Concat_2_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model22cv22cv222Conv_output_0",
+                "model22cv32cv322Conv_output_0"
+            ],
+            "children": [
+                "model22Reshape_2_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                64
+            ],
+            "output_shape": [
+                -1,
+                20,
+                20,
+                144
+            ],
+            "left_parents": 0
+        },
+        "model22Reshape_output_0": {
+            "type": "Reshape",
+            "parents": [
+                "model22Concat_output_0"
+            ],
+            "children": [
+                "model22Concat_3_output_0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                80,
+                144
+            ],
+            "output_shape": [
+                -1,
+                144,
+                6400
+            ],
+            "left_parents": 0
+        },
+        "model22Reshape_1_output_0": {
+            "type": "Reshape",
+            "parents": [
+                "model22Concat_1_output_0"
+            ],
+            "children": [
+                "model22Concat_3_output_0"
+            ],
+            "input_shape": [
+                -1,
+                40,
+                40,
+                144
+            ],
+            "output_shape": [
+                -1,
+                144,
+                1600
+            ],
+            "left_parents": 0
+        },
+        "model22Reshape_2_output_0": {
+            "type": "Reshape",
+            "parents": [
+                "model22Concat_2_output_0"
+            ],
+            "children": [
+                "model22Concat_3_output_0"
+            ],
+            "input_shape": [
+                -1,
+                20,
+                20,
+                144
+            ],
+            "output_shape": [
+                -1,
+                144,
+                400
+            ],
+            "left_parents": 0
+        },
+        "model22Concat_3_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model22Reshape_output_0",
+                "model22Reshape_1_output_0",
+                "model22Reshape_2_output_0"
+            ],
+            "children": [
+                "model22Split_output_0",
+                "model22Split_output_1"
+            ],
+            "input_shape": [
+                -1,
+                144,
+                6400
+            ],
+            "output_shape": [
+                -1,
+                144,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Split_output_0": {
+            "type": "Split",
+            "parents": [
+                "model22Concat_3_output_0"
+            ],
+            "children": [
+                "model22dflReshape_output_0"
+            ],
+            "input_shape": [
+                -1,
+                144,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                64,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Split_output_1": {
+            "type": "Split",
+            "parents": [
+                "model22Concat_3_output_0"
+            ],
+            "children": [
+                "model22Sigmoid_output_0"
+            ],
+            "input_shape": [
+                -1,
+                144,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                80,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22dflReshape_output_0": {
+            "type": "Reshape",
+            "parents": [
+                "model22Split_output_0"
+            ],
+            "children": [
+                "model22dflTranspose_output_0"
+            ],
+            "input_shape": [
+                -1,
+                64,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                16,
+                8400,
+                4
+            ],
+            "left_parents": 0
+        },
+        "model22dflTranspose_output_0": {
+            "type": "Transpose",
+            "parents": [
+                "model22dflReshape_output_0"
+            ],
+            "children": [
+                "model22dflSoftmax_output_0"
+            ],
+            "input_shape": [
+                -1,
+                16,
+                8400,
+                4
+            ],
+            "perm": [
+                0,
+                2,
+                1,
+                3
+            ],
+            "output_shape": [
+                -1,
+                4,
+                8400,
+                16
+            ],
+            "left_parents": 0
+        },
+        "model22dflSoftmax_output_0": {
+            "type": "Softmax",
+            "parents": [
+                "model22dflTranspose_output_0"
+            ],
+            "children": [
+                "model22dflconvConv_output_0"
+            ],
+            "input_shape": [
+                -1,
+                4,
+                8400,
+                16
+            ],
+            "output_shape": [
+                -1,
+                4,
+                8400,
+                16
+            ],
+            "left_parents": 0
+        },
+        "model22dflconvConv_output_0": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "model22dflSoftmax_output_0"
+            ],
+            "children": [
+                "model22dflReshape_1_output_0"
+            ],
+            "input_shape": [
+                -1,
+                4,
+                8400,
+                16
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                16,
+                1
+            ],
+            "output_shape": [
+                -1,
+                4,
+                8400,
+                1
+            ],
+            "left_parents": 0
+        },
+        "model22dflReshape_1_output_0": {
+            "type": "Reshape",
+            "parents": [
+                "model22dflconvConv_output_0"
+            ],
+            "children": [
+                "model22Slice_output_0",
+                "model22Slice_1_output_0"
+            ],
+            "input_shape": [
+                -1,
+                4,
+                8400,
+                1
+            ],
+            "output_shape": [
+                -1,
+                4,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Slice_output_0": {
+            "type": "Slice",
+            "parents": [
+                "model22dflReshape_1_output_0"
+            ],
+            "children": [
+                "model22Sub_output_0"
+            ],
+            "input_shape": [
+                -1,
+                4,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Slice_1_output_0": {
+            "type": "Slice",
+            "parents": [
+                "model22dflReshape_1_output_0"
+            ],
+            "children": [
+                "model22Add_1_output_0"
+            ],
+            "input_shape": [
+                -1,
+                4,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Sub_output_0": {
+            "type": "Sub",
+            "parents": [
+                "model22Slice_output_0"
+            ],
+            "children": [
+                "model22Add_2_output_0",
+                "model22Sub_1_output_0"
+            ],
+            "input_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Add_1_output_0": {
+            "type": "Add",
+            "parents": [
+                "model22Slice_1_output_0"
+            ],
+            "children": [
+                "model22Add_2_output_0",
+                "model22Sub_1_output_0"
+            ],
+            "input_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Add_2_output_0": {
+            "type": "Add",
+            "parents": [
+                "model22Sub_output_0",
+                "model22Add_1_output_0"
+            ],
+            "children": [
+                "model22Div_1_output_0"
+            ],
+            "input_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Div_1_output_0": {
+            "type": "Div",
+            "parents": [
+                "model22Add_2_output_0"
+            ],
+            "children": [
+                "model22Concat_4_output_0"
+            ],
+            "input_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Sub_1_output_0": {
+            "type": "Sub",
+            "parents": [
+                "model22Add_1_output_0",
+                "model22Sub_output_0"
+            ],
+            "children": [
+                "model22Concat_4_output_0"
+            ],
+            "input_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Concat_4_output_0": {
+            "type": "Concat",
+            "parents": [
+                "model22Div_1_output_0",
+                "model22Sub_1_output_0"
+            ],
+            "children": [
+                "model22Mul_2_output_0"
+            ],
+            "input_shape": [
+                -1,
+                2,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                4,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "model22Mul_2_output_0": {
+            "type": "Mul",
+            "parents": [
+                "model22Concat_4_output_0",
+                "model22Constant_12_output_0"
+            ],
+            "children": [
+                "output0"
+            ],
+            "input_shape": [
+                [
+                    -1,
+                    4,
+                    8400
+                ],
+                [
+                    -1,
+                    4,
+                    8400
+                ]
+            ],
+            "output_shape": [
+                -1,
+                4,
+                8400
+            ],
+            "left_parents": 1
+        },
+        "model22Sigmoid_output_0": {
+            "type": "Sigmoid",
+            "parents": [
+                "model22Split_output_1"
+            ],
+            "children": [
+                "output0"
+            ],
+            "input_shape": [
+                -1,
+                80,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                80,
+                8400
+            ],
+            "left_parents": 0
+        },
+        "output0": {
+            "type": "Concat",
+            "parents": [
+                "model22Mul_2_output_0",
+                "model22Sigmoid_output_0"
+            ],
+            "children": [],
+            "input_shape": [
+                -1,
+                4,
+                8400
+            ],
+            "output_shape": [
+                -1,
+                84,
+                8400
+            ],
+            "left_parents": 1
+        }
+    },
+    "input_layers": [
+        "images"
+    ],
+    "output_layers": [
+        "output0"
+    ]
+}

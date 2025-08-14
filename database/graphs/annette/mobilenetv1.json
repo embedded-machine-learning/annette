@@ -1,0 +1,2453 @@
+{
+    "name": "tf_mobilenetv1",
+    "layers": {
+        "Placeholder": {
+            "type": "DataInput",
+            "parents": [],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_0/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                224,
+                224,
+                3
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_0/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "Placeholder"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_0/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                224,
+                224,
+                3
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                3,
+                32
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_0/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_0/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_0/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_0/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_0/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_1_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_0/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                32,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_1_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_1_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_1_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                32
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                32,
+                64
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_1_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_1_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_2_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_1_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                112,
+                112,
+                64
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                64,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_2_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_2_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_2_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                64
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                64,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_2_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_2_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_3_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_2_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_3_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_3_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_3_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                128
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_3_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_3_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_4_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_3_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                56,
+                56,
+                128
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                128,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_4_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_4_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_4_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                128
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                128,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_4_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_4_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_5_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_4_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_5_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_5_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_5_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                256
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_5_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_5_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_6_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_5_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                28,
+                28,
+                256
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                256,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_6_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_6_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_6_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                256
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                256,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_6_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_6_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_7_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_6_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_7_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_7_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_7_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_7_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_7_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_8_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_7_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_8_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_8_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_8_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_8_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_8_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_9_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_8_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_9_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_9_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_9_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_9_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_9_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_10_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_9_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_10_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_10_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_10_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_10_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_10_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_11_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_10_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_11_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_11_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_11_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                512
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_11_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_11_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_12_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_11_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                14,
+                14,
+                512
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                512,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_12_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_12_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_12_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                512
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                512,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_12_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_12_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_depthwise/depthwise"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_13_depthwise/depthwise": {
+            "type": "DepthwiseConv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_12_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                3,
+                3,
+                1024,
+                1
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_13_depthwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_depthwise/depthwise"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_depthwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_13_depthwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_depthwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_pointwise/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_13_pointwise/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_depthwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                1024
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_13_pointwise/BatchNorm/FusedBatchNorm": {
+            "type": "BatchNorm",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_pointwise/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_pointwise/Relu6"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ]
+        },
+        "MobilenetV1/MobilenetV1/Conv2d_13_pointwise/Relu6": {
+            "type": "Relu6",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_pointwise/BatchNorm/FusedBatchNorm"
+            ],
+            "children": [
+                "MobilenetV1/Logits/AvgPool_1a/AvgPool"
+            ],
+            "output_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ]
+        },
+        "MobilenetV1/Logits/AvgPool_1a/AvgPool": {
+            "type": "Pool",
+            "parents": [
+                "MobilenetV1/MobilenetV1/Conv2d_13_pointwise/Relu6"
+            ],
+            "children": [
+                "MobilenetV1/Logits/Conv2d_1c_1x1/Conv2D"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1024
+            ],
+            "input_shape": [
+                -1,
+                7,
+                7,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                7,
+                7,
+                1
+            ],
+            "strides": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "pooling_type": "AVG"
+        },
+        "MobilenetV1/Logits/Conv2d_1c_1x1/Conv2D": {
+            "type": "Conv",
+            "parents": [
+                "MobilenetV1/Logits/AvgPool_1a/AvgPool"
+            ],
+            "children": [
+                "MobilenetV1/Logits/SpatialSqueeze"
+            ],
+            "output_shape": [
+                -1,
+                1,
+                1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                1024
+            ],
+            "kernel_shape": [
+                1,
+                1,
+                1024,
+                1001
+            ],
+            "strides": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "pads": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "MobilenetV1/Logits/SpatialSqueeze": {
+            "type": "Squeeze",
+            "parents": [
+                "MobilenetV1/Logits/Conv2d_1c_1x1/Conv2D"
+            ],
+            "children": [
+                "MobilenetV1/Predictions/Reshape"
+            ],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1,
+                1,
+                1001
+            ]
+        },
+        "MobilenetV1/Predictions/Reshape": {
+            "type": "Reshape",
+            "parents": [
+                "MobilenetV1/Logits/SpatialSqueeze"
+            ],
+            "children": [
+                "MobilenetV1/Predictions/Softmax"
+            ],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1001
+            ]
+        },
+        "MobilenetV1/Predictions/Softmax": {
+            "type": "Softmax",
+            "parents": [
+                "MobilenetV1/Predictions/Reshape"
+            ],
+            "children": [],
+            "output_shape": [
+                -1,
+                1001
+            ],
+            "input_shape": [
+                -1,
+                1001
+            ]
+        }
+    },
+    "input_layers": [],
+    "output_layers": []
+}
