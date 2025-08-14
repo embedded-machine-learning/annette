@@ -58,6 +58,8 @@ apt install zip
 
 apt install unzip
 
+apt install -y nodejs npm
+
 cd /root
 
 git clone --recurse-submodules https://github.com/embedded-machine-learning/annette.git
@@ -85,6 +87,8 @@ pip install --upgrade protobuf==3.20.3
 pip install crepes
 
 pip install scikit-learn==1.2.1
+
+pip install flask
 ```
 
 ---
