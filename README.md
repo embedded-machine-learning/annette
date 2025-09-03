@@ -66,6 +66,8 @@ git clone --recurse-submodules https://github.com/embedded-machine-learning/anne
 
 cd annette
 
+git checkout ui-dev
+
 python3 -m venv .venv && source .venv/bin/activate
 
 pip install -r requirements.txt --no-cache-dir
@@ -84,9 +86,13 @@ pip install mmdnn
 
 pip install --upgrade protobuf==3.20.3
 
-pip install crepes
+pip install crepes==0.7.1
 
 pip install scikit-learn==1.2.1
+
+pip install onnx
+
+pip install onnx-tool
 
 pip install flask
 ```
@@ -161,10 +167,12 @@ flask --app api_server run
 ```bash
 cd user-interface
 
+npm install # this command only needs to be executed once, after the initial setup
+
 npm run dev
 ```
 
-Once both are running, open **http://localhost:3000** in your browser.
+Once both services are running simultaneously, open **http://localhost:3000** in your browser.
 
 ---
 ## 🤝 Contributing
